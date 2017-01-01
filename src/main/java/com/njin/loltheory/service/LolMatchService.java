@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.LolMatchDao;
 import com.njin.loltheory.model.LolMatch;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface LolMatchService {
+@Service
+@Transactional
+public class LolMatchService extends BaseService<LolMatch> {
 
-    void createLolMatch(LolMatch lolMatch);
+    @Autowired
+    LolMatchDao lolMatchDao;
 
-    void updateLolMatch(LolMatch lolMatch);
+    @Override
+    public void create(LolMatch lolMatch) {
+        lolMatchDao.create(lolMatch);
+    }
+
+    @Override
+    public void update(LolMatch lolMatch) {
+        lolMatchDao.update(lolMatch);
+    }
 }

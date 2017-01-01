@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampTeamupDao;
 import com.njin.loltheory.model.ChampTeamup;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampTeamupService {
-    
-    void createChampTeamup(ChampTeamup champTeamup);
+@Service
+@Transactional
+public class ChampTeamupService extends BaseService<ChampTeamup> {
 
-    void updateChampTeamup(ChampTeamup champTeamup);
+    @Autowired
+    ChampTeamupDao champTeamupDao;
+
+    @Override
+    public void create(ChampTeamup champTeamup) {
+        champTeamupDao.create(champTeamup);
+    }
+
+    @Override
+    public void update(ChampTeamup champTeamup) {
+        champTeamupDao.update(champTeamup);
+    }
 }

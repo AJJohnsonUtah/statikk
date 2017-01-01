@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampSpecWinRate;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSpecWinRateDao {
+@Repository
+public class ChampSpecWinRateDao extends BaseDao<ChampSpecWinRate> {
 
-    void createChampSpecWinRate(ChampSpecWinRate champSpecWinRate);
-
-    void updateChampSpecWinRate(ChampSpecWinRate champSpecWinRate);
 }

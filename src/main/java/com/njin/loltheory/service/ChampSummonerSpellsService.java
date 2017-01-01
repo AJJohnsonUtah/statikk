@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampSummonerSpellsDao;
 import com.njin.loltheory.model.ChampSummonerSpells;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSummonerSpellsService {
+@Service
+@Transactional
+public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells> {
 
-    void createChampSummonerSpells(ChampSummonerSpells champSummonerSpells);
+    @Autowired
+    ChampSummonerSpellsDao champSummonerSpellsDao;
 
-    void updateChampSummonerSpells(ChampSummonerSpells champSummonerSpells);
+    @Override
+    public void create(ChampSummonerSpells champSummonerSpells) {
+        champSummonerSpellsDao.create(champSummonerSpells);
+    }
+
+    @Override
+    public void update(ChampSummonerSpells champSummonerSpells) {
+        champSummonerSpellsDao.update(champSummonerSpells);
+    }
 }

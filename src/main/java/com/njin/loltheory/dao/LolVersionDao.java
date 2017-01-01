@@ -6,14 +6,19 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.LolVersion;
+import java.util.List;
+import javax.persistence.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface LolVersionDao {
+@Repository
+public class LolVersionDao extends BaseDao<LolVersion> {
 
-    void createLolVersion(LolVersion lolVersion);
-
-    void updateLolVersion(LolVersion lolVersion);
+    public List<LolVersion> findAll() {
+        Query nq = em.createNamedQuery("LolVersion.findAll");
+        return nq.getResultList();
+    }
 }

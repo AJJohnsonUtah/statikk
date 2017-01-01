@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampSpec;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSpecDao {
+@Repository
+public class ChampSpecDao extends BaseDao<ChampSpec> {
 
-    void createChampSpec(ChampSpec champSpec);
-
-    ChampSpec findChampSpec(Long id);
 }

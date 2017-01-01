@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampBan;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampBanDao {
+@Repository
+public class ChampBanDao extends BaseDao<ChampBan> {
 
-    void createChampBan(ChampBan champBan);
-
-    void updateChampBan(ChampBan champBan);
 }

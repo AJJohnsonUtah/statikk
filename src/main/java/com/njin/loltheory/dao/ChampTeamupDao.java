@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampTeamup;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampTeamupDao {
+@Repository
+public class ChampTeamupDao extends BaseDao<ChampTeamup> {
 
-    void createChampTeamup(ChampTeamup champTeamup);
-
-    void updateChampTeamup(ChampTeamup champTeamup);
 }

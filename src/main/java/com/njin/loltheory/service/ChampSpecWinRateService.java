@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampSpecWinRateDao;
 import com.njin.loltheory.model.ChampSpecWinRate;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSpecWinRateService {
-    
-    void createChampSpecWinRate(ChampSpecWinRate champSpecWinRate);
+@Service
+@Transactional
+public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
 
-    void updateChampSpecWinRate(ChampSpecWinRate champSpecWinRate);
+    @Autowired
+    ChampSpecWinRateDao champSpecWinRateDao;
+
+    @Override
+    public void create(ChampSpecWinRate champSpecWinRate) {
+        champSpecWinRateDao.create(champSpecWinRate);
+    }
+
+    @Override
+    public void update(ChampSpecWinRate champSpecWinRate) {
+        champSpecWinRateDao.update(champSpecWinRate);
+    }
 }

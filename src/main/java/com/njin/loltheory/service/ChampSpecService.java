@@ -5,15 +5,31 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampSpecDao;
 import com.njin.loltheory.model.ChampSpec;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSpecService {
+@Service
+@Transactional
+public class ChampSpecService extends BaseService<ChampSpec> {
 
-    void createChampSpec(ChampSpec champSpec);
+    @Autowired
+    ChampSpecDao champSpecDao;
 
-    ChampSpec findChampSpec(Long id);
+    @Override
+    public void create(ChampSpec champSpec) {
+        champSpecDao.create(champSpec);
+    }
+
+    @Override
+    public void update(ChampSpec champSpec) {
+        champSpecDao.update(champSpec);
+    }
+
 }

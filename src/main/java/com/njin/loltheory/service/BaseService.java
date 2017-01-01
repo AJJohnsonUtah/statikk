@@ -5,15 +5,14 @@
  */
 package com.njin.loltheory.service;
 
-import com.njin.loltheory.model.FinalBuildOrder;
-
 /**
  *
  * @author AJ
  */
-public interface FinalBUildOrderService {
+public abstract class BaseService<E> {
 
-    void createFinalBuildOrder(FinalBuildOrder finalBuildOrder);
+    public abstract void create(E entity);
 
-    void updateFinalBuildOrder(FinalBuildOrder finalBuildOrder);
+    public abstract void update(E entity);
+
 }

@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampBanDao;
 import com.njin.loltheory.model.ChampBan;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampBanService {
+@Service
+@Transactional
+public class ChampBanService extends BaseService<ChampBan> {
 
-    void createChampBan(ChampBan champBan);
+    @Autowired
+    ChampBanDao champBanDao;
 
-    void updateChampBan(ChampBan champBan);
+    @Override
+    public void create(ChampBan champBan) {
+        champBanDao.create(champBan);
+    }
+
+    @Override
+    public void update(ChampBan champBan) {
+        champBanDao.update(champBan);
+    }
 }

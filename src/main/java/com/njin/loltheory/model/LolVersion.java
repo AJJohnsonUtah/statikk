@@ -106,7 +106,7 @@ public class LolVersion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.LolVersion[ lolVersionId=" + lolVersionId + " ]";
+        return "com.njin.loltheory.model.LolVersion[ lolVersionId=" + lolVersionId + ", " + majorVersion + "." + minorVersion + " ]";
     }
     
 }

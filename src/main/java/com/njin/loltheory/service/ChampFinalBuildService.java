@@ -5,15 +5,32 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampFinalBuildDao;
 import com.njin.loltheory.model.ChampFinalBuild;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampFinalBuildService {
+@Service
+@Transactional
+public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
 
-    void createChampFinalBuild(ChampFinalBuild champFinalBuild);
+    @Autowired
+    ChampFinalBuildDao champFinalBuildDao;
+    
+    @Override
+    public void create(ChampFinalBuild champFinalBuild) {
+        champFinalBuildDao.create(champFinalBuild);
+    }
 
-    void updateChampFinalBuild(ChampFinalBuild champFinalBuild);
+    @Override
+    public void update(ChampFinalBuild champFinalBuild) {
+        champFinalBuildDao.update(champFinalBuild);
+    }
+    
+    
 }

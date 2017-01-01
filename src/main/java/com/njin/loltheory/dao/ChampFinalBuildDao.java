@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampFinalBuild;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampFinalBuildDao {
+@Repository
+public class ChampFinalBuildDao extends BaseDao<ChampFinalBuild> {
 
-    void createChampFinalBuild(ChampFinalBuild champFinalBuild);
-
-    void updateChampFinalBuild(ChampFinalBuild champFinalBuild);
 }

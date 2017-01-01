@@ -5,7 +5,6 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.LolMatch;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,18 +12,15 @@ import javax.persistence.PersistenceContext;
  *
  * @author AJ
  */
-public class LolMatchDaoImpl implements LolMatchDao {
-
+public abstract class BaseDao <E> {
     @PersistenceContext
     EntityManager em;
 
-    @Override
-    public void createLolMatch(LolMatch lolMatch) {
-        em.persist(lolMatch);
+    public void create(E entity) {
+        em.persist(entity);
     }
 
-    @Override
-    public void updateLolMatch(LolMatch lolMatch) {
-        em.merge(lolMatch);
+    public void update(E entity) {
+        em.merge(entity);
     }
 }

@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampSummonerSpells;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampSummonerSpellsDao {
+@Repository
+public class ChampSummonerSpellsDao extends BaseDao<ChampSummonerSpells> {
 
-    void createChampSummonerSpells(ChampSummonerSpells champSummonerSpells);
-
-    void updateChampSummonerSpells(ChampSummonerSpells champSummonerSpells);
 }

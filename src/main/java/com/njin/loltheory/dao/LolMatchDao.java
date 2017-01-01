@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.LolMatch;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface LolMatchDao {
+@Repository
+public class LolMatchDao extends BaseDao<LolMatch> {
 
-    void createLolMatch(LolMatch lolMatch);
-
-    void updateLolMatch(LolMatch lolMatch);
 }

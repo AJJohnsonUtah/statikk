@@ -5,15 +5,31 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.ChampMatchupDao;
 import com.njin.loltheory.model.ChampMatchup;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface ChampMatchupService {
-    
-    void createChampMatchup(ChampMatchup champMatchup);
+@Service
+@Transactional
+public class ChampMatchupService extends BaseService<ChampMatchup> {
 
-    void updateChampMatchup(ChampMatchup champMatchup);
+    @Autowired
+    ChampMatchupDao champMatchupDao;
+    
+    @Override
+    public void create(ChampMatchup champMatchup) {
+        champMatchupDao.create(champMatchup);
+    }
+
+    @Override
+    public void update(ChampMatchup champMatchup) {
+        champMatchupDao.update(champMatchup);
+    }
+    
 }

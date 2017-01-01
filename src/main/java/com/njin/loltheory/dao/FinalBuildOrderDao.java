@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.FinalBuildOrder;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface FinalBuildOrderDao {
+@Repository
+public class FinalBuildOrderDao extends BaseDao<FinalBuildOrder> {
 
-    void createFinalBuildOrder(FinalBuildOrder finalBuildOrder);
-
-    void updateFinalBuildOrder(FinalBuildOrder finalBuildOrder);
 }

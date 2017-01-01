@@ -5,15 +5,35 @@
  */
 package com.njin.loltheory.service;
 
+import com.njin.loltheory.dao.LolVersionDao;
 import com.njin.loltheory.model.LolVersion;
+import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author AJ
  */
-public interface LolVersionService {
+@Service
+@Transactional
+public class LolVersionService extends BaseService<LolVersion> {
 
-    void createLolVersion(LolVersion lolVersion);
+    @Autowired
+    LolVersionDao lolVersionDao;
 
-    void updateLolVersion(LolVersion lolVersion);
+    @Override
+    public void create(LolVersion lolVersion) {
+        lolVersionDao.create(lolVersion);
+    }
+
+    @Override
+    public void update(LolVersion lolVersion) {
+        lolVersionDao.update(lolVersion);
+    }
+    
+    public List<LolVersion> findAll() {
+        return lolVersionDao.findAll();
+    }
 }

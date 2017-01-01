@@ -6,14 +6,13 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.model.ChampMatchup;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author AJ
  */
-public interface ChampMatchupDao {
+@Repository
+public class ChampMatchupDao extends BaseDao<ChampMatchup> {
 
-    void createChampMatchup(ChampMatchup champMatchup);
-
-    void updateChampMatchup(ChampMatchup champMatchup);
 }
