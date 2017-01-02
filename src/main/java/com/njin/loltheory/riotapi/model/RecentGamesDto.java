@@ -6,6 +6,7 @@
 package com.njin.loltheory.riotapi.model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,6 +18,13 @@ public class RecentGamesDto implements Serializable {
     private long summonerId;
     private List<GameDto> games;
 
+    public RecentGamesDto(){};
+    
+    public RecentGamesDto(long summonerId) {
+        this.summonerId = summonerId;
+        this.games = Collections.EMPTY_LIST;
+    }
+    
     public long getSummonerId() {
         return summonerId;
     }

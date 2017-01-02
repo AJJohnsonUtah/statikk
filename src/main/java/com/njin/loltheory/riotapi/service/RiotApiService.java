@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -55,10 +56,20 @@ public class RiotApiService {
         return getResponseFromURL(getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key="));
     }
 
-    public RecentGamesDto
-            getRecentGames(Region region, Long summonerId) {
-        return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key="), RecentGamesDto.class
-        );
+    public RecentGamesDto getRecentGames(Region region, Long summonerId) {
+        try {
+            return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key="), RecentGamesDto.class);
+        } catch (HttpServerErrorException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Error fetching summoner games for: " + summonerId);
+            try {
+                return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key="), RecentGamesDto.class);
+            } catch (HttpServerErrorException ex2) {
+                System.out.println(ex2.getMessage());
+                System.out.println("Error fetching summoner games for: " + summonerId);
+                return new RecentGamesDto(summonerId);
+            }
+        }
     }
 
     public FeaturedGames

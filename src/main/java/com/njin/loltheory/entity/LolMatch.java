@@ -38,7 +38,7 @@ import org.hibernate.annotations.SQLInsert;
     @NamedQuery(name = "LolMatch.findByBeginTime", query = "SELECT l FROM LolMatch l WHERE l.beginTime = :beginTime"),
     @NamedQuery(name = "LolMatch.findByInsertTime", query = "SELECT l FROM LolMatch l WHERE l.insertTime = :insertTime"),
     @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime")})
-@SQLInsert(sql = "INSERT INTO LolMatch (match_id, status, begin_time, insert_time, processed_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SET match_id = match_id")
+@SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, processed_time, status, match_id) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
 public class LolMatch implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +78,7 @@ public class LolMatch implements Serializable {
         this.status = status;
         this.beginTime = beginTime;
         this.insertTime = insertTime;
+        this.processedTime = null;
     }
     
     public LolMatch(GameDto game) {
