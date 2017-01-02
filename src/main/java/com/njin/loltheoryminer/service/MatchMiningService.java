@@ -64,7 +64,8 @@ public class MatchMiningService {
                     matchCount++;
                 }
                 if (summonersToMine.size() < 1000) {
-
+                    if(game.getFellowPlayers() == null)
+                        continue;
                     game.getFellowPlayers().stream().forEach((player) -> {
                         summonersToMine.add(player.getSummonerId());
                     });

@@ -33,6 +33,6 @@ public class Application {
 
     public void start() {
 
-        matchMiningService.mineMatches(100);
+        matchMiningService.mineMatches(10000);
     }
 }
