@@ -5,7 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.LolVersion;
+import com.njin.loltheory.entity.LolVersion;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;

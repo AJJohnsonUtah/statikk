@@ -5,7 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.ChampMatchup;
+import com.njin.loltheory.entity.ChampMatchup;
 import org.springframework.stereotype.Repository;
 
 /**

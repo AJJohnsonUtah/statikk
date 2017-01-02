@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheory.dao;
-
-import com.njin.loltheory.entity.LolMatch;
-import org.springframework.stereotype.Repository;
+package com.njin.loltheory.entity.enums;
 
 /**
  *
  * @author AJ
  */
-@Repository
-public class LolMatchDao extends BaseDao<LolMatch> {
-
+public enum MatchStatus {
+    COMPLETED, IN_PROGRESS, READY;
 }

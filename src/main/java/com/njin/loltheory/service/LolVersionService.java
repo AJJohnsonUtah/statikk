@@ -6,7 +6,7 @@
 package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.LolVersionDao;
-import com.njin.loltheory.model.LolVersion;
+import com.njin.loltheory.entity.LolVersion;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

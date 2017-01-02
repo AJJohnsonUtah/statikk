@@ -5,7 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.FinalBuildOrder;
+import com.njin.loltheory.entity.FinalBuildOrder;
 import org.springframework.stereotype.Repository;
 
 /**

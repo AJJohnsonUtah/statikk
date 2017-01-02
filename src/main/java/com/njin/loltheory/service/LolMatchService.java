@@ -6,7 +6,7 @@
 package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.LolMatchDao;
-import com.njin.loltheory.model.LolMatch;
+import com.njin.loltheory.entity.LolMatch;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

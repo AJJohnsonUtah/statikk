@@ -5,7 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.ChampSummonerSpells;
+import com.njin.loltheory.entity.ChampSummonerSpells;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -6,7 +6,7 @@
 package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampFinalBuildDao;
-import com.njin.loltheory.model.ChampFinalBuild;
+import com.njin.loltheory.entity.ChampFinalBuild;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

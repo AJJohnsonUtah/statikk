@@ -5,7 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.model.ChampSpec;
+import com.njin.loltheory.entity.ChampSpec;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheory.model;
+package com.njin.loltheory.entity;
 
+import com.njin.loltheory.entity.converter.MatchStatusConverter;
+import com.njin.loltheory.entity.enums.MatchStatus;
+import com.njin.loltheory.riotapi.model.GameDto;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -18,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.SQLInsert;
 
 /**
  *
@@ -33,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LolMatch.findByBeginTime", query = "SELECT l FROM LolMatch l WHERE l.beginTime = :beginTime"),
     @NamedQuery(name = "LolMatch.findByInsertTime", query = "SELECT l FROM LolMatch l WHERE l.insertTime = :insertTime"),
     @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime")})
+@SQLInsert(sql = "INSERT INTO LolMatch (match_id, status, begin_time, insert_time, processed_time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SET match_id = match_id")
 public class LolMatch implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +50,8 @@ public class LolMatch implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "status")
-    private short status;
+    @Convert(converter = MatchStatusConverter.class)
+    private MatchStatus status;
     @Basic(optional = false)
     @NotNull
     @Column(name = "begin_time")
@@ -66,11 +73,19 @@ public class LolMatch implements Serializable {
         this.matchId = matchId;
     }
 
-    public LolMatch(Long matchId, short status, Date beginTime, Date insertTime) {
+    public LolMatch(Long matchId, MatchStatus status, Date beginTime, Date insertTime) {
         this.matchId = matchId;
         this.status = status;
         this.beginTime = beginTime;
         this.insertTime = insertTime;
+    }
+    
+    public LolMatch(GameDto game) {
+        this.matchId = game.getGameId();
+        this.beginTime = new Date(game.getCreateDate());
+        this.insertTime = new Date();
+        this.processedTime = null;
+        this.status = MatchStatus.READY;
     }
 
     public Long getMatchId() {
@@ -81,11 +96,11 @@ public class LolMatch implements Serializable {
         this.matchId = matchId;
     }
 
-    public short getStatus() {
+    public MatchStatus getStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(MatchStatus status) {
         this.status = status;
     }
 

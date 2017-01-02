@@ -6,7 +6,7 @@
 package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampSpecDao;
-import com.njin.loltheory.model.ChampSpec;
+import com.njin.loltheory.entity.ChampSpec;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
