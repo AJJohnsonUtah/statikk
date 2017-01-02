@@ -5,12 +5,14 @@
  */
 package com.njin.loltheoryminer.main;
 
-import com.njin.loltheory.model.ChampSpec;
-import com.njin.loltheory.service.ChampSpecService;
+import com.njin.loltheory.riotapi.service.RiotApiService;
+import com.njin.loltheoryminer.service.MatchMiningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 /**
  *
@@ -18,22 +20,19 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @ComponentScan(basePackages = "com.njin")
 public class Application {
+
     @Autowired
-    private ChampSpecService champSpecService;
-    
+    MatchMiningService matchMiningService;
+
     public static void main(String[] args) {
-        
-        ApplicationContext context = 
-        new AnnotationConfigApplicationContext(Application.class);
+        ApplicationContext context
+                = new AnnotationConfigApplicationContext(Application.class);
         Application p = context.getBean(Application.class);
         p.start();
     }
-    
-    public void start() {                
-        ChampSpec a = new ChampSpec();
-        a.setChampId(123L);
-        champSpecService.createChampSpec(a);
-        ChampSpec b = champSpecService.findChampSpec(1L);
-        System.out.println(b.getChampId() + " WE FUCKING FOUND IT!");
+
+    public void start() {
+
+        matchMiningService.mineMatches(100);
     }
 }
