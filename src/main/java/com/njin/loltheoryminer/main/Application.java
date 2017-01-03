@@ -5,14 +5,12 @@
  */
 package com.njin.loltheoryminer.main;
 
-import com.njin.loltheory.riotapi.service.RiotApiService;
+import com.njin.loltheoryminer.service.MatchAnalyzerService;
 import com.njin.loltheoryminer.service.MatchMiningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 /**
  *
@@ -24,6 +22,9 @@ public class Application {
     @Autowired
     MatchMiningService matchMiningService;
 
+    @Autowired
+    MatchAnalyzerService matchAnalyzerService;
+    
     public static void main(String[] args) {
         ApplicationContext context
                 = new AnnotationConfigApplicationContext(Application.class);
@@ -32,7 +33,7 @@ public class Application {
     }
 
     public void start() {
-
-        matchMiningService.mineMatches(10000);
+        matchMiningService.mineMatches(100);
+        matchAnalyzerService.analyzeMatches(50);
     }
 }

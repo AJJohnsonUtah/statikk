@@ -13,6 +13,7 @@ import com.njin.loltheory.riotapi.model.SummonerDto;
 import com.njin.loltheory.riotapi.model.Region;
 import com.njin.loltheory.riotapi.service.RiotApiService;
 import com.njin.loltheory.service.LolMatchService;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Random;
@@ -32,56 +33,34 @@ public class MatchMiningService {
     @Autowired
     LolMatchService lolMatchService;
 
-    private final LinkedHashSet<Long> summonersToMine;
-
-    public MatchMiningService(RiotApiService riotApiService) {
-        this.riotApiService = riotApiService;
-        this.summonersToMine = new LinkedHashSet<>();
-    }
-
     public MatchMiningService() {
-        this.summonersToMine = new LinkedHashSet<>();
     }
 
     public void mineMatches(int matchesToMine) {
-        if (summonersToMine.isEmpty()) {
-            summonersToMine.add(getStartingSummonerId());
-        }
+        LinkedHashSet<Long> summonersToMine = new LinkedHashSet<>();
+        addStartingUserIfNeeded(summonersToMine);
 
         LolMatch[] minedMatches = new LolMatch[matchesToMine];
-        int matchCount = 0;
+        HashSet<Long> ids = new HashSet<>();
 
-        long start = System.currentTimeMillis();
-        while (matchCount < matchesToMine) {
-            Iterator<Long> iter = summonersToMine.iterator();
-            Long summonerId = iter.next();
-            iter.remove();
+        while (ids.size() < matchesToMine) {
+            Long summonerId = getNextSummoner(summonersToMine);
 
             RecentGamesDto recentGames = riotApiService.getRecentGames(Region.NA, summonerId);
             for (GameDto game : recentGames.getGames()) {
-                if (matchCount < matchesToMine) {
-                    minedMatches[matchCount] = new LolMatch(game);
-                    matchCount++;
+                if (ids.contains(game.getGameId())) {
+                    continue;
                 }
-                if (summonersToMine.size() < 1000) {
-                    if(game.getFellowPlayers() == null)
-                        continue;
-                    game.getFellowPlayers().stream().forEach((player) -> {
-                        summonersToMine.add(player.getSummonerId());
-                    });
+                minedMatches[ids.size()] = new LolMatch(game);
+                ids.add(game.getGameId());
+                addSummonersToMineIfNeeded(game, summonersToMine);
+
+                if (ids.size() >= matchesToMine) {
+                    break;
                 }
             }
-
         }
-        long end = System.currentTimeMillis();
-        System.out.println("It took " + ((end - start) / 1000.0) + " seconds to find " + matchesToMine + " matches.");
-        start = System.currentTimeMillis();
-        for (LolMatch match : minedMatches) {
-            lolMatchService.create(match);
-        }
-        end = System.currentTimeMillis();
-        System.out.println("It took " + ((end - start) / 1000.0) + " seconds to insert " + matchesToMine + " matches.");
-
+        lolMatchService.batchInsert(minedMatches);
     }
 
     private Long getStartingSummonerId() {
@@ -92,6 +71,27 @@ public class MatchMiningService {
         String summonerName = games.getGameList().get(randGame).getParticipants().get(randPlayer).getSummonerName();
         String summonerNameKey = SummonerDto.getKeyFromName(summonerName);
         return riotApiService.getSummonersByName(Region.NA, summonerName).get(summonerNameKey).getId();
+    }
+
+    private void addStartingUserIfNeeded(LinkedHashSet<Long> summonersToMine) {
+        if (summonersToMine.isEmpty()) {
+            summonersToMine.add(getStartingSummonerId());
+        }
+    }
+
+    private Long getNextSummoner(LinkedHashSet<Long> summonersToMine) {
+        Iterator<Long> iter = summonersToMine.iterator();
+        Long summonerId = iter.next();
+        iter.remove();
+        return summonerId;
+    }
+
+    private void addSummonersToMineIfNeeded(GameDto game, LinkedHashSet<Long> summonersToMine) {
+        if (summonersToMine.size() < 1000) {
+            game.getFellowPlayers().stream().forEach((player) -> {
+                summonersToMine.add(player.getSummonerId());
+            });
+        }
     }
 
 }
