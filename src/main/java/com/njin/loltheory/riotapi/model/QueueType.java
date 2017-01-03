@@ -117,8 +117,7 @@ public enum QueueType {
         this.queueTypeId = queueTypeId;
         this.name = name;
     }
-    
-    @JsonCreator
+
     public static QueueType fromId(int queueTypeId) {
         for (QueueType queueType : values()) {
             if (queueTypeId == queueType.getQueueTypeId()) {
@@ -126,6 +125,15 @@ public enum QueueType {
             }
         }
         return null;
+    }
+
+    @JsonCreator
+    public static QueueType fromString(String queueType) {
+        char firstChar = queueType.charAt(0);
+        if (firstChar >= '0' && firstChar <= '9') {
+            return fromId(Integer.parseInt(queueType));
+        }
+        return QueueType.valueOf(queueType);
     }
 
 }

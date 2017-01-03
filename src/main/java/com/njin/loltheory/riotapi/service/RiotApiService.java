@@ -7,6 +7,7 @@ package com.njin.loltheory.riotapi.service;
 
 import com.njin.loltheory.riotapi.model.Region;
 import com.njin.loltheory.riotapi.model.FeaturedGames;
+import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.RecentGamesDto;
 import com.njin.loltheory.riotapi.model.SummonerDto;
 import java.io.BufferedReader;
@@ -50,6 +51,31 @@ public class RiotApiService {
 
     public String getStaticChampionsData(Region region) {
         return getResponseFromURL(getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion?champData=image&api_key="));
+    }
+
+    public MatchDetail getMatchDetailWithoutTimeline(Region region, Long matchId) {
+        return getMatchDetail(region, matchId, false);
+    }
+    
+    public MatchDetail getMatchDetailWithTimeline(Region region, Long matchId) {
+        return getMatchDetail(region, matchId, true);
+    }
+    
+    private MatchDetail getMatchDetail(Region region, Long matchId, boolean includeMatchId) throws HttpServerErrorException {
+        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId + "?includeTimeline=" + includeMatchId + "&api_key=");
+        try {
+            return restTemplate.getForObject(url, MatchDetail.class);
+        } catch (HttpServerErrorException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("Error fetching match detail for: " + matchId);
+            try {
+                return restTemplate.getForObject(url, MatchDetail.class);
+            } catch (HttpServerErrorException ex2) {
+                System.out.println(ex2.getMessage());
+                System.out.println("Error fetching match detail for: " + matchId);
+                throw ex2;
+            }
+        }
     }
 
     public String getStaticItemsData(Region region) {

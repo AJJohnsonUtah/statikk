@@ -47,6 +47,12 @@ public class LolVersion implements Serializable {
     @Column(name = "minor_version")
     private int minorVersion;
 
+    public LolVersion(String version) {
+        String[] parts = version.split("\\.");
+        this.majorVersion = Integer.parseInt(parts[0]);
+        this.minorVersion = Integer.parseInt(parts[1]);
+    }
+    
     public LolVersion() {
     }
 

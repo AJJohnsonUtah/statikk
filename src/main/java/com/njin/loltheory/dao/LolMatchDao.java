@@ -6,6 +6,9 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.entity.LolMatch;
+import com.njin.loltheory.entity.enums.MatchStatus;
+import java.util.List;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +17,26 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class LolMatchDao extends BaseDao<LolMatch> {
+
+    public void batchInsert(LolMatch[] lolMatches) {
+        for (int i = 0; i < lolMatches.length; i++) {
+            em.persist(lolMatches[i]);
+            if (i % 100 == 0) {
+                em.flush();
+                em.clear();
+            }
+        }
+    }
+
+    public List<Long> findMatchesToAnalyze(int matchesToFind) {        
+        Query query = em.createNamedQuery("LolMatch.findMatchesToAnalyze").setParameter("status", MatchStatus.READY);
+        query.setMaxResults(matchesToFind);
+        return query.getResultList();
+    }
+    
+    public void markMatchesAsInProgress(List<Long> matchIds) {
+        Query query = em.createNamedQuery("LolMatch.updateMatchListStatus").setParameter("status", MatchStatus.IN_PROGRESS).setParameter("matchIds", matchIds);
+        query.executeUpdate();
+    }
 
 }

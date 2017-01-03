@@ -37,7 +37,9 @@ import org.hibernate.annotations.SQLInsert;
     @NamedQuery(name = "LolMatch.findByStatus", query = "SELECT l FROM LolMatch l WHERE l.status = :status"),
     @NamedQuery(name = "LolMatch.findByBeginTime", query = "SELECT l FROM LolMatch l WHERE l.beginTime = :beginTime"),
     @NamedQuery(name = "LolMatch.findByInsertTime", query = "SELECT l FROM LolMatch l WHERE l.insertTime = :insertTime"),
-    @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime")})
+    @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime"),
+    @NamedQuery(name = "LolMatch.findMatchesToAnalyze", query = "SELECT l.matchId FROM LolMatch l WHERE l.status = :status"),
+    @NamedQuery(name = "LolMatch.updateMatchListStatus", query = "UPDATE LolMatch SET status = :status WHERE matchId IN (:matchIds)")})
 @SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, processed_time, status, match_id) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
 public class LolMatch implements Serializable {
 

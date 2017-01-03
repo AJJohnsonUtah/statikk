@@ -6,6 +6,7 @@
 package com.njin.loltheory.riotapi.model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +29,10 @@ public class GameDto implements Serializable {
     private int spell2;
     private SubType subType;
     private int teamId;
+    
+    public GameDto() {
+        fellowPlayers = Collections.EMPTY_LIST;
+    };
 
     public long getGameId() {
         return gameId;
