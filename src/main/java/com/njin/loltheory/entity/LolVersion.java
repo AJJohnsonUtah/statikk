@@ -6,17 +6,22 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,8 +34,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LolVersion.findAll", query = "SELECT l FROM LolVersion l"),
     @NamedQuery(name = "LolVersion.findByLolVersionId", query = "SELECT l FROM LolVersion l WHERE l.lolVersionId = :lolVersionId"),
     @NamedQuery(name = "LolVersion.findByMajorVersion", query = "SELECT l FROM LolVersion l WHERE l.majorVersion = :majorVersion"),
-    @NamedQuery(name = "LolVersion.findByMinorVersion", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion")})
+    @NamedQuery(name = "LolVersion.findByMinorVersion", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion"),
+    @NamedQuery(name = "LolVersion.find", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion AND l.majorVersion = :majorVersion")})
 public class LolVersion implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersionId", fetch = FetchType.LAZY)
+    private List<ChampSpec> champSpecList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersionId", fetch = FetchType.LAZY)
+    private List<ChampBan> champBanList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,7 +63,7 @@ public class LolVersion implements Serializable {
         this.majorVersion = Integer.parseInt(parts[0]);
         this.minorVersion = Integer.parseInt(parts[1]);
     }
-    
+
     public LolVersion() {
     }
 
@@ -92,19 +103,28 @@ public class LolVersion implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (lolVersionId != null ? lolVersionId.hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + this.majorVersion;
+        hash = 29 * hash + this.minorVersion;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LolVersion)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        LolVersion other = (LolVersion) object;
-        if ((this.lolVersionId == null && other.lolVersionId != null) || (this.lolVersionId != null && !this.lolVersionId.equals(other.lolVersionId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LolVersion other = (LolVersion) obj;
+        if (this.majorVersion != other.majorVersion) {
+            return false;
+        }
+        if (this.minorVersion != other.minorVersion) {
             return false;
         }
         return true;
@@ -114,5 +134,23 @@ public class LolVersion implements Serializable {
     public String toString() {
         return "com.njin.loltheory.model.LolVersion[ lolVersionId=" + lolVersionId + ", " + majorVersion + "." + minorVersion + " ]";
     }
-    
+
+    @XmlTransient
+    public List<ChampSpec> getChampSpecList() {
+        return champSpecList;
+    }
+
+    public void setChampSpecList(List<ChampSpec> champSpecList) {
+        this.champSpecList = champSpecList;
+    }
+
+    @XmlTransient
+    public List<ChampBan> getChampBanList() {
+        return champBanList;
+    }
+
+    public void setChampBanList(List<ChampBan> champBanList) {
+        this.champBanList = champBanList;
+    }
+
 }

@@ -7,6 +7,7 @@ package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.LolVersionDao;
 import com.njin.loltheory.entity.LolVersion;
+import java.util.HashMap;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class LolVersionService extends BaseService<LolVersion> {
     @Autowired
     LolVersionDao lolVersionDao;
 
+    private final HashMap<LolVersion, LolVersion> cachedLolVersions = new HashMap<>();
+
     @Override
     public void create(LolVersion lolVersion) {
         lolVersionDao.create(lolVersion);
@@ -32,7 +35,24 @@ public class LolVersionService extends BaseService<LolVersion> {
     public void update(LolVersion lolVersion) {
         lolVersionDao.update(lolVersion);
     }
-    
+
+    public LolVersion find(LolVersion lolVersion) {
+        return lolVersionDao.find(lolVersion);
+    }
+
+    public LolVersion loadEntity(LolVersion lolVersion) {
+        if (cachedLolVersions.containsKey(lolVersion)) {
+            return cachedLolVersions.get(lolVersion);
+        }
+        LolVersion foundVersion = find(lolVersion);
+        if(foundVersion == null) {
+            create(lolVersion);            
+            cachedLolVersions.put(lolVersion, lolVersion);
+            return lolVersion;
+        }
+        return foundVersion;
+    }
+
     public List<LolVersion> findAll() {
         return lolVersionDao.findAll();
     }

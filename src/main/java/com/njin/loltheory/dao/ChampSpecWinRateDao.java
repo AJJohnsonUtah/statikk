@@ -6,6 +6,9 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.hibernate.HibernateException;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,4 +18,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ChampSpecWinRateDao extends BaseDao<ChampSpecWinRate> {
 
+    public void batchInsert(Map<ChampSpecWinRate, ChampSpecWinRate> champSpecWinRates) {
+        int counter = 0;
+        for (Entry<ChampSpecWinRate, ChampSpecWinRate> entry : champSpecWinRates.entrySet()) {
+            ChampSpecWinRate item = entry.getValue();
+            try {
+                em.persist(item);
+            } catch (HibernateException ex) {
+                System.out.println("Here");
+            }
+            counter++;
+            if (counter % 100 == 0) {
+                em.flush();
+                em.clear();
+            }
+        }
+    }
 }

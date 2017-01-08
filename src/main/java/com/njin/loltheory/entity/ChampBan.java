@@ -5,11 +5,17 @@
  */
 package com.njin.loltheory.entity;
 
+import com.njin.loltheory.entity.converter.QueueTypeConverter;
+import com.njin.loltheory.riotapi.model.QueueType;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,6 +39,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ChampBan.findByBanCount", query = "SELECT c FROM ChampBan c WHERE c.banCount = :banCount")})
 public class ChampBan implements Serializable {
 
+    @JoinColumn(name = "lol_version_id", referencedColumnName = "lol_version_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private LolVersion lolVersionId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,12 +55,9 @@ public class ChampBan implements Serializable {
     private int champId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "lol_version_id")
-    private int lolVersionId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "match_type")
-    private int matchType;
+    @Convert(converter = QueueTypeConverter.class)
+    private QueueType matchType;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ban_order")
@@ -67,7 +74,7 @@ public class ChampBan implements Serializable {
         this.champBanId = champBanId;
     }
 
-    public ChampBan(Integer champBanId, int champId, int lolVersionId, int matchType, int banOrder, int banCount) {
+    public ChampBan(Integer champBanId, int champId, LolVersion lolVersionId, QueueType matchType, int banOrder, int banCount) {
         this.champBanId = champBanId;
         this.champId = champId;
         this.lolVersionId = lolVersionId;
@@ -92,19 +99,11 @@ public class ChampBan implements Serializable {
         this.champId = champId;
     }
 
-    public int getLolVersionId() {
-        return lolVersionId;
-    }
-
-    public void setLolVersionId(int lolVersionId) {
-        this.lolVersionId = lolVersionId;
-    }
-
-    public int getMatchType() {
+    public QueueType getMatchType() {
         return matchType;
     }
 
-    public void setMatchType(int matchType) {
+    public void setMatchType(QueueType matchType) {
         this.matchType = matchType;
     }
 
@@ -148,5 +147,13 @@ public class ChampBan implements Serializable {
     public String toString() {
         return "com.njin.loltheory.model.ChampBan[ champBanId=" + champBanId + " ]";
     }
-    
+
+    public LolVersion getLolVersionId() {
+        return lolVersionId;
+    }
+
+    public void setLolVersionId(LolVersion lolVersionId) {
+        this.lolVersionId = lolVersionId;
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.riotapi.model;
 
+import com.njin.loltheory.entity.ChampSpec;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class MatchParticipant implements Serializable {
 
+    private int championId;
     private Rank highestAchievedSeasonTier;
     private List<Mastery> masteries;
     private int participantId;
@@ -23,6 +25,19 @@ public class MatchParticipant implements Serializable {
     private ParticipantStats stats;
     private int teamId;
     private ParticipantTimeline timeline;
+    private ChampSpec champSpec = null;
+
+    public void setChampSpec(ChampSpec champSpec) {
+        this.champSpec = champSpec;
+    }
+
+    public ChampSpec getChampSpec() {
+        return champSpec;
+    }
+
+    public int getChampionId() {
+        return championId;
+    }
 
     public Rank getHighestAchievedSeasonTier() {
         return highestAchievedSeasonTier;

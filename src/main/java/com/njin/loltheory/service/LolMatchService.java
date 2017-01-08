@@ -39,7 +39,9 @@ public class LolMatchService extends BaseService<LolMatch> {
 
     public List<Long> findMatchesToAnalyze(int matchesToFind) {
         List<Long> matchesFound = lolMatchDao.findMatchesToAnalyze(matchesToFind);
-        lolMatchDao.markMatchesAsInProgress(matchesFound);
+        if (!matchesFound.isEmpty()) {
+            lolMatchDao.markMatchesAsInProgress(matchesFound);
+        }
         return matchesFound;
     }
 }

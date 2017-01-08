@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,7 +41,7 @@ public class RiotApiService {
     private final RestTemplate restTemplate;
 
     public RiotApiService() throws IOException {
-        RIOT_API_KEY = "c08236ae-d093-4c4e-978f-96fe66140466";
+        RIOT_API_KEY = "RGAPI-d309f20c-14c4-4c93-9d7d-eebdf291578a";
         restTemplate = new RestTemplate();
     }
 
@@ -56,11 +57,11 @@ public class RiotApiService {
     public MatchDetail getMatchDetailWithoutTimeline(Region region, Long matchId) {
         return getMatchDetail(region, matchId, false);
     }
-    
+
     public MatchDetail getMatchDetailWithTimeline(Region region, Long matchId) {
         return getMatchDetail(region, matchId, true);
     }
-    
+
     private MatchDetail getMatchDetail(Region region, Long matchId, boolean includeMatchId) throws HttpServerErrorException {
         String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId + "?includeTimeline=" + includeMatchId + "&api_key=");
         try {
@@ -98,10 +99,16 @@ public class RiotApiService {
         }
     }
 
-    public FeaturedGames
-            getFeaturedGames(Region region) {
-        return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key="), FeaturedGames.class
-        );
+    public FeaturedGames getFeaturedGames(Region region) {
+        String url = getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key=");
+        try {
+            return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key="), FeaturedGames.class
+            );
+        } catch (HttpClientErrorException ex) {
+            System.out.println(url);            
+            throw ex;
+        }
+
     }
 
     public Map<String, SummonerDto> getSummonersByName(Region region, String names) {

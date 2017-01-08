@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheory.riotapi.model;
+package com.njin.loltheory.entity.enums;
 
 /**
  *
  * @author AJ
  */
-public enum Rank {
-    CHALLENGER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, UNRANKED;
-    public static Rank[] values = values();
+public enum Lane {
+    MIDDLE, BOTTOM, TOP, JUNGLE, SUPPORT, ROAM;
+    public static Lane[] values = values();
 
 }

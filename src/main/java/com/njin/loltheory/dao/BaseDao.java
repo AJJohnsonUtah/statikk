@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,7 +18,11 @@ public abstract class BaseDao <E> {
     EntityManager em;
 
     public void create(E entity) {
-        em.persist(entity);
+        try {
+            em.persist(entity);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void update(E entity) {

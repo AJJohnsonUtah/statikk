@@ -5,10 +5,28 @@
  */
 package com.njin.loltheory.riotapi.model;
 
+import com.njin.loltheory.entity.enums.Lane;
+
 /**
  *
  * @author AJ
  */
 public enum MatchLane {
     MID, MIDDLE, TOP, JUNGLE, BOT, BOTTOM;
+
+    public Lane toLane() {
+        switch (this) {
+            case MID:
+            case MIDDLE:
+                return Lane.MIDDLE;
+            case TOP:
+                return Lane.TOP;
+            case BOT:
+            case BOTTOM:
+                return Lane.BOTTOM;
+            case JUNGLE:
+                return Lane.JUNGLE;
+        }
+        return null;
+    }
 }

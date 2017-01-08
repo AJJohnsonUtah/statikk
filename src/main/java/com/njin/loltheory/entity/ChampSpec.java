@@ -5,15 +5,30 @@
  */
 package com.njin.loltheory.entity;
 
+import com.njin.loltheory.entity.converter.LaneConverter;
+import com.njin.loltheory.entity.converter.QueueTypeConverter;
+import com.njin.loltheory.entity.converter.RankConverter;
+import com.njin.loltheory.entity.converter.RoleConverter;
+import com.njin.loltheory.entity.enums.Lane;
+import com.njin.loltheory.entity.enums.Role;
+import com.njin.loltheory.riotapi.model.MatchDetail;
+import com.njin.loltheory.riotapi.model.MatchParticipant;
+import com.njin.loltheory.riotapi.model.QueueType;
+import com.njin.loltheory.riotapi.model.Rank;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,8 +53,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ChampSpec.findByLolVersionId", query = "SELECT c FROM ChampSpec c WHERE c.lolVersionId = :lolVersionId"),
     @NamedQuery(name = "ChampSpec.findByLane", query = "SELECT c FROM ChampSpec c WHERE c.lane = :lane"),
     @NamedQuery(name = "ChampSpec.findByRole", query = "SELECT c FROM ChampSpec c WHERE c.role = :role"),
-    @NamedQuery(name = "ChampSpec.findByRank", query = "SELECT c FROM ChampSpec c WHERE c.rank = :rank")})
+    @NamedQuery(name = "ChampSpec.findByRank", query = "SELECT c FROM ChampSpec c WHERE c.rank = :rank"),
+    @NamedQuery(name = "ChampSpec.find", query = "SELECT c FROM ChampSpec c WHERE c.championId = :championId AND c.matchType = :matchType AND c.lolVersionId = :lolVersionId AND c.lane = :lane AND c.role = :role AND c.rank = :rank")})
 public class ChampSpec implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "match_type")
+    @Convert(converter = QueueTypeConverter.class)
+    private QueueType matchType;
+    @JoinColumn(name = "lol_version_id", referencedColumnName = "lol_version_id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private LolVersion lolVersionId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,32 +76,23 @@ public class ChampSpec implements Serializable {
     @NotNull
     @Column(name = "champion_id")
     private int championId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "match_type")
-    private int matchType;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "lol_version_id")
-    private int lolVersionId;
     @Column(name = "lane")
-    private Integer lane;
+    @Convert(converter = LaneConverter.class)
+    private Lane lane;
     @Column(name = "role")
-    private Integer role;
+    @Convert(converter = RoleConverter.class)
+    private Role role;
     @Column(name = "rank")
-    private Integer rank;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpecId")
+    @Convert(converter = RankConverter.class)
+    private Rank rank;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpec")
     private ChampSpecWinRate champSpecWinRate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdA")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdA", fetch = FetchType.LAZY)
     private Collection<ChampMatchup> champMatchupCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdB")
-    private Collection<ChampMatchup> champMatchupCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecId", fetch = FetchType.LAZY)
     private Collection<ChampSummonerSpells> champSummonerSpellsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdA")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdA", fetch = FetchType.LAZY)
     private Collection<ChampTeamup> champTeamupCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champSpecIdB")
-    private Collection<ChampTeamup> champTeamupCollection1;
 
     public ChampSpec() {
     }
@@ -85,11 +101,18 @@ public class ChampSpec implements Serializable {
         this.champSpecId = champSpecId;
     }
 
-    public ChampSpec(Long champSpecId, int championId, int matchType, int lolVersionId) {
+    public ChampSpec(Long champSpecId, int championId, QueueType matchType, LolVersion lolVersionId) {
         this.champSpecId = champSpecId;
         this.championId = championId;
         this.matchType = matchType;
         this.lolVersionId = lolVersionId;
+    }
+
+    public ChampSpec(MatchDetail match, MatchParticipant matchParticipant) {
+        this.championId = matchParticipant.getChampionId();
+        this.matchType = match.getQueueType();
+        this.lolVersionId = match.getMatchVersion();
+        this.lane = matchParticipant.getTimeline().getLane().toLane();
     }
 
     public Long getChampSpecId() {
@@ -108,43 +131,43 @@ public class ChampSpec implements Serializable {
         this.championId = championId;
     }
 
-    public int getMatchType() {
+    public QueueType getMatchType() {
         return matchType;
     }
 
-    public void setMatchType(int matchType) {
+    public void setMatchType(QueueType matchType) {
         this.matchType = matchType;
     }
 
-    public int getLolVersionId() {
+    public LolVersion getLolVersionId() {
         return lolVersionId;
     }
 
-    public void setLolVersionId(int lolVersionId) {
+    public void setLolVersionId(LolVersion lolVersionId) {
         this.lolVersionId = lolVersionId;
     }
 
-    public Integer getLane() {
+    public Lane getLane() {
         return lane;
     }
 
-    public void setLane(Integer lane) {
+    public void setLane(Lane lane) {
         this.lane = lane;
     }
 
-    public Integer getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public Integer getRank() {
+    public Rank getRank() {
         return rank;
     }
 
-    public void setRank(Integer rank) {
+    public void setRank(Rank rank) {
         this.rank = rank;
     }
 
@@ -166,15 +189,6 @@ public class ChampSpec implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ChampMatchup> getChampMatchupCollection1() {
-        return champMatchupCollection1;
-    }
-
-    public void setChampMatchupCollection1(Collection<ChampMatchup> champMatchupCollection1) {
-        this.champMatchupCollection1 = champMatchupCollection1;
-    }
-
-    @XmlTransient
     public Collection<ChampSummonerSpells> getChampSummonerSpellsCollection() {
         return champSummonerSpellsCollection;
     }
@@ -192,19 +206,16 @@ public class ChampSpec implements Serializable {
         this.champTeamupCollection = champTeamupCollection;
     }
 
-    @XmlTransient
-    public Collection<ChampTeamup> getChampTeamupCollection1() {
-        return champTeamupCollection1;
-    }
-
-    public void setChampTeamupCollection1(Collection<ChampTeamup> champTeamupCollection1) {
-        this.champTeamupCollection1 = champTeamupCollection1;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (champSpecId != null ? champSpecId.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + this.championId;
+        hash = 97 * hash + this.matchType.getQueueTypeId();
+        hash = 97 * hash + this.lolVersionId.getMajorVersion();
+        hash = 97 * hash + this.lolVersionId.getMinorVersion();
+        hash = 97 * hash + Objects.hashCode(this.lane);
+        hash = 97 * hash + Objects.hashCode(this.role);
+        hash = 97 * hash + Objects.hashCode(this.rank);
         return hash;
     }
 
@@ -215,15 +226,21 @@ public class ChampSpec implements Serializable {
             return false;
         }
         ChampSpec other = (ChampSpec) object;
-        if ((this.champSpecId == null && other.champSpecId != null) || (this.champSpecId != null && !this.champSpecId.equals(other.champSpecId))) {
-            return false;
+        if (this.champSpecId != null && other.champSpecId != null) {
+            return this.champSpecId.equals(other.champSpecId);
         }
-        return true;
+
+        return this.championId == other.championId
+                && Objects.equals(this.role, other.role)
+                && this.lolVersionId == other.lolVersionId
+                && Objects.equals(this.lane, other.lane)
+                && Objects.equals(this.rank, other.rank)
+                && Objects.equals(this.matchType, other.matchType);
     }
 
     @Override
     public String toString() {
         return "com.njin.loltheory.model.ChampSpec[ champSpecId=" + champSpecId + " ]";
     }
-    
+
 }

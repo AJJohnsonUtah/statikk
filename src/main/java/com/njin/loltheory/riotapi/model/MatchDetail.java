@@ -32,6 +32,10 @@ public class MatchDetail implements Serializable {
     private Timeline timeline;
     private ErrorStatus status;
 
+    public void setMatchVersion(LolVersion matchVersion) {
+        this.matchVersion = matchVersion;
+    }
+
     public ErrorStatus getStatus() {
         return status;
     }
@@ -96,4 +100,12 @@ public class MatchDetail implements Serializable {
         return timeline;
     }
 
+    public long getWinner() {
+        for (Team team : teams) {
+            if (team.isWinner()) {
+                return team.getTeamId();
+            }
+        }
+        return 0;
+    }
 }
