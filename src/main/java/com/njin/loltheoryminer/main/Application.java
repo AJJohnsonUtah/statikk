@@ -24,7 +24,7 @@ public class Application {
 
     @Autowired
     MatchAnalyzerService matchAnalyzerService;
-    
+
     public static void main(String[] args) {
         ApplicationContext context
                 = new AnnotationConfigApplicationContext(Application.class);
@@ -33,7 +33,23 @@ public class Application {
     }
 
     public void start() {
-        matchMiningService.mineMatches(100);
-        matchAnalyzerService.analyzeMatches(50);
+        int numIterations = 0;
+        int numMatchesToAnalyze = 10;
+        long veryStart, start, middle, end;
+        long timeMining = 0;
+        long timeAnalyzing = 0;
+        while (true) {
+            start = System.currentTimeMillis();
+            matchMiningService.mineMatches(numMatchesToAnalyze);
+            middle = System.currentTimeMillis();
+            matchAnalyzerService.analyzeMatches(numMatchesToAnalyze);
+            numIterations++;
+            end = System.currentTimeMillis();
+            timeMining += middle - start;
+            timeAnalyzing += end - middle;
+            System.out.println(numIterations * numMatchesToAnalyze + " matches found and analyzed in " + ((timeMining + timeAnalyzing) / 1000.0) + " seconds");
+            System.out.println((timeMining * 1.0) / (timeMining + timeAnalyzing) + "% time analyzing.");
+            System.out.println((timeAnalyzing * 1.0) / (timeMining + timeAnalyzing) + "% time analyzing.");
+        }
     }
 }

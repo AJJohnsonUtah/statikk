@@ -33,29 +33,30 @@ public class MatchMiningService {
     @Autowired
     LolMatchService lolMatchService;
 
-    public MatchMiningService() {
-    }
+    LinkedHashSet<Long> summonerIdsToMine = new LinkedHashSet<>();
+
+    HashSet<Long> alreadyMinedMatches = new HashSet<>();
 
     public void mineMatches(int matchesToMine) {
-        LinkedHashSet<Long> summonersToMine = new LinkedHashSet<>();
-        addStartingUserIfNeeded(summonersToMine);
+        addStartingUserIfNeeded(summonerIdsToMine);
 
         LolMatch[] minedMatches = new LolMatch[matchesToMine];
-        HashSet<Long> ids = new HashSet<>();
+        HashSet<Long> matchIds = new HashSet<>();
 
-        while (ids.size() < matchesToMine) {
-            Long summonerId = getNextSummoner(summonersToMine);
+        while (matchIds.size() < matchesToMine) {
+            Long summonerId = getNextSummoner(summonerIdsToMine);
 
             RecentGamesDto recentGames = riotApiService.getRecentGames(Region.NA, summonerId);
             for (GameDto game : recentGames.getGames()) {
-                if (ids.contains(game.getGameId())) {
+                if (alreadyMinedMatches.contains(game.getGameId())) {
                     continue;
                 }
-                minedMatches[ids.size()] = new LolMatch(game);
-                ids.add(game.getGameId());
-                addSummonersToMineIfNeeded(game, summonersToMine);
+                minedMatches[matchIds.size()] = new LolMatch(game);
+                matchIds.add(game.getGameId());
+                alreadyMinedMatches.add(summonerId);
+                addSummonersToMineIfNeeded(game, summonerIdsToMine);
 
-                if (ids.size() >= matchesToMine) {
+                if (matchIds.size() >= matchesToMine) {
                     break;
                 }
             }
