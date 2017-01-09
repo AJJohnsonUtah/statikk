@@ -10,18 +10,15 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.SQLInsert;
 
 /**
  *
@@ -31,11 +28,7 @@ import org.hibernate.annotations.SQLInsert;
 @Table(name = "champ_spec_win_rate")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ChampSpecWinRate.findAll", query = "SELECT c FROM ChampSpecWinRate c"),
-    @NamedQuery(name = "ChampSpecWinRate.findByWinCount", query = "SELECT c FROM ChampSpecWinRate c WHERE c.winCount = :winCount"),
-    @NamedQuery(name = "ChampSpecWinRate.findByPlayedCount", query = "SELECT c FROM ChampSpecWinRate c WHERE c.playedCount = :playedCount")})
-@SQLInsert(sql = "INSERT INTO champ_spec_win_rate (champ_spec_id, played_count, win_count) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE win_count = VALUES(win_count), played_count = VALUES(played_count)")
-
+    @NamedQuery(name = "ChampSpecWinRate.findAll", query = "SELECT c FROM ChampSpecWinRate c")})
 public class ChampSpecWinRate implements Serializable {
 
     private static final long serialVersionUID = 1L;
