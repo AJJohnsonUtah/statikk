@@ -201,7 +201,6 @@ ALTER TABLE `champ_summoner_spells`
 --
 ALTER TABLE `champ_teamup`
   ADD PRIMARY KEY (`champ_spec_id_a`,`champ_spec_id_b`),
-  ADD UNIQUE KEY `teamup_index` (`champ_spec_id_a`,`champ_spec_id_b`),
   ADD KEY `teamup_b_fk` (`champ_spec_id_b`),
   ADD KEY `teamup_a_fk` (`champ_spec_id_a`);
 
