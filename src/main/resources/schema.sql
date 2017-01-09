@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2017 at 09:41 PM
+-- Generation Time: Jan 09, 2017 at 05:54 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -27,10 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `champ_ban` (
-  `champ_ban_id` int(11) NOT NULL,
-  `champ_id` int(11) NOT NULL,
-  `lol_version_id` int(11) NOT NULL,
-  `match_type` int(11) NOT NULL,
+  `champ_spec_id` bigint(20) NOT NULL,
   `ban_order` int(11) NOT NULL,
   `ban_count` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -42,11 +39,10 @@ CREATE TABLE `champ_ban` (
 --
 
 CREATE TABLE `champ_final_build` (
-  `champ_final_build_id` bigint(20) NOT NULL,
-  `champ_spec_id` bigint(20) DEFAULT NULL,
-  `final_build_order` bigint(20) DEFAULT NULL,
-  `played_count` bigint(20) DEFAULT NULL,
-  `win_count` bigint(20) DEFAULT NULL
+  `champ_spec_id` bigint(20) NOT NULL,
+  `final_build_order_id` bigint(20) NOT NULL,
+  `played_count` bigint(20) NOT NULL,
+  `win_count` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -56,7 +52,6 @@ CREATE TABLE `champ_final_build` (
 --
 
 CREATE TABLE `champ_matchup` (
-  `champ_matchup_id` bigint(20) NOT NULL,
   `champ_spec_id_a` bigint(20) NOT NULL,
   `champ_spec_id_b` bigint(20) NOT NULL,
   `win_count` bigint(20) NOT NULL DEFAULT '0',
@@ -86,7 +81,6 @@ CREATE TABLE `champ_spec` (
 --
 
 CREATE TABLE `champ_spec_win_rate` (
-  `champ_speci_win_rate_id` bigint(20) NOT NULL,
   `champ_spec_id` bigint(20) NOT NULL,
   `win_count` bigint(20) NOT NULL,
   `played_count` bigint(20) NOT NULL
@@ -99,7 +93,6 @@ CREATE TABLE `champ_spec_win_rate` (
 --
 
 CREATE TABLE `champ_summoner_spells` (
-  `champ_summoner_spells_id` bigint(20) NOT NULL,
   `champ_spec_id` bigint(20) NOT NULL,
   `spell_a` int(11) NOT NULL,
   `spell_b` int(11) NOT NULL,
@@ -114,7 +107,6 @@ CREATE TABLE `champ_summoner_spells` (
 --
 
 CREATE TABLE `champ_teamup` (
-  `champ_teamup_id` bigint(20) NOT NULL,
   `champ_spec_id_a` bigint(20) NOT NULL,
   `champ_spec_id_b` bigint(20) NOT NULL,
   `win_count` bigint(20) NOT NULL DEFAULT '0',
@@ -166,22 +158,21 @@ CREATE TABLE `lol_version` (
 -- Indexes for table `champ_ban`
 --
 ALTER TABLE `champ_ban`
-  ADD PRIMARY KEY (`champ_ban_id`),
-  ADD UNIQUE KEY `unique_champ_ban` (`champ_id`,`lol_version_id`,`match_type`,`ban_order`);
+  ADD PRIMARY KEY (`champ_spec_id`,`ban_order`);
 
 --
 -- Indexes for table `champ_final_build`
 --
 ALTER TABLE `champ_final_build`
-  ADD PRIMARY KEY (`champ_final_build_id`),
-  ADD UNIQUE KEY `unique_champ_final_build` (`champ_spec_id`,`final_build_order`);
+  ADD PRIMARY KEY (`champ_spec_id`,`final_build_order_id`),
+  ADD KEY `champ_spec_idx` (`champ_spec_id`),
+  ADD KEY `final_build_idx` (`final_build_order_id`);
 
 --
 -- Indexes for table `champ_matchup`
 --
 ALTER TABLE `champ_matchup`
-  ADD PRIMARY KEY (`champ_matchup_id`),
-  ADD UNIQUE KEY `matchup_index` (`champ_spec_id_a`,`champ_spec_id_b`),
+  ADD PRIMARY KEY (`champ_spec_id_a`,`champ_spec_id_b`),
   ADD KEY `matchup_b_fk_idx` (`champ_spec_id_b`),
   ADD KEY `matchup_a_fk_idx` (`champ_spec_id_a`);
 
@@ -196,21 +187,20 @@ ALTER TABLE `champ_spec`
 -- Indexes for table `champ_spec_win_rate`
 --
 ALTER TABLE `champ_spec_win_rate`
-  ADD PRIMARY KEY (`champ_speci_win_rate_id`),
-  ADD UNIQUE KEY `champ_spec_id_UNIQUE` (`champ_spec_id`);
+  ADD PRIMARY KEY (`champ_spec_id`);
 
 --
 -- Indexes for table `champ_summoner_spells`
 --
 ALTER TABLE `champ_summoner_spells`
-  ADD PRIMARY KEY (`champ_summoner_spells_id`),
+  ADD PRIMARY KEY (`champ_spec_id`,`spell_a`,`spell_b`),
   ADD KEY `champ_spec_id_fk_idx` (`champ_spec_id`);
 
 --
 -- Indexes for table `champ_teamup`
 --
 ALTER TABLE `champ_teamup`
-  ADD PRIMARY KEY (`champ_teamup_id`),
+  ADD PRIMARY KEY (`champ_spec_id_a`,`champ_spec_id_b`),
   ADD UNIQUE KEY `teamup_index` (`champ_spec_id_a`,`champ_spec_id_b`),
   ADD KEY `teamup_b_fk` (`champ_spec_id_b`),
   ADD KEY `teamup_a_fk` (`champ_spec_id_a`);
@@ -244,15 +234,28 @@ ALTER TABLE `lol_version`
 -- AUTO_INCREMENT for table `champ_spec`
 --
 ALTER TABLE `champ_spec`
-  MODIFY `champ_spec_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `champ_spec_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 --
 -- AUTO_INCREMENT for table `lol_version`
 --
 ALTER TABLE `lol_version`
-  MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `champ_ban`
+--
+ALTER TABLE `champ_ban`
+  ADD CONSTRAINT `champ_ban_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `champ_final_build`
+--
+ALTER TABLE `champ_final_build`
+  ADD CONSTRAINT `champ_final_build_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `champ_final_build_final_build_fk` FOREIGN KEY (`final_build_order_id`) REFERENCES `final_build_order` (`final_build_order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `champ_matchup`
@@ -260,6 +263,12 @@ ALTER TABLE `lol_version`
 ALTER TABLE `champ_matchup`
   ADD CONSTRAINT `matchup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `matchup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `champ_spec`
+--
+ALTER TABLE `champ_spec`
+  ADD CONSTRAINT `champ_spec_version_fk` FOREIGN KEY (`lol_version_id`) REFERENCES `lol_version` (`lol_version_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `champ_spec_win_rate`
@@ -271,7 +280,7 @@ ALTER TABLE `champ_spec_win_rate`
 -- Constraints for table `champ_summoner_spells`
 --
 ALTER TABLE `champ_summoner_spells`
-  ADD CONSTRAINT `champ_summoner_spell_spec_id_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_summoner_spell_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `champ_teamup`

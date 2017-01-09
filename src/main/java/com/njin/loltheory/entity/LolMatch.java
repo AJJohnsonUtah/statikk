@@ -10,6 +10,7 @@ import com.njin.loltheory.entity.enums.MatchStatus;
 import com.njin.loltheory.riotapi.model.GameDto;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -43,17 +44,18 @@ import org.hibernate.annotations.SQLInsert;
 @SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, processed_time, status, match_id) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
 public class LolMatch implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "status")
+    @Convert(converter = MatchStatusConverter.class)
+    private MatchStatus status;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "match_id")
     private Long matchId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "status")
-    @Convert(converter = MatchStatusConverter.class)
-    private MatchStatus status;
     @Basic(optional = false)
     @NotNull
     @Column(name = "begin_time")
@@ -82,7 +84,7 @@ public class LolMatch implements Serializable {
         this.insertTime = insertTime;
         this.processedTime = null;
     }
-    
+
     public LolMatch(GameDto game) {
         this.matchId = game.getGameId();
         this.beginTime = new Date(game.getCreateDate());
@@ -97,14 +99,6 @@ public class LolMatch implements Serializable {
 
     public void setMatchId(Long matchId) {
         this.matchId = matchId;
-    }
-
-    public MatchStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(MatchStatus status) {
-        this.status = status;
     }
 
     public Date getBeginTime() {
@@ -131,21 +125,34 @@ public class LolMatch implements Serializable {
         this.processedTime = processedTime;
     }
 
+    public MatchStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(MatchStatus status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (matchId != null ? matchId.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.matchId);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LolMatch)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        LolMatch other = (LolMatch) object;
-        if ((this.matchId == null && other.matchId != null) || (this.matchId != null && !this.matchId.equals(other.matchId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LolMatch other = (LolMatch) obj;
+        if (!Objects.equals(this.matchId, other.matchId)) {
             return false;
         }
         return true;
@@ -153,7 +160,7 @@ public class LolMatch implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.LolMatch[ matchId=" + matchId + " ]";
+        return "LolMatch{" + "status=" + status + ", matchId=" + matchId + ", beginTime=" + beginTime + ", insertTime=" + insertTime + ", processedTime=" + processedTime + '}';
     }
-    
+
 }

@@ -6,8 +6,10 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -27,76 +29,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampSummonerSpells.findAll", query = "SELECT c FROM ChampSummonerSpells c"),
-    @NamedQuery(name = "ChampSummonerSpells.findByChampSummonerSpellsId", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsId = :champSummonerSpellsId"),
-    @NamedQuery(name = "ChampSummonerSpells.findBySpellA", query = "SELECT c FROM ChampSummonerSpells c WHERE c.spellA = :spellA"),
-    @NamedQuery(name = "ChampSummonerSpells.findBySpellB", query = "SELECT c FROM ChampSummonerSpells c WHERE c.spellB = :spellB"),
-    @NamedQuery(name = "ChampSummonerSpells.findByWinCount", query = "SELECT c FROM ChampSummonerSpells c WHERE c.winCount = :winCount"),
-    @NamedQuery(name = "ChampSummonerSpells.findByPlayedCount", query = "SELECT c FROM ChampSummonerSpells c WHERE c.playedCount = :playedCount")})
+    @NamedQuery(name = "ChampSummonerSpells.findByChampSummonerSpellsId", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.champSpec = :champSpec"),
+    @NamedQuery(name = "ChampSummonerSpells.findBySpellA", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.spellA = :spellA"),
+    @NamedQuery(name = "ChampSummonerSpells.findBySpellB", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.spellB = :spellB")})
 public class ChampSummonerSpells implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "champ_summoner_spells_id")
-    private Long champSummonerSpellsId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "spell_a")
-    private int spellA;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "spell_b")
-    private int spellB;
+
+    @EmbeddedId
+    private ChampSummonerSpellsPK champSummonerSpellsPK;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "win_count")
     private long winCount;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "played_count")
     private long playedCount;
-    @JoinColumn(name = "champ_spec_id", referencedColumnName = "champ_spec_id")
-    @ManyToOne(optional = false)
-    private ChampSpec champSpecId;
 
     public ChampSummonerSpells() {
     }
 
-    public ChampSummonerSpells(Long champSummonerSpellsId) {
-        this.champSummonerSpellsId = champSummonerSpellsId;
+    public ChampSummonerSpells(ChampSummonerSpellsPK champSummonerSpellsPK) {
+        this.champSummonerSpellsPK = champSummonerSpellsPK;
+        this.winCount = 0;
+        this.playedCount = 0;
     }
 
-    public ChampSummonerSpells(Long champSummonerSpellsId, int spellA, int spellB, long winCount, long playedCount) {
-        this.champSummonerSpellsId = champSummonerSpellsId;
-        this.spellA = spellA;
-        this.spellB = spellB;
+    public ChampSummonerSpells(ChampSummonerSpellsPK champSummonerSpellsPK, long winCount, long playedCount) {
+        this.champSummonerSpellsPK = champSummonerSpellsPK;
         this.winCount = winCount;
         this.playedCount = playedCount;
     }
 
-    public Long getChampSummonerSpellsId() {
-        return champSummonerSpellsId;
+    public ChampSummonerSpellsPK getChampSummonerSpellsPK() {
+        return champSummonerSpellsPK;
     }
 
-    public void setChampSummonerSpellsId(Long champSummonerSpellsId) {
-        this.champSummonerSpellsId = champSummonerSpellsId;
-    }
-
-    public int getSpellA() {
-        return spellA;
-    }
-
-    public void setSpellA(int spellA) {
-        this.spellA = spellA;
-    }
-
-    public int getSpellB() {
-        return spellB;
-    }
-
-    public void setSpellB(int spellB) {
-        this.spellB = spellB;
+    public void setChampSummonerSpellsPK(ChampSummonerSpellsPK champSummonerSpellsPK) {
+        this.champSummonerSpellsPK = champSummonerSpellsPK;
     }
 
     public long getWinCount() {
@@ -115,29 +88,26 @@ public class ChampSummonerSpells implements Serializable {
         this.playedCount = playedCount;
     }
 
-    public ChampSpec getChampSpecId() {
-        return champSpecId;
-    }
-
-    public void setChampSpecId(ChampSpec champSpecId) {
-        this.champSpecId = champSpecId;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (champSummonerSpellsId != null ? champSummonerSpellsId.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.champSummonerSpellsPK);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ChampSummonerSpells)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ChampSummonerSpells other = (ChampSummonerSpells) object;
-        if ((this.champSummonerSpellsId == null && other.champSummonerSpellsId != null) || (this.champSummonerSpellsId != null && !this.champSummonerSpellsId.equals(other.champSummonerSpellsId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChampSummonerSpells other = (ChampSummonerSpells) obj;
+        if (!Objects.equals(this.champSummonerSpellsPK, other.champSummonerSpellsPK)) {
             return false;
         }
         return true;
@@ -145,7 +115,7 @@ public class ChampSummonerSpells implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampSummonerSpells[ champSummonerSpellsId=" + champSummonerSpellsId + " ]";
+        return "ChampSummonerSpells{" + "champSummonerSpellsPK=" + champSummonerSpellsPK + ", winCount=" + winCount + ", playedCount=" + playedCount + '}';
     }
-    
+
 }

@@ -7,10 +7,14 @@ package com.njin.loltheory.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,90 +30,76 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampFinalBuild.findAll", query = "SELECT c FROM ChampFinalBuild c"),
-    @NamedQuery(name = "ChampFinalBuild.findByChampFinalBuildId", query = "SELECT c FROM ChampFinalBuild c WHERE c.champFinalBuildId = :champFinalBuildId"),
-    @NamedQuery(name = "ChampFinalBuild.findByChampSpecId", query = "SELECT c FROM ChampFinalBuild c WHERE c.champSpecId = :champSpecId"),
-    @NamedQuery(name = "ChampFinalBuild.findByFinalBuildOrder", query = "SELECT c FROM ChampFinalBuild c WHERE c.finalBuildOrder = :finalBuildOrder"),
-    @NamedQuery(name = "ChampFinalBuild.findByPlayedCount", query = "SELECT c FROM ChampFinalBuild c WHERE c.playedCount = :playedCount"),
-    @NamedQuery(name = "ChampFinalBuild.findByWinCount", query = "SELECT c FROM ChampFinalBuild c WHERE c.winCount = :winCount")})
+    @NamedQuery(name = "ChampFinalBuild.findByChampSpecId", query = "SELECT c FROM ChampFinalBuild c WHERE c.champFinalBuildPK.champSpec = :champSpec"),
+    @NamedQuery(name = "ChampFinalBuild.findByFinalBuildOrder", query = "SELECT c FROM ChampFinalBuild c WHERE c.champFinalBuildPK.finalBuildOrder = :finalBuildOrder")})
 public class ChampFinalBuild implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
+    @EmbeddedId
+    protected ChampFinalBuildPK champFinalBuildPK;
+
     @Basic(optional = false)
     @NotNull
-    @Column(name = "champ_final_build_id")
-    private Long champFinalBuildId;
-    @Column(name = "champ_spec_id")
-    private BigInteger champSpecId;
-    @Column(name = "final_build_order")
-    private BigInteger finalBuildOrder;
     @Column(name = "played_count")
-    private BigInteger playedCount;
+    private long playedCount;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "win_count")
-    private BigInteger winCount;
+    private long winCount;
+
+    private static final long serialVersionUID = 1L;
 
     public ChampFinalBuild() {
     }
 
-    public ChampFinalBuild(Long champFinalBuildId) {
-        this.champFinalBuildId = champFinalBuildId;
+    public ChampFinalBuild(ChampFinalBuildPK champFinalBuildPK) {
+        this.champFinalBuildPK = champFinalBuildPK;
     }
 
-    public Long getChampFinalBuildId() {
-        return champFinalBuildId;
+    public ChampFinalBuildPK getChampFinalBuildPK() {
+        return champFinalBuildPK;
     }
 
-    public void setChampFinalBuildId(Long champFinalBuildId) {
-        this.champFinalBuildId = champFinalBuildId;
+    public void setChampFinalBuildPK(com.njin.loltheory.entity.ChampFinalBuildPK champFinalBuildPK) {
+        this.champFinalBuildPK = champFinalBuildPK;
     }
 
-    public BigInteger getChampSpecId() {
-        return champSpecId;
-    }
-
-    public void setChampSpecId(BigInteger champSpecId) {
-        this.champSpecId = champSpecId;
-    }
-
-    public BigInteger getFinalBuildOrder() {
-        return finalBuildOrder;
-    }
-
-    public void setFinalBuildOrder(BigInteger finalBuildOrder) {
-        this.finalBuildOrder = finalBuildOrder;
-    }
-
-    public BigInteger getPlayedCount() {
+    public long getPlayedCount() {
         return playedCount;
     }
 
-    public void setPlayedCount(BigInteger playedCount) {
+    public void setPlayedCount(long playedCount) {
         this.playedCount = playedCount;
     }
 
-    public BigInteger getWinCount() {
+    public long getWinCount() {
         return winCount;
     }
 
-    public void setWinCount(BigInteger winCount) {
+    public void setWinCount(long winCount) {
         this.winCount = winCount;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (champFinalBuildId != null ? champFinalBuildId.hashCode() : 0);
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.champFinalBuildPK);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ChampFinalBuild)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ChampFinalBuild other = (ChampFinalBuild) object;
-        if ((this.champFinalBuildId == null && other.champFinalBuildId != null) || (this.champFinalBuildId != null && !this.champFinalBuildId.equals(other.champFinalBuildId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChampFinalBuild other = (ChampFinalBuild) obj;
+        if (!Objects.equals(this.champFinalBuildPK, other.champFinalBuildPK)) {
             return false;
         }
         return true;
@@ -117,7 +107,7 @@ public class ChampFinalBuild implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampFinalBuild[ champFinalBuildId=" + champFinalBuildId + " ]";
+        return "ChampFinalBuild{" + "champFinalBuildPK=" + champFinalBuildPK + ", playedCount=" + playedCount + ", winCount=" + winCount + '}';
     }
-    
+
 }

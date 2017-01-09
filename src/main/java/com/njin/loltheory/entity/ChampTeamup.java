@@ -6,12 +6,11 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,51 +26,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampTeamup.findAll", query = "SELECT c FROM ChampTeamup c"),
-    @NamedQuery(name = "ChampTeamup.findByChampTeamupId", query = "SELECT c FROM ChampTeamup c WHERE c.champTeamupId = :champTeamupId"),
-    @NamedQuery(name = "ChampTeamup.findByWinCount", query = "SELECT c FROM ChampTeamup c WHERE c.winCount = :winCount"),
-    @NamedQuery(name = "ChampTeamup.findByPlayedCount", query = "SELECT c FROM ChampTeamup c WHERE c.playedCount = :playedCount")})
+    @NamedQuery(name = "ChampTeamup.findByChampSpec", query = "SELECT c FROM ChampTeamup c WHERE c.champTeamupPK.champSpecA = :champSpec")})
 public class ChampTeamup implements Serializable {
 
+    @EmbeddedId
+    protected ChampTeamupPK champTeamupPK;
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "champ_teamup_id")
-    private Long champTeamupId;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "win_count")
     private long winCount;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "played_count")
     private long playedCount;
-    @JoinColumn(name = "champ_spec_id_a", referencedColumnName = "champ_spec_id")
-    @ManyToOne(optional = false)
-    private ChampSpec champSpecIdA;
-    @JoinColumn(name = "champ_spec_id_b", referencedColumnName = "champ_spec_id")
-    @ManyToOne(optional = false)
-    private ChampSpec champSpecIdB;
 
     public ChampTeamup() {
     }
 
-    public ChampTeamup(Long champTeamupId) {
-        this.champTeamupId = champTeamupId;
+    public ChampTeamup(ChampTeamupPK champTeamupPK) {
+        this.champTeamupPK = champTeamupPK;
     }
 
-    public ChampTeamup(Long champTeamupId, long winCount, long playedCount) {
-        this.champTeamupId = champTeamupId;
+    public ChampTeamup(ChampTeamupPK champTeamupPK, long winCount, long playedCount) {
+        this.champTeamupPK = champTeamupPK;
         this.winCount = winCount;
         this.playedCount = playedCount;
-    }
-
-    public Long getChampTeamupId() {
-        return champTeamupId;
-    }
-
-    public void setChampTeamupId(Long champTeamupId) {
-        this.champTeamupId = champTeamupId;
     }
 
     public long getWinCount() {
@@ -90,37 +73,34 @@ public class ChampTeamup implements Serializable {
         this.playedCount = playedCount;
     }
 
-    public ChampSpec getChampSpecIdA() {
-        return champSpecIdA;
+    public ChampTeamupPK getChampTeamupPK() {
+        return champTeamupPK;
     }
 
-    public void setChampSpecIdA(ChampSpec champSpecIdA) {
-        this.champSpecIdA = champSpecIdA;
-    }
-
-    public ChampSpec getChampSpecIdB() {
-        return champSpecIdB;
-    }
-
-    public void setChampSpecIdB(ChampSpec champSpecIdB) {
-        this.champSpecIdB = champSpecIdB;
+    public void setChampTeamupPK(ChampTeamupPK champTeamupPK) {
+        this.champTeamupPK = champTeamupPK;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (champTeamupId != null ? champTeamupId.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.champTeamupPK);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ChampTeamup)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ChampTeamup other = (ChampTeamup) object;
-        if ((this.champTeamupId == null && other.champTeamupId != null) || (this.champTeamupId != null && !this.champTeamupId.equals(other.champTeamupId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChampTeamup other = (ChampTeamup) obj;
+        if (!Objects.equals(this.champTeamupPK, other.champTeamupPK)) {
             return false;
         }
         return true;
@@ -128,7 +108,7 @@ public class ChampTeamup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampTeamup[ champTeamupId=" + champTeamupId + " ]";
+        return "ChampTeamup{" + "champTeamupPK=" + champTeamupPK + ", winCount=" + winCount + ", playedCount=" + playedCount + '}';
     }
-    
+
 }

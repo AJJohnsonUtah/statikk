@@ -6,16 +6,21 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,11 +41,15 @@ public class FinalBuildOrder implements Serializable {
     @NotNull
     @Column(name = "final_build_order_id")
     private Long finalBuildOrderId;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "build_order")
     private String buildOrder;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "champFinalBuildPK.finalBuildOrder", fetch = FetchType.LAZY)
+    private List<ChampFinalBuild> champFinalBuildList;
 
     public FinalBuildOrder() {
     }
@@ -94,5 +103,14 @@ public class FinalBuildOrder implements Serializable {
     public String toString() {
         return "com.njin.loltheory.model.FinalBuildOrder[ finalBuildOrderId=" + finalBuildOrderId + " ]";
     }
-    
+
+    @XmlTransient
+    public List<ChampFinalBuild> getChampFinalBuildList() {
+        return champFinalBuildList;
+    }
+
+    public void setChampFinalBuildList(List<ChampFinalBuild> champFinalBuildList) {
+        this.champFinalBuildList = champFinalBuildList;
+    }
+
 }

@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -31,7 +32,6 @@ import org.hibernate.annotations.SQLInsert;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampSpecWinRate.findAll", query = "SELECT c FROM ChampSpecWinRate c"),
-    @NamedQuery(name = "ChampSpecWinRate.findByChampSpecWinRateId", query = "SELECT c FROM ChampSpecWinRate c WHERE c.champSpecWinRateId = :champSpecWinRateId"),
     @NamedQuery(name = "ChampSpecWinRate.findByWinCount", query = "SELECT c FROM ChampSpecWinRate c WHERE c.winCount = :winCount"),
     @NamedQuery(name = "ChampSpecWinRate.findByPlayedCount", query = "SELECT c FROM ChampSpecWinRate c WHERE c.playedCount = :playedCount")})
 @SQLInsert(sql = "INSERT INTO champ_spec_win_rate (champ_spec_id, played_count, win_count) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE win_count = VALUES(win_count), played_count = VALUES(played_count)")
@@ -39,48 +39,29 @@ import org.hibernate.annotations.SQLInsert;
 public class ChampSpecWinRate implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "champ_spec_win_rate_id")
-    private Long champSpecWinRateId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
     @JoinColumn(name = "champ_spec_id", referencedColumnName = "champ_spec_id")
     @OneToOne(optional = false)
     private ChampSpec champSpec;
 
-    public ChampSpecWinRate() {
-    }
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "win_count")
+    private long winCount;
 
-    public ChampSpecWinRate(Long champSpecWinRateId) {
-        this.champSpecWinRateId = champSpecWinRateId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "played_count")
+    private long playedCount;
+
+    public ChampSpecWinRate() {
     }
 
     public ChampSpecWinRate(ChampSpec champSpec) {
         this.champSpec = champSpec;
         this.playedCount = 0;
         this.winCount = 0;
-    }
-
-    public ChampSpecWinRate(Long champSpecWinRateId, long winCount, long playedCount) {
-        this.champSpecWinRateId = champSpecWinRateId;
-        this.winCount = winCount;
-        this.playedCount = playedCount;
-    }
-
-    public Long getChampSpecWinRateId() {
-        return champSpecWinRateId;
-    }
-
-    public void setChampSpecWinRateId(Long champSpecWinRateId) {
-        this.champSpecWinRateId = champSpecWinRateId;
     }
 
     public long getWinCount() {
@@ -123,22 +104,32 @@ public class ChampSpecWinRate implements Serializable {
 
     @Override
     public int hashCode() {
-        return this.getChampSpec().hashCode();
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.champSpec);
+        return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ChampSpecWinRate)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ChampSpecWinRate other = (ChampSpecWinRate) object;
-        return Objects.equals(this.champSpec, other.champSpec);
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChampSpecWinRate other = (ChampSpecWinRate) obj;
+        if (!Objects.equals(this.champSpec, other.champSpec)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampSpecWinRate[ champSpecWinRateId=" + champSpecWinRateId + " ]";
+        return "ChampSpecWinRate{" + "winCount=" + winCount + ", playedCount=" + playedCount + ", champSpec=" + champSpec + '}';
     }
 
 }

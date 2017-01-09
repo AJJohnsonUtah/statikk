@@ -6,12 +6,11 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,51 +26,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampMatchup.findAll", query = "SELECT c FROM ChampMatchup c"),
-    @NamedQuery(name = "ChampMatchup.findByChampMatchupId", query = "SELECT c FROM ChampMatchup c WHERE c.champMatchupId = :champMatchupId"),
-    @NamedQuery(name = "ChampMatchup.findByWinCount", query = "SELECT c FROM ChampMatchup c WHERE c.winCount = :winCount"),
-    @NamedQuery(name = "ChampMatchup.findByPlayedCount", query = "SELECT c FROM ChampMatchup c WHERE c.playedCount = :playedCount")})
+    @NamedQuery(name = "ChampMatchup.findByChampSpec", query = "SELECT c FROM ChampMatchup c WHERE c.champMatchupPK.champSpecA = :champSpec")})
 public class ChampMatchup implements Serializable {
 
+    @EmbeddedId
+    protected ChampMatchupPK champMatchupPK;
+
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "champ_matchup_id")
-    private Long champMatchupId;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "win_count")
     private long winCount;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "played_count")
     private long playedCount;
-    @JoinColumn(name = "champ_spec_id_a", referencedColumnName = "champ_spec_id")
-    @ManyToOne(optional = false)
-    private ChampSpec champSpecIdA;
-    @JoinColumn(name = "champ_spec_id_b", referencedColumnName = "champ_spec_id")
-    @ManyToOne(optional = false)
-    private ChampSpec champSpecIdB;
 
     public ChampMatchup() {
     }
 
-    public ChampMatchup(Long champMatchupId) {
-        this.champMatchupId = champMatchupId;
+    public ChampMatchup(ChampMatchupPK champMatchupPK) {
+        this.champMatchupPK = champMatchupPK;
     }
 
-    public ChampMatchup(Long champMatchupId, long winCount, long playedCount) {
-        this.champMatchupId = champMatchupId;
+    public ChampMatchup(ChampMatchupPK champMatchupPK, long winCount, long playedCount) {
+        this.champMatchupPK = champMatchupPK;
         this.winCount = winCount;
         this.playedCount = playedCount;
-    }
-
-    public Long getChampMatchupId() {
-        return champMatchupId;
-    }
-
-    public void setChampMatchupId(Long champMatchupId) {
-        this.champMatchupId = champMatchupId;
     }
 
     public long getWinCount() {
@@ -90,37 +73,34 @@ public class ChampMatchup implements Serializable {
         this.playedCount = playedCount;
     }
 
-    public ChampSpec getChampSpecIdA() {
-        return champSpecIdA;
+    public ChampMatchupPK getChampMatchupPK() {
+        return champMatchupPK;
     }
 
-    public void setChampSpecIdA(ChampSpec champSpecIdA) {
-        this.champSpecIdA = champSpecIdA;
-    }
-
-    public ChampSpec getChampSpecIdB() {
-        return champSpecIdB;
-    }
-
-    public void setChampSpecIdB(ChampSpec champSpecIdB) {
-        this.champSpecIdB = champSpecIdB;
+    public void setChampMatchupPK(ChampMatchupPK champMatchupPK) {
+        this.champMatchupPK = champMatchupPK;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (champMatchupId != null ? champMatchupId.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.champMatchupPK);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ChampMatchup)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        ChampMatchup other = (ChampMatchup) object;
-        if ((this.champMatchupId == null && other.champMatchupId != null) || (this.champMatchupId != null && !this.champMatchupId.equals(other.champMatchupId))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChampMatchup other = (ChampMatchup) obj;
+        if (!Objects.equals(this.champMatchupPK, other.champMatchupPK)) {
             return false;
         }
         return true;
@@ -128,7 +108,7 @@ public class ChampMatchup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampMatchup[ champMatchupId=" + champMatchupId + " ]";
+        return "ChampMatchup{" + "champMatchupPK=" + champMatchupPK + ", winCount=" + winCount + ", playedCount=" + playedCount + '}';
     }
-    
+
 }

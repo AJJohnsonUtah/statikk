@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,37 +33,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampBan.findAll", query = "SELECT c FROM ChampBan c"),
-    @NamedQuery(name = "ChampBan.findByChampBanId", query = "SELECT c FROM ChampBan c WHERE c.champBanId = :champBanId"),
-    @NamedQuery(name = "ChampBan.findByChampId", query = "SELECT c FROM ChampBan c WHERE c.champId = :champId"),
-    @NamedQuery(name = "ChampBan.findByLolVersionId", query = "SELECT c FROM ChampBan c WHERE c.lolVersionId = :lolVersionId"),
-    @NamedQuery(name = "ChampBan.findByMatchType", query = "SELECT c FROM ChampBan c WHERE c.matchType = :matchType"),
-    @NamedQuery(name = "ChampBan.findByBanOrder", query = "SELECT c FROM ChampBan c WHERE c.banOrder = :banOrder"),
+    @NamedQuery(name = "ChampBan.findByChampSpecId", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.champSpec = :champSpec"),
+    @NamedQuery(name = "ChampBan.findByBanOrder", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.banOrder = :banOrder"),
     @NamedQuery(name = "ChampBan.findByBanCount", query = "SELECT c FROM ChampBan c WHERE c.banCount = :banCount")})
 public class ChampBan implements Serializable {
 
-    @JoinColumn(name = "lol_version_id", referencedColumnName = "lol_version_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private LolVersion lolVersionId;
+    @EmbeddedId
+    protected ChampBanPK champBanPK;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "champ_ban_id")
-    private Integer champBanId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "champ_id")
-    private int champId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "match_type")
-    @Convert(converter = QueueTypeConverter.class)
-    private QueueType matchType;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ban_order")
-    private int banOrder;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ban_count")
@@ -70,49 +49,17 @@ public class ChampBan implements Serializable {
     public ChampBan() {
     }
 
-    public ChampBan(Integer champBanId) {
-        this.champBanId = champBanId;
-    }
-
-    public ChampBan(Integer champBanId, int champId, LolVersion lolVersionId, QueueType matchType, int banOrder, int banCount) {
-        this.champBanId = champBanId;
-        this.champId = champId;
-        this.lolVersionId = lolVersionId;
-        this.matchType = matchType;
-        this.banOrder = banOrder;
+    public ChampBan(ChampBanPK champBanPK, int banCount) {
+        this.champBanPK = champBanPK;
         this.banCount = banCount;
     }
 
-    public Integer getChampBanId() {
-        return champBanId;
+    public ChampBanPK getChampBanPK() {
+        return champBanPK;
     }
 
-    public void setChampBanId(Integer champBanId) {
-        this.champBanId = champBanId;
-    }
-
-    public int getChampId() {
-        return champId;
-    }
-
-    public void setChampId(int champId) {
-        this.champId = champId;
-    }
-
-    public QueueType getMatchType() {
-        return matchType;
-    }
-
-    public void setMatchType(QueueType matchType) {
-        this.matchType = matchType;
-    }
-
-    public int getBanOrder() {
-        return banOrder;
-    }
-
-    public void setBanOrder(int banOrder) {
-        this.banOrder = banOrder;
+    public void setChampBanPK(ChampBanPK champBanPK) {
+        this.champBanPK = champBanPK;
     }
 
     public int getBanCount() {
@@ -126,7 +73,7 @@ public class ChampBan implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (champBanId != null ? champBanId.hashCode() : 0);
+        hash += (champBanPK != null ? champBanPK.hashCode() : 0);
         return hash;
     }
 
@@ -137,7 +84,7 @@ public class ChampBan implements Serializable {
             return false;
         }
         ChampBan other = (ChampBan) object;
-        if ((this.champBanId == null && other.champBanId != null) || (this.champBanId != null && !this.champBanId.equals(other.champBanId))) {
+        if ((this.champBanPK == null && other.champBanPK != null) || (this.champBanPK != null && !this.champBanPK.equals(other.champBanPK))) {
             return false;
         }
         return true;
@@ -145,15 +92,6 @@ public class ChampBan implements Serializable {
 
     @Override
     public String toString() {
-        return "com.njin.loltheory.model.ChampBan[ champBanId=" + champBanId + " ]";
+        return "com.njin.loltheory.model.ChampBan[ champBanPK=" + champBanPK + " ]";
     }
-
-    public LolVersion getLolVersionId() {
-        return lolVersionId;
-    }
-
-    public void setLolVersionId(LolVersion lolVersionId) {
-        this.lolVersionId = lolVersionId;
-    }
-
 }
