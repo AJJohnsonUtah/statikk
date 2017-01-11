@@ -9,6 +9,8 @@ import com.njin.loltheory.entity.ChampMatchup;
 import com.njin.loltheory.entity.ChampMatchupPK;
 import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.entity.ChampTeamup;
+import com.njin.loltheory.entity.ChampTeamupPK;
 import com.njin.loltheory.riotapi.model.LolTeam;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.MatchParticipant;
@@ -66,6 +68,7 @@ public class MatchAnalyzerService {
 
         analyzeChampSpecWinRates(match, aggregateAnalysis);
         analyzeChampMatchups(match, aggregateAnalysis);
+        analyzeChampTeamups(match, aggregateAnalysis);
     }
 
     private void loadEntities(MatchDetail match) {
@@ -107,4 +110,40 @@ public class MatchAnalyzerService {
             }
         }
     }
+
+    private void analyzeChampTeamups(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        for (MatchParticipant blueParticipantA : match.getTeam(LolTeam.BLUE)) {
+            for (MatchParticipant blueParticipantB : match.getTeam(LolTeam.BLUE)) {
+                if (blueParticipantA.equals(blueParticipantB)) {
+
+                    continue;
+                }
+                ChampTeamupPK blueTeamupPK = new ChampTeamupPK(blueParticipantA.getChampSpec(), blueParticipantB.getChampSpec());
+                ChampTeamup blueTeamup = new ChampTeamup(blueTeamupPK);
+                if (match.getWinner() == LolTeam.BLUE) {
+                    blueTeamup.addWin();
+                } else {
+                    blueTeamup.addLoss();
+                }
+                aggregateAnalysis.addChampTeamup(blueTeamup);
+            }
+        }
+
+        for (MatchParticipant purpleParticipantA : match.getTeam(LolTeam.PURPLE)) {
+            for (MatchParticipant purpleParticipantB : match.getTeam(LolTeam.PURPLE)) {
+                if (purpleParticipantA.equals(purpleParticipantB)) {
+                    continue;
+                }
+                ChampTeamupPK purpleTeamupPK = new ChampTeamupPK(purpleParticipantA.getChampSpec(), purpleParticipantB.getChampSpec());
+                ChampTeamup purpleTeamup = new ChampTeamup(purpleTeamupPK);
+                if (match.getWinner() == LolTeam.PURPLE) {
+                    purpleTeamup.addWin();
+                } else {
+                    purpleTeamup.addLoss();
+                }
+                aggregateAnalysis.addChampTeamup(purpleTeamup);
+            }
+        }
+    }
+
 }
