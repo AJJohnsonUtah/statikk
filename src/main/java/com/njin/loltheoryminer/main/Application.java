@@ -38,7 +38,7 @@ public class Application {
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;
-        while (true) {
+        while (numIterations  < 2) {
             start = System.currentTimeMillis();
             matchMiningService.mineMatches(numMatchesToAnalyze);
             middle = System.currentTimeMillis();

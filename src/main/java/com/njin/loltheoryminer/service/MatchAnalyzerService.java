@@ -5,7 +5,6 @@
  */
 package com.njin.loltheoryminer.service;
 
-import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.MatchParticipant;
@@ -59,21 +58,36 @@ public class MatchAnalyzerService {
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        long winningTeam = match.getWinner();
+        loadEntities(match);
+
+        analyzeChampSpecWinRates(match, aggregateAnalysis);
+        analyzeChampMatchups(match, aggregateAnalysis);
+    }
+
+    private void loadEntities(MatchDetail match) {
         match.setMatchVersion(lolVersionService.loadEntity(match.getMatchVersion()));
+        match.getParticipants().stream().forEach((participant) -> {
+            participant.setChampSpec(champSpecService.loadEntity(participant.getChampSpec()));
+        });
+    }
+
+    private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
         for (MatchParticipant participant : match.getParticipants()) {
-            lolVersionService.update(match.getMatchVersion());
-            ChampSpec partSpec = champSpecService.loadEntity(new ChampSpec(match, participant));
-            champSpecService.update(partSpec);
-            ChampSpecWinRate winRate = new ChampSpecWinRate(partSpec);
-            participant.setChampSpec(partSpec);
-            if (participant.getTeamId() == winningTeam) {
+            ChampSpecWinRate winRate = new ChampSpecWinRate(participant.getChampSpec());
+            if (participant.getTeamId() == match.getWinner()) {
                 winRate.addWin();
             } else {
                 winRate.addLoss();
             }
             aggregateAnalysis.addChampSpecWinRate(winRate);
         }
+    }
 
+    private void analyzeChampMatchups(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        for(MatchParticipant blueParticipant : match.getBlueTeam()) {
+            for(MatchParticipant purpleParticipant : match.getPurpleTeam()) {
+                
+            }
+        }
     }
 }
