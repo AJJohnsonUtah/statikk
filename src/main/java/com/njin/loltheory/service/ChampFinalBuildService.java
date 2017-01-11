@@ -7,6 +7,8 @@ package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampFinalBuildDao;
 import com.njin.loltheory.entity.ChampFinalBuild;
+import com.njin.loltheory.entity.ChampFinalBuildPK;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
 
     @Autowired
     ChampFinalBuildDao champFinalBuildDao;
-    
+
     @Override
     public void create(ChampFinalBuild champFinalBuild) {
         champFinalBuildDao.create(champFinalBuild);
@@ -31,6 +33,9 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
     public void update(ChampFinalBuild champFinalBuild) {
         champFinalBuildDao.update(champFinalBuild);
     }
-    
-    
+
+    public void batchInsertOrUpdate(Map<ChampFinalBuildPK, ChampFinalBuild> champMatchups) {
+        champFinalBuildDao.batchInsertOrUpdate(champMatchups);
+    }
+
 }

@@ -7,8 +7,6 @@ package com.njin.loltheory.dao;
 
 import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,28 +14,10 @@ import org.springframework.stereotype.Repository;
  * @author AJ
  */
 @Repository
-public class ChampSpecWinRateDao extends BaseDao<ChampSpecWinRate> {
+public class ChampSpecWinRateDao extends BaseWinRateEntityDao<ChampSpecWinRate, ChampSpec> {
 
+    @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
         return em.find(ChampSpecWinRate.class, champSpecWinRate);
     }
-
-    public void batchUpdateOrInsert(Map<ChampSpec, ChampSpecWinRate> champSpecWinRates) {
-        int counter = 0;
-        for (Entry<ChampSpec, ChampSpecWinRate> entry : champSpecWinRates.entrySet()) {
-            ChampSpecWinRate existing = find(entry.getValue());
-            if (existing == null) {
-                em.persist(entry.getValue());
-            } else {
-                existing.combine(entry.getValue());
-            }
-
-            counter++;
-            if (counter % 100 == 0) {
-                em.flush();
-                em.clear();
-            }
-        }
-    }
-
 }

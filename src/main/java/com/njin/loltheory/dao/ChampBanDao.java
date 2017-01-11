@@ -15,4 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ChampBanDao extends BaseDao<ChampBan> {
 
+    public ChampBan find(ChampBan entity) {
+        return em.find(ChampBan.class, entity);
+    }
+
 }

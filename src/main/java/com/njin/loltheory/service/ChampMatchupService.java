@@ -7,6 +7,8 @@ package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampMatchupDao;
 import com.njin.loltheory.entity.ChampMatchup;
+import com.njin.loltheory.entity.ChampMatchupPK;
+import java.util.Map;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +34,7 @@ public class ChampMatchupService extends BaseService<ChampMatchup> {
         champMatchupDao.update(champMatchup);
     }
     
+    public void batchInsertOrUpdate(Map<ChampMatchupPK, ChampMatchup> champMatchups) {
+        champMatchupDao.batchInsertOrUpdate(champMatchups);
+    }
 }

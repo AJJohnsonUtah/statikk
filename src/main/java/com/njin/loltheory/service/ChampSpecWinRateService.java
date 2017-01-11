@@ -34,7 +34,7 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
         champSpecWinRateDao.update(champSpecWinRate);
     }
     
-    public void batchUpdateOrInsert(Map<ChampSpec, ChampSpecWinRate> champSpecWinRates) {
-        champSpecWinRateDao.batchUpdateOrInsert(champSpecWinRates);
+    public void batchInsertOrUpdate(Map<ChampSpec, ChampSpecWinRate> champSpecWinRates) {
+        champSpecWinRateDao.batchInsertOrUpdate(champSpecWinRates);
     }
 }

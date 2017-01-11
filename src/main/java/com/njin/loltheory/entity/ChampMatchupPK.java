@@ -32,6 +32,14 @@ public class ChampMatchupPK implements Serializable {
     @NotNull
     private ChampSpec champSpecB;
 
+    public ChampMatchupPK() {
+    }
+
+    public ChampMatchupPK(ChampSpec specA, ChampSpec specB) {
+        this.champSpecA = specA;
+        this.champSpecB = specB;
+    }
+
     public ChampSpec getChampSpecA() {
         return champSpecA;
     }

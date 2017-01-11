@@ -7,17 +7,13 @@ package com.njin.loltheory.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampSpecWinRate.findAll", query = "SELECT c FROM ChampSpecWinRate c")})
-public class ChampSpecWinRate implements Serializable {
+public class ChampSpecWinRate extends BaseWinRateEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,39 +34,12 @@ public class ChampSpecWinRate implements Serializable {
     @OneToOne(optional = false)
     private ChampSpec champSpec;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
-
     public ChampSpecWinRate() {
     }
 
     public ChampSpecWinRate(ChampSpec champSpec) {
+        super();
         this.champSpec = champSpec;
-        this.playedCount = 0;
-        this.winCount = 0;
-    }
-
-    public long getWinCount() {
-        return winCount;
-    }
-
-    public void setWinCount(long winCount) {
-        this.winCount = winCount;
-    }
-
-    public long getPlayedCount() {
-        return playedCount;
-    }
-
-    public void setPlayedCount(long playedCount) {
-        this.playedCount = playedCount;
     }
 
     public ChampSpec getChampSpec() {
@@ -79,20 +48,6 @@ public class ChampSpecWinRate implements Serializable {
 
     public void setChampSpec(ChampSpec champSpec) {
         this.champSpec = champSpec;
-    }
-
-    public void addWin() {
-        this.playedCount++;
-        this.winCount++;
-    }
-
-    public void addLoss() {
-        this.playedCount++;
-    }
-
-    public void combine(ChampSpecWinRate champSpecWinRate) {
-        this.winCount += champSpecWinRate.winCount;
-        this.playedCount += champSpecWinRate.playedCount;
     }
 
     @Override

@@ -7,14 +7,11 @@ package com.njin.loltheory.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,49 +24,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ChampMatchup.findAll", query = "SELECT c FROM ChampMatchup c"),
     @NamedQuery(name = "ChampMatchup.findByChampSpec", query = "SELECT c FROM ChampMatchup c WHERE c.champMatchupPK.champSpecA = :champSpec")})
-public class ChampMatchup implements Serializable {
+public class ChampMatchup extends BaseWinRateEntity implements Serializable {
 
     @EmbeddedId
     protected ChampMatchupPK champMatchupPK;
 
     private static final long serialVersionUID = 1L;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
-
     public ChampMatchup() {
     }
 
     public ChampMatchup(ChampMatchupPK champMatchupPK) {
+        super();
         this.champMatchupPK = champMatchupPK;
     }
 
     public ChampMatchup(ChampMatchupPK champMatchupPK, long winCount, long playedCount) {
         this.champMatchupPK = champMatchupPK;
         this.winCount = winCount;
-        this.playedCount = playedCount;
-    }
-
-    public long getWinCount() {
-        return winCount;
-    }
-
-    public void setWinCount(long winCount) {
-        this.winCount = winCount;
-    }
-
-    public long getPlayedCount() {
-        return playedCount;
-    }
-
-    public void setPlayedCount(long playedCount) {
         this.playedCount = playedCount;
     }
 

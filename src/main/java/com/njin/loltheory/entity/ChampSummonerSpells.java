@@ -32,36 +32,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ChampSummonerSpells.findByChampSummonerSpellsId", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.champSpec = :champSpec"),
     @NamedQuery(name = "ChampSummonerSpells.findBySpellA", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.spellA = :spellA"),
     @NamedQuery(name = "ChampSummonerSpells.findBySpellB", query = "SELECT c FROM ChampSummonerSpells c WHERE c.champSummonerSpellsPK.spellB = :spellB")})
-public class ChampSummonerSpells implements Serializable {
+public class ChampSummonerSpells extends BaseWinRateEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
     private ChampSummonerSpellsPK champSummonerSpellsPK;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
-
     public ChampSummonerSpells() {
     }
 
     public ChampSummonerSpells(ChampSummonerSpellsPK champSummonerSpellsPK) {
+        super();
         this.champSummonerSpellsPK = champSummonerSpellsPK;
-        this.winCount = 0;
-        this.playedCount = 0;
-    }
-
-    public ChampSummonerSpells(ChampSummonerSpellsPK champSummonerSpellsPK, long winCount, long playedCount) {
-        this.champSummonerSpellsPK = champSummonerSpellsPK;
-        this.winCount = winCount;
-        this.playedCount = playedCount;
     }
 
     public ChampSummonerSpellsPK getChampSummonerSpellsPK() {
@@ -70,22 +53,6 @@ public class ChampSummonerSpells implements Serializable {
 
     public void setChampSummonerSpellsPK(ChampSummonerSpellsPK champSummonerSpellsPK) {
         this.champSummonerSpellsPK = champSummonerSpellsPK;
-    }
-
-    public long getWinCount() {
-        return winCount;
-    }
-
-    public void setWinCount(long winCount) {
-        this.winCount = winCount;
-    }
-
-    public long getPlayedCount() {
-        return playedCount;
-    }
-
-    public void setPlayedCount(long playedCount) {
-        this.playedCount = playedCount;
     }
 
     @Override

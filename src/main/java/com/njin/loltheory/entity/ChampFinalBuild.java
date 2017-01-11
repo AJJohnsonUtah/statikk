@@ -6,19 +6,12 @@
 package com.njin.loltheory.entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,20 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ChampFinalBuild.findAll", query = "SELECT c FROM ChampFinalBuild c"),
     @NamedQuery(name = "ChampFinalBuild.findByChampSpecId", query = "SELECT c FROM ChampFinalBuild c WHERE c.champFinalBuildPK.champSpec = :champSpec"),
     @NamedQuery(name = "ChampFinalBuild.findByFinalBuildOrder", query = "SELECT c FROM ChampFinalBuild c WHERE c.champFinalBuildPK.finalBuildOrder = :finalBuildOrder")})
-public class ChampFinalBuild implements Serializable {
+public class ChampFinalBuild extends BaseWinRateEntity implements Serializable {
 
     @EmbeddedId
     protected ChampFinalBuildPK champFinalBuildPK;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -53,6 +36,7 @@ public class ChampFinalBuild implements Serializable {
     }
 
     public ChampFinalBuild(ChampFinalBuildPK champFinalBuildPK) {
+        super();
         this.champFinalBuildPK = champFinalBuildPK;
     }
 
@@ -62,22 +46,6 @@ public class ChampFinalBuild implements Serializable {
 
     public void setChampFinalBuildPK(com.njin.loltheory.entity.ChampFinalBuildPK champFinalBuildPK) {
         this.champFinalBuildPK = champFinalBuildPK;
-    }
-
-    public long getPlayedCount() {
-        return playedCount;
-    }
-
-    public void setPlayedCount(long playedCount) {
-        this.playedCount = playedCount;
-    }
-
-    public long getWinCount() {
-        return winCount;
-    }
-
-    public void setWinCount(long winCount) {
-        this.winCount = winCount;
     }
 
     @Override

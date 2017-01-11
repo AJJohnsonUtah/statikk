@@ -6,6 +6,7 @@
 package com.njin.loltheory.dao;
 
 import com.njin.loltheory.entity.ChampFinalBuild;
+import com.njin.loltheory.entity.ChampFinalBuildPK;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author AJ
  */
 @Repository
-public class ChampFinalBuildDao extends BaseDao<ChampFinalBuild> {
+public class ChampFinalBuildDao extends BaseWinRateEntityDao<ChampFinalBuild, ChampFinalBuildPK> {
+
+    @Override
+    public ChampFinalBuild find(ChampFinalBuild entity) {
+        return em.find(ChampFinalBuild.class, entity);
+    }
 
 }

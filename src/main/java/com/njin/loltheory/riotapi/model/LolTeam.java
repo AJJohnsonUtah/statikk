@@ -26,7 +26,7 @@ public enum LolTeam {
     }
 
     private static final HashMap<Integer, LolTeam> lolTeamMap;
-
+    
     static {
         lolTeamMap = new HashMap<>();
         for (LolTeam lolTeam : values()) {

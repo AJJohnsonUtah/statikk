@@ -27,22 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ChampTeamup.findAll", query = "SELECT c FROM ChampTeamup c"),
     @NamedQuery(name = "ChampTeamup.findByChampSpec", query = "SELECT c FROM ChampTeamup c WHERE c.champTeamupPK.champSpecA = :champSpec")})
-public class ChampTeamup implements Serializable {
+public class ChampTeamup extends BaseWinRateEntity implements Serializable {
 
     @EmbeddedId
     protected ChampTeamupPK champTeamupPK;
 
     private static final long serialVersionUID = 1L;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "win_count")
-    private long winCount;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "played_count")
-    private long playedCount;
 
     public ChampTeamup() {
     }
@@ -54,22 +44,6 @@ public class ChampTeamup implements Serializable {
     public ChampTeamup(ChampTeamupPK champTeamupPK, long winCount, long playedCount) {
         this.champTeamupPK = champTeamupPK;
         this.winCount = winCount;
-        this.playedCount = playedCount;
-    }
-
-    public long getWinCount() {
-        return winCount;
-    }
-
-    public void setWinCount(long winCount) {
-        this.winCount = winCount;
-    }
-
-    public long getPlayedCount() {
-        return playedCount;
-    }
-
-    public void setPlayedCount(long playedCount) {
         this.playedCount = playedCount;
     }
 
