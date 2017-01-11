@@ -19,17 +19,11 @@ public class RoleConverter implements AttributeConverter<Role, Integer> {
 
     @Override
     public Integer convertToDatabaseColumn(Role x) {
-        if (x == null) {
-            return -1;
-        }
-        return x.ordinal();
+        return x == null ? null : x.getRoleId();
     }
 
     @Override
     public Role convertToEntityAttribute(Integer valToConvert) {
-        if (valToConvert < 0) {
-            return null;
-        }
-        return Role.values[valToConvert];
+        return valToConvert == null ? null : Role.getRole(valToConvert);
     }
 }

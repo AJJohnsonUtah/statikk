@@ -6,6 +6,7 @@
 package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampSpecWinRateDao;
+import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
 import java.util.Map;
 import javax.transaction.Transactional;
@@ -33,7 +34,7 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
         champSpecWinRateDao.update(champSpecWinRate);
     }
     
-    public void batchInsert(Map<ChampSpecWinRate, ChampSpecWinRate> champSpecWinRates) {
+    public void batchUpdateOrInsert(Map<ChampSpec, ChampSpecWinRate> champSpecWinRates) {
         champSpecWinRateDao.batchUpdateOrInsert(champSpecWinRates);
     }
 }

@@ -64,19 +64,21 @@ public class RiotApiService {
 
     private MatchDetail getMatchDetail(Region region, Long matchId, boolean includeMatchId) throws HttpServerErrorException {
         String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId + "?includeTimeline=" + includeMatchId + "&api_key=");
+        MatchDetail match = null;
         try {
-            return restTemplate.getForObject(url, MatchDetail.class);
+            match = restTemplate.getForObject(url, MatchDetail.class);
         } catch (HttpServerErrorException ex) {
             System.out.println(ex.getMessage());
             System.out.println("Error fetching match detail for: " + matchId);
             try {
-                return restTemplate.getForObject(url, MatchDetail.class);
+                match = restTemplate.getForObject(url, MatchDetail.class);
             } catch (HttpServerErrorException ex2) {
                 System.out.println(ex2.getMessage());
                 System.out.println("Error fetching match detail for: " + matchId);
                 throw ex2;
             }
-        }
+        }        
+        return match;
     }
 
     public String getStaticItemsData(Region region) {

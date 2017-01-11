@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.dao;
 
+import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,9 +22,9 @@ public class ChampSpecWinRateDao extends BaseDao<ChampSpecWinRate> {
         return em.find(ChampSpecWinRate.class, champSpecWinRate);
     }
 
-    public void batchUpdateOrInsert(Map<ChampSpecWinRate, ChampSpecWinRate> champSpecWinRates) {
+    public void batchUpdateOrInsert(Map<ChampSpec, ChampSpecWinRate> champSpecWinRates) {
         int counter = 0;
-        for (Entry<ChampSpecWinRate, ChampSpecWinRate> entry : champSpecWinRates.entrySet()) {
+        for (Entry<ChampSpec, ChampSpecWinRate> entry : champSpecWinRates.entrySet()) {
             ChampSpecWinRate existing = find(entry.getValue());
             if (existing == null) {
                 em.persist(entry.getValue());

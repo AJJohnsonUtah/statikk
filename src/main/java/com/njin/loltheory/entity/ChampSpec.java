@@ -138,6 +138,7 @@ public class ChampSpec implements Serializable {
         this.matchType = match.getQueueType();
         this.lolVersionId = match.getMatchVersion();
         this.lane = matchParticipant.getTimeline().getLane().toLane();
+        this.rank = matchParticipant.getHighestAchievedSeasonTier();
     }
 
     public Long getChampSpecId() {

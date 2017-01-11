@@ -26,7 +26,7 @@ public class Team implements Serializable {
     private boolean firstTower;
     private int inhibitorKills;
     private int riftHeraldKills;
-    private int teamId;
+    private LolTeam teamId;
     private int towerKills;
     private int vilemawKills;
     private boolean winner;
@@ -79,7 +79,7 @@ public class Team implements Serializable {
         return riftHeraldKills;
     }
 
-    public int getTeamId() {
+    public LolTeam getTeamId() {
         return teamId;
     }
 

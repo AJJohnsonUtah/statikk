@@ -18,27 +18,11 @@ public class MatchStatusConverter implements AttributeConverter<MatchStatus, Int
 
     @Override
     public Integer convertToDatabaseColumn(MatchStatus x) {
-        switch (x) {
-            case IN_PROGRESS:
-                return 1;
-            case COMPLETED:
-                return 2;
-            case READY:
-                return 3;
-        }
-        throw new RuntimeException(x + " is an invalid match status");
+        return x.getMatchStatusId();
     }
 
     @Override
     public MatchStatus convertToEntityAttribute(Integer valToConvert) {
-        switch (valToConvert) {
-            case 1:
-                return MatchStatus.IN_PROGRESS;
-            case 2:
-                return MatchStatus.COMPLETED;
-            case 3:
-                return MatchStatus.READY;
-        }
-        throw new RuntimeException(valToConvert + " is an invalid match status");
+        return MatchStatus.getMatchStatus(valToConvert);
     }
 }

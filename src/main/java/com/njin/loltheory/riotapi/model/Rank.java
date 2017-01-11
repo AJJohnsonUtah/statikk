@@ -5,12 +5,38 @@
  */
 package com.njin.loltheory.riotapi.model;
 
+import java.util.HashMap;
+
 /**
  *
  * @author AJ
  */
 public enum Rank {
-    CHALLENGER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, UNRANKED;
-    public static Rank[] values = values();
+    CHALLENGER(1), MASTER(2), DIAMOND(3), PLATINUM(4), GOLD(5), SILVER(6), BRONZE(7), UNRANKED(8);
+    private final int rankId;
+
+    Rank(int id) {
+        this.rankId = id;
+    }
+
+    public int getRankId() {
+        return rankId;
+    }
+
+    private final static HashMap<Integer, Rank> rankMap;
+
+    static {
+        rankMap = new HashMap<>();
+        for (Rank rank : values()) {
+            rankMap.put(rank.rankId, rank);
+        }
+    }
+
+    public static Rank fromId(int rankId) {
+        if (rankId < 0) {
+            return null;
+        }
+        return rankMap.get(rankId);
+    }
 
 }

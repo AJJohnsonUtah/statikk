@@ -7,6 +7,7 @@
 package com.njin.loltheory.riotapi.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.HashMap;
 
 /**
  *
@@ -119,12 +120,7 @@ public enum QueueType {
     }
 
     public static QueueType fromId(int queueTypeId) {
-        for (QueueType queueType : values()) {
-            if (queueTypeId == queueType.getQueueTypeId()) {
-                return queueType;
-            }
-        }
-        return null;
+        return queueTypeMap.get(queueTypeId);
     }
 
     @JsonCreator
@@ -134,6 +130,15 @@ public enum QueueType {
             return fromId(Integer.parseInt(queueType));
         }
         return QueueType.valueOf(queueType);
+    }
+
+    private static final HashMap<Integer, QueueType> queueTypeMap;
+
+    static {
+        queueTypeMap = new HashMap<>();
+        for (QueueType queueType : values()) {
+            queueTypeMap.put(queueType.queueTypeId, queueType);
+        }
     }
 
 }

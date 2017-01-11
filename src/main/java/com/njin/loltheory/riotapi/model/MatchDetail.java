@@ -8,6 +8,7 @@ package com.njin.loltheory.riotapi.model;
 import com.njin.loltheory.entity.LolVersion;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -31,6 +32,7 @@ public class MatchDetail implements Serializable {
     private List<Team> teams;
     private Timeline timeline;
     private ErrorStatus status;
+    private LolTeam winner;
 
     public void setMatchVersion(LolVersion matchVersion) {
         this.matchVersion = matchVersion;
@@ -100,12 +102,29 @@ public class MatchDetail implements Serializable {
         return timeline;
     }
 
-    public long getWinner() {
+    public LolTeam getWinner() {
+        if (winner != null) {
+            return winner;
+        }
         for (Team team : teams) {
             if (team.isWinner()) {
                 return team.getTeamId();
             }
         }
-        return 0;
+        throw new RuntimeException("No winner found.");
+    }
+
+    public List<MatchParticipant> getBlueTeam() {
+        return getTeam(LolTeam.BLUE);
+    }
+
+    public List<MatchParticipant> getPurpleTeam() {
+        return getTeam(LolTeam.PURPLE);
+    }
+
+    public List<MatchParticipant> getTeam(LolTeam teamId) {
+        return participants.stream()
+                .filter(a -> a.getTeamId() == teamId)
+                .collect(Collectors.toList());
     }
 }

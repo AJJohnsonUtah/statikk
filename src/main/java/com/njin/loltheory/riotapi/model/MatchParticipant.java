@@ -23,7 +23,7 @@ public class MatchParticipant implements Serializable {
     private int spell1Id;
     private int spell2Id;
     private ParticipantStats stats;
-    private int teamId;
+    private LolTeam teamId;
     private ParticipantTimeline timeline;
     private ChampSpec champSpec = null;
 
@@ -67,7 +67,7 @@ public class MatchParticipant implements Serializable {
         return stats;
     }
 
-    public int getTeamId() {
+    public LolTeam getTeamId() {
         return teamId;
     }
 

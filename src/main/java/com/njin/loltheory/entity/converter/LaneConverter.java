@@ -18,17 +18,11 @@ public class LaneConverter implements AttributeConverter<Lane, Integer> {
 
     @Override
     public Integer convertToDatabaseColumn(Lane x) {
-        if (x == null) {
-            return -1;
-        }
-        return x.ordinal();
+        return x == null ? null : x.getLaneId();
     }
 
     @Override
     public Lane convertToEntityAttribute(Integer valToConvert) {
-        if (valToConvert < 0) {
-            return null;
-        }
-        return Lane.values[valToConvert];
+        return valToConvert == null ? null : Lane.getLane(valToConvert);
     }
 }
