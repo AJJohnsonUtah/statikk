@@ -5,7 +5,11 @@
  */
 package com.njin.loltheoryminer.service;
 
+import com.njin.loltheory.entity.ChampMatchup;
+import com.njin.loltheory.entity.ChampMatchupPK;
+import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.riotapi.model.LolTeam;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.MatchParticipant;
 import com.njin.loltheory.riotapi.model.Region;
@@ -67,6 +71,7 @@ public class MatchAnalyzerService {
     private void loadEntities(MatchDetail match) {
         match.setMatchVersion(lolVersionService.loadEntity(match.getMatchVersion()));
         match.getParticipants().stream().forEach((participant) -> {
+            participant.setChampSpec(new ChampSpec(match, participant));
             participant.setChampSpec(champSpecService.loadEntity(participant.getChampSpec()));
         });
     }
@@ -84,9 +89,21 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeChampMatchups(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for(MatchParticipant blueParticipant : match.getBlueTeam()) {
-            for(MatchParticipant purpleParticipant : match.getPurpleTeam()) {
-                
+        for (MatchParticipant blueParticipant : match.getTeam(LolTeam.BLUE)) {
+            for (MatchParticipant purpleParticipant : match.getTeam(LolTeam.PURPLE)) {
+                ChampMatchupPK blueVsPurplePK = new ChampMatchupPK(blueParticipant.getChampSpec(), purpleParticipant.getChampSpec());
+                ChampMatchup blueVsPurple = new ChampMatchup(blueVsPurplePK);
+                ChampMatchupPK purpleVsBluePK = new ChampMatchupPK(purpleParticipant.getChampSpec(), blueParticipant.getChampSpec());
+                ChampMatchup purpleVsBlue = new ChampMatchup(purpleVsBluePK);
+                if (match.getWinner() == LolTeam.BLUE) {
+                    blueVsPurple.addWin();
+                    purpleVsBlue.addLoss();
+                } else {
+                    blueVsPurple.addLoss();
+                    purpleVsBlue.addLoss();
+                }
+                aggregateAnalysis.addChampMatchup(blueVsPurple);
+                aggregateAnalysis.addChampMatchup(purpleVsBlue);
             }
         }
     }

@@ -34,7 +34,7 @@ public class Application {
 
     public void start() {
         int numIterations = 0;
-        int numMatchesToAnalyze = 10;
+        int numMatchesToAnalyze = 2;
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;

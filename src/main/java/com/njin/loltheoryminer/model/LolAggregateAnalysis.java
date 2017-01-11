@@ -58,8 +58,8 @@ public class LolAggregateAnalysis {
     }
 
     public void save() {
-        champSpecWinRateService.batchUpdateOrInsert(champSpecWinRates);
-        champMatchupService.batchUpdateOrInsert(champMatchups);
+        champSpecWinRateService.batchInsertOrUpdate(champSpecWinRates);
+        champMatchupService.batchInsertOrUpdate(champMatchups);
     }
 
 }
