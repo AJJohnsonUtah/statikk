@@ -32,6 +32,14 @@ public class ChampTeamupPK implements Serializable {
     @NotNull
     private ChampSpec champSpecB;
 
+    public ChampTeamupPK() {
+    }
+
+    public ChampTeamupPK(ChampSpec specA, ChampSpec specB) {
+        this.champSpecA = specA;
+        this.champSpecB = specB;
+    }
+
     public ChampSpec getChampSpecA() {
         return champSpecA;
     }

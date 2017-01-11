@@ -18,7 +18,7 @@ public class ChampTeamupDao extends BaseWinRateEntityDao<ChampTeamup, ChampTeamu
 
     @Override
     public ChampTeamup find(ChampTeamup entity) {
-        return em.find(ChampTeamup.class, entity);
+        return em.find(ChampTeamup.class, entity.getChampTeamupPK());
     }
 
 }
