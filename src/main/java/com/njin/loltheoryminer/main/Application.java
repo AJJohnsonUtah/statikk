@@ -5,6 +5,7 @@
  */
 package com.njin.loltheoryminer.main;
 
+import com.njin.loltheoryminer.service.ItemAnalysisService;
 import com.njin.loltheoryminer.service.MatchAnalyzerService;
 import com.njin.loltheoryminer.service.MatchMiningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class Application {
 
     @Autowired
     MatchAnalyzerService matchAnalyzerService;
+    
+    @Autowired
+    ItemAnalysisService itemAnalysisService;
 
     public static void main(String[] args) {
         ApplicationContext context
@@ -33,12 +37,13 @@ public class Application {
     }
 
     public void start() {
+        itemAnalysisService.loadItems();        
         int numIterations = 0;
-        int numMatchesToAnalyze = 2;
+        int numMatchesToAnalyze = 30;
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;
-        while (numIterations  < 2) {
+        while (numIterations  < 1) {
             start = System.currentTimeMillis();
             matchMiningService.mineMatches(numMatchesToAnalyze);
             middle = System.currentTimeMillis();

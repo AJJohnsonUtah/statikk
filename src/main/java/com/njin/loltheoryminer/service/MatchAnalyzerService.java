@@ -5,6 +5,8 @@
  */
 package com.njin.loltheoryminer.service;
 
+import com.njin.loltheory.entity.ChampFinalBuild;
+import com.njin.loltheory.entity.ChampFinalBuildPK;
 import com.njin.loltheory.entity.ChampMatchup;
 import com.njin.loltheory.entity.ChampMatchupPK;
 import com.njin.loltheory.entity.ChampSpec;
@@ -46,7 +48,15 @@ public class MatchAnalyzerService {
     @Autowired
     LolVersionService lolVersionService;
 
+    @Autowired
+    ItemAnalysisService itemAnalysisService;
+
+    public MatchAnalyzerService() {
+
+    }
+
     public void analyzeMatches(int matchesToAnalyze) {
+
         List<Long> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(matchesToAnalyze);
 
         aggregateAnalysis.resetAnalysis();
@@ -64,19 +74,26 @@ public class MatchAnalyzerService {
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        // Champ Spec and LolVersion entities must be loaded before analysis
         loadEntities(match);
 
         analyzeChampSpecWinRates(match, aggregateAnalysis);
         analyzeChampMatchups(match, aggregateAnalysis);
         analyzeChampTeamups(match, aggregateAnalysis);
+        analyzeFinalBuildOrder(match, aggregateAnalysis);
     }
 
     private void loadEntities(MatchDetail match) {
+        // Load LolVersion
         match.setMatchVersion(lolVersionService.loadEntity(match.getMatchVersion()));
+
+        // Load ChampSpecs
         match.getParticipants().stream().forEach((participant) -> {
             participant.setChampSpec(new ChampSpec(match, participant));
             participant.setChampSpec(champSpecService.loadEntity(participant.getChampSpec()));
         });
+        // Load FinalBuildOrders
+        itemAnalysisService.loadFinalBuildOrders(match);
     }
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -143,6 +160,19 @@ public class MatchAnalyzerService {
                 }
                 aggregateAnalysis.addChampTeamup(purpleTeamup);
             }
+        }
+    }
+
+    private void analyzeFinalBuildOrder(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        for (MatchParticipant participant : match.getParticipants()) {
+            ChampFinalBuildPK champFinalBuildPK = new ChampFinalBuildPK(participant.getChampSpec(), participant.getFinalBuildOrder());
+            ChampFinalBuild champFinalBuild = new ChampFinalBuild(champFinalBuildPK);
+            if (participant.getTeamId() == match.getWinner()) {
+                champFinalBuild.addWin();
+            } else {
+                champFinalBuild.addLoss();
+            }
+            aggregateAnalysis.addChampFinalBuild(champFinalBuild);
         }
     }
 
