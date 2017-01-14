@@ -14,30 +14,30 @@ import java.util.List;
  */
 public class Event implements Serializable {
 
-    private String ascendedType;
+    private AscendedType ascendedType;
     private List<Integer> assistingParticipantIds;
-    private String buildingType;
+    private BuildingType buildingType;
     private int creatorId;
-    private String eventType;
+    private EventType eventType;
     private int itemAfter;
     private int itemBefore;
     private int itemId;
     private int killerId;
-    private String laneType;
-    private String levelUpType;
+    private LaneType laneType;
+    private LevelUpType levelUpType;
     private String monsterSubType;
-    private String monsterType;
+    private MonsterType monsterType;
     private int participantId;
-    private String pointCaptured;
+    private CapturePoint pointCaptured;
     private Position position;
     private int skillSlot;
     private int teamId;
     private long timestamp;
-    private String towerType;
+    private TowerType towerType;
     private int victimId;
-    private String wardType;
+    private WardType wardType;
 
-    public String getAscendedType() {
+    public AscendedType getAscendedType() {
         return ascendedType;
     }
 
@@ -45,7 +45,7 @@ public class Event implements Serializable {
         return assistingParticipantIds;
     }
 
-    public String getBuildingType() {
+    public BuildingType getBuildingType() {
         return buildingType;
     }
 
@@ -53,7 +53,7 @@ public class Event implements Serializable {
         return creatorId;
     }
 
-    public String getEventType() {
+    public EventType getEventType() {
         return eventType;
     }
 
@@ -73,11 +73,11 @@ public class Event implements Serializable {
         return killerId;
     }
 
-    public String getLaneType() {
+    public LaneType getLaneType() {
         return laneType;
     }
 
-    public String getLevelUpType() {
+    public LevelUpType getLevelUpType() {
         return levelUpType;
     }
 
@@ -85,7 +85,7 @@ public class Event implements Serializable {
         return monsterSubType;
     }
 
-    public String getMonsterType() {
+    public MonsterType getMonsterType() {
         return monsterType;
     }
 
@@ -93,7 +93,7 @@ public class Event implements Serializable {
         return participantId;
     }
 
-    public String getPointCaptured() {
+    public CapturePoint getPointCaptured() {
         return pointCaptured;
     }
 
@@ -113,7 +113,7 @@ public class Event implements Serializable {
         return timestamp;
     }
 
-    public String getTowerType() {
+    public TowerType getTowerType() {
         return towerType;
     }
 
@@ -121,7 +121,7 @@ public class Event implements Serializable {
         return victimId;
     }
 
-    public String getWardType() {
+    public WardType getWardType() {
         return wardType;
     }
 

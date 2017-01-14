@@ -18,7 +18,7 @@ public class ChampFinalBuildDao extends BaseWinRateEntityDao<ChampFinalBuild, Ch
 
     @Override
     public ChampFinalBuild find(ChampFinalBuild entity) {
-        return em.find(ChampFinalBuild.class, entity);
+        return em.find(ChampFinalBuild.class, entity.getChampFinalBuildPK());
     }
 
 }

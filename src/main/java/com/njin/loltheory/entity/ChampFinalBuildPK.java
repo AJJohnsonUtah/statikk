@@ -32,6 +32,15 @@ public class ChampFinalBuildPK implements Serializable {
     @ManyToOne(optional = false)
     private FinalBuildOrder finalBuildOrder;
 
+    public ChampFinalBuildPK() {
+
+    }
+
+    public ChampFinalBuildPK(ChampSpec champSpec, FinalBuildOrder finalBuildOrder) {
+        this.champSpec = champSpec;
+        this.finalBuildOrder = finalBuildOrder;
+    }
+
     public ChampSpec getChampSpec() {
         return champSpec;
     }

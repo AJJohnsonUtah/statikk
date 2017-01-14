@@ -32,7 +32,7 @@ public class MatchDetail implements Serializable {
     private List<Team> teams;
     private Timeline timeline;
     private ErrorStatus status;
-    private LolTeam winner;
+    private LolTeam winner;    
 
     public void setMatchVersion(LolVersion matchVersion) {
         this.matchVersion = matchVersion;
@@ -126,5 +126,17 @@ public class MatchDetail implements Serializable {
         return participants.stream()
                 .filter(a -> a.getTeamId() == teamId)
                 .collect(Collectors.toList());
+    }
+
+    public MatchParticipant getParticipantFromId(int participantId) {
+        if (this.participants.get(participantId - 1).getParticipantId() == participantId) {
+            return this.participants.get(participantId - 1);
+        }
+        for (MatchParticipant p : this.participants) {
+            if (p.getParticipantId() == participantId) {
+                return p;
+            }
+        }
+        return null;
     }
 }

@@ -240,6 +240,11 @@ ALTER TABLE `champ_spec`
 ALTER TABLE `lol_version`
   MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `lol_version`
+--
+ALTER TABLE `final_build_order`
+  MODIFY `final_build_order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- Constraints for dumped tables
 --
 

@@ -7,6 +7,7 @@ package com.njin.loltheory.riotapi.service;
 
 import com.njin.loltheory.riotapi.model.Region;
 import com.njin.loltheory.riotapi.model.FeaturedGames;
+import com.njin.loltheory.riotapi.model.ItemListDto;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.RecentGamesDto;
 import com.njin.loltheory.riotapi.model.SummonerDto;
@@ -81,6 +82,11 @@ public class RiotApiService {
         return match;
     }
 
+    public ItemListDto getItemsData(Region region) {
+        String itemUrl = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
+        return restTemplate.getForObject(itemUrl, ItemListDto.class);
+    }
+    
     public String getStaticItemsData(Region region) {
         return getResponseFromURL(getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key="));
     }

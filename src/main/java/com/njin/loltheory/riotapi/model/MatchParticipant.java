@@ -6,6 +6,7 @@
 package com.njin.loltheory.riotapi.model;
 
 import com.njin.loltheory.entity.ChampSpec;
+import com.njin.loltheory.entity.FinalBuildOrder;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,6 +27,15 @@ public class MatchParticipant implements Serializable {
     private LolTeam teamId;
     private ParticipantTimeline timeline;
     private ChampSpec champSpec = null;
+    private FinalBuildOrder finalBuildOrder = null;
+
+    public FinalBuildOrder getFinalBuildOrder() {
+        return finalBuildOrder;
+    }
+
+    public void setFinalBuildOrder(FinalBuildOrder finalBuildOrder) {
+        this.finalBuildOrder = finalBuildOrder;
+    }
 
     public void setChampSpec(ChampSpec champSpec) {
         this.champSpec = champSpec;
