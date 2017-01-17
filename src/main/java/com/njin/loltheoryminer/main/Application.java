@@ -39,11 +39,11 @@ public class Application {
     public void start() {
         itemAnalysisService.loadItems();        
         int numIterations = 0;
-        int numMatchesToAnalyze = 30;
+        int numMatchesToAnalyze = 7;
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;
-        while (numIterations  < 1) {
+        while (true) {
             start = System.currentTimeMillis();
             matchMiningService.mineMatches(numMatchesToAnalyze);
             middle = System.currentTimeMillis();

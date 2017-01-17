@@ -32,15 +32,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ItemAnalysisService {
-    
+
     @Autowired
     RiotApiService riotApiService;
-    
+
     @Autowired
     FinalBuildOrderService finalBuildOrderService;
-    
+
     private ItemListDto itemListDto;
-    
+
     private Set<Integer> finalItemIds;
 
     /**
@@ -59,10 +59,10 @@ public class ItemAnalysisService {
                         finalItemIds.add(parentId);
                     }
                 }
-                
+
             }
         }
-        
+
     }
 
     /**
@@ -117,15 +117,17 @@ public class ItemAnalysisService {
         }
         return itemId;
     }
-    
+
     public void loadFinalBuildOrders(MatchDetail match) {
-        
+
         HashMap<Integer, LinkedList<Event>> buildItemIdStacks = new HashMap<>();
-        
+
         for (ParticipantIdentity partId : match.getParticipantIdentities()) {
             buildItemIdStacks.put(partId.getParticipantId(), new LinkedList<>());
         }
-        
+        if (match.getTimeline() == null || match.getTimeline().getFrames() == null) {
+            return;
+        }
         for (Frame frame : match.getTimeline().getFrames()) {
             if (frame.getEvents() == null) {
                 continue;
@@ -149,7 +151,7 @@ public class ItemAnalysisService {
                 }
             }
         }
-        
+
         for (Entry<Integer, LinkedList<Event>> entry : buildItemIdStacks.entrySet()) {
             String buildOrder = "";
             for (Event event : entry.getValue()) {

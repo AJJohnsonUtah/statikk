@@ -71,6 +71,7 @@ public class MatchAnalyzerService {
 
         aggregateAnalysis.save();
 
+        
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
