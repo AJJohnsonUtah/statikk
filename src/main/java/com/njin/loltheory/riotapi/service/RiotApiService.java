@@ -21,8 +21,10 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -41,6 +43,9 @@ public class RiotApiService {
     private final String DYNAMIC_DATA_HOST_URL_SUFFIX = ".api.pvp.net";
     private final RestTemplate restTemplate;
 
+    @Autowired
+    RiotApiKeyLimitService riotApiKeytLimitService;
+
     public RiotApiService() throws IOException {
         RIOT_API_KEY = "RGAPI-d309f20c-14c4-4c93-9d7d-eebdf291578a";
         restTemplate = new RestTemplate();
@@ -52,7 +57,10 @@ public class RiotApiService {
     }
 
     public String getStaticChampionsData(Region region) {
-        return getResponseFromURL(getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion?champData=image&api_key="));
+        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion?champData=image&api_key=");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, false, typeRef);
     }
 
     public MatchDetail getMatchDetailWithoutTimeline(Region region, Long matchId) {
@@ -65,57 +73,37 @@ public class RiotApiService {
 
     private MatchDetail getMatchDetail(Region region, Long matchId, boolean includeMatchId) throws HttpServerErrorException {
         String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId + "?includeTimeline=" + includeMatchId + "&api_key=");
-        MatchDetail match = null;
-        try {
-            match = restTemplate.getForObject(url, MatchDetail.class);
-        } catch (HttpServerErrorException ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("Error fetching match detail for: " + matchId);
-            try {
-                match = restTemplate.getForObject(url, MatchDetail.class);
-            } catch (HttpServerErrorException ex2) {
-                System.out.println(ex2.getMessage());
-                System.out.println("Error fetching match detail for: " + matchId);
-                throw ex2;
-            }
-        }        
-        return match;
+        ParameterizedTypeReference<MatchDetail> typeRef = new ParameterizedTypeReference<MatchDetail>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
     }
 
     public ItemListDto getItemsData(Region region) {
-        String itemUrl = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
-        return restTemplate.getForObject(itemUrl, ItemListDto.class);
+        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
+        ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
+        };
+        return getRiotApiRequest(url, false, typeRef);
     }
-    
+
     public String getStaticItemsData(Region region) {
-        return getResponseFromURL(getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key="));
+        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, false, typeRef);
     }
 
     public RecentGamesDto getRecentGames(Region region, Long summonerId) {
-        try {
-            return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key="), RecentGamesDto.class);
-        } catch (HttpServerErrorException ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("Error fetching summoner games for: " + summonerId);
-            try {
-                return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key="), RecentGamesDto.class);
-            } catch (HttpServerErrorException ex2) {
-                System.out.println(ex2.getMessage());
-                System.out.println("Error fetching summoner games for: " + summonerId);
-                return new RecentGamesDto(summonerId);
-            }
-        }
+        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key=");
+        ParameterizedTypeReference<RecentGamesDto> typeRef = new ParameterizedTypeReference<RecentGamesDto>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
     }
 
     public FeaturedGames getFeaturedGames(Region region) {
         String url = getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key=");
-        try {
-            return restTemplate.getForObject(getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key="), FeaturedGames.class
-            );
-        } catch (HttpClientErrorException ex) {
-            System.out.println(url);            
-            throw ex;
-        }
+        ParameterizedTypeReference<FeaturedGames> typeRef = new ParameterizedTypeReference<FeaturedGames>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
 
     }
 
@@ -123,7 +111,7 @@ public class RiotApiService {
         ParameterizedTypeReference<Map<String, SummonerDto>> typeRef = new ParameterizedTypeReference<Map<String, SummonerDto>>() {
         };
         String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.4/summoner/by-name/" + names + "?api_key=");
-        return restTemplate.exchange(url, HttpMethod.GET, null, typeRef).getBody();
+        return getRiotApiRequest(url, true, typeRef);
     }
 
     private String getStaticURLWithAPIKey(String url) {
@@ -181,4 +169,36 @@ public class RiotApiService {
 
     }
 
+    private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
+        Logger.getLogger(RiotApiService.class
+                .getName()).log(Level.INFO, url);
+        ResponseEntity response = null;
+        try {
+            response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
+        } catch (HttpServerErrorException ex) {
+            try {
+                Logger.getLogger(RiotApiService.class
+                        .getName()).log(Level.WARNING, "Unable to fetch data from " + url, ex);
+                response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
+            } catch (HttpServerErrorException ex2) {
+                Logger.getLogger(RiotApiService.class
+                        .getName()).log(Level.SEVERE, "Unable to fetch data from " + url + ". Returning null.", ex);
+            } catch (HttpClientErrorException ex2) {
+                riotApiKeytLimitService.waitSeconds();
+                return getRiotApiRequest(url, addsToKeyLimit, typeReference);
+            }
+        } catch (HttpClientErrorException ex) {
+            riotApiKeytLimitService.waitSeconds();
+            return getRiotApiRequest(url, addsToKeyLimit, typeReference);
+        }
+        if (response == null) {
+            riotApiKeytLimitService.waitMinutes();
+            return null;
+        } else if (addsToKeyLimit) {
+            String limitHeader = response.getHeaders().getFirst("X-Rate-Limit-Count");
+            riotApiKeytLimitService.handleLimitHeader(limitHeader);
+        }
+
+        return (T) response.getBody();
+    }
 }
