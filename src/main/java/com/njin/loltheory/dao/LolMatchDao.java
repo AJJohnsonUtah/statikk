@@ -38,5 +38,10 @@ public class LolMatchDao extends BaseDao<LolMatch> {
         Query query = em.createNamedQuery("LolMatch.updateMatchListStatus").setParameter("status", MatchStatus.IN_PROGRESS).setParameter("matchIds", matchIds);
         query.executeUpdate();
     }
+    
+    public void markMatchesAsCompleted(List<Long> matchIds) {
+        Query query = em.createNamedQuery("LolMatch.updateMatchListStatus").setParameter("status", MatchStatus.COMPLETED).setParameter("matchIds", matchIds);
+        query.executeUpdate();
+    }
 
 }

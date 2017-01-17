@@ -83,8 +83,8 @@ public class RiotApiKeyLimitService {
     public void handleLimitHeader(String limitHeader) {
         // "1:10,2:600"
 
-        Logger.getLogger(RiotApiKeyLimitService.class
-                .getName()).log(Level.INFO, limitHeader);
+//        Logger.getLogger(RiotApiKeyLimitService.class
+//                .getName()).log(Level.INFO, limitHeader);
         String[] limits = limitHeader.trim().split(",");
         String[] seconds = limits[0].split(":");
         String[] minutes = limits[1].split(":");

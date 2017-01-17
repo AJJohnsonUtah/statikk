@@ -170,8 +170,8 @@ public class RiotApiService {
     }
 
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
-        Logger.getLogger(RiotApiService.class
-                .getName()).log(Level.INFO, url);
+//        Logger.getLogger(RiotApiService.class
+//                .getName()).log(Level.INFO, url);
         ResponseEntity response = null;
         try {
             response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);

@@ -44,4 +44,8 @@ public class LolMatchService extends BaseService<LolMatch> {
         }
         return matchesFound;
     }
+
+    public void markMatchesAsCompleted(List<Long> matches) {
+        lolMatchDao.markMatchesAsCompleted(matches);
+    }
 }
