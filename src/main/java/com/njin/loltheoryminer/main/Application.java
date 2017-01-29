@@ -8,6 +8,8 @@ package com.njin.loltheoryminer.main;
 import com.njin.loltheoryminer.service.ItemAnalysisService;
 import com.njin.loltheoryminer.service.MatchAnalyzerService;
 import com.njin.loltheoryminer.service.MatchMiningService;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -39,7 +41,7 @@ public class Application {
     public void start() {
         itemAnalysisService.loadItems();        
         int numIterations = 0;
-        int numMatchesToAnalyze = 7;
+        int numMatchesToAnalyze = 30;
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;
@@ -55,6 +57,6 @@ public class Application {
             System.out.println(numIterations * numMatchesToAnalyze + " matches found and analyzed in " + ((timeMining + timeAnalyzing) / 1000.0) + " seconds");
             System.out.println((timeMining * 1.0) / (timeMining + timeAnalyzing) + "% time analyzing.");
             System.out.println((timeAnalyzing * 1.0) / (timeMining + timeAnalyzing) + "% time analyzing.");
-        }
+        }                         
     }
 }

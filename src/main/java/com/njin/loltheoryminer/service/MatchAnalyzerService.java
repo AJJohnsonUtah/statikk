@@ -64,14 +64,13 @@ public class MatchAnalyzerService {
         for (Long matchId : matchIdsToAnalyze) {
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(Region.NA, matchId);
             // If no status is present, there was no error fetching the match
-            if (currentMatch.getStatus() == null) {
+            if (currentMatch != null && currentMatch.getStatus() == null) {
                 analyzeMatch(currentMatch, aggregateAnalysis);
             }
         }
 
         aggregateAnalysis.save();
 
-        
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -121,7 +120,7 @@ public class MatchAnalyzerService {
                     purpleVsBlue.addLoss();
                 } else {
                     blueVsPurple.addLoss();
-                    purpleVsBlue.addLoss();
+                    purpleVsBlue.addWin();
                 }
                 aggregateAnalysis.addChampMatchup(blueVsPurple);
                 aggregateAnalysis.addChampMatchup(purpleVsBlue);
@@ -133,7 +132,6 @@ public class MatchAnalyzerService {
         for (MatchParticipant blueParticipantA : match.getTeam(LolTeam.BLUE)) {
             for (MatchParticipant blueParticipantB : match.getTeam(LolTeam.BLUE)) {
                 if (blueParticipantA.equals(blueParticipantB)) {
-
                     continue;
                 }
                 ChampTeamupPK blueTeamupPK = new ChampTeamupPK(blueParticipantA.getChampSpec(), blueParticipantB.getChampSpec());
