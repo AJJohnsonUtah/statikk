@@ -229,7 +229,7 @@ public class MatchMiningService {
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
 //        Logger.getLogger(RiotApiService.class
 //                .getName()).log(Level.INFO, url);
-        System.out.println("start at: " + new Date());
+//        System.out.println("start at: " + new Date());
         ResponseEntity response = null;
         try {
             response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
@@ -256,7 +256,7 @@ public class MatchMiningService {
             String limitHeader = response.getHeaders().getFirst("X-Rate-Limit-Count");
             riotApiKeyLimitService.handleLimitHeader(limitHeader);
         }
-        System.out.println("return at: " + new Date());
+//        System.out.println("return at: " + new Date());
 
         return (T) response.getBody();
 

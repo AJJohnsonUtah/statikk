@@ -5,14 +5,19 @@
  */
 package com.njin.loltheoryminer.service;
 
+import com.njin.loltheory.entity.ChampBan;
+import com.njin.loltheory.entity.ChampBanPK;
 import com.njin.loltheory.entity.ChampFinalBuild;
 import com.njin.loltheory.entity.ChampFinalBuildPK;
 import com.njin.loltheory.entity.ChampMatchup;
 import com.njin.loltheory.entity.ChampMatchupPK;
 import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.entity.ChampSummonerSpells;
+import com.njin.loltheory.entity.ChampSummonerSpellsPK;
 import com.njin.loltheory.entity.ChampTeamup;
 import com.njin.loltheory.entity.ChampTeamupPK;
+import com.njin.loltheory.riotapi.model.BannedChampion;
 import com.njin.loltheory.riotapi.model.LolTeam;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.MatchParticipant;
@@ -55,9 +60,9 @@ public class MatchAnalyzerService {
 
     }
 
-    public void analyzeMatches(int matchesToAnalyze) {
+    public void analyzeMatches(int numMatchesToAnalyze) {
 
-        List<Long> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(matchesToAnalyze);
+        List<Long> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(numMatchesToAnalyze);
 
         aggregateAnalysis.resetAnalysis();
 
@@ -70,6 +75,7 @@ public class MatchAnalyzerService {
         }
 
         aggregateAnalysis.save();
+        lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
 
     }
 
@@ -81,6 +87,8 @@ public class MatchAnalyzerService {
         analyzeChampMatchups(match, aggregateAnalysis);
         analyzeChampTeamups(match, aggregateAnalysis);
         analyzeFinalBuildOrder(match, aggregateAnalysis);
+        analyzeChampSummonerSpells(match, aggregateAnalysis);
+        analyzeChampBans(match, aggregateAnalysis);
     }
 
     private void loadEntities(MatchDetail match) {
@@ -88,12 +96,17 @@ public class MatchAnalyzerService {
         match.setMatchVersion(lolVersionService.loadEntity(match.getMatchVersion()));
 
         // Load ChampSpecs
-        match.getParticipants().stream().forEach((participant) -> {
-            participant.setChampSpec(new ChampSpec(match, participant));
-            participant.setChampSpec(champSpecService.loadEntity(participant.getChampSpec()));
+        match.getParticipants().stream().forEach((participant) -> {            
+            participant.setChampSpec(champSpecService.loadEntity(new ChampSpec(match, participant)));
         });
+        
         // Load FinalBuildOrders
         itemAnalysisService.loadFinalBuildOrders(match);
+        
+        // Load ChampSpecs for bans
+        match.getBannedChampions().stream().forEach((bannedChamp) -> {
+           bannedChamp.setChampSpec(champSpecService.loadEntity(new ChampSpec(match, bannedChamp)));
+        });
     }
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -175,4 +188,25 @@ public class MatchAnalyzerService {
         }
     }
 
+    private void analyzeChampSummonerSpells(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        for (MatchParticipant participant : match.getParticipants()) {
+            ChampSummonerSpellsPK champSummonerSpellsPK = new ChampSummonerSpellsPK(participant.getChampSpec(), participant.getSpell1Id(), participant.getSpell2Id());
+            ChampSummonerSpells champSummonerSpells = new ChampSummonerSpells(champSummonerSpellsPK);
+            if (participant.getTeamId() == match.getWinner()) {
+                champSummonerSpells.addWin();
+            } else {
+                champSummonerSpells.addLoss();
+            }
+            aggregateAnalysis.addChampSummonerSpells(champSummonerSpells);
+        }
+    }
+    
+    private void analyzeChampBans(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        for(BannedChampion bannedChamp : match.getBannedChampions()) {
+            ChampBanPK pk = new ChampBanPK(bannedChamp);
+            ChampBan champBan = new ChampBan(pk, 1);
+            aggregateAnalysis.addChampBan(champBan);
+        }
+    }
+    
 }
