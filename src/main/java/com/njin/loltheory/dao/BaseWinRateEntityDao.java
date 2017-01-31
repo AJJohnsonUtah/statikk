@@ -11,6 +11,8 @@ import java.util.Map;
 /**
  *
  * @author AJ
+ * @param <E>
+ * @param <EID>
  */
 public abstract class BaseWinRateEntityDao <E extends BaseWinRateEntity, EID> extends BaseDao {
 

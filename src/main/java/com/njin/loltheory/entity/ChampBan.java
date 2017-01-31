@@ -94,4 +94,8 @@ public class ChampBan implements Serializable {
     public String toString() {
         return "com.njin.loltheory.model.ChampBan[ champBanPK=" + champBanPK + " ]";
     }
+    
+    public void combine(ChampBan champBan) {
+        this.banCount += champBan.getBanCount();
+    }
 }

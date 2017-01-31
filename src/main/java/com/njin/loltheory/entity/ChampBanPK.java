@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.entity;
 
+import com.njin.loltheory.riotapi.model.BannedChampion;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -31,6 +32,11 @@ public class ChampBanPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     private int banOrder;
+
+    public ChampBanPK(BannedChampion bannedChamp) {
+        this.champSpec = bannedChamp.getChampSpec();
+        this.banOrder = bannedChamp.getPickTurn();
+    }
 
     public ChampSpec getChampSpec() {
         return champSpec;

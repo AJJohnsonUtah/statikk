@@ -18,7 +18,7 @@ public class ChampSummonerSpellsDao extends BaseWinRateEntityDao<ChampSummonerSp
 
     @Override
     public ChampSummonerSpells find(ChampSummonerSpells entity) {
-        return em.find(ChampSummonerSpells.class, entity);
+        return em.find(ChampSummonerSpells.class, entity.getChampSummonerSpellsPK());
     }
 
 }

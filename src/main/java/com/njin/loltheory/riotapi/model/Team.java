@@ -6,6 +6,7 @@
 package com.njin.loltheory.riotapi.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,10 @@ public class Team implements Serializable {
     private int towerKills;
     private int vilemawKills;
     private boolean winner;
+    
+    public Team() {
+        bans = new ArrayList<>();
+    }
 
     public List<BannedChampion> getBans() {
         return bans;

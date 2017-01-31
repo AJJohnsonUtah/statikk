@@ -11,6 +11,7 @@ import com.njin.loltheory.entity.converter.RankConverter;
 import com.njin.loltheory.entity.converter.RoleConverter;
 import com.njin.loltheory.entity.enums.Lane;
 import com.njin.loltheory.entity.enums.Role;
+import com.njin.loltheory.riotapi.model.BannedChampion;
 import com.njin.loltheory.riotapi.model.MatchDetail;
 import com.njin.loltheory.riotapi.model.MatchParticipant;
 import com.njin.loltheory.riotapi.model.QueueType;
@@ -139,6 +140,15 @@ public class ChampSpec implements Serializable {
         this.lolVersionId = match.getMatchVersion();
         this.lane = matchParticipant.getTimeline().getLane().toLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
+    }
+
+    public ChampSpec(MatchDetail match, BannedChampion bannedChamp) {
+        this.championId = bannedChamp.getChampionId();
+        this.matchType = match.getQueueType();
+        this.lolVersionId = match.getMatchVersion();
+        this.rank = null;
+        this.lane = null;
+        this.role = null;        
     }
 
     public Long getChampSpecId() {

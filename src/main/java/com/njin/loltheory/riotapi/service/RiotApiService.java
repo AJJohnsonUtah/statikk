@@ -118,7 +118,7 @@ public class RiotApiService {
         return STATIC_DATA_HOST_URL + url + RIOT_API_KEY;
     }
 
-    private String getDynamicURLWithAPIKey(Region region, String url) {
+    public String getDynamicURLWithAPIKey(Region region, String url) {
         return DYNAMIC_DATA_HOST_URL_PREFIX + region.toString() + DYNAMIC_DATA_HOST_URL_SUFFIX + url + RIOT_API_KEY;
     }
 

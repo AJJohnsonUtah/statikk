@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.riotapi.model;
 
+import com.njin.loltheory.entity.ChampSpec;
 import java.io.Serializable;
 
 /**
@@ -13,11 +14,12 @@ import java.io.Serializable;
  */
 public class BannedChampion implements Serializable {
 
-    private long championId;
+    private int championId;
     private int pickTurn;
     private long teamId;
+    private ChampSpec champSpec;
 
-    public long getChampionId() {
+    public int getChampionId() {
         return championId;
     }
 
@@ -27,6 +29,14 @@ public class BannedChampion implements Serializable {
 
     public long getTeamId() {
         return teamId;
+    }
+
+    public void setChampSpec(ChampSpec champSpec) {
+        this.champSpec = champSpec;
+    }
+
+    public ChampSpec getChampSpec() {
+        return champSpec;
     }
 
 }

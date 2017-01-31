@@ -7,6 +7,7 @@ package com.njin.loltheory.riotapi.model;
 
 import com.njin.loltheory.entity.LolVersion;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,5 +139,13 @@ public class MatchDetail implements Serializable {
             }
         }
         return null;
+    }
+    
+    public List<BannedChampion> getBannedChampions() {
+        List<BannedChampion> bannedChampions = new ArrayList<>();
+        teams.stream().forEach((team) -> {
+            bannedChampions.addAll(team.getBans());
+        });
+        return bannedChampions;
     }
 }

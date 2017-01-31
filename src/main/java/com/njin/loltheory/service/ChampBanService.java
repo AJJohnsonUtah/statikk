@@ -7,6 +7,8 @@ package com.njin.loltheory.service;
 
 import com.njin.loltheory.dao.ChampBanDao;
 import com.njin.loltheory.entity.ChampBan;
+import com.njin.loltheory.entity.ChampBanPK;
+import java.util.HashMap;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,9 @@ public class ChampBanService extends BaseService<ChampBan> {
     @Override
     public void update(ChampBan champBan) {
         champBanDao.update(champBan);
+    }
+
+    public void batchInsertOrUpdate(HashMap<ChampBanPK, ChampBan> champBans) {
+        champBanDao.batchInsertOrUpdate(champBans);
     }
 }
