@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2017 at 05:54 AM
+-- Generation Time: Feb 04, 2017 at 02:24 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -69,9 +69,9 @@ CREATE TABLE `champ_spec` (
   `champion_id` int(11) NOT NULL,
   `match_type` int(11) NOT NULL,
   `lol_version_id` int(11) NOT NULL,
-  `lane` int(11) DEFAULT NULL,
-  `role` int(11) DEFAULT NULL,
-  `rank` int(11) DEFAULT NULL
+  `lane` int(11) NOT NULL DEFAULT '-1',
+  `role` int(11) NOT NULL DEFAULT '-1',
+  `rank` int(11) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -233,17 +233,17 @@ ALTER TABLE `lol_version`
 -- AUTO_INCREMENT for table `champ_spec`
 --
 ALTER TABLE `champ_spec`
-  MODIFY `champ_spec_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+  MODIFY `champ_spec_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4436;
+--
+-- AUTO_INCREMENT for table `final_build_order`
+--
+ALTER TABLE `final_build_order`
+  MODIFY `final_build_order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11046;
 --
 -- AUTO_INCREMENT for table `lol_version`
 --
 ALTER TABLE `lol_version`
-  MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `lol_version`
---
-ALTER TABLE `final_build_order`
-  MODIFY `final_build_order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --

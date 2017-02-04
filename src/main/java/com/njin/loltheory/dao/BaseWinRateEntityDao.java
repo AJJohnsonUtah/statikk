@@ -14,13 +14,13 @@ import java.util.Map;
  * @param <E>
  * @param <EID>
  */
-public abstract class BaseWinRateEntityDao <E extends BaseWinRateEntity, EID> extends BaseDao {
+public abstract class BaseWinRateEntityDao<E extends BaseWinRateEntity, EID> extends BaseDao {
 
     public void batchInsertOrUpdate(Map<EID, E> winRateEntities) {
         int counter = 0;
-        for (E winRateEntity : winRateEntities.values()) {            
-            E existingEntity = find(winRateEntity);            
-            if (existingEntity == null) {                
+        for (E winRateEntity : winRateEntities.values()) {
+            E existingEntity = find(winRateEntity);
+            if (existingEntity == null) {
                 em.persist(winRateEntity);
             } else {
                 existingEntity.combine(winRateEntity);
@@ -33,6 +33,6 @@ public abstract class BaseWinRateEntityDao <E extends BaseWinRateEntity, EID> ex
             }
         }
     }
-    
+
     public abstract E find(E entity);
 }
