@@ -18,9 +18,9 @@ public abstract class BaseWinRateEntityDao <E extends BaseWinRateEntity, EID> ex
 
     public void batchInsertOrUpdate(Map<EID, E> winRateEntities) {
         int counter = 0;
-        for (E winRateEntity : winRateEntities.values()) {
-            E existingEntity = find(winRateEntity);
-            if (existingEntity == null) {
+        for (E winRateEntity : winRateEntities.values()) {            
+            E existingEntity = find(winRateEntity);            
+            if (existingEntity == null) {                
                 em.persist(winRateEntity);
             } else {
                 existingEntity.combine(winRateEntity);

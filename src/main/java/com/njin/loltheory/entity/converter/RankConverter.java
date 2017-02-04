@@ -18,14 +18,11 @@ public class RankConverter implements AttributeConverter<Rank, Integer> {
 
     @Override
     public Integer convertToDatabaseColumn(Rank x) {
-        if (x == null) {
-            return -1;
-        }
-        return x.getRankId();
+        return x == null ? -1 : x.getRankId();
     }
 
     @Override
     public Rank convertToEntityAttribute(Integer valToConvert) {
-        return Rank.fromId(valToConvert);
+        return valToConvert == -1 ? null : Rank.fromId(valToConvert);
     }
 }

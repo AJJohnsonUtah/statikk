@@ -6,7 +6,6 @@
 package com.njin.loltheory.entity.converter;
 
 import com.njin.loltheory.entity.enums.Role;
-import com.njin.loltheory.riotapi.model.QueueType;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -19,11 +18,11 @@ public class RoleConverter implements AttributeConverter<Role, Integer> {
 
     @Override
     public Integer convertToDatabaseColumn(Role x) {
-        return x == null ? null : x.getRoleId();
+        return x == null ? -1 : x.getRoleId();
     }
 
     @Override
     public Role convertToEntityAttribute(Integer valToConvert) {
-        return valToConvert == null ? null : Role.getRole(valToConvert);
+        return valToConvert == -1 ? null : Role.getRole(valToConvert);
     }
 }

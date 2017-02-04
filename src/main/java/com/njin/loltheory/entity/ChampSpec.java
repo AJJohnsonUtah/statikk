@@ -36,6 +36,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -45,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author AJ
  */
 @Entity
-@Table(name = "champ_spec")
+@Table(name = "champ_spec", uniqueConstraints = @UniqueConstraint(columnNames = {"champion_id", "lol_version_id", "match_type", "lane", "role", "rank"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampSpec.findAll", query = "SELECT c FROM ChampSpec c"),
@@ -74,6 +75,7 @@ public class ChampSpec implements Serializable {
 
     @JoinColumn(name = "lol_version_id", referencedColumnName = "lol_version_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @NotNull
     private LolVersion lolVersionId;
 
     @Basic(optional = false)
@@ -83,15 +85,18 @@ public class ChampSpec implements Serializable {
     private QueueType matchType;
 
     @Convert(converter = LaneConverter.class)
+    @NotNull
     @Column(name = "lane")
     private Lane lane;
 
     @Convert(converter = RoleConverter.class)
     @Column(name = "role")
+    @NotNull
     private Role role;
 
     @Convert(converter = RankConverter.class)
     @Column(name = "rank")
+    @NotNull
     private Rank rank;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpec", fetch = FetchType.LAZY)

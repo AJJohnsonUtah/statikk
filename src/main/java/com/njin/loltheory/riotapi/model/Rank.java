@@ -33,9 +33,6 @@ public enum Rank {
     }
 
     public static Rank fromId(int rankId) {
-        if (rankId < 0) {
-            return null;
-        }
         return rankMap.get(rankId);
     }
 
