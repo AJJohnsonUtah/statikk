@@ -1,0 +1,28 @@
+#navbar-nav {
+    width: 100%;
+    font-size: 18pt;
+    background-color: #4891FF;
+}
+
+#navbar-nav a {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;   
+    padding-bottom: 0.5em;
+    text-decoration:  none;
+    display: inline-block;
+}
+
+#navbar-nav a:visited {
+    color: #FFF;
+}
+
+#navbar-nav .navbar-button {
+    float: right;
+    color: #FFF;
+    height: 100%;
+}
+
+#navbar-nav .navbar-button:hover {
+    background-color: #1e73f3;
+}
