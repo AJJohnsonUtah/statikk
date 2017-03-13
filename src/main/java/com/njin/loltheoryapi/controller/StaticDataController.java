@@ -21,7 +21,7 @@ public class StaticDataController extends BaseController {
 
     @Autowired 
     RiotApiService riotApiService;
-    
+        
     @RequestMapping(value = "/champions/{region}", method = RequestMethod.GET)
     public String getChampions(@PathVariable("region") String region) {
         return riotApiService.getStaticChampionsData(Region.valueOf(region));
@@ -31,4 +31,14 @@ public class StaticDataController extends BaseController {
     public String getChampions() {
         return riotApiService.getStaticChampionsData(Region.NA);
     }
+    
+    @RequestMapping(value = "/champion/{championId}/{region}", method = RequestMethod.GET)
+    public String getChampion(@PathVariable("championId") long championId, @PathVariable("region") String region) {
+        return riotApiService.getStaticChampionData(Region.valueOf(region), championId);
+    }
+    
+    @RequestMapping(value = "/champion/{championId}", method = RequestMethod.GET)
+    public String getChampion(@PathVariable("championId") long championId) {
+        return riotApiService.getStaticChampionData(Region.NA, championId);
+    }    
 }
