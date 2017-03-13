@@ -35,6 +35,9 @@ public class ChampSummonerSpellsPK implements Serializable {
     @Column(name = "spell_b")
     private int spellB;
 
+    public ChampSummonerSpellsPK() {
+    }
+
     public ChampSummonerSpellsPK(ChampSpec champSpec, int spell1Id, int spell2Id) {
         this.champSpec = champSpec;
         this.spellA = spell1Id;

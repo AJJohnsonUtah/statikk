@@ -33,6 +33,9 @@ public class ChampBanPK implements Serializable {
     @NotNull
     private int banOrder;
 
+    public ChampBanPK() {
+    }
+
     public ChampBanPK(BannedChampion bannedChamp) {
         this.champSpec = bannedChamp.getChampSpec();
         this.banOrder = bannedChamp.getPickTurn();

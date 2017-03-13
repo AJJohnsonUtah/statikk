@@ -62,6 +62,13 @@ public class RiotApiService {
         };
         return getRiotApiRequest(url, false, typeRef);
     }
+    
+    public String getStaticChampionData(Region region, long championId) {
+        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion/" + championId + "?champData=all&api_key=");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, false, typeRef);
+    }
 
     public MatchDetail getMatchDetailWithoutTimeline(Region region, Long matchId) {
         return getMatchDetail(region, matchId, false);

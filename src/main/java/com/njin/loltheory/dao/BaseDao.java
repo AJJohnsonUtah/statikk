@@ -16,7 +16,7 @@ public abstract class BaseDao<E> {
 
     protected Class entityClass;
 
-    @PersistenceContext
+    @PersistenceContext(name = "loltheory")
     EntityManager em;
 
     public void create(E entity) {

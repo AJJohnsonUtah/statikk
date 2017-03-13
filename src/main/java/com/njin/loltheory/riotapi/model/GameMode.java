@@ -18,9 +18,10 @@ public enum GameMode {
     ASCENSION("Ascension games"),
     FIRSTBLOOD("Snowdown Showdown games"),
     KINGPORO("King Poro games"),
-    SIEGE("Nexus Siege games");
+    SIEGE("Nexus Siege games"),
+    URF("Ultra Rapid Fire");
 
-    private String description;
+    private final String description;
 
     GameMode(String description) {
         this.description = description;
