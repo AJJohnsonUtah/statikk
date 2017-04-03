@@ -10,6 +10,7 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,7 +28,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -35,13 +35,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author AJ
  */
 @Configuration
-@ComponentScan( basePackages = "com.njin")
+@ComponentScan(basePackages = "com.njin")
 @EnableTransactionManagement
 @EnableAsync
 @PropertySource(value = {"classpath:application.properties"})
 @EnableWebMvc
 public class JpaConfiguration extends WebMvcConfigurerAdapter {
-    
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**");
@@ -53,7 +53,7 @@ public class JpaConfiguration extends WebMvcConfigurerAdapter {
         messageSource.setBasename("messages");
         return messageSource;
     }
-    
+
     @Autowired
     private Environment environment;
 
@@ -99,5 +99,4 @@ public class JpaConfiguration extends WebMvcConfigurerAdapter {
         txManager.setEntityManagerFactory(emf);
         return txManager;
     }
-    
 }
