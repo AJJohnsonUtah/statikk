@@ -10,5 +10,26 @@ package com.njin.loltheory.riotapi.model;
  * @author AJ
  */
 public enum Region {
-    BR, EUNE, EUW, JP, KR, LAN, LAS, NA, OCE, PBE, RU, TR;
+    BR("BR1"),
+    EUNE("EUN1"),
+    EUW("EUW1"),
+    JP("JP1"),
+    KR("KR"),
+    LAN("LA1"),
+    LAS("LA2"),
+    NA("NA1"),
+    OCE("OC1"),
+    PBE("PBE1"),
+    RU("RU"),
+    TR("TR1");
+
+    private final String platformId;
+    
+    private Region (String platformId) {
+        this.platformId = platformId;
+    }
+    
+    public String getPlatformId() {
+        return this.platformId;
+    }
 }

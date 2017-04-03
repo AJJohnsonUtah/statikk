@@ -5,6 +5,7 @@
  */
 package com.njin.loltheory.riotapi.service;
 
+import com.njin.loltheory.riotapi.model.ChampionMastery;
 import com.njin.loltheory.riotapi.model.Region;
 import com.njin.loltheory.riotapi.model.FeaturedGames;
 import com.njin.loltheory.riotapi.model.ItemListDto;
@@ -18,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +40,8 @@ import org.springframework.web.client.RestTemplate;
 public class RiotApiService {
 
     private final String RIOT_API_KEY;
-    private final String STATIC_DATA_HOST_URL = "https://global.api.pvp.net";
+    private final String STATIC_DATA_HOST_URL_PREFIX = "https://global.api.pvp.net/api/lol/static-data/";
+    private final String STATIC_DATA_HOST_URL_SUFFIX = "/v1.2/";
     private final String DYNAMIC_DATA_HOST_URL_PREFIX = "https://";
     private final String DYNAMIC_DATA_HOST_URL_SUFFIX = ".api.pvp.net";
     private final RestTemplate restTemplate;
@@ -57,14 +60,14 @@ public class RiotApiService {
     }
 
     public String getStaticChampionsData(Region region) {
-        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion?champData=image&api_key=");
+        String url = getStaticURLWithAPIKey(region, "champion", "&champData=image");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
         return getRiotApiRequest(url, false, typeRef);
     }
-    
+
     public String getStaticChampionData(Region region, long championId) {
-        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/champion/" + championId + "?champData=all&api_key=");
+        String url = getStaticURLWithAPIKey(region, "champion/" + championId, "&champData=all");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
         return getRiotApiRequest(url, false, typeRef);
@@ -79,54 +82,104 @@ public class RiotApiService {
     }
 
     private MatchDetail getMatchDetail(Region region, Long matchId, boolean includeMatchId) throws HttpServerErrorException {
-        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId + "?includeTimeline=" + includeMatchId + "&api_key=");
+        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v2.2/match/" + matchId, "&includeTimeline=" + includeMatchId);
         ParameterizedTypeReference<MatchDetail> typeRef = new ParameterizedTypeReference<MatchDetail>() {
         };
         return getRiotApiRequest(url, true, typeRef);
     }
 
     public ItemListDto getItemsData(Region region) {
-        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
+        String url = getStaticURLWithAPIKey(region, "item", "&itemListData=all");
         ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
         };
         return getRiotApiRequest(url, false, typeRef);
     }
 
     public String getStaticItemsData(Region region) {
-        String url = getStaticURLWithAPIKey("/api/lol/static-data/" + region.toString() + "/v1.2/item?itemListData=all&api_key=");
+        String url = getStaticURLWithAPIKey(region, "item", "&itemListData=all");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
         return getRiotApiRequest(url, false, typeRef);
     }
 
     public RecentGamesDto getRecentGames(Region region, Long summonerId) {
-        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key=");
+        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent");
         ParameterizedTypeReference<RecentGamesDto> typeRef = new ParameterizedTypeReference<RecentGamesDto>() {
         };
         return getRiotApiRequest(url, true, typeRef);
     }
 
     public FeaturedGames getFeaturedGames(Region region) {
-        String url = getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured?api_key=");
+        String url = getDynamicURLWithAPIKey(region, "/observer-mode/rest/featured");
         ParameterizedTypeReference<FeaturedGames> typeRef = new ParameterizedTypeReference<FeaturedGames>() {
         };
         return getRiotApiRequest(url, true, typeRef);
+    }
 
+    public String getCurrentGame(Region region, long summonerId) {
+        String url = getDynamicURLWithAPIKey(region, "/consumer/getSpectatorGameInfo/" + region.getPlatformId() + "/" + summonerId);
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
+    }
+
+    public String getChampionMastery(Region region, long summonerId) {
+        String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/champions");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
+    }
+    
+    public List<ChampionMastery> getChampionMasteryData(Region region, long summonerId) {
+        String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/champions");
+        ParameterizedTypeReference<List<ChampionMastery>> typeRef = new ParameterizedTypeReference<List<ChampionMastery>>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
+    }
+
+    public String getTopChampionMastery(Region region, long summonerId) {
+        String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/topchampions");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
+    }
+    
+    public List<ChampionMastery> getTopChampionMasteryData(Region region, long summonerId) {
+        String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/topchampions");
+        ParameterizedTypeReference<List<ChampionMastery>> typeRef = new ParameterizedTypeReference<List<ChampionMastery>>() {
+        };
+        return getRiotApiRequest(url, true, typeRef);
     }
 
     public Map<String, SummonerDto> getSummonersByName(Region region, String names) {
         ParameterizedTypeReference<Map<String, SummonerDto>> typeRef = new ParameterizedTypeReference<Map<String, SummonerDto>>() {
         };
-        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.4/summoner/by-name/" + names + "?api_key=");
+        String url = getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.4/summoner/by-name/" + names);
         return getRiotApiRequest(url, true, typeRef);
     }
 
-    private String getStaticURLWithAPIKey(String url) {
-        return STATIC_DATA_HOST_URL + url + RIOT_API_KEY;
+    private String getStaticURLWithAPIKey(Region region, String url) {
+        return appendRiotApiKey(STATIC_DATA_HOST_URL_PREFIX + region.toString() + STATIC_DATA_HOST_URL_SUFFIX + url);
+    }
+
+    public String getStaticURLWithAPIKey(Region region, String url, String queryParams) {
+        return appendQueryParamsToURL(getStaticURLWithAPIKey(region, url), queryParams);
     }
 
     public String getDynamicURLWithAPIKey(Region region, String url) {
-        return DYNAMIC_DATA_HOST_URL_PREFIX + region.toString() + DYNAMIC_DATA_HOST_URL_SUFFIX + url + RIOT_API_KEY;
+        return appendRiotApiKey(DYNAMIC_DATA_HOST_URL_PREFIX + region.toString() + DYNAMIC_DATA_HOST_URL_SUFFIX + url);
+    }
+
+    public String getDynamicURLWithAPIKey(Region region, String url, String queryParams) {
+        return appendQueryParamsToURL(getDynamicURLWithAPIKey(region, url), queryParams);
+    }
+
+    public String appendQueryParamsToURL(String url, String queryParams) {
+        return url + queryParams;
+    }
+
+    public String appendRiotApiKey(String urlToAppendTo) {
+        return urlToAppendTo + "?api_key=" + RIOT_API_KEY;
     }
 
     private String getResponseFromURL(String urlString) {
