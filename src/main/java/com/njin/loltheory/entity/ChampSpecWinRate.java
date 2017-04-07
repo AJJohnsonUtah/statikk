@@ -7,12 +7,10 @@ package com.njin.loltheory.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,32 +27,28 @@ public class ChampSpecWinRate extends BaseWinRateEntity implements Serializable 
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @JoinColumn(name = "champ_spec_id", referencedColumnName = "champ_spec_id")
-    @OneToOne(optional = false)
-    private ChampSpec champSpec;
+    @EmbeddedId
+    private ChampSpecWinRatePK champSpecWinRatePK;
 
     public ChampSpecWinRate() {
     }
 
-    public ChampSpecWinRate(ChampSpec champSpec) {
+    public ChampSpecWinRate(ChampSpecWinRatePK champSpecWinRatePK) {
         super();
-        this.champSpec = champSpec;
+        this.champSpecWinRatePK = champSpecWinRatePK;
     }
 
-    public ChampSpec getChampSpec() {
-        return champSpec;
+    public ChampSpecWinRatePK getChampSpecWinRatePK() {
+        return champSpecWinRatePK;
     }
 
-    public void setChampSpec(ChampSpec champSpec) {
-        this.champSpec = champSpec;
+    public void setChampSpecWinRatePK(ChampSpecWinRatePK champSpecWinRatePK) {
+        this.champSpecWinRatePK = champSpecWinRatePK;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.champSpec);
-        return hash;
+        return this.champSpecWinRatePK.hashCode();
     }
 
     @Override
@@ -69,7 +63,7 @@ public class ChampSpecWinRate extends BaseWinRateEntity implements Serializable 
             return false;
         }
         final ChampSpecWinRate other = (ChampSpecWinRate) obj;
-        if (!Objects.equals(this.champSpec, other.champSpec)) {
+        if (!Objects.equals(this.champSpecWinRatePK, other.champSpecWinRatePK)) {
             return false;
         }
         return true;
@@ -77,7 +71,7 @@ public class ChampSpecWinRate extends BaseWinRateEntity implements Serializable 
 
     @Override
     public String toString() {
-        return "ChampSpecWinRate{" + "winCount=" + winCount + ", playedCount=" + playedCount + ", champSpec=" + champSpec + '}';
+        return "ChampSpecWinRate{" + "winCount=" + winCount + ", playedCount=" + playedCount + ", champSpecWinRatePK=" + champSpecWinRatePK + '}';
     }
 
 }

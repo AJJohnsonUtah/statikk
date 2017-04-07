@@ -5,8 +5,8 @@
  */
 package com.njin.loltheory.dao;
 
-import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.entity.ChampSpecWinRatePK;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
  * @author AJ
  */
 @Repository
-public class ChampSpecWinRateDao extends BaseWinRateEntityDao<ChampSpecWinRate, ChampSpec> {
+public class ChampSpecWinRateDao extends BaseWinRateEntityDao<ChampSpecWinRate, ChampSpecWinRatePK> {
 
     @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
-        return em.find(ChampSpecWinRate.class, champSpecWinRate);
+        return em.find(ChampSpecWinRate.class, champSpecWinRate.getChampSpecWinRatePK());
     }
 }

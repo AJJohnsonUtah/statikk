@@ -129,7 +129,7 @@ public class RiotApiService {
         };
         return getRiotApiRequest(url, true, typeRef);
     }
-    
+
     public List<ChampionMastery> getChampionMasteryData(Region region, long summonerId) {
         String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/champions");
         ParameterizedTypeReference<List<ChampionMastery>> typeRef = new ParameterizedTypeReference<List<ChampionMastery>>() {
@@ -143,7 +143,7 @@ public class RiotApiService {
         };
         return getRiotApiRequest(url, true, typeRef);
     }
-    
+
     public List<ChampionMastery> getTopChampionMasteryData(Region region, long summonerId) {
         String url = getDynamicURLWithAPIKey(region, "/championmastery/location/" + region.getPlatformId() + "/player/" + summonerId + "/topchampions");
         ParameterizedTypeReference<List<ChampionMastery>> typeRef = new ParameterizedTypeReference<List<ChampionMastery>>() {
@@ -230,8 +230,15 @@ public class RiotApiService {
     }
 
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
+        return getRiotApiRequest(url, addsToKeyLimit, typeReference, 3);
+    }
+
+    private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference, int timesToTry) {
 //        Logger.getLogger(RiotApiService.class
 //                .getName()).log(Level.INFO, url);
+        if (timesToTry <= 0) {
+            return null;
+        }
         ResponseEntity response = null;
         try {
             response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
@@ -245,11 +252,11 @@ public class RiotApiService {
                         .getName()).log(Level.SEVERE, "Unable to fetch data from " + url + ". Returning null.", ex);
             } catch (HttpClientErrorException ex2) {
                 riotApiKeytLimitService.waitSeconds();
-                return getRiotApiRequest(url, addsToKeyLimit, typeReference);
+                return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
             }
         } catch (HttpClientErrorException ex) {
             riotApiKeytLimitService.waitSeconds();
-            return getRiotApiRequest(url, addsToKeyLimit, typeReference);
+            return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
         }
         if (response == null) {
             riotApiKeytLimitService.waitMinutes();

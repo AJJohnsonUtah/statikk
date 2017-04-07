@@ -18,7 +18,6 @@ import com.njin.loltheory.riotapi.model.QueueType;
 import com.njin.loltheory.riotapi.model.Rank;
 import java.io.Serializable;
 import java.util.List;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -99,7 +98,7 @@ public class ChampSpec implements Serializable {
     @NotNull
     private Rank rank;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpec", fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpecWinRatePK.champSpec", fetch = FetchType.LAZY)
     private ChampSpecWinRate champSpecWinRate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "champMatchupPK.champSpecA", fetch = FetchType.LAZY)
