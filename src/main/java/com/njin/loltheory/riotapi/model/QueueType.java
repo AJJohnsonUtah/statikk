@@ -101,7 +101,13 @@ public enum QueueType {
     TEAM_BUILDER_RANKED_SOLO(
             420, "Ranked Solo games from current season that use Team Builder matchmaking"),
     RANKED_FLEX_SR(
-            440, "Ranked Flex Summoner's Rift games");
+            440, "Ranked Flex Summoner's Rift games"),
+    ARSR_5x5(
+            325, "All Random Summoner's Rift games"),
+    ASSASSINATE_5x5(
+            600, "Blood Hunt Assassin games"),
+    DARKSTAR_3x3(
+            610, "Darkstar games");
 
     private final int queueTypeId;
     private final String name;

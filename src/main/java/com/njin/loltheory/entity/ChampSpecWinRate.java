@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "champ_spec_win_rate")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "ChampSpecWinRate.findAllGrouped", query = "SELECT NEW com.njin.loltheory.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c GROUP BY c.champSpecWinRatePK.champSpec.championId"),
     @NamedQuery(name = "ChampSpecWinRate.findAll", query = "SELECT c FROM ChampSpecWinRate c")})
 public class ChampSpecWinRate extends BaseWinRateEntity implements Serializable {
 

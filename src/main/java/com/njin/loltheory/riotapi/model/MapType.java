@@ -21,7 +21,9 @@ public enum MapType {
     Rift(11, "Summoner's Rift", "Current Version"),
     ARAM(12, "Howling Abyss", "ARAM Map"),
     ARAMButcher(14,
-            "Butcher's Bridge", "ARAM Map");
+            "Butcher's Bridge", "ARAM Map"),
+    CosmicRuins(16,
+            "Cosmic Ruins", "Darkstar Map");
 
     private final int mapId;
     private final String name;

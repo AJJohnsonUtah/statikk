@@ -7,6 +7,9 @@ package com.njin.loltheory.dao;
 
 import com.njin.loltheory.entity.ChampSpecWinRate;
 import com.njin.loltheory.entity.ChampSpecWinRatePK;
+import com.njin.loltheory.stats.model.ChampionWinRate;
+import java.util.List;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,5 +22,10 @@ public class ChampSpecWinRateDao extends BaseWinRateEntityDao<ChampSpecWinRate, 
     @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
         return em.find(ChampSpecWinRate.class, champSpecWinRate.getChampSpecWinRatePK());
+    }
+
+    public List<ChampionWinRate> findAllGrouped() {
+        TypedQuery<ChampionWinRate> nq = em.createNamedQuery("ChampSpecWinRate.findAllGrouped", ChampionWinRate.class);                
+        return nq.getResultList();
     }
 }

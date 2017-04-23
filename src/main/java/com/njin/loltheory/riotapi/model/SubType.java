@@ -35,7 +35,9 @@ public enum SubType {
     BILGEWATER("Black Market Brawlers games"),
     SIEGE("Nexus Siege games"),
     RANKED_FLEX_TT("Ranked Flex Twisted Treeline games"),
-    RANKED_FLEX_SR("Ranked Flex Summoner's Rift games");
+    ARSR("All Random Summoner's Rift"),
+    RANKED_FLEX_SR("Ranked Flex Summoner's Rift games"),
+    DARKSTAR("Darkstar games");
 
     private final String description;
 

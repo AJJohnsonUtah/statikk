@@ -19,7 +19,11 @@ public enum GameMode {
     FIRSTBLOOD("Snowdown Showdown games"),
     KINGPORO("King Poro games"),
     SIEGE("Nexus Siege games"),
-    URF("Ultra Rapid Fire");
+    ARSR("All Random Summoner's Rift"),
+    URF("Ultra Rapid Fire"),
+    ASSASSINATE("Blood Hunt Assassin games"),
+    DARKSTAR("Darkstar games");
+    
 
     private final String description;
 

@@ -234,8 +234,8 @@ public class RiotApiService {
     }
 
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference, int timesToTry) {
-//        Logger.getLogger(RiotApiService.class
-//                .getName()).log(Level.INFO, url);
+        Logger.getLogger(RiotApiService.class
+                .getName()).log(Level.INFO, url);
         if (timesToTry <= 0) {
             return null;
         }
