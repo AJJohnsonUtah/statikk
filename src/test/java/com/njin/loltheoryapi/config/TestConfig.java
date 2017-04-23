@@ -5,8 +5,12 @@
  */
 package com.njin.loltheoryapi.config;
 
+import com.njin.loltheory.dao.ChampSpecWinRateDao;
 import com.njin.loltheory.riotapi.service.RiotApiKeyLimitService;
 import com.njin.loltheory.riotapi.service.RiotApiService;
+import com.njin.loltheory.service.ChampSpecWinRateService;
+import com.njin.loltheory.stats.service.ChampionWinRateService;
+import com.njin.loltheoryapi.controller.ChampionWinRateController;
 import com.njin.loltheoryapi.controller.StaticDataController;
 import com.njin.loltheoryapi.controller.SummonerDataController;
 import java.io.IOException;
@@ -115,5 +119,25 @@ public class TestConfig {
     @Bean
     public SummonerDataController getSummonerDataController() {
         return new SummonerDataController();
+    }
+    
+    @Bean
+    public ChampSpecWinRateService getChampSpecWinRateService() {
+        return new ChampSpecWinRateService();
+    }
+    
+    @Bean
+    public ChampionWinRateService getChampionWinRateService() {
+        return new ChampionWinRateService();
+    }
+    
+    @Bean
+    public ChampSpecWinRateDao getChampSpecWinRateDao() {
+        return new ChampSpecWinRateDao();
+    }
+    
+    @Bean
+    public ChampionWinRateController getChampionWinRateController() {
+        return new ChampionWinRateController();
     }
 }
