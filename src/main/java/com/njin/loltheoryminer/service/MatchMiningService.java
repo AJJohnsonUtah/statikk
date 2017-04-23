@@ -71,6 +71,7 @@ public class MatchMiningService {
         HashSet<Long> matchIds = new HashSet<>();
 
         while (matchIds.size() < matchesToMine) {
+            System.out.print(" Mined " + matchIds.size() + " matches. ");
             List<Long> summonerIds = getNextSummonerIds(summonerIdsToMine, alreadyMinedSummoners);
             for (RecentGamesDto recentGames : getRecentGames(summonerIds)) {
                 for (GameDto game : recentGames.getGames()) {
@@ -98,7 +99,8 @@ public class MatchMiningService {
         int summonersToFind = 5;
         List<Long> summonerIds = new ArrayList<>();
         addStartingUserIfNeeded(summonersToMine);
-        while (summonerIds.size() < 5 && !summonersToMine.isEmpty()) {
+        
+        while (summonerIds.size() < summonersToFind && !summonersToMine.isEmpty()) {           
             summonerIds.add(getNextSummoner(summonersToMine, alreadyMinedSummoners));
         }
         return summonerIds;
@@ -107,7 +109,7 @@ public class MatchMiningService {
     private List<RecentGamesDto> getRecentGames(List<Long> summonerIds) {
         List<RecentGamesDto> recentGames = new ArrayList<>();
         for (Long id : summonerIds) {
-            recentGames.add(getRecentGames(Region.NA, id));
+            recentGames.add(riotApiService.getRecentGames(Region.NA, id));
         }
         return recentGames;
     }
@@ -117,7 +119,7 @@ public class MatchMiningService {
         Random rand = new Random();
         int randGame = rand.nextInt(4);
         int randPlayer = rand.nextInt(8);
-        String summonerName = games.getGameList().get(randGame).getParticipants().get(randPlayer).getSummonerName();
+        String summonerName = games.getGameList().get(randGame).getParticipants().get(randPlayer).getSummonerName().replace(" ", "").toLowerCase();
         String summonerNameKey = SummonerDto.getKeyFromName(summonerName);
         return riotApiService.getSummonersByName(Region.NA, summonerName).get(summonerNameKey).getId();
     }
@@ -221,6 +223,7 @@ public class MatchMiningService {
 
     public RecentGamesDto getRecentGames(Region region, Long summonerId) {
         String url = riotApiService.getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key=");
+        System.out.println("Fetching URL: " + url);
         ParameterizedTypeReference<RecentGamesDto> typeRef = new ParameterizedTypeReference<RecentGamesDto>() {
         };
         return getRiotApiRequest(url, true, typeRef);

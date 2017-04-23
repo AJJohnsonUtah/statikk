@@ -11,8 +11,8 @@ import com.njin.loltheory.entity.ChampFinalBuild;
 import com.njin.loltheory.entity.ChampFinalBuildPK;
 import com.njin.loltheory.entity.ChampMatchup;
 import com.njin.loltheory.entity.ChampMatchupPK;
-import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.entity.ChampSpecWinRatePK;
 import com.njin.loltheory.entity.ChampSummonerSpells;
 import com.njin.loltheory.entity.ChampSummonerSpellsPK;
 import com.njin.loltheory.entity.ChampTeamup;
@@ -51,7 +51,7 @@ public class LolAggregateAnalysis {
 
     @Autowired
     ChampBanService champBanService;
-    private HashMap<ChampSpec, ChampSpecWinRate> champSpecWinRates;
+    private HashMap<ChampSpecWinRatePK, ChampSpecWinRate> champSpecWinRates;
     private HashMap<ChampMatchupPK, ChampMatchup> champMatchups;
     private HashMap<ChampTeamupPK, ChampTeamup> champTeamups;
     private HashMap<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
@@ -77,11 +77,11 @@ public class LolAggregateAnalysis {
         champBans = new HashMap<>();
     }
 
-    public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {
-        if (champSpecWinRates.containsKey(champSpecWinRate.getChampSpec())) {
-            champSpecWinRates.get(champSpecWinRate.getChampSpec()).combine(champSpecWinRate);
+    public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {        
+        if (champSpecWinRates.containsKey(champSpecWinRate.getChampSpecWinRatePK())) {
+            champSpecWinRates.get(champSpecWinRate.getChampSpecWinRatePK()).combine(champSpecWinRate);
         } else {
-            champSpecWinRates.put(champSpecWinRate.getChampSpec(), champSpecWinRate);
+            champSpecWinRates.put(champSpecWinRate.getChampSpecWinRatePK(), champSpecWinRate);
         }
     }
 

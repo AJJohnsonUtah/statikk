@@ -43,11 +43,15 @@ public class Application {
         long veryStart, start, middle, end;
         long timeMining = 0;
         long timeAnalyzing = 0;
+        System.out.println("Beginning Analysis!");
         while (true) {
+            System.out.println("BEGIN: Main loop");
             start = System.currentTimeMillis();
             matchMiningService.mineMatches(numMatchesToAnalyze);
+            System.out.println("INFO: Matches have been mined.");
             middle = System.currentTimeMillis();
             matchAnalyzerService.analyzeMatches(numMatchesToAnalyze);
+            System.out.println("INFO: Matches have been analyzed.");
             numIterations++;
             end = System.currentTimeMillis();
             timeMining += middle - start;

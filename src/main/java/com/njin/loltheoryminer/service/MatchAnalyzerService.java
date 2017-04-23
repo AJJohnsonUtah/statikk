@@ -13,6 +13,7 @@ import com.njin.loltheory.entity.ChampMatchup;
 import com.njin.loltheory.entity.ChampMatchupPK;
 import com.njin.loltheory.entity.ChampSpec;
 import com.njin.loltheory.entity.ChampSpecWinRate;
+import com.njin.loltheory.entity.ChampSpecWinRatePK;
 import com.njin.loltheory.entity.ChampSummonerSpells;
 import com.njin.loltheory.entity.ChampSummonerSpellsPK;
 import com.njin.loltheory.entity.ChampTeamup;
@@ -63,10 +64,11 @@ public class MatchAnalyzerService {
     public void analyzeMatches(int numMatchesToAnalyze) {
 
         List<Long> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(numMatchesToAnalyze);
-
+        System.out.println("Matches fetched for analysis");
         aggregateAnalysis.resetAnalysis();
 
         for (Long matchId : matchIdsToAnalyze) {
+            System.out.print(" Fetching match " + matchId + ". ");
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(Region.NA, matchId);
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
@@ -75,7 +77,10 @@ public class MatchAnalyzerService {
         }
 
         aggregateAnalysis.save();
-        lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
+        if(matchIdsToAnalyze.size() > 0) {
+            lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
+        }
+        
 
     }
 
@@ -111,7 +116,7 @@ public class MatchAnalyzerService {
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
         for (MatchParticipant participant : match.getParticipants()) {
-            ChampSpecWinRate winRate = new ChampSpecWinRate(participant.getChampSpec());
+            ChampSpecWinRate winRate = new ChampSpecWinRate(new ChampSpecWinRatePK(participant.getChampSpec()));
             if (participant.getTeamId() == match.getWinner()) {
                 winRate.addWin();
             } else {
