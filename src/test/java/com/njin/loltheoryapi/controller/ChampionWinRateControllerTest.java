@@ -58,7 +58,7 @@ public class ChampionWinRateControllerTest {
     @Test
     public void testGetAllChampionWinRates() {
         System.out.println("getAllChampionWinRates");
-        Assert.assertTrue("No results found for getAllChampionWinRates()", championWinRateController.getAllChampionWinRates().size() > 0);
+        Assert.assertTrue("No results found for getAllChampionWinRates()", championWinRateController.getAllChampionWinRates().containsKey(1L));
     }
     
 }

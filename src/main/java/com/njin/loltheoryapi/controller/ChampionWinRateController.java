@@ -7,7 +7,7 @@ package com.njin.loltheoryapi.controller;
 
 import com.njin.loltheory.stats.model.ChampionWinRate;
 import com.njin.loltheory.stats.service.ChampionWinRateService;
-import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,7 +30,7 @@ public class ChampionWinRateController {
     
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ChampionWinRate> getAllChampionWinRates() {
+    public Map<Long, ChampionWinRate> getAllChampionWinRates() {
         return championWinRateService.getChampionWinRates();
     }
 }
