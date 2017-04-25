@@ -8,6 +8,7 @@ package com.njin.loltheoryminer.service;
 import com.njin.loltheory.entity.LolMatch;
 import com.njin.loltheory.riotapi.model.FeaturedGames;
 import com.njin.loltheory.riotapi.model.GameDto;
+import com.njin.loltheory.riotapi.model.GameType;
 import com.njin.loltheory.riotapi.model.RecentGamesDto;
 import com.njin.loltheory.riotapi.model.SummonerDto;
 import com.njin.loltheory.riotapi.model.Region;
@@ -75,7 +76,7 @@ public class MatchMiningService {
             List<Long> summonerIds = getNextSummonerIds(summonerIdsToMine, alreadyMinedSummoners);
             for (RecentGamesDto recentGames : getRecentGames(summonerIds)) {
                 for (GameDto game : recentGames.getGames()) {
-                    if (alreadyMinedMatches.contains(game.getGameId())) {
+                    if (game.getGameMode().equals(GameType.CUSTOM_GAME) || alreadyMinedMatches.contains(game.getGameId())) {
                         continue;
                     }
                     minedMatches[matchIds.size()] = new LolMatch(game);
