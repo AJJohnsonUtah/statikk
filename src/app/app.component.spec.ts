@@ -35,10 +35,6 @@ describe(`App`, () => {
     expect(comp).toBeDefined();
   });
 
-  it(`should be @AngularClass`, () => {
-    expect(comp.name).toEqual('LolTheory');
-  });
-
   it('should log ngOnInit', () => {
     spyOn(console, 'log');
     expect(console.log).not.toHaveBeenCalled();

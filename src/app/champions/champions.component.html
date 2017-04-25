@@ -2,9 +2,9 @@
 <div id="champions" class="clearfix">
   <div class="champion-tile" *ngFor="let champion of staticChampions">
     <a [routerLink]=" ['/champion/', champion.id] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <img class="champion-tile-img" [ngStyle]="champion.spriteStyles" src="assets/img/blank.gif" on-mouseover="champion.hover=true"
+      <img class="champion-tile-img fade-in" [ngStyle]="champion.spriteStyles" src="assets/img/blank.gif" on-mouseover="champion.hover=true"
         on-mouseleave="champion.hover=false" />
-      <div class="champion-tile-tooltip" [hidden]="champion.hover != true">{{champion.name}}</div>
+      <div class="champion-tile-tooltip fade-in-fast" [hidden]="champion.hover != true">{{champion.name}} {{(championWinRates[champion.id].winRate * 100).toPrecision(4)}}%</div>
     </a>
   </div>
 </div>

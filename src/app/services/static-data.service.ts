@@ -9,7 +9,7 @@ import { StaticChampionDetail } from './riot-api-types/static-champion-detail';
 export class StaticDataService {
 
   private apiEndpoint = 'http://' + window.location.hostname + '/api';
-  private _cachedChampionsData: Map<string, StaticChampion>;
+  private _cachedChampionsData: Promise<Map<string, StaticChampion>> = null;
   constructor(private http: Http) { }
 
   public getChampion(championId: number): Promise<StaticChampionDetail> {
@@ -24,19 +24,17 @@ export class StaticDataService {
   }
 
   public getChampions(): Promise<Map<string, StaticChampion>> {
+    if (this._cachedChampionsData !== null) {
+      return this._cachedChampionsData;
+    }
     const championsUrl: string = this.apiEndpoint + '/static-data/champions';
-    return this.http.get(championsUrl)
+    this._cachedChampionsData = this.http.get(championsUrl)
       .toPromise()
       .then(
-      (response) => this.cacheStaticChampions(response)
+      (response) => response.json().data as Map<string, StaticChampion>
       )
       .catch(this.handleError);
-  }
-
-  private cacheStaticChampions(response: any): Map<string, StaticChampion> {
-    let data = response.json().data;
-    this._cachedChampionsData = data;
-    return data as Map<string, StaticChampion>;
+    return this._cachedChampionsData;
   }
 
   private handleError(error: any): Promise<any> {

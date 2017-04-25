@@ -23,6 +23,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { StaticDataService } from './services/static-data.service';
+import { ChampionWinRateService } from './services/champion-win-rate.service';
 import { HomeComponent } from './home';
 import { AboutComponent } from './about';
 import { ChampionsComponent } from './champions';
@@ -35,7 +36,8 @@ import '../styles/headings.css';
 
 // Application wide providers
 const APP_PROVIDERS = [
-  StaticDataService
+  StaticDataService,
+  ChampionWinRateService
 ];
 
 type StoreType = {
@@ -65,7 +67,7 @@ type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    StaticDataService
+    APP_PROVIDERS
   ]
 })
 export class AppModule {

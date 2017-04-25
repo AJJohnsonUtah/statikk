@@ -20,7 +20,6 @@ import {
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public name = 'LolTheory';
 
   public ngOnInit() {
     console.log('Initial App State WAS KILLED');
