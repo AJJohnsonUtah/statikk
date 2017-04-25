@@ -112,7 +112,7 @@ public class MatchDetail implements Serializable {
                 return team.getTeamId();
             }
         }
-        throw new RuntimeException("No winner found.");
+        throw new RuntimeException("No winner found... is this game vs. bots?");
     }
 
     public List<MatchParticipant> getBlueTeam() {
