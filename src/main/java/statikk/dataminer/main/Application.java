@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.main;
+package statikk.dataminer.main;
 
-import com.njin.loltheoryminer.service.ItemAnalysisService;
-import com.njin.loltheoryminer.service.MatchAnalyzerService;
-import com.njin.loltheoryminer.service.MatchMiningService;
+import statikk.dataminer.service.ItemAnalysisService;
+import statikk.dataminer.service.MatchAnalyzerService;
+import statikk.dataminer.service.MatchMiningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -17,7 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  * @author AJ
  */
-@ComponentScan(basePackages = "com.njin")
+@ComponentScan(basePackages = "statikk")
 public class Application {
 
     @Autowired

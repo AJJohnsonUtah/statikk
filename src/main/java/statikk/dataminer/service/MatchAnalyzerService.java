@@ -3,34 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.service;
+package statikk.dataminer.service;
 
-import com.njin.loltheory.entity.ChampBan;
-import com.njin.loltheory.entity.ChampBanPK;
-import com.njin.loltheory.entity.ChampFinalBuild;
-import com.njin.loltheory.entity.ChampFinalBuildPK;
-import com.njin.loltheory.entity.ChampMatchup;
-import com.njin.loltheory.entity.ChampMatchupPK;
-import com.njin.loltheory.entity.ChampSpec;
-import com.njin.loltheory.entity.ChampSpecWinRate;
-import com.njin.loltheory.entity.ChampSpecWinRatePK;
-import com.njin.loltheory.entity.ChampSummonerSpells;
-import com.njin.loltheory.entity.ChampSummonerSpellsPK;
-import com.njin.loltheory.entity.ChampTeamup;
-import com.njin.loltheory.entity.ChampTeamupPK;
-import com.njin.loltheory.riotapi.model.BannedChampion;
-import com.njin.loltheory.riotapi.model.LolTeam;
-import com.njin.loltheory.riotapi.model.MatchDetail;
-import com.njin.loltheory.riotapi.model.MatchParticipant;
-import com.njin.loltheory.riotapi.model.Region;
-import com.njin.loltheory.riotapi.service.RiotApiService;
-import com.njin.loltheory.service.ChampSpecService;
-import com.njin.loltheory.service.LolMatchService;
-import com.njin.loltheory.service.LolVersionService;
-import com.njin.loltheoryminer.model.LolAggregateAnalysis;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import statikk.dataminer.model.LolAggregateAnalysis;
+import statikk.framework.entity.ChampBan;
+import statikk.framework.entity.ChampBanPK;
+import statikk.framework.entity.ChampFinalBuild;
+import statikk.framework.entity.ChampFinalBuildPK;
+import statikk.framework.entity.ChampMatchup;
+import statikk.framework.entity.ChampMatchupPK;
+import statikk.framework.entity.ChampSpec;
+import statikk.framework.entity.ChampSpecWinRate;
+import statikk.framework.entity.ChampSpecWinRatePK;
+import statikk.framework.entity.ChampSummonerSpells;
+import statikk.framework.entity.ChampSummonerSpellsPK;
+import statikk.framework.entity.ChampTeamup;
+import statikk.framework.entity.ChampTeamupPK;
+import statikk.framework.riotapi.model.BannedChampion;
+import statikk.framework.riotapi.model.LolTeam;
+import statikk.framework.riotapi.model.MatchDetail;
+import statikk.framework.riotapi.model.MatchParticipant;
+import statikk.framework.riotapi.model.Region;
+import statikk.framework.riotapi.service.RiotApiService;
+import statikk.framework.service.ChampSpecService;
+import statikk.framework.service.LolMatchService;
+import statikk.framework.service.LolVersionService;
 
 /**
  *

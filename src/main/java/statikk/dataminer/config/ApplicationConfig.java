@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.config;
+package statikk.dataminer.config;
 
 import java.util.Properties;
 import java.util.concurrent.Executor;
@@ -54,7 +54,7 @@ public class ApplicationConfig implements AsyncConfigurer {
     public LocalContainerEntityManagerFactoryBean entityMangerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[]{"com.njin"});
+        factoryBean.setPackagesToScan(new String[]{"statikk"});
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties());
         return factoryBean;

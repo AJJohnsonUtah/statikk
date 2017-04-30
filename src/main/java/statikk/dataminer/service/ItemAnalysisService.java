@@ -3,28 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.service;
+package statikk.dataminer.service;
 
-import com.njin.loltheory.entity.FinalBuildOrder;
-import com.njin.loltheory.riotapi.model.Event;
-import com.njin.loltheory.riotapi.model.EventType;
-import com.njin.loltheory.riotapi.model.Frame;
-import com.njin.loltheory.riotapi.model.ItemDto;
-import com.njin.loltheory.riotapi.model.ItemListDto;
-import com.njin.loltheory.riotapi.model.MatchDetail;
-import com.njin.loltheory.riotapi.model.ParticipantIdentity;
-import com.njin.loltheory.riotapi.model.Region;
-import com.njin.loltheory.riotapi.service.RiotApiService;
-import com.njin.loltheory.service.FinalBuildOrderService;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import statikk.framework.entity.FinalBuildOrder;
+import statikk.framework.riotapi.model.Event;
+import statikk.framework.riotapi.model.EventType;
+import statikk.framework.riotapi.model.Frame;
+import statikk.framework.riotapi.model.ItemDto;
+import statikk.framework.riotapi.model.ItemListDto;
+import statikk.framework.riotapi.model.MatchDetail;
+import statikk.framework.riotapi.model.ParticipantIdentity;
+import statikk.framework.riotapi.model.Region;
+import statikk.framework.riotapi.service.RiotApiService;
+import statikk.framework.service.FinalBuildOrderService;
 
 /**
  *

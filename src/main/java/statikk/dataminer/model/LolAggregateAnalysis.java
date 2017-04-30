@@ -3,29 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.model;
+package statikk.dataminer.model;
 
-import com.njin.loltheory.entity.ChampBan;
-import com.njin.loltheory.entity.ChampBanPK;
-import com.njin.loltheory.entity.ChampFinalBuild;
-import com.njin.loltheory.entity.ChampFinalBuildPK;
-import com.njin.loltheory.entity.ChampMatchup;
-import com.njin.loltheory.entity.ChampMatchupPK;
-import com.njin.loltheory.entity.ChampSpecWinRate;
-import com.njin.loltheory.entity.ChampSpecWinRatePK;
-import com.njin.loltheory.entity.ChampSummonerSpells;
-import com.njin.loltheory.entity.ChampSummonerSpellsPK;
-import com.njin.loltheory.entity.ChampTeamup;
-import com.njin.loltheory.entity.ChampTeamupPK;
-import com.njin.loltheory.service.ChampBanService;
-import com.njin.loltheory.service.ChampFinalBuildService;
-import com.njin.loltheory.service.ChampMatchupService;
-import com.njin.loltheory.service.ChampSpecWinRateService;
-import com.njin.loltheory.service.ChampSummonerSpellsService;
-import com.njin.loltheory.service.ChampTeamupService;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import statikk.framework.entity.ChampBan;
+import statikk.framework.entity.ChampBanPK;
+import statikk.framework.entity.ChampFinalBuild;
+import statikk.framework.entity.ChampFinalBuildPK;
+import statikk.framework.entity.ChampMatchup;
+import statikk.framework.entity.ChampMatchupPK;
+import statikk.framework.entity.ChampSpecWinRate;
+import statikk.framework.entity.ChampSpecWinRatePK;
+import statikk.framework.entity.ChampSummonerSpells;
+import statikk.framework.entity.ChampSummonerSpellsPK;
+import statikk.framework.entity.ChampTeamup;
+import statikk.framework.entity.ChampTeamupPK;
+import statikk.framework.service.ChampBanService;
+import statikk.framework.service.ChampFinalBuildService;
+import statikk.framework.service.ChampMatchupService;
+import statikk.framework.service.ChampSpecWinRateService;
+import statikk.framework.service.ChampSummonerSpellsService;
+import statikk.framework.service.ChampTeamupService;
 
 /**
  *

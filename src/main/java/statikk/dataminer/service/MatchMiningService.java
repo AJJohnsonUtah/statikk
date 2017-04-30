@@ -3,20 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryminer.service;
+package statikk.dataminer.service;
 
-import com.njin.loltheory.entity.LolMatch;
-import com.njin.loltheory.riotapi.model.FeaturedGames;
-import com.njin.loltheory.riotapi.model.GameDto;
-import com.njin.loltheory.riotapi.model.GameType;
-import com.njin.loltheory.riotapi.model.RecentGamesDto;
-import com.njin.loltheory.riotapi.model.SummonerDto;
-import com.njin.loltheory.riotapi.model.Region;
-import com.njin.loltheory.riotapi.service.RiotApiKeyLimitService;
-import com.njin.loltheory.riotapi.service.RiotApiService;
-import com.njin.loltheory.service.LolMatchService;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -36,6 +25,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import statikk.framework.entity.LolMatch;
+import statikk.framework.riotapi.model.FeaturedGames;
+import statikk.framework.riotapi.model.GameDto;
+import statikk.framework.riotapi.model.GameType;
+import statikk.framework.riotapi.model.RecentGamesDto;
+import statikk.framework.riotapi.model.Region;
+import statikk.framework.riotapi.model.SummonerDto;
+import statikk.framework.riotapi.service.RiotApiKeyLimitService;
+import statikk.framework.riotapi.service.RiotApiService;
+import statikk.framework.service.LolMatchService;
 
 /**
  *
