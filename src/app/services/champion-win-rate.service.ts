@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ChampionWinRate } from './loltheory-api-types/ChampionWinRate';
+import { ChampionWinRate } from './statikk-api-types/ChampionWinRate';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';

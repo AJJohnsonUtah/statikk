@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StaticChampion } from '../services/riot-api-types/static-champion';
 import { StaticDataService } from '../services/static-data.service';
 import { Router } from '@angular/router';
-import { ChampionWinRate } from '../services/loltheory-api-types/championWinRate';
+import { ChampionWinRate } from '../services/statikk-api-types/championWinRate';
 import { ChampionWinRateService } from '../services/champion-win-rate.service';
 
 @Component({

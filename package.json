@@ -1,14 +1,15 @@
 {
-  "name": "angular2-webpack-starter",
-  "version": "5.4.1",
-  "description": "An Angular 2 Webpack Starter kit featuring Angular 2 (Router, Http, Forms, Services, Tests, E2E, Coverage), Karma, Protractor, Jasmine, Istanbul, TypeScript, and Webpack by AngularClass",
+  "name": "statikk-web-app",
+  "version": "1.0.0",
+  "description": "The front-end web application for Statikk - the League of Legends analysis suite.",
   "keywords": [
+    "League of Legends",
     "angular2",
     "webpack",
     "typescript"
   ],
-  "author": "Patrick Stapleton <patrick@angularclass.com>",
-  "homepage": "https://github.com/angularclass/angular2-webpack-starter",
+  "author": "AJ Johnson <AJJohnsonUtah@gmail.com>",
+  "homepage": "http://statikk.com/",
   "license": "MIT",
   "scripts": {
     "build:aot:prod": "npm run clean:dist && npm run clean:aot && webpack --config config/webpack.prod.js  --progress --profile --bail",
@@ -154,10 +155,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/angularclass/angular2-webpack-starter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/angularclass/angular2-webpack-starter/issues"
+    "url": "https://statikk@bitbucket.org/statikk/statikk-web-app.git"
   },
   "engines": {
     "node": ">= 4.2.1",

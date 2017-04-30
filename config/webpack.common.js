@@ -27,7 +27,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'LoLTheory',
+  title: 'Statikk',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
