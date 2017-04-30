@@ -3,16 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryapi.config;
+package statikk.webapi.config;
 
-import com.njin.loltheory.dao.ChampSpecWinRateDao;
-import com.njin.loltheory.riotapi.service.RiotApiKeyLimitService;
-import com.njin.loltheory.riotapi.service.RiotApiService;
-import com.njin.loltheory.service.ChampSpecWinRateService;
-import com.njin.loltheory.stats.service.ChampionWinRateService;
-import com.njin.loltheoryapi.controller.ChampionWinRateController;
-import com.njin.loltheoryapi.controller.StaticDataController;
-import com.njin.loltheoryapi.controller.SummonerDataController;
+import statikk.webapi.controller.ChampionWinRateController;
+import statikk.webapi.controller.StaticDataController;
+import statikk.webapi.controller.SummonerDataController;
 import java.io.IOException;
 import java.util.Properties;
 import javax.naming.NamingException;
@@ -34,6 +29,11 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import statikk.framework.dao.ChampSpecWinRateDao;
+import statikk.framework.riotapi.service.RiotApiKeyLimitService;
+import statikk.framework.riotapi.service.RiotApiService;
+import statikk.framework.service.ChampSpecWinRateService;
+import statikk.framework.stats.service.ChampionWinRateService;
 
 /**
  *
@@ -72,7 +72,7 @@ public class TestConfig {
     public LocalContainerEntityManagerFactoryBean entityMangerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[]{"com.njin"});
+        factoryBean.setPackagesToScan(new String[]{"statikk"});
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties());
         return factoryBean;

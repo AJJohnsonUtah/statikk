@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryapi.config;
+package statikk.webapi.config;
 
 import java.util.Properties;
 import javax.naming.NamingException;
@@ -35,7 +35,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author AJ
  */
 @Configuration
-@ComponentScan(basePackages = "com.njin")
+@ComponentScan(basePackages = "statikk")
 @EnableTransactionManagement
 @EnableAsync
 @PropertySource(value = {"classpath:application.properties"})
@@ -71,7 +71,7 @@ public class JpaConfiguration extends WebMvcConfigurerAdapter {
     public LocalContainerEntityManagerFactoryBean entityMangerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[]{"com.njin"});
+        factoryBean.setPackagesToScan(new String[]{"statikk"});
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties());
         return factoryBean;

@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.njin</groupId>
-    <artifactId>loltheory-api</artifactId>
+    <groupId>statikk</groupId>
+    <artifactId>statikk-web-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>loltheory-api</name>
+    <name>statikk-web-api</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>loltheory</artifactId>
+            <artifactId>statikk-framework</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

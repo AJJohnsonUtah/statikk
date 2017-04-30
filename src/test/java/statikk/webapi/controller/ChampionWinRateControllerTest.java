@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryapi.controller;
+package statikk.webapi.controller;
 
-import com.njin.loltheoryapi.config.TestConfig;
+import statikk.webapi.controller.ChampionWinRateController;
+import statikk.webapi.config.TestConfig;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;

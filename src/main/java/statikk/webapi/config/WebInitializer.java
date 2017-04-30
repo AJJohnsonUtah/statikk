@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryapi.config;
+package statikk.webapi.config;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

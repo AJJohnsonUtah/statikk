@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheoryapi.controller;
+package statikk.webapi.controller;
 
-import com.njin.loltheory.riotapi.model.Region;
-import com.njin.loltheory.riotapi.service.RiotApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import statikk.framework.riotapi.model.Region;
+import statikk.framework.riotapi.service.RiotApiService;
 
 /**
  *

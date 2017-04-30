@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.njin.loltheory.api.common;
+package statikk.webapi.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
