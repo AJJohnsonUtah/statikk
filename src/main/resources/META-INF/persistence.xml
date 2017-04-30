@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="com.njin_loltheory_jar_1.0-SNAPSHOTPU" transaction-type="JTA">
+  <persistence-unit name="statikk.framework_jar_1.0-SNAPSHOTPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.njin.loltheory.entity.ChampSummonerSpells</class>
-    <class>com.njin.loltheory.entity.LolMatch</class>
-    <class>com.njin.loltheory.entity.ChampSpec</class>
-    <class>com.njin.loltheory.entity.ChampFinalBuild</class>
-    <class>com.njin.loltheory.entity.LolVersion</class>
-    <class>com.njin.loltheory.entity.ChampMatchup</class>
-    <class>com.njin.loltheory.entity.ChampBan</class>
-    <class>com.njin.loltheory.entity.ChampSpecWinRate</class>
-    <class>com.njin.loltheory.entity.ChampTeamup</class>
-    <class>com.njin.loltheory.entity.FinalBuildOrder</class>
-
+    <class>statikk.framework.entity.LolVersion</class>
+    <class>statikk.framework.entity.ChampBan</class>
+    <class>statikk.framework.entity.LolMatch</class>
+    <class>statikk.framework.entity.ChampSummonerSpells</class>
+    <class>statikk.framework.entity.ChampTeamup</class>
+    <class>statikk.framework.entity.ChampSpec</class>
+    <class>statikk.framework.entity.ChampSpecWinRate</class>
+    <class>statikk.framework.entity.ChampFinalBuild</class>
+    <class>statikk.framework.entity.FinalBuildOrder</class>
+    <class>statikk.framework.entity.ChampMatchup</class>
   </persistence-unit>
 </persistence>
