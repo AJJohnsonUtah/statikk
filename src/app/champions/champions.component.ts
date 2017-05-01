@@ -48,7 +48,7 @@ export class ChampionsComponent implements OnInit {
         Object.keys(staticChampionsData).forEach((key) => {
             let champ: StaticChampion = staticChampionsData[key];
             champ.spriteStyles = {
-                'background': 'url(\'http://ddragon.leagueoflegends.com/cdn/7.5.2/img/sprite/' +
+                'background': 'url(\'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/sprite/' +
                 champ.image.sprite + '\')',
                 'background-position': -champ.image.x + 'px ' + -champ.image.y + 'px',
                 'height': champ.image.h,
