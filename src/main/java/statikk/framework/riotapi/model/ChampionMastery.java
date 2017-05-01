@@ -23,8 +23,6 @@ public class ChampionMastery {
     public ChampionMastery() {
     }
 
-    ;
-
     public long getChampionLevel() {
         return championLevel;
     }

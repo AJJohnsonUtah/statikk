@@ -11,9 +11,9 @@ import statikk.framework.entity.converter.RankConverter;
 import statikk.framework.entity.converter.RoleConverter;
 import statikk.framework.entity.enums.Lane;
 import statikk.framework.entity.enums.Role;
-import statikk.framework.riotapi.model.BannedChampion;
+import statikk.framework.riotapi.model.TeamBansDto;
 import statikk.framework.riotapi.model.MatchDetail;
-import statikk.framework.riotapi.model.MatchParticipant;
+import statikk.framework.riotapi.model.ParticipantDto;
 import statikk.framework.riotapi.model.QueueType;
 import statikk.framework.riotapi.model.Rank;
 import java.io.Serializable;
@@ -138,18 +138,18 @@ public class ChampSpec implements Serializable {
         this.lolVersionId = lolVersionId;
     }
 
-    public ChampSpec(MatchDetail match, MatchParticipant matchParticipant) {
+    public ChampSpec(MatchDetail match, ParticipantDto matchParticipant) {
         this.championId = matchParticipant.getChampionId();
-        this.matchType = match.getQueueType();
-        this.lolVersionId = match.getMatchVersion();
+        this.matchType = match.getQueueId();
+        this.lolVersionId = match.getGameVersion();
         this.lane = matchParticipant.getTimeline().getLane().toLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
     }
 
-    public ChampSpec(MatchDetail match, BannedChampion bannedChamp) {
+    public ChampSpec(MatchDetail match, TeamBansDto bannedChamp) {
         this.championId = bannedChamp.getChampionId();
-        this.matchType = match.getQueueType();
-        this.lolVersionId = match.getMatchVersion();
+        this.matchType = match.getQueueId();
+        this.lolVersionId = match.getGameVersion();
         this.rank = null;
         this.lane = null;
         this.role = null;        

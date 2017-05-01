@@ -46,6 +46,5 @@ public class Participant {
     public long getTeamId() {
         return teamId;
     }
-    
-    
+
 }

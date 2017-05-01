@@ -13,9 +13,9 @@ import java.util.List;
  *
  * @author AJ
  */
-public class Team implements Serializable {
+public class TeamStatsDto implements Serializable {
 
-    private List<BannedChampion> bans;
+    private List<TeamBansDto> bans;
     private int baronKills;
     private long dominionVictoryScore;
     private int dragonKills;
@@ -30,13 +30,13 @@ public class Team implements Serializable {
     private LolTeam teamId;
     private int towerKills;
     private int vilemawKills;
-    private boolean winner;
-    
-    public Team() {
+    private WinStatus win;
+
+    public TeamStatsDto() {
         bans = new ArrayList<>();
     }
 
-    public List<BannedChampion> getBans() {
+    public List<TeamBansDto> getBans() {
         return bans;
     }
 
@@ -96,8 +96,12 @@ public class Team implements Serializable {
         return vilemawKills;
     }
 
+    public WinStatus getWin() {
+        return win;
+    }
+
     public boolean isWinner() {
-        return winner;
+        return win.equals(WinStatus.Win);
     }
 
 }

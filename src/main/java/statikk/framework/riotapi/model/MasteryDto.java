@@ -11,17 +11,17 @@ import java.io.Serializable;
  *
  * @author AJ
  */
-public class ParticipantIdentity implements Serializable {
+public class MasteryDto implements Serializable {
 
-    private int participantId;
-    private Player player;
+    private long masteryId;
+    private long rank;
 
-    public int getParticipantId() {
-        return participantId;
+    public long getMasteryId() {
+        return masteryId;
     }
 
-    public Player getPlayer() {
-        return player;
+    public long getRank() {
+        return rank;
     }
 
 }

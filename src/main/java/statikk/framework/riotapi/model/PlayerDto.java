@@ -13,20 +13,45 @@ import java.io.Serializable;
  */
 public class PlayerDto implements Serializable {
 
-    private int championId;
-    private long summonerId;
-    private int teamId;
+    private String matchHistoryUri;
+    private int profileIcon;
+    private Long summonerId;
+    private String summonerName;
+    private Region currentPlatformId;
+    private Region platformId;
+    private Long currentAccountId;
+    private Long accountId;
 
-    public int getChampionId() {
-        return championId;
+    public String getMatchHistoryUri() {
+        return matchHistoryUri;
     }
 
-    public long getSummonerId() {
+    public int getProfileIcon() {
+        return profileIcon;
+    }
+
+    public String getSummonerName() {
+        return summonerName;
+    }
+
+    public Long getSummonerId() {
         return summonerId;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public Region getCurrentPlatformId() {
+        return currentPlatformId;
+    }
+
+    public Region getPlatformId() {
+        return platformId;
+    }
+
+    public Long getCurrentAccountId() {
+        return currentAccountId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
     }
 
 }

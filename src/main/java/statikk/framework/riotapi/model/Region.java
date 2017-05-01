@@ -5,6 +5,9 @@
  */
 package statikk.framework.riotapi.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.HashMap;
+
 /**
  *
  * @author AJ
@@ -31,5 +34,20 @@ public enum Region {
     
     public String getPlatformId() {
         return this.platformId;
+    }
+    
+    private static final HashMap<String, Region> regionMap;
+
+    static {
+        regionMap = new HashMap<>();
+        for (Region region : values()) {
+            regionMap.put(region.getPlatformId(), region);
+            regionMap.put(region.name(), region);
+        }
+    }
+    
+    @JsonCreator
+    public static Region fromString(String regionId) {
+        return regionMap.get(regionId);
     }
 }

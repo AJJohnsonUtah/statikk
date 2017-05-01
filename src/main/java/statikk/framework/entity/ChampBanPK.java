@@ -5,7 +5,7 @@
  */
 package statikk.framework.entity;
 
-import statikk.framework.riotapi.model.BannedChampion;
+import statikk.framework.riotapi.model.TeamBansDto;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -36,7 +36,7 @@ public class ChampBanPK implements Serializable {
     public ChampBanPK() {
     }
 
-    public ChampBanPK(BannedChampion bannedChamp) {
+    public ChampBanPK(TeamBansDto bannedChamp) {
         this.champSpec = bannedChamp.getChampSpec();
         this.banOrder = bannedChamp.getPickTurn();
     }

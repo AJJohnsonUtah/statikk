@@ -12,11 +12,10 @@ import java.io.Serializable;
  *
  * @author AJ
  */
-public class BannedChampion implements Serializable {
+public class TeamBansDto implements Serializable {
 
     private int championId;
     private int pickTurn;
-    private long teamId;
     private ChampSpec champSpec;
 
     public int getChampionId() {
@@ -25,10 +24,6 @@ public class BannedChampion implements Serializable {
 
     public int getPickTurn() {
         return pickTurn;
-    }
-
-    public long getTeamId() {
-        return teamId;
     }
 
     public void setChampSpec(ChampSpec champSpec) {

@@ -14,16 +14,16 @@ import java.util.List;
  *
  * @author AJ
  */
-public class MatchParticipant implements Serializable {
+public class ParticipantDto implements Serializable {
 
     private int championId;
     private Rank highestAchievedSeasonTier;
-    private List<Mastery> masteries;
+    private List<MasteryDto> masteries;
     private int participantId;
-    private List<Rune> runes;
+    private List<RuneDto> runes;
     private int spell1Id;
     private int spell2Id;
-    private ParticipantStats stats;
+    private ParticipantStatsDto stats;
     private LolTeam teamId;
     private ParticipantTimeline timeline;
     private ChampSpec champSpec = null;
@@ -53,7 +53,7 @@ public class MatchParticipant implements Serializable {
         return highestAchievedSeasonTier;
     }
 
-    public List<Mastery> getMasteries() {
+    public List<MasteryDto> getMasteries() {
         return masteries;
     }
 
@@ -61,7 +61,7 @@ public class MatchParticipant implements Serializable {
         return participantId;
     }
 
-    public List<Rune> getRunes() {
+    public List<RuneDto> getRunes() {
         return runes;
     }
 
@@ -73,7 +73,7 @@ public class MatchParticipant implements Serializable {
         return spell2Id;
     }
 
-    public ParticipantStats getStats() {
+    public ParticipantStatsDto getStats() {
         return stats;
     }
 

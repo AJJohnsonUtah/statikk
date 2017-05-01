@@ -5,23 +5,10 @@
  */
 package statikk.framework.riotapi.model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author AJ
  */
-public class Mastery implements Serializable {
-
-    private long masteryId;
-    private long rank;
-
-    public long getMasteryId() {
-        return masteryId;
-    }
-
-    public long getRank() {
-        return rank;
-    }
-
+public enum WinStatus {
+    Win, Fail;
 }

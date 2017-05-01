@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class FeaturedGameInfo implements Serializable {
 
-    private List<BannedChampion> bannedChampions;
+    private List<TeamBansDto> bannedChampions;
     private long gameId;
     private long gameLength;
     private GameMode gameMode;
@@ -26,7 +26,7 @@ public class FeaturedGameInfo implements Serializable {
     private List<Participant> participants;
     private String platformId;
 
-    public List<BannedChampion> getBannedChampions() {
+    public List<TeamBansDto> getBannedChampions() {
         return bannedChampions;
     }
 

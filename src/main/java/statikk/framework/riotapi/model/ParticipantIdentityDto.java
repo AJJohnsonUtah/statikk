@@ -11,17 +11,17 @@ import java.io.Serializable;
  *
  * @author AJ
  */
-public class Rune implements Serializable {
+public class ParticipantIdentityDto implements Serializable {
 
-    private long runeId;
-    private long rank;
+    private int participantId;
+    private PlayerDto player;
 
-    public long getRuneId() {
-        return runeId;
+    public int getParticipantId() {
+        return participantId;
     }
 
-    public long getRank() {
-        return rank;
+    public PlayerDto getPlayer() {
+        return player;
     }
 
 }

@@ -7,7 +7,7 @@ package statikk.framework.entity;
 
 import statikk.framework.entity.converter.MatchStatusConverter;
 import statikk.framework.entity.enums.MatchStatus;
-import statikk.framework.riotapi.model.GameDto;
+import statikk.framework.riotapi.model.MatchReferenceDto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -85,9 +85,9 @@ public class LolMatch implements Serializable {
         this.processedTime = null;
     }
 
-    public LolMatch(GameDto game) {
+    public LolMatch(MatchReferenceDto game) {
         this.matchId = game.getGameId();
-        this.beginTime = new Date(game.getCreateDate());
+        this.beginTime = new Date(game.getTimestamp());
         this.insertTime = new Date();
         this.processedTime = null;
         this.status = MatchStatus.READY;

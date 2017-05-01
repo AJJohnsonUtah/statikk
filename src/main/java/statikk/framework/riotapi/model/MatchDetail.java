@@ -17,28 +17,89 @@ import java.util.stream.Collectors;
  */
 public class MatchDetail implements Serializable {
 
+    private Integer seasonId;
+    private QueueType queueId;
+    private Long gameId;
+    private List<ParticipantIdentityDto> participantIdentities;
+    private LolVersion gameVersion;
+    private Region platformId;
+    private GameMode gameMode;
     private MapType mapId;
-    private long matchCreation;
-    private long matchDuration;
-    private long matchId;
-    private GameMode matchMode;
-    private GameType matchType;
-    private LolVersion matchVersion;
-    private List<ParticipantIdentity> participantIdentities;
-    private List<MatchParticipant> participants;
-    private String platformId;
-    private QueueType queueType;
-    private Region region;
-    private Season season;
-    private List<Team> teams;
-    private Timeline timeline;
-    private ErrorStatus status;
-    private LolTeam winner;    
+    private GameType gameType;
+    private List<TeamStatsDto> teams;
+    private List<ParticipantDto> participants;
+    private Long gameDuration;
+    private Long gameCreation;
+    private Timeline timeline;    
+    
+    private LolTeam winner;
+    
+    private ErrorStatus status;        
 
-    public void setMatchVersion(LolVersion matchVersion) {
-        this.matchVersion = matchVersion;
+    public Integer getSeasonId() {
+        return seasonId;
     }
 
+    public QueueType getQueueId() {
+        return queueId;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public List<ParticipantIdentityDto> getParticipantIdentities() {
+        return participantIdentities;
+    }
+
+    public LolVersion getGameVersion() {
+        return gameVersion;
+    }
+
+    public Region getPlatformId() {
+        return platformId;
+    }
+
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
+    public GameType getGameType() {
+        return gameType;
+    }
+
+    public List<TeamStatsDto> getTeams() {
+        return teams;
+    }
+
+    public List<ParticipantDto> getParticipants() {
+        return participants;
+    }
+
+    public Long getGameDuration() {
+        return gameDuration;
+    }
+
+    public Long getGameCreation() {
+        return gameCreation;
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
+    
+    
+    
+    public void setGameVersion(LolVersion matchVersion) {
+        this.gameVersion = matchVersion;
+    }
+
+    public void setStatus(ErrorStatus status) {
+        this.status = status;
+    }
+
+    
+    
     public ErrorStatus getStatus() {
         return status;
     }
@@ -47,102 +108,51 @@ public class MatchDetail implements Serializable {
         return mapId;
     }
 
-    public long getMatchCreation() {
-        return matchCreation;
-    }
-
-    public long getMatchDuration() {
-        return matchDuration;
-    }
-
-    public long getMatchId() {
-        return matchId;
-    }
-
-    public GameMode getMatchMode() {
-        return matchMode;
-    }
-
-    public GameType getMatchType() {
-        return matchType;
-    }
-
-    public LolVersion getMatchVersion() {
-        return matchVersion;
-    }
-
-    public List<ParticipantIdentity> getParticipantIdentities() {
-        return participantIdentities;
-    }
-
-    public List<MatchParticipant> getParticipants() {
-        return participants;
-    }
-
-    public String getPlatformId() {
-        return platformId;
-    }
-
-    public QueueType getQueueType() {
-        return queueType;
-    }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public Season getSeason() {
-        return season;
-    }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public Timeline getTimeline() {
-        return timeline;
+    public void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
     }
 
     public LolTeam getWinner() {
         if (winner != null) {
             return winner;
         }
-        for (Team team : teams) {
+        for (TeamStatsDto team : teams) {
             if (team.isWinner()) {
+                winner = team.getTeamId();
                 return team.getTeamId();
             }
         }
         throw new RuntimeException("No winner found... is this game vs. bots?");
     }
 
-    public List<MatchParticipant> getBlueTeam() {
+    public List<ParticipantDto> getBlueTeam() {
         return getTeam(LolTeam.BLUE);
     }
 
-    public List<MatchParticipant> getPurpleTeam() {
+    public List<ParticipantDto> getPurpleTeam() {
         return getTeam(LolTeam.PURPLE);
     }
 
-    public List<MatchParticipant> getTeam(LolTeam teamId) {
+    public List<ParticipantDto> getTeam(LolTeam teamId) {
         return participants.stream()
                 .filter(a -> a.getTeamId() == teamId)
                 .collect(Collectors.toList());
     }
 
-    public MatchParticipant getParticipantFromId(int participantId) {
+    public ParticipantDto getParticipantFromId(int participantId) {
         if (this.participants.get(participantId - 1).getParticipantId() == participantId) {
             return this.participants.get(participantId - 1);
         }
-        for (MatchParticipant p : this.participants) {
+        for (ParticipantDto p : this.participants) {
             if (p.getParticipantId() == participantId) {
                 return p;
             }
         }
         return null;
     }
-    
-    public List<BannedChampion> getBannedChampions() {
-        List<BannedChampion> bannedChampions = new ArrayList<>();
+
+    public List<TeamBansDto> getBannedChampions() {
+        List<TeamBansDto> bannedChampions = new ArrayList<>();
         teams.stream().forEach((team) -> {
             bannedChampions.addAll(team.getBans());
         });
