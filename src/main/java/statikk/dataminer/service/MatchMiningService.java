@@ -17,6 +17,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -27,9 +28,10 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import statikk.framework.entity.LolMatch;
 import statikk.framework.riotapi.model.FeaturedGames;
-import statikk.framework.riotapi.model.GameDto;
-import statikk.framework.riotapi.model.GameType;
-import statikk.framework.riotapi.model.RecentGamesDto;
+import statikk.framework.riotapi.model.MatchDetail;
+import statikk.framework.riotapi.model.MatchReferenceDto;
+import statikk.framework.riotapi.model.MatchListDto;
+import statikk.framework.riotapi.model.QueueType;
 import statikk.framework.riotapi.model.Region;
 import statikk.framework.riotapi.model.SummonerDto;
 import statikk.framework.riotapi.service.RiotApiKeyLimitService;
@@ -52,11 +54,11 @@ public class MatchMiningService {
     @Autowired
     RiotApiKeyLimitService riotApiKeyLimitService;
 
-    LinkedHashSet<Long> summonerIdsToMine = new LinkedHashSet<>();
+    private final LinkedHashSet<Long> accountIdsToMine = new LinkedHashSet<>();
 
-    HashSet<Long> alreadyMinedMatches = new HashSet<>();
+    private final HashSet<Long> alreadyMinedMatches = new HashSet<>();
 
-    HashSet<Long> alreadyMinedSummoners = new HashSet<>();
+    private final HashSet<Long> alreadyMinedAccounts = new HashSet<>();
 
     RestTemplate restTemplate;
 
@@ -72,85 +74,76 @@ public class MatchMiningService {
 
         while (matchIds.size() < matchesToMine) {
             System.out.print(" Mined " + matchIds.size() + " matches. ");
-            List<Long> summonerIds = getNextSummonerIds(summonerIdsToMine, alreadyMinedSummoners);
-            for (RecentGamesDto recentGames : getRecentGames(summonerIds)) {
-                for (GameDto game : recentGames.getGames()) {
-                    if (game.getGameMode().equals(GameType.CUSTOM_GAME) || alreadyMinedMatches.contains(game.getGameId())) {
-                        continue;
-                    }
-                    minedMatches[matchIds.size()] = new LolMatch(game);
-                    matchIds.add(game.getGameId());
-                    addSummonersToMineIfNeeded(game, summonerIdsToMine);
-
-                    if (matchIds.size() >= matchesToMine) {
-                        break;
-                    }
+            Long accountId = getNextAccountId(accountIdsToMine, alreadyMinedAccounts);
+            MatchListDto recentGames = riotApiService.getRecentGames(Region.NA, accountId);
+            if (recentGames == null || recentGames.getMatches() == null) {
+                continue;
+            }
+            for (MatchReferenceDto game : recentGames.getMatches()) {
+                if (game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId())) {
+                    continue;
                 }
+                alreadyMinedMatches.add(game.getGameId());
+                minedMatches[matchIds.size()] = new LolMatch(game);
+                matchIds.add(game.getGameId());
                 if (matchIds.size() >= matchesToMine) {
                     break;
                 }
+            }
+            if (matchIds.size() >= matchesToMine) {
+                break;
             }
         }
         lolMatchService.batchInsert(minedMatches);
         System.out.println("Took " + (System.currentTimeMillis() - start) / 1000.0 + " seconds for " + matchesToMine + " matches.");
     }
 
-    private List<Long> getNextSummonerIds(LinkedHashSet<Long> summonersToMine, HashSet<Long> alreadyMinedSummoners) {
-        int summonersToFind = 5;
-        List<Long> summonerIds = new ArrayList<>();
-        addStartingUserIfNeeded(summonersToMine);
-        
-        while (summonerIds.size() < summonersToFind && !summonersToMine.isEmpty()) {           
-            summonerIds.add(getNextSummoner(summonersToMine, alreadyMinedSummoners));
-        }
-        return summonerIds;
-    }
-
-    private List<RecentGamesDto> getRecentGames(List<Long> summonerIds) {
-        List<RecentGamesDto> recentGames = new ArrayList<>();
-        for (Long id : summonerIds) {
-            recentGames.add(riotApiService.getRecentGames(Region.NA, id));
-        }
-        return recentGames;
-    }
-
-    private Long getStartingSummonerId() {
+    private List<Long> getStartingAccountIds() {
         FeaturedGames games = riotApiService.getFeaturedGames(Region.NA);
         Random rand = new Random();
-        int randGame = rand.nextInt(4);
-        int randPlayer = rand.nextInt(8);
-        String summonerName = games.getGameList().get(randGame).getParticipants().get(randPlayer).getSummonerName().replace(" ", "").toLowerCase();
-        String summonerNameKey = SummonerDto.getKeyFromName(summonerName);
-        return riotApiService.getSummonersByName(Region.NA, summonerName).get(summonerNameKey).getId();
+        List<String> accountNames = games.getGameList()
+                .stream()
+                .map((game) -> SummonerDto.getKeyFromName(game.getParticipants().get(rand.nextInt(game.getParticipants().size()) % game.getParticipants().size()).getSummonerName()))
+                .collect(Collectors.toList());
+
+        return accountNames
+                .stream()
+                .map((name) -> riotApiService.getSummonerByName(Region.NA, name).getAccountId())
+                .collect(Collectors.toList());
     }
 
-    private void addStartingUserIfNeeded(LinkedHashSet<Long> summonersToMine) {
-        if (summonersToMine.isEmpty()) {
-            summonersToMine.add(getStartingSummonerId());
+    private void addStartingAccountsIfNeeded(LinkedHashSet<Long> accountsToMine) {
+        if (accountsToMine.isEmpty()) {
+            accountsToMine.addAll(getStartingAccountIds());
         }
     }
 
-    private Long getNextSummoner(LinkedHashSet<Long> summonersToMine, HashSet<Long> alreadyMinedSummoners) {
-        Iterator<Long> iter = summonersToMine.iterator();
+    private Long getNextAccountId(LinkedHashSet<Long> accountsToMine, HashSet<Long> alreadyMinedAccounts) {
+        addStartingAccountsIfNeeded(accountsToMine);
+        Iterator<Long> iter = accountsToMine.iterator();
         Long summonerId = iter.next();
         iter.remove();
-        alreadyMinedSummoners.add(summonerId);
+        alreadyMinedAccounts.add(summonerId);
         return summonerId;
     }
 
-    private void addSummonersToMineIfNeeded(GameDto game, LinkedHashSet<Long> summonersToMine) {
-        if (summonersToMine.size() < 1000) {
-            game.getFellowPlayers().stream().forEach((player) -> {
-                summonersToMine.add(player.getSummonerId());
-            });
+    public void addAccountsToMineIfNeeded(MatchDetail match) {
+        if (accountIdsToMine.size() < 1000) {
+            if (match.getParticipantIdentities().get(0).getPlayer() != null) {
+                match.getParticipantIdentities()
+                        .stream()
+                        .map(s -> s.getPlayer().getSummonerId())
+                        .sequential()
+                        .collect(Collectors.toCollection(() -> accountIdsToMine));
+            }
         }
     }
 
     @Autowired
     private Executor executor;
 
-    public List<RecentGamesDto> getRecentGamesAsync(List<Long> summonerIds) {
-        List<RecentGamesDto> summonersRecentGames = new ArrayList<>();
+    public List<MatchListDto> getRecentGamesAsync(List<Long> summonerIds) {
+        List<MatchListDto> summonersRecentGames = new ArrayList<>();
         List<GetRecentGamesTask> tasks = new ArrayList<>();
 
         for (Long summonerId : summonerIds) {
@@ -181,7 +174,7 @@ public class MatchMiningService {
     class GetRecentGamesTask {
 
         private final GetRecentGamesWork work;
-        private final FutureTask<RecentGamesDto> task;
+        private final FutureTask<MatchListDto> task;
 
         public GetRecentGamesTask(Long summonerId, Executor executor) {
             this.work = new GetRecentGamesWork(summonerId);
@@ -189,7 +182,7 @@ public class MatchMiningService {
             executor.execute(this.task);
         }
 
-        public RecentGamesDto getResponse() {
+        public MatchListDto getResponse() {
             try {
                 return this.task.get();
             } catch (InterruptedException | ExecutionException e) {
@@ -204,7 +197,7 @@ public class MatchMiningService {
     }
 
     //Callable representing actual HTTP GET request
-    class GetRecentGamesWork implements Callable<RecentGamesDto> {
+    class GetRecentGamesWork implements Callable<MatchListDto> {
 
         private final Long summonerId;
 
@@ -216,17 +209,9 @@ public class MatchMiningService {
             return this.summonerId;
         }
 
-        public RecentGamesDto call() throws Exception {
-            return getRecentGames(Region.NA, summonerId);
+        public MatchListDto call() throws Exception {
+            return riotApiService.getRecentGames(Region.NA, summonerId);
         }
-    }
-
-    public RecentGamesDto getRecentGames(Region region, Long summonerId) {
-        String url = riotApiService.getDynamicURLWithAPIKey(region, "/api/lol/" + region.toString() + "/v1.3/game/by-summoner/" + summonerId + "/recent?api_key=");
-        System.out.println("Fetching URL: " + url);
-        ParameterizedTypeReference<RecentGamesDto> typeRef = new ParameterizedTypeReference<RecentGamesDto>() {
-        };
-        return getRiotApiRequest(url, true, typeRef);
     }
 
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {

@@ -20,7 +20,7 @@ import statikk.framework.riotapi.model.Frame;
 import statikk.framework.riotapi.model.ItemDto;
 import statikk.framework.riotapi.model.ItemListDto;
 import statikk.framework.riotapi.model.MatchDetail;
-import statikk.framework.riotapi.model.ParticipantIdentity;
+import statikk.framework.riotapi.model.ParticipantIdentityDto;
 import statikk.framework.riotapi.model.Region;
 import statikk.framework.riotapi.service.RiotApiService;
 import statikk.framework.service.FinalBuildOrderService;
@@ -121,7 +121,7 @@ public class ItemAnalysisService {
 
         HashMap<Integer, LinkedList<Event>> buildItemIdStacks = new HashMap<>();
 
-        for (ParticipantIdentity partId : match.getParticipantIdentities()) {
+        for (ParticipantIdentityDto partId : match.getParticipantIdentities()) {
             buildItemIdStacks.put(partId.getParticipantId(), new LinkedList<>());
         }
         if (match.getTimeline() == null || match.getTimeline().getFrames() == null) {

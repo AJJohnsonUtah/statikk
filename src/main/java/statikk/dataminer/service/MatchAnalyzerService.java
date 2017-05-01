@@ -22,10 +22,10 @@ import statikk.framework.entity.ChampSummonerSpells;
 import statikk.framework.entity.ChampSummonerSpellsPK;
 import statikk.framework.entity.ChampTeamup;
 import statikk.framework.entity.ChampTeamupPK;
-import statikk.framework.riotapi.model.BannedChampion;
+import statikk.framework.riotapi.model.TeamBansDto;
 import statikk.framework.riotapi.model.LolTeam;
 import statikk.framework.riotapi.model.MatchDetail;
-import statikk.framework.riotapi.model.MatchParticipant;
+import statikk.framework.riotapi.model.ParticipantDto;
 import statikk.framework.riotapi.model.Region;
 import statikk.framework.riotapi.service.RiotApiService;
 import statikk.framework.service.ChampSpecService;
@@ -56,6 +56,9 @@ public class MatchAnalyzerService {
 
     @Autowired
     ItemAnalysisService itemAnalysisService;
+    
+    @Autowired
+    MatchMiningService matchMiningService;
 
     public MatchAnalyzerService() {
 
@@ -70,6 +73,7 @@ public class MatchAnalyzerService {
         for (Long matchId : matchIdsToAnalyze) {
             System.out.print(" Fetching match " + matchId + ". ");
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(Region.NA, matchId);
+            matchMiningService.addAccountsToMineIfNeeded(currentMatch);
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
                 analyzeMatch(currentMatch, aggregateAnalysis);
@@ -79,8 +83,7 @@ public class MatchAnalyzerService {
         aggregateAnalysis.save();
         if(matchIdsToAnalyze.size() > 0) {
             lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
-        }
-        
+        }        
 
     }
 
@@ -98,7 +101,7 @@ public class MatchAnalyzerService {
 
     private void loadEntities(MatchDetail match) {
         // Load LolVersion
-        match.setMatchVersion(lolVersionService.loadEntity(match.getMatchVersion()));
+        match.setGameVersion(lolVersionService.loadEntity(match.getGameVersion()));
 
         // Load ChampSpecs
         match.getParticipants().stream().forEach((participant) -> {            
@@ -115,7 +118,7 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for (MatchParticipant participant : match.getParticipants()) {
+        for (ParticipantDto participant : match.getParticipants()) {
             ChampSpecWinRate winRate = new ChampSpecWinRate(new ChampSpecWinRatePK(participant.getChampSpec()));
             if (participant.getTeamId() == match.getWinner()) {
                 winRate.addWin();
@@ -127,8 +130,8 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeChampMatchups(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for (MatchParticipant blueParticipant : match.getTeam(LolTeam.BLUE)) {
-            for (MatchParticipant purpleParticipant : match.getTeam(LolTeam.PURPLE)) {
+        for (ParticipantDto blueParticipant : match.getTeam(LolTeam.BLUE)) {
+            for (ParticipantDto purpleParticipant : match.getTeam(LolTeam.PURPLE)) {
                 ChampMatchupPK blueVsPurplePK = new ChampMatchupPK(blueParticipant.getChampSpec(), purpleParticipant.getChampSpec());
                 ChampMatchup blueVsPurple = new ChampMatchup(blueVsPurplePK);
                 ChampMatchupPK purpleVsBluePK = new ChampMatchupPK(purpleParticipant.getChampSpec(), blueParticipant.getChampSpec());
@@ -147,8 +150,8 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeChampTeamups(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for (MatchParticipant blueParticipantA : match.getTeam(LolTeam.BLUE)) {
-            for (MatchParticipant blueParticipantB : match.getTeam(LolTeam.BLUE)) {
+        for (ParticipantDto blueParticipantA : match.getTeam(LolTeam.BLUE)) {
+            for (ParticipantDto blueParticipantB : match.getTeam(LolTeam.BLUE)) {
                 if (blueParticipantA.equals(blueParticipantB)) {
                     continue;
                 }
@@ -163,8 +166,8 @@ public class MatchAnalyzerService {
             }
         }
 
-        for (MatchParticipant purpleParticipantA : match.getTeam(LolTeam.PURPLE)) {
-            for (MatchParticipant purpleParticipantB : match.getTeam(LolTeam.PURPLE)) {
+        for (ParticipantDto purpleParticipantA : match.getTeam(LolTeam.PURPLE)) {
+            for (ParticipantDto purpleParticipantB : match.getTeam(LolTeam.PURPLE)) {
                 if (purpleParticipantA.equals(purpleParticipantB)) {
                     continue;
                 }
@@ -181,7 +184,7 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeFinalBuildOrder(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for (MatchParticipant participant : match.getParticipants()) {
+        for (ParticipantDto participant : match.getParticipants()) {
             ChampFinalBuildPK champFinalBuildPK = new ChampFinalBuildPK(participant.getChampSpec(), participant.getFinalBuildOrder());
             ChampFinalBuild champFinalBuild = new ChampFinalBuild(champFinalBuildPK);
             if (participant.getTeamId() == match.getWinner()) {
@@ -194,7 +197,7 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeChampSummonerSpells(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for (MatchParticipant participant : match.getParticipants()) {
+        for (ParticipantDto participant : match.getParticipants()) {
             ChampSummonerSpellsPK champSummonerSpellsPK = new ChampSummonerSpellsPK(participant.getChampSpec(), participant.getSpell1Id(), participant.getSpell2Id());
             ChampSummonerSpells champSummonerSpells = new ChampSummonerSpells(champSummonerSpellsPK);
             if (participant.getTeamId() == match.getWinner()) {
@@ -207,7 +210,7 @@ public class MatchAnalyzerService {
     }
     
     private void analyzeChampBans(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for(BannedChampion bannedChamp : match.getBannedChampions()) {
+        for(TeamBansDto bannedChamp : match.getBannedChampions()) {
             ChampBanPK pk = new ChampBanPK(bannedChamp);
             ChampBan champBan = new ChampBan(pk, 1);
             aggregateAnalysis.addChampBan(champBan);
