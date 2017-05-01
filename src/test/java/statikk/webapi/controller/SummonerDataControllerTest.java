@@ -88,34 +88,10 @@ public class SummonerDataControllerTest {
     }
 
     /**
-     * Test of getTopChampionMastery method, of class SummonerDataController.
-     */
-    @Test
-    public void testGetTopChampionMasteryByRegion() throws Exception {
-        System.out.println("getTopChampionMastery");
-        mockMvc.perform(get("/api/summoner/27673684/champion-mastery/top/EUNE")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    /**
-     * Test of getTopChampionMastery method, of class SummonerDataController.
-     */
-    @Test
-    public void testGetTopChampionMastery() throws Exception {
-        System.out.println("getTopChampionMastery");
-        mockMvc.perform(get("/api/summoner/27673684/champion-mastery/top")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    /**
      * Test of getCurrentGame method, of class SummonerDataController.
      */
     @Test
-    public void testGetCurrentGamByRegion() throws Exception {
+    public void testGetCurrentGameByRegion() throws Exception {
         System.out.println("getCurrentGame");
                 mockMvc.perform(get("/api/summoner/27673684/current-game/NA")
                 .accept(MediaType.APPLICATION_JSON))

@@ -39,19 +39,7 @@ public class SummonerDataController {
     public String getChampionMastery(@PathVariable("summonerId") long summonerId) {
         return riotApiService.getChampionMastery(Region.NA, summonerId);
     }
-
-    @ResponseBody
-    @RequestMapping(value = "/{summonerId}/champion-mastery/top/{region}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getTopChampionMastery(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
-        return riotApiService.getTopChampionMastery(Region.valueOf(region), summonerId);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/{summonerId}/champion-mastery/top", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getTopChampionMastery(@PathVariable("summonerId") long summonerId) {
-        return riotApiService.getTopChampionMastery(Region.NA, summonerId);
-    }
-
+    
     @ResponseBody
     @RequestMapping(value = "/{summonerId}/current-game/{region}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getCurrentGame(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
