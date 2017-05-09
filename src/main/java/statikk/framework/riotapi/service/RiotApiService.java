@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,28 +41,30 @@ import statikk.framework.riotapi.model.Timeline;
 @Service
 public class RiotApiService {
 
-    private final String RIOT_API_KEY;
+    /**
+     * Riot API Key is populated from a properties file.
+     */
+    @Value("${riot.api.key}")
+    private String RIOT_API_KEY;
+
     private final String RIOT_API_URL_PROTOCOL = "https://";
-    private final String RIOT_API_URL_DOMAIN = ".api.riotgames.com";   
+    private final String RIOT_API_URL_DOMAIN = ".api.riotgames.com";
     private final RestTemplate restTemplate;
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     RiotApiKeyLimitService riotApiKeytLimitService;
 
     public RiotApiService() throws IOException {
-        RIOT_API_KEY = "RGAPI-d309f20c-14c4-4c93-9d7d-eebdf291578a";
-        restTemplate = new RestTemplate();
-    }
-
-    public RiotApiService(String key) {
-        RIOT_API_KEY = key;
         restTemplate = new RestTemplate();
     }
 
     public String getStaticChampionsData(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
-        }; 
+        };
         return getRiotApiRequest(url, false, typeRef);
     }
 
@@ -77,15 +81,15 @@ public class RiotApiService {
 
     public MatchDetail getMatchDetailWithTimeline(Region region, Long matchId) {
         MatchDetail matchDetail = getMatchDetail(region, matchId);
-        if(matchDetail == null) {
+        if (matchDetail == null) {
             System.out.println("Match " + matchId + " for " + region + " not found.");
             return null;
-        } 
+        }
         Timeline timeline = getMatchTimeline(region, matchId);
         matchDetail.setTimeline(timeline);
-        return matchDetail;        
+        return matchDetail;
     }
-    
+
     private Timeline getMatchTimeline(Region region, Long matchId) {
         String url = getURLWithAPIKey(region, "/lol/match/v3/timelines/by-match/" + matchId);
         ParameterizedTypeReference<Timeline> typeRef = new ParameterizedTypeReference<Timeline>() {
@@ -155,14 +159,15 @@ public class RiotApiService {
         String url = getURLWithAPIKey(region, "/lol/summoner/v3/summoners/by-name/" + name);
         return getRiotApiRequest(url, true, typeRef);
     }
-    
+
     public String getURLWithAPIKey(Region region, String urlPath) {
         return appendRiotApiKey(RIOT_API_URL_PROTOCOL + region.getPlatformId() + RIOT_API_URL_DOMAIN + urlPath);
     }
-    
+
     public String getURLWithAPIKey(Region region, String url, String queryParams) {
         return appendQueryParamsToURL(getURLWithAPIKey(region, url), queryParams);
     }
+
     public String appendQueryParamsToURL(String url, String queryParams) {
         return url + queryParams;
     }
