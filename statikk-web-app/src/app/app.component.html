@@ -1,0 +1,20 @@
+<div id="main-container">
+  <nav>
+    <a id="main-logo" [routerLink]=" ['./'] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Statikk
+      </a>
+    <a class="nav-link" [routerLink]=" ['./champions'] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Champions
+      </a>
+    <a class="nav-link" [routerLink]=" ['./barrel'] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Barrel
+      </a>
+    <a class="nav-link" [routerLink]=" ['./about'] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        About
+      </a>
+  </nav>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
