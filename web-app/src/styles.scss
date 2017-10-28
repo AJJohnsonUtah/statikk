@@ -1,32 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
-
-
-/* this file will be extracted to main dist folder and is imported in index.html */
-
-
-/* This file is for setting global styles  */
-
-$nav-button-color: rgba(72, 145, 255, 1);
-
-nav {
-  margin-top: 16px;
-}
-
-nav a {
-  background-color: $nav-button-color;
-  color: white;
-  padding: 8px 16px;
-  margin: 8px;
-  vertical-align: middle;
-  line-height: 1.25;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
+@import 'variables';
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
 body {
   height: 100%;
   min-height: 100%;
+  background-image: url("/assets/img/bg/main-geo.png");
+}
+
+.statikk-table th,
+.statikk-table td,
+.statikk-table thead {
+  border-color: $base-color;
+  vertical-align: middle;
+}
+
+.statikk-table {
+  color: #FFF;
+  background-image: url("/assets/img/bg/gray-stripes.png");
+}
+
+.fa-statikk-main {
+  color: $base-color;
+}
+
+.fa-statikk-main:hover {
+  color: $accent-color;
+}
+
+.accent-bg {
+  background-image: url("/assets/img/bg/gray-stripes.png");
+}
+
+.table-sort-header {
+  cursor: pointer;
+}
+
+.table-sort-header:hover {
+  color: $accent-color-focus;
 }
 
 .clearfix::after {
@@ -34,4 +44,143 @@ body {
   display: block;
   height: 0;
   clear: both;
+}
+
+.fade-in-slow {
+  -webkit-animation: fadein 2s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 2s;
+  /* Internet Explorer */
+  -o-animation: fadein 2s;
+  /* Opera < 12.1 */
+  animation: fadein 2s;
+}
+
+.fade-in {
+  -webkit-animation: fadein 1s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 1s;
+  /* Internet Explorer */
+  -o-animation: fadein 1s;
+  /* Opera < 12.1 */
+  animation: fadein 1s;
+}
+
+.fade-in-fast {
+  -webkit-animation: fadein 0.25s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.25s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 0.25s;
+  /* Internet Explorer */
+  -o-animation: fadein 0.25s;
+  /* Opera < 12.1 */
+  animation: fadein 0.25s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Firefox < 16 */
+
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Safari, Chrome and Opera > 12.1 */
+
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Internet Explorer */
+
+@-ms-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Opera < 12.1 */
+
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.centered {
+  text-align: center;
+}
+
+img.inline-riot-lg {
+  width: 2em;
+}
+
+img.inline-riot-md {
+  width: 1.5em;
+}
+
+img.inline-riot {
+  width: 1em;
+}
+
+.tab-content {
+  margin: 1rem;
+}
+
+.col img.champion-icon {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav {
+  font-family: 'Righteous', 'Arial', sans-serif;
+}
+
+.main-heading-wrapper {
+  text-align: center;
+}
+
+th,
+h3,
+h4,
+h5,
+h6 {
+  color: $accent-color;
 }

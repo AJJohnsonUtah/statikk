@@ -3,21 +3,25 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
-import { StaticChampion } from '../../../services/riot-api-types/static-champion';
-import { StaticDataService } from '../../../services/static-data.service';
-import { StaticChampionDetail } from '../../../services/riot-api-types/static-champion-detail';
+import { StaticChampionDetail } from '../../../shared/models/riot-api-types/static-champion-detail';
+import { ChampionWinRate } from '../../../shared/models/statikk-api-types/ChampionWinRate';
+import { StaticDataService } from '../../../shared/services/static-data.service';
+import { ChampionWinRateService } from '../../../shared/services/champion-win-rate.service';
 
 @Component({
-    selector: 'champion-detail',
-    styleUrls: ['./champion-detail.component.css'],
+    selector: 'app-champion-detail',
+    styleUrls: ['./champion-detail.component.scss'],
     templateUrl: './champion-detail.component.html'
 })
 export class ChampionDetailComponent implements OnInit {
     public champion: StaticChampionDetail;
+    public championWinRates: Map<string, ChampionWinRate>;
+
     public constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private staticDataService: StaticDataService
+        private staticDataService: StaticDataService,
+        private championWinRateService: ChampionWinRateService
     ) { }
 
     public ngOnInit() {
@@ -26,12 +30,35 @@ export class ChampionDetailComponent implements OnInit {
         this.route.params
             .subscribe((params: Params) =>
                 this.loadChampionDetail(+params['id']));
+        this.loadChampionWinRates();
+    }
+
+    public getSpellLetterFromIndex(index: number): string {
+        switch (index) {
+            case 0: return 'Q';
+            case 1: return 'W';
+            case 2: return 'E';
+            case 3: return 'R';
+            case 4: return 'Q';
+            case 5: return 'W';
+            case 6: return 'E';
+            case 7: return 'R';
+            default: return 'WTF';
+        }
     }
 
     private loadChampionDetail(championId: number): void {
         this.staticDataService.getChampion(championId)
             .then((championDetail: StaticChampionDetail) =>
                 this.champion = championDetail);
+    }
+
+    private loadChampionWinRates(): void {
+        this.championWinRateService
+            .getAllChampionWinRates()
+            .then((championWinRateData: Map<string, ChampionWinRate>) => {
+                this.championWinRates = championWinRateData;
+            });
     }
 
 }

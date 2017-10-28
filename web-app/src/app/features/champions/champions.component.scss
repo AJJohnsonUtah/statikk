@@ -1,0 +1,17 @@
+.champion-tile-img {
+  min-width: 25px;
+  max-width: 5%;
+  margin-right: 3px;
+}
+
+.champion-row {
+  cursor: pointer;
+}
+
+.champion-row:hover {
+  background-image: url("/assets/img/bg/light-gray-stripes.png");
+}
+
+td {
+  vertical-align: middle;
+}

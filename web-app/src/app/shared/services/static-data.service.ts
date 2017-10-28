@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-
-import { StaticChampion } from './riot-api-types/static-champion';
-import { StaticChampionDetail } from './riot-api-types/static-champion-detail';
+import { StaticChampion } from '../models/riot-api-types/static-champion';
+import { StaticChampionDetail } from '../models/riot-api-types/static-champion-detail';
 
 @Injectable()
 export class StaticDataService {
 
-  private apiEndpoint = 'http://' + window.location.hostname + '/api';
+  private apiEndpoint = 'http://' + window.location.hostname + ':8080/api';
   private _cachedChampionsData: Promise<Map<string, StaticChampion>> = null;
   constructor(private http: Http) { }
 

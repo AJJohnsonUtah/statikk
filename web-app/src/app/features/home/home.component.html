@@ -1,7 +1,15 @@
 <div id="home-container">
   <div class="fade-in-slow" id="main-search-wrapper">
-    <form id="main-search-form" (ngSubmit)="performSearchSubmit()">
-      <input name="main-search" id="main-search" ng-model="mainSearchText" placeholder="Summoner Name...">
+    <form id="main-search-form" (ngSubmit)="checkSummonerExists()">
+      <div class="input-group input-group-lg">
+        <input name="main-search" type="text" class="accent-bg form-control" id="main-search" [(ngModel)]="summonerName" placeholder="Summoner Name..."
+        />
+        <span class="input-group-btn">
+          <button class="btn fa-statikk-main accent-bg statikk-input-group-btn" type="submit"><span class="fa fa-2x fa-search"></span></button>
+        </span>
+      </div>
+      <br>
+      <div id="lookup-error" class="alert alert-danger fade-in`" role="alert" *ngIf="lookupError">{{lookupError}}</div>
     </form>
   </div>
 </div>

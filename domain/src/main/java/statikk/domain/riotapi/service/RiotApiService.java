@@ -54,7 +54,7 @@ public class RiotApiService {
     }
 
     public String getStaticChampionsData(Region region) {
-        String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image");
+        String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image&dataById=true");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
         return getRiotApiRequest(url, false, typeRef);
@@ -153,7 +153,7 @@ public class RiotApiService {
     }
 
     public String getURLWithAPIKey(Region region, String urlPath) {
-        return appendRiotApiKey(RIOT_API_URL_PROTOCOL + region.getPlatformId() + RIOT_API_URL_DOMAIN + urlPath);
+        return appendRiotApiKey(RIOT_API_URL_PROTOCOL + region.getPlatformId().toLowerCase() + RIOT_API_URL_DOMAIN + urlPath);
     }
 
     public String getURLWithAPIKey(Region region, String url, String queryParams) {

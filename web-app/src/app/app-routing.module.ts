@@ -7,8 +7,8 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'champions', component: ChampionsComponent },
-    { path: 'champion/:id', component: ChampionDetailComponent },
+    { path: 'champions', loadChildren: 'app/features/champions/champions.module#ChampionsModule' },
+    { path: 'summoner', loadChildren: 'app/features/summoner/summoner.module#SummonerModule' },
     { path: '**', component: NoContentComponent },
 ];
 
@@ -17,7 +17,6 @@ const routes: Routes = [
         RouterModule.forRoot(
             routes,
             {
-                enableTracing: true,
                 useHash: false
             }
         )

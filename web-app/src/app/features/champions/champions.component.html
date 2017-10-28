@@ -1,10 +1,39 @@
-<h1>Champions</h1>
-<div id="champions" class="clearfix">
-  <div class="champion-tile" *ngFor="let champion of staticChampions">
-    <a [routerLink]=" ['/champion/', champion.id] " routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <img class="champion-tile-img fade-in" [ngStyle]="champion.spriteStyles" src="assets/img/blank.gif" on-mouseover="champion.hover=true"
-        on-mouseleave="champion.hover=false" />
-      <div class="champion-tile-tooltip fade-in-fast" [hidden]="champion.hover != true">{{champion.name}} {{(championWinRates[champion.id].winRate * 100).toPrecision(4)}}%</div>
-    </a>
-  </div>
+<div class="main-heading-wrapper">
+  <h1>Champions</h1>
 </div>
+<table class="table table-sm statikk-table table-hover" id="champions-table">
+  <thead>
+    <tr sticky>
+      <th class="table-sort-header" (click)="chooseSort('name')">Champion
+        <span *ngIf="sortColumn === 'name' && !reversed" class="fa fa-caret-down"></span>
+        <span *ngIf="sortColumn === 'name' && reversed" class="fa fa-caret-up"></span>
+      </th>
+      <th class="table-sort-header" (click)="chooseSort('win-rate')">Win Rate
+        <span *ngIf="sortColumn === 'win-rate' && !reversed" class="fa fa-caret-down"></span>
+        <span *ngIf="sortColumn === 'win-rate' && reversed" class="fa fa-caret-up"></span>
+      </th>
+      <th class="table-sort-header" (click)="chooseSort('pick-rate')">Pick Rate
+        <span *ngIf="sortColumn === 'pick-rate' && !reversed" class="fa fa-caret-down"></span>
+        <span *ngIf="sortColumn === 'pick-rate' && reversed" class="fa fa-caret-up"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- <tr class="champion-row" *ngFor="let champion of staticChampions | myChampionSort: sortColumn:reversed" (click)="navigateToChampion(champion.id)"> -->
+    <tr class="champion-row" *ngFor="let champion of staticChampions" (click)="navigateToChampion(champion.id)">
+      <td>
+        <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + champion.image.full"
+        />
+        <span class="champion-name">
+        {{champion.name}}
+        </span>
+      </td>
+      <td>
+        <span class="win-rate">{{championWinRates[champion.id].winRate | percent: '1.0-2'}}</span>
+      </td>
+      <td>
+        <span class="pick-rate">{{championWinRates[champion.id].playedCount / matchesPlayed * 10 | percent: '1.0-2'}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>

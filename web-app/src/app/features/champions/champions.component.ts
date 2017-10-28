@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { StaticChampion } from '../../services/riot-api-types/static-champion';
-import { StaticDataService } from '../../services/static-data.service';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChampionWinRate } from '../../services/statikk-api-types/championWinRate';
-import { ChampionWinRateService } from '../../services/champion-win-rate.service';
-
+import { StaticChampion } from '../../shared/models/riot-api-types/static-champion';
+import { ChampionWinRate } from '../../shared/models/statikk-api-types/ChampionWinRate';
+import { StaticDataService } from '../../shared/services/static-data.service';
+import { ChampionWinRateService } from '../../shared/services/champion-win-rate.service';
 @Component({
-    selector: 'champions',
-    styleUrls: ['./champions.component.css'],
-    templateUrl: './champions.component.html'
+    selector: 'app-champions',
+    styleUrls: ['./champions.component.scss'],
+    templateUrl: './champions.component.html',
 })
 
 export class ChampionsComponent implements OnInit {
     public staticChampions: StaticChampion[];
     public championWinRates: Map<string, ChampionWinRate>;
+    public matchesPlayed: number;
+    public sortColumn: string;
+    public reversed: boolean;
     constructor(
         private staticDataService: StaticDataService,
         private championWinRateService: ChampionWinRateService,
@@ -22,14 +24,28 @@ export class ChampionsComponent implements OnInit {
 
     public ngOnInit() {
         this.staticChampions = [];
+        this.sortColumn = 'win-rate';
+        this.reversed = true;
         this.loadChampionWinRates();
+        this.matchesPlayed = 0;
+    }
+
+    public chooseSort(selectedSortColumn: string) {
+        if (this.sortColumn === selectedSortColumn) {
+            this.reversed = !this.reversed;
+        } else {
+            this.sortColumn = selectedSortColumn;
+        }
     }
 
     private loadChampionWinRates(): void {
         this.championWinRateService
             .getAllChampionWinRates()
-            .then((championWinRateData) => {
+            .then((championWinRateData: Map<string, ChampionWinRate>) => {
                 this.championWinRates = championWinRateData;
+                Object.keys(this.championWinRates).forEach((champId) =>
+                    this.matchesPlayed += this.championWinRates[champId].playedCount
+                );
                 this.loadStaticChampions();
             });
     }
@@ -44,19 +60,22 @@ export class ChampionsComponent implements OnInit {
 
     private convertStaticChampionsToArray(
         staticChampionsData: Map<string, StaticChampion>): StaticChampion[] {
-        let tempArr: StaticChampion[] = [];
+        const tempArr: StaticChampion[] = [];
+        Object.keys(this.championWinRates).forEach((champId) => {
+            const winRate = this.championWinRates[champId];
+            staticChampionsData[winRate.championId].winRate =
+                winRate.winCount / winRate.playedCount;
+            staticChampionsData[winRate.championId].pickRate =
+                winRate.playedCount / this.matchesPlayed;
+        });
         Object.keys(staticChampionsData).forEach((key) => {
-            let champ: StaticChampion = staticChampionsData[key];
-            champ.spriteStyles = {
-                'background': 'url(\'http://ddragon.leagueoflegends.com/cdn/7.8.1/img/sprite/' +
-                champ.image.sprite + '\')',
-                'background-position': -champ.image.x + 'px ' + -champ.image.y + 'px',
-                'height': champ.image.h,
-                'width': champ.image.w
-            };
+            const champ: StaticChampion = staticChampionsData[key];
             tempArr.push(champ);
         });
-        tempArr.sort((s1: StaticChampion, s2: StaticChampion) => s1.name.localeCompare(s2.name));
         return tempArr;
+    }
+
+    private navigateToChampion(championId: number) {
+        this.router.navigate(['/champions', championId]);
     }
 }
