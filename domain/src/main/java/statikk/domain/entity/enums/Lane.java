@@ -5,6 +5,7 @@
  */
 package statikk.domain.entity.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 
 /**
@@ -33,6 +34,7 @@ public enum Lane {
         }
     }
 
+    @JsonCreator
     public static Lane getLane(int id) {
         return laneMap.get(id);
     }

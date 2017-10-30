@@ -17,15 +17,15 @@ import { MockBackend } from '@angular/http/testing';
 
 // Load the implementations that should be tested
 import { HomeComponent } from './home.component';
-import { SummonerDataService } from '../services/summoner-data.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SummonerDataService } from '../../shared/services/summoner-data.service';
 
 describe(`Home`, () => {
     let comp: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
     let summonerDataService: SummonerDataService;
-    let validSummonerData: {
+    const validSummonerData = {
         id: 27673684,
         accountId: 42264797,
         name: 'GrannysCookies',
@@ -33,12 +33,12 @@ describe(`Home`, () => {
         revisionDate: 1495236775000,
         summonerLevel: 30
     };
-    let summonerNotFoundData: {
+    const summonerNotFoundData = {
         httpStatus: 'NOT_FOUND',
         status: 'Error',
         message: 'Summoner grannyscoOkiesaaaa not found'
     };
-    let mockRouter = {
+    const mockRouter = {
         navigate: jasmine.createSpy('navigate')
     };
     let summonerServiceSpy: jasmine.Spy;

@@ -19,8 +19,8 @@
     </tr>
   </thead>
   <tbody>
-    <!-- <tr class="champion-row" *ngFor="let champion of staticChampions | myChampionSort: sortColumn:reversed" (click)="navigateToChampion(champion.id)"> -->
-    <tr class="champion-row" *ngFor="let champion of staticChampions" (click)="navigateToChampion(champion.id)">
+    <tr class="champion-row" *ngFor="let champion of staticChampions | myChampionSort: sortColumn:reversed" (click)="navigateToChampion(champion.id)">
+      <!-- <tr class="champion-row" *ngFor="let champion of staticChampions" (click)="navigateToChampion(champion.id)"> -->
       <td>
         <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + champion.image.full"
         />
@@ -29,10 +29,10 @@
         </span>
       </td>
       <td>
-        <span class="win-rate">{{championWinRates[champion.id].winRate | percent: '1.0-2'}}</span>
+        <span class="win-rate" *ngIf="championWinRates[champion.id]">{{championWinRates[champion.id].winRate | percent: '1.0-2'}}</span>
       </td>
       <td>
-        <span class="pick-rate">{{championWinRates[champion.id].playedCount / matchesPlayed * 10 | percent: '1.0-2'}}</span>
+        <span class="pick-rate" *ngIf="championWinRates[champion.id]">{{championWinRates[champion.id].playedCount / matchesPlayed * 10 | percent: '1.0-2'}}</span>
       </td>
     </tr>
   </tbody>

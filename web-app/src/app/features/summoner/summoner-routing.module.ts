@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SummonerComponent } from './summoner.component';
 
 const routes: Routes = [{
-  path: '', component: SummonerComponent
+  path: ':summonerName', component: SummonerComponent
 }];
 
 @NgModule({

@@ -24,7 +24,7 @@ public class MatchReferenceDto implements Serializable {
 
     public MatchReferenceDto(){};
     
-    public int getChampionId() {
+    public int getChampion() {
         return champion;
     }
 

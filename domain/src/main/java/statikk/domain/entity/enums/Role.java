@@ -5,6 +5,7 @@
  */
 package statikk.domain.entity.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 
 /**
@@ -34,6 +35,7 @@ public enum Role {
         }
     }
 
+    @JsonCreator
     public static Role getRole(int id) {
         return roleMap.get(id);
     }
