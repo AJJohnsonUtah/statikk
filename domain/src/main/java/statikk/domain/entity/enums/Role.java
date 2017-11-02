@@ -16,13 +16,13 @@ public enum Role {
 
     TANK(1), AP_CARRY(2), AD_CARRY(3), AP_TANK(4), AD_TANK(5), HYBRID(6), ASSASSIN(7), AP_ASSASSIN(8), AD_ASSASSIN(9), SUPPORT(10);
 
-    private int roleId;
+    private Integer roleId;
 
-    public int getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    Role(int id) {
+    Role(Integer id) {
         this.roleId = id;
     }
 
@@ -36,7 +36,7 @@ public enum Role {
     }
 
     @JsonCreator
-    public static Role getRole(int id) {
+    public static Role getRole(Integer id) {
         return roleMap.get(id);
     }
 }

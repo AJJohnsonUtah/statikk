@@ -5,13 +5,12 @@
  */
 package statikk.domain.service;
 
-import java.util.HashMap;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampBanDao;
 import statikk.domain.entity.ChampBan;
-import statikk.domain.entity.ChampBanPK;
 
 /**
  *
@@ -25,16 +24,19 @@ public class ChampBanService extends BaseService<ChampBan> {
     ChampBanDao champBanDao;
 
     @Override
-    public void create(ChampBan champBan) {
-        champBanDao.create(champBan);
+    public ChampBan create(ChampBan champBan) {
+        return champBanDao.save(champBan);
     }
 
     @Override
-    public void update(ChampBan champBan) {
-        champBanDao.update(champBan);
+    public ChampBan update(ChampBan champBan) {
+        return champBanDao.save(champBan);
     }
 
-    public void batchInsertOrUpdate(HashMap<ChampBanPK, ChampBan> champBans) {
-        champBanDao.batchInsertOrUpdate(champBans);
+    public void batchInsertOrUpdate(Collection<ChampBan> champBans) {
+        champBans.forEach((champBan) -> {
+            champBan.combine(champBanDao.findOne(champBan.getChampBanPK()));
+        });
+        champBanDao.save(champBans);
     }
 }

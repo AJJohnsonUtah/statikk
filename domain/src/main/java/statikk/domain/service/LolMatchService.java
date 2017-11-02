@@ -5,12 +5,14 @@
  */
 package statikk.domain.service;
 
+import java.util.Collection;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.LolMatchDao;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.enums.MatchStatus;
 
 /**
  *
@@ -24,28 +26,35 @@ public class LolMatchService extends BaseService<LolMatch> {
     LolMatchDao lolMatchDao;
 
     @Override
-    public void create(LolMatch lolMatch) {
-        lolMatchDao.create(lolMatch);
+    public LolMatch create(LolMatch lolMatch) {
+        return lolMatchDao.save(lolMatch);
     }
 
     @Override
-    public void update(LolMatch lolMatch) {
-        lolMatchDao.update(lolMatch);
+    public LolMatch update(LolMatch lolMatch) {
+        return lolMatchDao.save(lolMatch);
     }
 
-    public void batchInsert(LolMatch[] lolMatches) {
-        lolMatchDao.batchInsert(lolMatches);
+    public void batchInsert(Collection<LolMatch> lolMatches) {
+        lolMatchDao.save(lolMatches);
     }
 
-    public List<Long> findMatchesToAnalyze(int matchesToFind) {
-        List<Long> matchesFound = lolMatchDao.findMatchesToAnalyze(matchesToFind);
-        if (!matchesFound.isEmpty()) {
-            lolMatchDao.markMatchesAsInProgress(matchesFound);
-        }
+    public List<LolMatch> findMatchesToAnalyze(int matchesToFind) {
+        List<LolMatch> matchesFound = lolMatchDao.findTop10ByStatus(MatchStatus.READY);
+        updateMatchesToStatus(MatchStatus.IN_PROGRESS, matchesFound);
         return matchesFound;
     }
 
-    public void markMatchesAsCompleted(List<Long> matches) {
-        lolMatchDao.markMatchesAsCompleted(matches);
+    public void markMatchesAsCompleted(List<LolMatch> matches) {
+        updateMatchesToStatus(MatchStatus.COMPLETED, matches);
+    }
+
+    private void updateMatchesToStatus(MatchStatus status, List<LolMatch> matches) {
+        matches.forEach((match) -> {
+            match.setStatus(status);
+        });
+        if (!matches.isEmpty()) {
+            lolMatchDao.save(matches);
+        }
     }
 }

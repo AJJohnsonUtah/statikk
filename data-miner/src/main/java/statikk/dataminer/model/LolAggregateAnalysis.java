@@ -6,6 +6,7 @@
 package statikk.dataminer.model;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.entity.ChampBan;
@@ -45,20 +46,19 @@ public class LolAggregateAnalysis {
 
     @Autowired
     ChampFinalBuildService champFinalBuildService;
-    
+
     @Autowired
     ChampSummonerSpellsService champSummonerSpellsService;
 
     @Autowired
     ChampBanService champBanService;
-    private HashMap<ChampSpecWinRatePK, ChampSpecWinRate> champSpecWinRates;
-    private HashMap<ChampMatchupPK, ChampMatchup> champMatchups;
-    private HashMap<ChampTeamupPK, ChampTeamup> champTeamups;
-    private HashMap<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
-    private HashMap<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells;
-    private HashMap<ChampBanPK, ChampBan> champBans;
-    
-    
+    private Map<ChampSpecWinRatePK, ChampSpecWinRate> champSpecWinRates;
+    private Map<ChampMatchupPK, ChampMatchup> champMatchups;
+    private Map<ChampTeamupPK, ChampTeamup> champTeamups;
+    private Map<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
+    private Map<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells;
+    private Map<ChampBanPK, ChampBan> champBans;
+
     public LolAggregateAnalysis() {
         champSpecWinRates = new HashMap<>();
         champMatchups = new HashMap<>();
@@ -77,7 +77,7 @@ public class LolAggregateAnalysis {
         champBans = new HashMap<>();
     }
 
-    public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {        
+    public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {
         if (champSpecWinRates.containsKey(champSpecWinRate.getChampSpecWinRatePK())) {
             champSpecWinRates.get(champSpecWinRate.getChampSpecWinRatePK()).combine(champSpecWinRate);
         } else {
@@ -116,22 +116,23 @@ public class LolAggregateAnalysis {
             champSummonerSpells.put(champSummonerSpell.getChampSummonerSpellsPK(), champSummonerSpell);
         }
     }
-    
+
     public void addChampBan(ChampBan champBan) {
-        if(champBans.containsKey(champBan.getChampBanPK())) {
+        if (champBans.containsKey(champBan.getChampBanPK())) {
             champBans.get(champBan.getChampBanPK()).combine(champBan);
         } else {
             champBans.put(champBan.getChampBanPK(), champBan);
         }
     }
-    
+
     public void save() {
-        champSpecWinRateService.batchInsertOrUpdate(champSpecWinRates);
-        champMatchupService.batchInsertOrUpdate(champMatchups);
-        champTeamupService.batchInsertOrUpdate(champTeamups);
-        champFinalBuildService.batchInsertOrUpdate(champFinalBuilds);
-        champSummonerSpellsService.batchInsertOrUpdate(champSummonerSpells);
-        champBanService.batchInsertOrUpdate(champBans);
+        champSpecWinRateService.batchInsertOrUpdate(champSpecWinRates.values());
+        champMatchupService.batchInsertOrUpdate(champMatchups.values());
+        champTeamupService.batchInsertOrUpdate(champTeamups.values());
+        champFinalBuildService.batchInsertOrUpdate(champFinalBuilds.values());
+        champSummonerSpellsService.batchInsertOrUpdate(champSummonerSpells.values());
+        champBanService.batchInsertOrUpdate(champBans.values());
+
     }
 
 }

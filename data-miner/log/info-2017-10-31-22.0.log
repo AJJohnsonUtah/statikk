@@ -1,0 +1,1144 @@
+22:25:05.933 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 5380 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:25:05.940 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:25:06.126 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@729d8363: startup date [Tue Oct 31 22:25:06 MDT 2017]; root of context hierarchy
+22:25:07.447 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:25:14.693 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:25:14.747 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:25:14.968 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:25:14.973 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:25:14.978 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:25:15.130 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:25:15.577 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:25:18.148 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:25:18.860 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:25:22.872 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+22:25:23.140 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+22:25:23.186 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/static-data/v3/items?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752&itemListData=all
+22:25:24.849 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/spectator/v3/featured-games?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:24.994 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/quabbyj?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.073 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/donutsplease?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.141 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/darkrain44?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.218 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/nickgoose?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.290 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/evaan?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.381 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/37751437/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.483 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/37347092/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:25:25.586 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:25:25.602 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:735)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:716)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:703)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:304)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.NullPointerException: null
+	at statikk.dataminer.service.MatchMiningService.mineMatches(MatchMiningService.java:83)
+	at statikk.dataminer.DataMinerApplication.run(DataMinerApplication.java:44)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:732)
+	... 9 common frames omitted
+22:25:25.606 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@729d8363: startup date [Tue Oct 31 22:25:06 MDT 2017]; root of context hierarchy
+22:25:25.609 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+22:25:25.623 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:28:14.044 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 14228 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:28:14.055 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:28:14.260 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@83cc0c3: startup date [Tue Oct 31 22:28:14 MDT 2017]; root of context hierarchy
+22:28:15.204 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:28:18.918 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:28:18.939 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:28:19.041 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:28:19.043 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:28:19.045 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:28:19.100 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:28:19.319 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:28:21.127 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:28:21.569 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:28:24.628 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+22:28:24.988 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+22:28:25.044 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/static-data/v3/items?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752&itemListData=all
+22:28:26.525 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/spectator/v3/featured-games?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:26.639 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/tankleo?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:26.719 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/clutche?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:26.786 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/lordemort?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:26.856 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/uglyegg?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:26.945 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/iceglacius007?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:27.024 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/219345411/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:27.142 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/36508829/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:28.814 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2627671373?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:29.217 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2627671373?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:28:29.884 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:28:29.955 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:735)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:716)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:703)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:304)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.dao.InvalidDataAccessApiUsageException: detached entity passed to persist: statikk.domain.entity.LolVersion; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: statikk.domain.entity.LolVersion
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:299)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:244)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:488)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:59)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:147)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:133)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:57)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy104.save(Unknown Source)
+	at statikk.domain.service.ChampSpecService.loadEntity(ChampSpecService.java:41)
+	at statikk.domain.service.ChampSpecService$$FastClassBySpringCGLIB$$27d300a5.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at statikk.domain.service.ChampSpecService$$EnhancerBySpringCGLIB$$bec92ed8.loadEntity(<generated>)
+	at statikk.dataminer.service.MatchAnalyzerService.lambda$loadEntities$0(MatchAnalyzerService.java:110)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580)
+	at statikk.dataminer.service.MatchAnalyzerService.loadEntities(MatchAnalyzerService.java:109)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatch(MatchAnalyzerService.java:94)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatches(MatchAnalyzerService.java:81)
+	at statikk.dataminer.DataMinerApplication.run(DataMinerApplication.java:47)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:732)
+	... 9 common frames omitted
+Caused by: org.hibernate.PersistentObjectException: detached entity passed to persist: statikk.domain.entity.LolVersion
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:124)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:765)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:758)
+	at org.hibernate.jpa.event.internal.core.JpaPersistEventListener$1.cascade(JpaPersistEventListener.java:80)
+	at org.hibernate.engine.internal.Cascade.cascadeToOne(Cascade.java:398)
+	at org.hibernate.engine.internal.Cascade.cascadeAssociation(Cascade.java:323)
+	at org.hibernate.engine.internal.Cascade.cascadeProperty(Cascade.java:162)
+	at org.hibernate.engine.internal.Cascade.cascade(Cascade.java:111)
+	at org.hibernate.event.internal.AbstractSaveEventListener.cascadeBeforeSave(AbstractSaveEventListener.java:425)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:249)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:178)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:109)
+	at org.hibernate.jpa.event.internal.core.JpaPersistEventListener.saveWithGeneratedId(JpaPersistEventListener.java:67)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:189)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:132)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:58)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:775)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:748)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:753)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:1146)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:298)
+	at com.sun.proxy.$Proxy91.persist(Unknown Source)
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:508)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.executeMethodOn(RepositoryFactorySupport.java:504)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:489)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:461)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:56)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	... 37 common frames omitted
+22:28:30.047 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@83cc0c3: startup date [Tue Oct 31 22:28:14 MDT 2017]; root of context hierarchy
+22:28:30.378 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+22:28:30.421 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:35:14.698 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 14636 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:35:14.703 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:35:14.864 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@24beae36: startup date [Tue Oct 31 22:35:14 MDT 2017]; root of context hierarchy
+22:35:15.601 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:35:21.742 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:35:21.769 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:35:21.922 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:35:21.926 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:35:21.932 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:35:22.042 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:35:22.441 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:35:24.587 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:35:25.736 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:35:30.412 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+22:35:30.727 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+22:35:30.778 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/static-data/v3/items?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752&itemListData=all
+22:35:33.009 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/spectator/v3/featured-games?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.404 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/dereplica?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.495 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/fraudster1994?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.573 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/blaberfish2?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.651 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/maninsky?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.826 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/whomikekho?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:33.897 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/43431978/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:34.013 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/238937406/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:35.423 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2631423507?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:35.736 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2631423507?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:35:36.778 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:35:36.819 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:735)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:716)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:703)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:304)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.dao.InvalidDataAccessApiUsageException: Parameter with that position [1] did not exist; nested exception is java.lang.IllegalArgumentException: Parameter with that position [1] did not exist
+	at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:384)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:488)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:59)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:147)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:133)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:57)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy106.findByBuildOrder(Unknown Source)
+	at statikk.domain.service.FinalBuildOrderService.find(FinalBuildOrderService.java:39)
+	at statikk.domain.service.FinalBuildOrderService.loadEntity(FinalBuildOrderService.java:46)
+	at statikk.domain.service.FinalBuildOrderService$$FastClassBySpringCGLIB$$a7ec99a9.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at statikk.domain.service.FinalBuildOrderService$$EnhancerBySpringCGLIB$$5b2731d3.loadEntity(<generated>)
+	at statikk.dataminer.service.ItemAnalysisService.loadFinalBuildOrders(ItemAnalysisService.java:166)
+	at statikk.dataminer.service.MatchAnalyzerService.loadEntities(MatchAnalyzerService.java:114)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatch(MatchAnalyzerService.java:94)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatches(MatchAnalyzerService.java:81)
+	at statikk.dataminer.DataMinerApplication.run(DataMinerApplication.java:47)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:732)
+	... 9 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Parameter with that position [1] did not exist
+	at org.hibernate.jpa.spi.BaseQueryImpl.findParameterRegistration(BaseQueryImpl.java:502)
+	at org.hibernate.jpa.spi.BaseQueryImpl.setParameter(BaseQueryImpl.java:692)
+	at org.hibernate.jpa.spi.AbstractQueryImpl.setParameter(AbstractQueryImpl.java:181)
+	at org.hibernate.jpa.spi.AbstractQueryImpl.setParameter(AbstractQueryImpl.java:32)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bind(ParameterBinder.java:141)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bind(ParameterBinder.java:101)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bindAndPrepare(ParameterBinder.java:161)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bindAndPrepare(ParameterBinder.java:152)
+	at org.springframework.data.jpa.repository.query.NamedQuery.doCreateQuery(NamedQuery.java:143)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.createQuery(AbstractJpaQuery.java:190)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution$SingleEntityExecution.doExecute(JpaQueryExecution.java:208)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:87)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:116)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:106)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:483)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:461)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:56)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	... 36 common frames omitted
+22:35:36.835 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@24beae36: startup date [Tue Oct 31 22:35:14 MDT 2017]; root of context hierarchy
+22:35:36.841 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+22:35:36.862 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:48:32.338 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 3312 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:48:32.343 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:48:32.464 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@729d8363: startup date [Tue Oct 31 22:48:32 MDT 2017]; root of context hierarchy
+22:48:33.052 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:48:37.291 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:48:37.370 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:48:37.564 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:48:37.567 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:48:37.575 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:48:37.718 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:48:38.220 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:48:39.953 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:48:40.580 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:48:43.334 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+22:48:43.558 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+22:48:43.601 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/static-data/v3/items?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752&itemListData=all
+22:48:45.124 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/spectator/v3/featured-games?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.233 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/tankleo?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.316 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/haxmuffin?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.388 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/soulmario?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.456 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/leonadelbae?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.532 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/putttinagat?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.614 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/219345411/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:45.835 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/38224338/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:47.158 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2631602231?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:47.472 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2631602231?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:48:48.323 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:48:48.353 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:735)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:716)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:703)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:304)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.dao.InvalidDataAccessApiUsageException: Parameter with that position [1] did not exist; nested exception is java.lang.IllegalArgumentException: Parameter with that position [1] did not exist
+	at org.springframework.orm.jpa.EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(EntityManagerFactoryUtils.java:384)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:246)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:488)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:59)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:147)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:133)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:57)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy106.findByBuildOrder(Unknown Source)
+	at statikk.domain.service.FinalBuildOrderService.find(FinalBuildOrderService.java:39)
+	at statikk.domain.service.FinalBuildOrderService.loadEntity(FinalBuildOrderService.java:46)
+	at statikk.domain.service.FinalBuildOrderService$$FastClassBySpringCGLIB$$a7ec99a9.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at statikk.domain.service.FinalBuildOrderService$$EnhancerBySpringCGLIB$$b67ff297.loadEntity(<generated>)
+	at statikk.dataminer.service.ItemAnalysisService.loadFinalBuildOrders(ItemAnalysisService.java:166)
+	at statikk.dataminer.service.MatchAnalyzerService.loadEntities(MatchAnalyzerService.java:114)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatch(MatchAnalyzerService.java:94)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatches(MatchAnalyzerService.java:81)
+	at statikk.dataminer.DataMinerApplication.run(DataMinerApplication.java:47)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:732)
+	... 9 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Parameter with that position [1] did not exist
+	at org.hibernate.jpa.spi.BaseQueryImpl.findParameterRegistration(BaseQueryImpl.java:502)
+	at org.hibernate.jpa.spi.BaseQueryImpl.setParameter(BaseQueryImpl.java:692)
+	at org.hibernate.jpa.spi.AbstractQueryImpl.setParameter(AbstractQueryImpl.java:181)
+	at org.hibernate.jpa.spi.AbstractQueryImpl.setParameter(AbstractQueryImpl.java:32)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bind(ParameterBinder.java:141)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bind(ParameterBinder.java:101)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bindAndPrepare(ParameterBinder.java:161)
+	at org.springframework.data.jpa.repository.query.ParameterBinder.bindAndPrepare(ParameterBinder.java:152)
+	at org.springframework.data.jpa.repository.query.NamedQuery.doCreateQuery(NamedQuery.java:143)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.createQuery(AbstractJpaQuery.java:190)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution$SingleEntityExecution.doExecute(JpaQueryExecution.java:208)
+	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:87)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:116)
+	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:106)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:483)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:461)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:56)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	... 36 common frames omitted
+22:48:48.361 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@729d8363: startup date [Tue Oct 31 22:48:32 MDT 2017]; root of context hierarchy
+22:48:48.367 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+22:48:48.382 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:50:31.725 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 12036 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:50:31.730 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:50:31.884 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@65f3b041: startup date [Tue Oct 31 22:50:31 MDT 2017]; root of context hierarchy
+22:50:32.502 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:50:39.244 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:50:39.294 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:50:39.510 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:50:39.513 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:50:39.517 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:50:39.633 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:50:40.020 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:50:41.961 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:50:42.546 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:50:44.048 [restartedMain] ERROR o.h.hql.internal.ast.ErrorCounter - line 1:8: unexpected token: *
+22:50:44.055 [restartedMain] ERROR o.h.hql.internal.ast.ErrorCounter - line 1:8: unexpected token: *
+antlr.NoViableAltException: unexpected token: *
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1245)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1022)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:730)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:323)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:186)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:279)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:187)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:115)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:76)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:302)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:240)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1894)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:291)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:347)
+	at com.sun.proxy.$Proxy91.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:86)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:62)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:72)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromQueryAnnotation(JpaQueryFactory.java:53)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:144)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:211)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:77)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.<init>(RepositoryFactorySupport.java:436)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:221)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:277)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:263)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:101)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+22:50:44.065 [restartedMain] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+22:50:44.073 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:50:44.102 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:50:44.113 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 34 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 47 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 60 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:92)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:62)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:72)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromQueryAnnotation(JpaQueryFactory.java:53)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:144)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:211)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:77)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.<init>(RepositoryFactorySupport.java:436)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:221)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:277)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:263)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:101)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	... 70 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: unexpected token: * near line 1, column 8 [SELECT * FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1679)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1602)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1608)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:294)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:347)
+	at com.sun.proxy.$Proxy91.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:86)
+	... 83 common frames omitted
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: unexpected token: * near line 1, column 8 [SELECT * FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.hql.internal.ast.QuerySyntaxException.convert(QuerySyntaxException.java:74)
+	at org.hibernate.hql.internal.ast.ErrorCounter.throwQueryException(ErrorCounter.java:91)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:288)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:187)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:115)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:76)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:302)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:240)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1894)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:291)
+	... 90 common frames omitted
+22:53:31.648 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 4804 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:53:31.653 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:53:31.778 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@580419cf: startup date [Tue Oct 31 22:53:31 MDT 2017]; root of context hierarchy
+22:53:32.294 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:53:39.774 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:53:39.837 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:53:40.051 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:53:40.055 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:53:40.061 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:53:40.199 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:53:40.681 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:53:42.973 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:53:43.692 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:53:45.407 [restartedMain] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+22:53:45.412 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:53:45.456 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:53:45.474 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 34 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 47 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 60 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:92)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:62)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:72)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromQueryAnnotation(JpaQueryFactory.java:53)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:144)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:211)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:77)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.<init>(RepositoryFactorySupport.java:436)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:221)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:277)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:263)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:101)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	... 70 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: could not resolve property: lolVersionId of: statikk.domain.entity.FinalBuildOrder [SELECT f.lolVersionId, f.majorVersion, f.minorVersion FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1679)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1602)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1608)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:294)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:347)
+	at com.sun.proxy.$Proxy91.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:86)
+	... 83 common frames omitted
+Caused by: org.hibernate.QueryException: could not resolve property: lolVersionId of: statikk.domain.entity.FinalBuildOrder [SELECT f.lolVersionId, f.majorVersion, f.minorVersion FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.QueryException.generateQueryException(QueryException.java:120)
+	at org.hibernate.QueryException.wrapWithQueryString(QueryException.java:103)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:218)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:115)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:76)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:302)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:240)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1894)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:291)
+	... 90 common frames omitted
+Caused by: org.hibernate.QueryException: could not resolve property: lolVersionId of: statikk.domain.entity.FinalBuildOrder
+	at org.hibernate.persister.entity.AbstractPropertyMapping.propertyException(AbstractPropertyMapping.java:62)
+	at org.hibernate.persister.entity.AbstractPropertyMapping.toType(AbstractPropertyMapping.java:56)
+	at org.hibernate.persister.entity.AbstractEntityPersister.toType(AbstractEntityPersister.java:1805)
+	at org.hibernate.hql.internal.ast.tree.FromElementType.getPropertyType(FromElementType.java:393)
+	at org.hibernate.hql.internal.ast.tree.FromElement.getPropertyType(FromElement.java:505)
+	at org.hibernate.hql.internal.ast.tree.DotNode.getDataType(DotNode.java:660)
+	at org.hibernate.hql.internal.ast.tree.DotNode.prepareLhs(DotNode.java:264)
+	at org.hibernate.hql.internal.ast.tree.DotNode.resolve(DotNode.java:204)
+	at org.hibernate.hql.internal.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:109)
+	at org.hibernate.hql.internal.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:104)
+	at org.hibernate.hql.internal.ast.tree.DotNode.resolveSelectExpression(DotNode.java:722)
+	at org.hibernate.hql.internal.ast.HqlSqlWalker.resolveSelectExpression(HqlSqlWalker.java:954)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExpr(HqlSqlBaseWalker.java:2288)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExprList(HqlSqlBaseWalker.java:2225)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectClause(HqlSqlBaseWalker.java:1496)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:581)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:309)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:257)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:262)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:190)
+	... 98 common frames omitted
+22:54:37.269 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 6000 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:54:37.295 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:54:37.591 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@9471c72: startup date [Tue Oct 31 22:54:37 MDT 2017]; root of context hierarchy
+22:54:38.847 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:54:43.278 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:54:43.308 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:54:43.442 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:54:43.445 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:54:43.448 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:54:43.518 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:54:43.803 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:54:45.256 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:54:45.691 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:54:46.887 [restartedMain] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+22:54:46.892 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+22:54:46.924 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:54:46.941 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataMinerApplication': Unsatisfied dependency expressed through field 'matchAnalyzerService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'matchAnalyzerService': Unsatisfied dependency expressed through field 'itemAnalysisService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 21 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'itemAnalysisService': Unsatisfied dependency expressed through field 'finalBuildOrderService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 34 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'finalBuildOrderService': Unsatisfied dependency expressed through field 'finalBuildOrderDao'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 47 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'finalBuildOrderDao': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 60 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract statikk.domain.entity.FinalBuildOrder statikk.domain.dao.FinalBuildOrderDao.findByBuildOrder(java.lang.String)!
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:92)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:62)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:72)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromQueryAnnotation(JpaQueryFactory.java:53)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:144)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:211)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:77)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.<init>(RepositoryFactorySupport.java:436)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:221)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:277)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:263)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:101)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1687)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1624)
+	... 70 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: could not resolve property: majorVersion of: statikk.domain.entity.FinalBuildOrder [SELECT f.finalBuildOrderId, f.majorVersion, f.minorVersion FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1679)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1602)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1608)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:294)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:347)
+	at com.sun.proxy.$Proxy91.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:86)
+	... 83 common frames omitted
+Caused by: org.hibernate.QueryException: could not resolve property: majorVersion of: statikk.domain.entity.FinalBuildOrder [SELECT f.finalBuildOrderId, f.majorVersion, f.minorVersion FROM statikk.domain.entity.FinalBuildOrder f WHERE f.buildOrder = ?1]
+	at org.hibernate.QueryException.generateQueryException(QueryException.java:120)
+	at org.hibernate.QueryException.wrapWithQueryString(QueryException.java:103)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:218)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:142)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:115)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:76)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:150)
+	at org.hibernate.internal.AbstractSessionImpl.getHQLQueryPlan(AbstractSessionImpl.java:302)
+	at org.hibernate.internal.AbstractSessionImpl.createQuery(AbstractSessionImpl.java:240)
+	at org.hibernate.internal.SessionImpl.createQuery(SessionImpl.java:1894)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.createQuery(AbstractEntityManagerImpl.java:291)
+	... 90 common frames omitted
+Caused by: org.hibernate.QueryException: could not resolve property: majorVersion of: statikk.domain.entity.FinalBuildOrder
+	at org.hibernate.persister.entity.AbstractPropertyMapping.propertyException(AbstractPropertyMapping.java:62)
+	at org.hibernate.persister.entity.AbstractPropertyMapping.toType(AbstractPropertyMapping.java:56)
+	at org.hibernate.persister.entity.AbstractEntityPersister.toType(AbstractEntityPersister.java:1805)
+	at org.hibernate.hql.internal.ast.tree.FromElementType.getPropertyType(FromElementType.java:393)
+	at org.hibernate.hql.internal.ast.tree.FromElement.getPropertyType(FromElement.java:505)
+	at org.hibernate.hql.internal.ast.tree.DotNode.getDataType(DotNode.java:660)
+	at org.hibernate.hql.internal.ast.tree.DotNode.prepareLhs(DotNode.java:264)
+	at org.hibernate.hql.internal.ast.tree.DotNode.resolve(DotNode.java:204)
+	at org.hibernate.hql.internal.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:109)
+	at org.hibernate.hql.internal.ast.tree.FromReferenceNode.resolve(FromReferenceNode.java:104)
+	at org.hibernate.hql.internal.ast.tree.DotNode.resolveSelectExpression(DotNode.java:722)
+	at org.hibernate.hql.internal.ast.HqlSqlWalker.resolveSelectExpression(HqlSqlWalker.java:954)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExpr(HqlSqlBaseWalker.java:2288)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectExprList(HqlSqlBaseWalker.java:2225)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectClause(HqlSqlBaseWalker.java:1496)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:581)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:309)
+	at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:257)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:262)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:190)
+	... 98 common frames omitted
+22:55:39.176 [restartedMain] INFO  s.dataminer.DataMinerApplication - Starting DataMinerApplication on AJ-PC with PID 12964 (C:\Users\AJ\Documents\lol-project\statikk\data-miner\target\classes started by AJ in C:\Users\AJ\Documents\lol-project\statikk\data-miner)
+22:55:39.199 [restartedMain] INFO  s.dataminer.DataMinerApplication - No active profile set, falling back to default profiles: default
+22:55:39.656 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@61b6659c: startup date [Tue Oct 31 22:55:39 MDT 2017]; root of context hierarchy
+22:55:41.116 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final
+22:55:45.418 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Building JPA container EntityManagerFactory for persistence unit 'default'
+22:55:45.438 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+22:55:45.554 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.0.12.Final}
+22:55:45.556 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:55:45.559 [restartedMain] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:55:45.638 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:55:45.920 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+22:55:47.200 [restartedMain] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+22:55:47.616 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+22:55:49.612 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+22:55:49.776 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup
+22:55:49.808 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/static-data/v3/items?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752&itemListData=all
+22:55:51.884 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/spectator/v3/featured-games?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.084 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/mangofuji?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.176 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/haxmuffin?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.261 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/imkalbaram?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.336 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/osamá?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.413 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/xiaoxi?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.483 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/219612697/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:52.598 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/38224338/recent?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:54.001 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2630872209?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:54.408 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2630872209?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:55.316 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2630876411?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:55.448 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2630876411?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:55.854 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/matches/2631538832?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:55.947 [restartedMain] INFO  s.d.riotapi.service.RiotApiService - https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/2631538832?api_key=RGAPI-2c2ddb7e-d792-4597-9806-6383854e9752
+22:55:56.228 [restartedMain] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
+22:55:56.229 [restartedMain] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Duplicate entry '7-450-25-1--1-4' for key 'unique_champ_spec'
+22:55:56.263 [restartedMain] INFO  o.s.b.a.l.AutoConfigurationReportLoggingInitializer - 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+22:55:56.281 [restartedMain] ERROR o.s.boot.SpringApplication - Application startup failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:735)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:716)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:703)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:304)
+	at statikk.dataminer.DataMinerApplication.main(DataMinerApplication.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [unique_champ_spec]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:278)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:244)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:488)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:59)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:213)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:147)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:133)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.repository.core.support.SurroundingTransactionDetectorMethodInterceptor.invoke(SurroundingTransactionDetectorMethodInterceptor.java:57)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy104.save(Unknown Source)
+	at statikk.domain.service.ChampSpecService.loadEntity(ChampSpecService.java:49)
+	at statikk.domain.service.ChampSpecService$$FastClassBySpringCGLIB$$27d300a5.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at statikk.domain.service.ChampSpecService$$EnhancerBySpringCGLIB$$4c9ef091.loadEntity(<generated>)
+	at statikk.dataminer.service.MatchAnalyzerService.lambda$loadEntities$0(MatchAnalyzerService.java:110)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)
+	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:580)
+	at statikk.dataminer.service.MatchAnalyzerService.loadEntities(MatchAnalyzerService.java:109)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatch(MatchAnalyzerService.java:94)
+	at statikk.dataminer.service.MatchAnalyzerService.analyzeMatches(MatchAnalyzerService.java:81)
+	at statikk.dataminer.DataMinerApplication.run(DataMinerApplication.java:47)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:732)
+	... 9 common frames omitted
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:109)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:95)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:207)
+	at org.hibernate.dialect.identity.GetGeneratedKeysDelegate.executeAndExtract(GetGeneratedKeysDelegate.java:57)
+	at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:42)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2855)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3426)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:81)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:619)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:273)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:254)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:299)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:317)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:272)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:178)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:109)
+	at org.hibernate.jpa.event.internal.core.JpaPersistEventListener.saveWithGeneratedId(JpaPersistEventListener.java:67)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:189)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:132)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:58)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:775)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:748)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:753)
+	at org.hibernate.jpa.spi.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:1146)
+	at sun.reflect.GeneratedMethodAccessor87.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:298)
+	at com.sun.proxy.$Proxy91.persist(Unknown Source)
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:508)
+	at sun.reflect.GeneratedMethodAccessor85.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.executeMethodOn(RepositoryFactorySupport.java:504)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.doInvoke(RepositoryFactorySupport.java:489)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$QueryExecutorMethodInterceptor.invoke(RepositoryFactorySupport.java:461)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:56)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:282)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	... 37 common frames omitted
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '7-450-25-1--1-4' for key 'unique_champ_spec'
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.Util.getInstance(Util.java:408)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:935)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3973)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3909)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2527)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2680)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2487)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1858)
+	at com.mysql.jdbc.PreparedStatement.executeUpdateInternal(PreparedStatement.java:2079)
+	at com.mysql.jdbc.PreparedStatement.executeUpdateInternal(PreparedStatement.java:2013)
+	at com.mysql.jdbc.PreparedStatement.executeLargeUpdate(PreparedStatement.java:5104)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1998)
+	at sun.reflect.GeneratedMethodAccessor73.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.apache.tomcat.jdbc.pool.StatementFacade$StatementProxy.invoke(StatementFacade.java:114)
+	at com.sun.proxy.$Proxy111.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:204)
+	... 78 common frames omitted
+22:55:56.289 [restartedMain] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@61b6659c: startup date [Tue Oct 31 22:55:39 MDT 2017]; root of context hierarchy
+22:55:56.310 [restartedMain] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+22:55:56.320 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'

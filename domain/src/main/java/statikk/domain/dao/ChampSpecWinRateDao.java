@@ -6,8 +6,8 @@
 package statikk.domain.dao;
 
 import java.util.List;
-import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSpecWinRate;
 import statikk.domain.entity.ChampSpecWinRatePK;
 import statikk.domain.stats.model.ChampionWinRate;
@@ -16,16 +16,8 @@ import statikk.domain.stats.model.ChampionWinRate;
  *
  * @author AJ
  */
-@Repository
-public class ChampSpecWinRateDao extends BaseWinRateEntityDao<ChampSpecWinRate, ChampSpecWinRatePK> {
+public interface ChampSpecWinRateDao extends CrudRepository<ChampSpecWinRate, ChampSpecWinRatePK> {
 
-    @Override
-    public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
-        return em.find(ChampSpecWinRate.class, champSpecWinRate.getChampSpecWinRatePK());
-    }
-
-    public List<ChampionWinRate> findAllGrouped() {
-        TypedQuery<ChampionWinRate> nq = em.createNamedQuery("ChampSpecWinRate.findAllGrouped", ChampionWinRate.class);                
-        return nq.getResultList();
-    }
+    @Query(value = "SELECT NEW statikk.domain.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c GROUP BY c.champSpecWinRatePK.champSpec.championId", nativeQuery = true)
+    public List<ChampionWinRate> findWinCountAndPlayedCountGroupedByChampionId();
 }

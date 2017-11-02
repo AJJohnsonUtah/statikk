@@ -6,7 +6,6 @@
 package statikk.domain.service;
 
 import java.util.HashMap;
-import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,38 +21,33 @@ import statikk.domain.entity.LolVersion;
 public class LolVersionService extends BaseService<LolVersion> {
 
     @Autowired
-    LolVersionDao lolVersionDao;
+    private LolVersionDao lolVersionDao;
 
     private final HashMap<LolVersion, LolVersion> cachedLolVersions = new HashMap<>();
 
     @Override
-    public void create(LolVersion lolVersion) {
-        lolVersionDao.create(lolVersion);
+    public LolVersion create(LolVersion lolVersion) {
+        return lolVersionDao.save(lolVersion);
     }
 
     @Override
-    public void update(LolVersion lolVersion) {
-        lolVersionDao.update(lolVersion);
+    public LolVersion update(LolVersion lolVersion) {
+        return lolVersionDao.save(lolVersion);
     }
 
     public LolVersion find(LolVersion lolVersion) {
-        return lolVersionDao.find(lolVersion);
+        return lolVersionDao.findByMajorVersionAndMinorVersion(lolVersion.getMajorVersion(), lolVersion.getMinorVersion());
     }
 
-    public LolVersion loadEntity(LolVersion lolVersion) {
-        if (cachedLolVersions.containsKey(lolVersion)) {
-            return cachedLolVersions.get(lolVersion);
+    public LolVersion findOrCreate(LolVersion lolVersion) {
+        LolVersion foundInstance = find(lolVersion);
+        if (foundInstance != null) {
+            return foundInstance;
         }
-        LolVersion foundVersion = find(lolVersion);
-        if(foundVersion == null) {
-            create(lolVersion);            
-            cachedLolVersions.put(lolVersion, lolVersion);
-            return lolVersion;
-        }
-        return foundVersion;
+        return create(lolVersion);
     }
 
-    public List<LolVersion> findAll() {
+    public Iterable<LolVersion> findAll() {
         return lolVersionDao.findAll();
     }
 }

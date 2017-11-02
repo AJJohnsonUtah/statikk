@@ -1,6 +1,7 @@
 package statikk.dataminer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,10 +11,12 @@ import statikk.dataminer.service.MatchMiningService;
 
 @SpringBootApplication
 @ComponentScan({"statikk.dataminer", "statikk.domain"})
-public class DataMinerApplication {
+public class DataMinerApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(DataMinerApplication.class);        
+        System.out.println("Starting this ish");
+        SpringApplication app = new SpringApplication(DataMinerApplication.class);
+        System.out.println("Running this ish");
         app.run(args);
     }
 
@@ -26,6 +29,7 @@ public class DataMinerApplication {
     @Autowired
     ItemAnalysisService itemAnalysisService;
 
+    @Override
     public void run(String[] strings) throws Exception {
         itemAnalysisService.loadItems();
         int numIterations = 0;

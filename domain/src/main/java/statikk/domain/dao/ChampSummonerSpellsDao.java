@@ -5,7 +5,7 @@
  */
 package statikk.domain.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSummonerSpells;
 import statikk.domain.entity.ChampSummonerSpellsPK;
 
@@ -13,12 +13,6 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
  *
  * @author AJ
  */
-@Repository
-public class ChampSummonerSpellsDao extends BaseWinRateEntityDao<ChampSummonerSpells, ChampSummonerSpellsPK> {
-
-    @Override
-    public ChampSummonerSpells find(ChampSummonerSpells entity) {
-        return em.find(ChampSummonerSpells.class, entity.getChampSummonerSpellsPK());
-    }
+public interface ChampSummonerSpellsDao extends CrudRepository<ChampSummonerSpells, ChampSummonerSpellsPK> {
 
 }

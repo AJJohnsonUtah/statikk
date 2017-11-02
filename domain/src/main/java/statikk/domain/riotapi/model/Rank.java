@@ -13,13 +13,13 @@ import java.util.HashMap;
  */
 public enum Rank {
     CHALLENGER(1), MASTER(2), DIAMOND(3), PLATINUM(4), GOLD(5), SILVER(6), BRONZE(7), UNRANKED(8);
-    private final int rankId;
+    private final Integer rankId;
 
-    Rank(int id) {
+    Rank(Integer id) {
         this.rankId = id;
     }
 
-    public int getRankId() {
+    public Integer getRankId() {
         return rankId;
     }
 
@@ -32,7 +32,7 @@ public enum Rank {
         }
     }
 
-    public static Rank fromId(int rankId) {
+    public static Rank fromId(Integer rankId) {
         return rankMap.get(rankId);
     }
 

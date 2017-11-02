@@ -5,13 +5,12 @@
  */
 package statikk.domain.service;
 
-import java.util.Map;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampTeamupDao;
 import statikk.domain.entity.ChampTeamup;
-import statikk.domain.entity.ChampTeamupPK;
 
 /**
  *
@@ -25,17 +24,20 @@ public class ChampTeamupService extends BaseService<ChampTeamup> {
     ChampTeamupDao champTeamupDao;
 
     @Override
-    public void create(ChampTeamup champTeamup) {
-        champTeamupDao.create(champTeamup);
+    public ChampTeamup create(ChampTeamup champTeamup) {
+        return champTeamupDao.save(champTeamup);
     }
 
     @Override
-    public void update(ChampTeamup champTeamup) {
-        champTeamupDao.update(champTeamup);
+    public ChampTeamup update(ChampTeamup champTeamup) {
+        return champTeamupDao.save(champTeamup);
     }
 
-    public void batchInsertOrUpdate(Map<ChampTeamupPK, ChampTeamup> champTeamups) {
-        champTeamupDao.batchInsertOrUpdate(champTeamups);
+    public void batchInsertOrUpdate(Collection<ChampTeamup> champTeamups) {
+        champTeamups.forEach((champTeamup) -> {
+            champTeamup.combine(champTeamupDao.findOne(champTeamup.getChampTeamupPK()));
+        });
+        champTeamupDao.save(champTeamups);
     }
 
 }

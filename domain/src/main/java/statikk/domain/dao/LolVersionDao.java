@@ -5,29 +5,15 @@
  */
 package statikk.domain.dao;
 
-import java.util.List;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.LolVersion;
 
 /**
  *
  * @author AJ
  */
-@Repository
-public class LolVersionDao extends BaseDao<LolVersion> {
+public interface LolVersionDao extends CrudRepository<LolVersion, Long> {
 
-    public List<LolVersion> findAll() {
-        Query nq = em.createNamedQuery("LolVersion.findAll");
-        return nq.getResultList();
-    }
+    public LolVersion findByMajorVersionAndMinorVersion(int majorVersion, int minorVersion);
 
-    public LolVersion find(LolVersion lolVersion) {
-        TypedQuery<LolVersion> nq = em.createNamedQuery("LolVersion.find", LolVersion.class)
-                .setParameter("majorVersion", lolVersion.getMajorVersion())
-                .setParameter("minorVersion", lolVersion.getMinorVersion());
-        List<LolVersion> versions = nq.getResultList();
-        return versions.isEmpty() ? null : versions.get(0);
-    }
 }

@@ -6,7 +6,6 @@
  */
 package statikk.domain.riotapi.model;
 
-//import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 
@@ -127,10 +126,10 @@ public enum QueueType {
     STAR_GUARDIAN_NORMAL(980, "Star Guardian Invasion: Normal games"),
     STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games");
 
-    private final int queueTypeId;
+    private final Integer queueTypeId;
     private final String name;
 
-    public int getQueueTypeId() {
+    public Integer getQueueTypeId() {
         return queueTypeId;
     }
 
@@ -138,12 +137,12 @@ public enum QueueType {
         return name;
     }
 
-    QueueType(int queueTypeId, String name) {
+    QueueType(Integer queueTypeId, String name) {
         this.queueTypeId = queueTypeId;
         this.name = name;
     }
 
-    public static QueueType fromId(int queueTypeId) {
+    public static QueueType fromId(Integer queueTypeId) {
         return queueTypeMap.get(queueTypeId);
     }
 

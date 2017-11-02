@@ -11,8 +11,8 @@ package statikk.domain.service;
  */
 public abstract class BaseService<E> {
 
-    public abstract void create(E entity);
+    public abstract E create(E entity);
 
-    public abstract void update(E entity);
+    public abstract E update(E entity);
 
 }

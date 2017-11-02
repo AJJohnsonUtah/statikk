@@ -7,11 +7,11 @@ package statikk.domain.service;
 
 import java.util.HashMap;
 import javax.transaction.Transactional;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecDao;
 import statikk.domain.entity.ChampSpec;
-import statikk.domain.entity.LolVersion;
 
 /**
  *
@@ -22,37 +22,39 @@ import statikk.domain.entity.LolVersion;
 public class ChampSpecService extends BaseService<ChampSpec> {
 
     @Autowired
-    ChampSpecDao champSpecDao;
+    private ChampSpecDao champSpecDao;
+
+    @Autowired
+    private LolVersionService lolVersionService;
 
     private final HashMap<ChampSpec, ChampSpec> cachedChampSpecs = new HashMap<>();
 
-    @Override
-    public void create(ChampSpec champSpec) {
-        champSpecDao.create(champSpec);
-    }
-
-    @Override
-    public void update(ChampSpec champSpec) {
-        champSpecDao.update(champSpec);
-    }
-
     public ChampSpec find(ChampSpec champSpec) {
-        return champSpecDao.find(champSpec);
+        if (champSpec.getLolVersion().getLolVersionId() == null) {
+            champSpec.setLolVersion(lolVersionService.find(champSpec.getLolVersion()));
+        }
+        return champSpecDao.findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(
+                champSpec.getChampionId(), champSpec.getMatchType(), champSpec.getLolVersion(), champSpec.getLane(), champSpec.getRole(), champSpec.getRank());
     }
 
-    public ChampSpec loadEntity(ChampSpec champSpec) {
-        if (cachedChampSpecs.containsKey(champSpec)) {
-            return cachedChampSpecs.get(champSpec);
+    public ChampSpec findOrCreate(ChampSpec champSpec) {
+        Logger.getLogger(ChampSpecService.class).info("Finding champ spec to find/create " + champSpec);
+        ChampSpec foundInstance = find(champSpec);
+        if (foundInstance != null) {
+            return foundInstance;
         }
-        LolVersion lolVersion = champSpec.getLolVersionId();
-        ChampSpec foundSpec = find(champSpec);        
-        if (foundSpec == null) {
-            create(champSpec);
-            champSpec.setLolVersionId(lolVersion);
-            cachedChampSpecs.put(champSpec, champSpec);
-            return champSpec;
-        }
-        foundSpec.setLolVersionId(lolVersion);
-        return foundSpec;
+        champSpec.setLolVersion(lolVersionService.findOrCreate(champSpec.getLolVersion()));
+        Logger.getLogger(ChampSpecService.class).info("Creating champ spec to find/create " + champSpec);
+        return create(champSpec);
+    }
+
+    @Override
+    public ChampSpec create(ChampSpec champSpec) {
+        return champSpecDao.save(champSpec);
+    }
+
+    @Override
+    public ChampSpec update(ChampSpec champSpec) {
+        return champSpecDao.save(champSpec);
     }
 }

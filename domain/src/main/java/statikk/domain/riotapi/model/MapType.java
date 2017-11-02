@@ -5,7 +5,7 @@
  */
 package statikk.domain.riotapi.model;
 
-//import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  *
@@ -23,7 +23,8 @@ public enum MapType {
     ARAMButcher(14,
             "Butcher's Bridge", "ARAM Map"),
     CosmicRuins(16,
-            "Cosmic Ruins", "Darkstar Map");
+            "Cosmic Ruins", "Darkstar Map"),
+    ValoranCityPark(18, "Valoran City Park", "Star Guardian Invasion Map");
 
     private final int mapId;
     private final String name;
@@ -47,7 +48,7 @@ public enum MapType {
         this.description = description;
     }
 
-//    @JsonCreator
+    @JsonCreator
     public static MapType fromMapId(int mapId) {
         for (MapType mapType : values()) {
             if (mapId == mapType.getMapId()) {

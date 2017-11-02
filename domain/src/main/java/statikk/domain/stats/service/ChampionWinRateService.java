@@ -23,6 +23,6 @@ public class ChampionWinRateService {
     ChampSpecWinRateDao champSpecWinRateDao;
 
     public Map<Long, ChampionWinRate> getChampionWinRates() {
-        return champSpecWinRateDao.findAllGrouped().stream().collect(Collectors.toMap(ChampionWinRate::getChampionId, c -> c));
+        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId().stream().collect(Collectors.toMap(ChampionWinRate::getChampionId, c -> c));
     }
 }

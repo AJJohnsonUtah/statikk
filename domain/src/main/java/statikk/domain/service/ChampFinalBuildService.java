@@ -5,13 +5,12 @@
  */
 package statikk.domain.service;
 
-import java.util.Map;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampFinalBuildDao;
 import statikk.domain.entity.ChampFinalBuild;
-import statikk.domain.entity.ChampFinalBuildPK;
 
 /**
  *
@@ -25,17 +24,20 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
     ChampFinalBuildDao champFinalBuildDao;
 
     @Override
-    public void create(ChampFinalBuild champFinalBuild) {
-        champFinalBuildDao.create(champFinalBuild);
+    public ChampFinalBuild create(ChampFinalBuild champFinalBuild) {
+        return champFinalBuildDao.save(champFinalBuild);
     }
 
     @Override
-    public void update(ChampFinalBuild champFinalBuild) {
-        champFinalBuildDao.update(champFinalBuild);
+    public ChampFinalBuild update(ChampFinalBuild champFinalBuild) {
+        return champFinalBuildDao.save(champFinalBuild);
     }
 
-    public void batchInsertOrUpdate(Map<ChampFinalBuildPK, ChampFinalBuild> champMatchups) {
-        champFinalBuildDao.batchInsertOrUpdate(champMatchups);
+    public void batchInsertOrUpdate(Collection<ChampFinalBuild> champFinalBuilds) {
+        champFinalBuilds.forEach((champFinalBuild) -> {
+            champFinalBuild.combine(champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK()));
+        });
+        champFinalBuildDao.save(champFinalBuilds);
     }
 
 }

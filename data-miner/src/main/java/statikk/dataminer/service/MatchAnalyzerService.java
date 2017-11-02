@@ -22,6 +22,7 @@ import statikk.domain.entity.ChampSummonerSpells;
 import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
+import statikk.domain.entity.LolMatch;
 import statikk.domain.riotapi.model.LolTeam;
 import statikk.domain.riotapi.model.MatchDetail;
 import statikk.domain.riotapi.model.ParticipantDto;
@@ -56,7 +57,7 @@ public class MatchAnalyzerService {
 
     @Autowired
     ItemAnalysisService itemAnalysisService;
-    
+
     @Autowired
     MatchMiningService matchMiningService;
 
@@ -66,11 +67,12 @@ public class MatchAnalyzerService {
 
     public void analyzeMatches(int numMatchesToAnalyze) {
 
-        List<Long> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(numMatchesToAnalyze);
+        List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(numMatchesToAnalyze);
         System.out.println("Matches fetched for analysis");
         aggregateAnalysis.resetAnalysis();
 
-        for (Long matchId : matchIdsToAnalyze) {
+        for (LolMatch match : matchIdsToAnalyze) {
+            Long matchId = match.getMatchId();
             System.out.print(" Fetching match " + matchId + ". ");
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(Region.NA, matchId);
             matchMiningService.addAccountsToMineIfNeeded(currentMatch);
@@ -81,9 +83,9 @@ public class MatchAnalyzerService {
         }
 
         aggregateAnalysis.save();
-        if(matchIdsToAnalyze.size() > 0) {
+        if (matchIdsToAnalyze.size() > 0) {
             lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
-        }        
+        }
 
     }
 
@@ -101,19 +103,19 @@ public class MatchAnalyzerService {
 
     private void loadEntities(MatchDetail match) {
         // Load LolVersion
-        match.setGameVersion(lolVersionService.loadEntity(match.getGameVersion()));
+        match.setGameVersion(lolVersionService.findOrCreate(match.getGameVersion()));
 
         // Load ChampSpecs
-        match.getParticipants().stream().forEach((participant) -> {            
-            participant.setChampSpec(champSpecService.loadEntity(new ChampSpec(match, participant)));
+        match.getParticipants().stream().forEach((participant) -> {
+            participant.setChampSpec(champSpecService.findOrCreate(new ChampSpec(match, participant)));
         });
-        
+
         // Load FinalBuildOrders
         itemAnalysisService.loadFinalBuildOrders(match);
-        
+
         // Load ChampSpecs for bans
         match.getBannedChampions().stream().forEach((bannedChamp) -> {
-           bannedChamp.setChampSpec(champSpecService.loadEntity(new ChampSpec(match, bannedChamp)));
+            bannedChamp.setChampSpec(champSpecService.findOrCreate(new ChampSpec(match, bannedChamp)));
         });
     }
 
@@ -208,13 +210,13 @@ public class MatchAnalyzerService {
             aggregateAnalysis.addChampSummonerSpells(champSummonerSpells);
         }
     }
-    
+
     private void analyzeChampBans(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
-        for(TeamBansDto bannedChamp : match.getBannedChampions()) {
+        for (TeamBansDto bannedChamp : match.getBannedChampions()) {
             ChampBanPK pk = new ChampBanPK(bannedChamp);
             ChampBan champBan = new ChampBan(pk, 1);
             aggregateAnalysis.addChampBan(champBan);
         }
     }
-    
+
 }

@@ -163,7 +163,7 @@ public class ItemAnalysisService {
                 }
             }
             FinalBuildOrder build = new FinalBuildOrder(buildOrder);
-            build = finalBuildOrderService.loadEntity(build);
+            build = finalBuildOrderService.findOrCreate(build);
             match.getParticipantFromId(entry.getKey()).setFinalBuildOrder(build);
         }
     }

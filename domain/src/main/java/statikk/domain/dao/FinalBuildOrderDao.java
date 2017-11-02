@@ -5,23 +5,17 @@
  */
 package statikk.domain.dao;
 
-import java.util.List;
-import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.FinalBuildOrder;
 
 /**
  *
  * @author AJ
  */
-@Repository
-public class FinalBuildOrderDao extends BaseDao<FinalBuildOrder> {
+public interface FinalBuildOrderDao extends CrudRepository<FinalBuildOrder, Long> {
 
-    public FinalBuildOrder find(FinalBuildOrder finalBuildOrder) {
-        TypedQuery<FinalBuildOrder> nq = em.createNamedQuery("FinalBuildOrder.findByBuildOrder", FinalBuildOrder.class)
-                .setParameter("buildOrder", finalBuildOrder.getBuildOrder());
-        List<FinalBuildOrder> finalBuildOrders = nq.getResultList();
-        return finalBuildOrders.isEmpty() ? null : finalBuildOrders.get(0);
-    }
+    @Query(value = "SELECT f.finalBuildOrderId, f.buildOrder FROM FinalBuildOrder f WHERE f.buildOrder = ?1")
+    public FinalBuildOrder findByBuildOrder(String buildOrder);
 
 }

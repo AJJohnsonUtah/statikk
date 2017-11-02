@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author AJ
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest()
 public class LaneTest {
 
     public LaneTest() {
@@ -87,7 +85,7 @@ public class LaneTest {
         int id = 2;
         Lane expResult = Lane.BOTTOM;
         Lane result = Lane.getLane(id);
-        assertEquals(expResult, result);        
+        assertEquals(expResult, result);
     }
 
 }

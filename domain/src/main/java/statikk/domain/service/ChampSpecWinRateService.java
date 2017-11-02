@@ -5,13 +5,12 @@
  */
 package statikk.domain.service;
 
-import java.util.Map;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecWinRateDao;
 import statikk.domain.entity.ChampSpecWinRate;
-import statikk.domain.entity.ChampSpecWinRatePK;
 
 /**
  *
@@ -25,16 +24,19 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
     ChampSpecWinRateDao champSpecWinRateDao;
 
     @Override
-    public void create(ChampSpecWinRate champSpecWinRate) {
-        champSpecWinRateDao.create(champSpecWinRate);
+    public ChampSpecWinRate create(ChampSpecWinRate champSpecWinRate) {
+        return champSpecWinRateDao.save(champSpecWinRate);
     }
 
     @Override
-    public void update(ChampSpecWinRate champSpecWinRate) {
-        champSpecWinRateDao.update(champSpecWinRate);
+    public ChampSpecWinRate update(ChampSpecWinRate champSpecWinRate) {
+        return champSpecWinRateDao.save(champSpecWinRate);
     }
-    
-    public void batchInsertOrUpdate(Map<ChampSpecWinRatePK, ChampSpecWinRate> champSpecWinRates) {
-        champSpecWinRateDao.batchInsertOrUpdate(champSpecWinRates);
-    }   
+
+    public void batchInsertOrUpdate(Collection<ChampSpecWinRate> champSpecWinRates) {
+        champSpecWinRates.forEach((champSpecWinRate) -> {
+            champSpecWinRate.combine(champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK()));
+        });
+        champSpecWinRateDao.save(champSpecWinRates);
+    }
 }

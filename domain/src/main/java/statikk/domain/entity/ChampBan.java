@@ -23,9 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "champ_ban")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ChampBan.findAll", query = "SELECT c FROM ChampBan c"),
-    @NamedQuery(name = "ChampBan.findByChampSpecId", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.champSpec = :champSpec"),
-    @NamedQuery(name = "ChampBan.findByBanOrder", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.banOrder = :banOrder"),
+    @NamedQuery(name = "ChampBan.findAll", query = "SELECT c FROM ChampBan c")
+    ,
+    @NamedQuery(name = "ChampBan.findByChampSpecId", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.champSpec = :champSpec")
+    ,
+    @NamedQuery(name = "ChampBan.findByBanOrder", query = "SELECT c FROM ChampBan c WHERE c.champBanPK.banOrder = :banOrder")
+    ,
     @NamedQuery(name = "ChampBan.findByBanCount", query = "SELECT c FROM ChampBan c WHERE c.banCount = :banCount")})
 public class ChampBan implements Serializable {
 
@@ -84,8 +87,10 @@ public class ChampBan implements Serializable {
     public String toString() {
         return "ChampBan[ champBanPK=" + champBanPK + " ]";
     }
-    
+
     public void combine(ChampBan champBan) {
-        this.banCount += champBan.getBanCount();
+        if (champBan != null) {
+            this.banCount += champBan.getBanCount();
+        }
     }
 }

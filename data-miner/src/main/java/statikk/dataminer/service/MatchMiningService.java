@@ -5,6 +5,7 @@
  */
 package statikk.dataminer.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -68,7 +69,7 @@ public class MatchMiningService {
     public void mineMatches(int matchesToMine) {
         long start = System.currentTimeMillis();
 
-        LolMatch[] minedMatches = new LolMatch[matchesToMine];
+        ArrayList<LolMatch> minedMatches = new ArrayList<>();
         HashSet<Long> matchIds = new HashSet<>();
 
         while (matchIds.size() < matchesToMine) {
@@ -79,11 +80,11 @@ public class MatchMiningService {
                 continue;
             }
             for (MatchReferenceDto game : recentGames.getMatches()) {
-                if (game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId())) {
+                if (game == null || game.getQueue() == null || game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId())) {
                     continue;
                 }
                 alreadyMinedMatches.add(game.getGameId());
-                minedMatches[matchIds.size()] = new LolMatch(game);
+                minedMatches.add(new LolMatch(game));
                 matchIds.add(game.getGameId());
                 if (matchIds.size() >= matchesToMine) {
                     break;
@@ -168,7 +169,6 @@ public class MatchMiningService {
 //        }
 //        return summonersRecentGames;
 //    }
-
     //abstraction to wrap Callable and Future
     class GetRecentGamesTask {
 

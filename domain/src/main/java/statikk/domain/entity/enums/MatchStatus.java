@@ -14,9 +14,9 @@ import java.util.HashMap;
 public enum MatchStatus {
     COMPLETED(0), IN_PROGRESS(1), READY(2);
 
-    private int matchStatusId;
+    private Integer matchStatusId;
 
-    MatchStatus(int id) {
+    MatchStatus(Integer id) {
         this.matchStatusId = id;
     }
 
@@ -33,7 +33,7 @@ public enum MatchStatus {
         }
     }
 
-    public int getMatchStatusId() {
+    public Integer getMatchStatusId() {
         return matchStatusId;
     }
 

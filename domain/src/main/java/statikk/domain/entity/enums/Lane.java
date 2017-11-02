@@ -15,13 +15,13 @@ import java.util.HashMap;
 public enum Lane {
     MIDDLE(1), BOTTOM(2), TOP(3), JUNGLE(4), SUPPORT(5), ROAM(6);
 
-    private int laneId;
+    private Integer laneId;
 
-    Lane(int id) {
+    Lane(Integer id) {
         this.laneId = id;
     }
 
-    public int getLaneId() {
+    public Integer getLaneId() {
         return laneId;
     }
 
@@ -35,7 +35,7 @@ public enum Lane {
     }
 
     @JsonCreator
-    public static Lane getLane(int id) {
+    public static Lane getLane(Integer id) {
         return laneMap.get(id);
     }
 

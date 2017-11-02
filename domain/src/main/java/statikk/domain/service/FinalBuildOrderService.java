@@ -22,33 +22,28 @@ public class FinalBuildOrderService extends BaseService<FinalBuildOrder> {
 
     @Autowired
     FinalBuildOrderDao finalBuildOrderDao;
-    
+
     private final HashMap<FinalBuildOrder, FinalBuildOrder> cachedFinalBuildOrders = new HashMap<>();
 
     @Override
-    public void create(FinalBuildOrder finalBuildOrder) {
-        finalBuildOrderDao.create(finalBuildOrder);
+    public FinalBuildOrder create(FinalBuildOrder finalBuildOrder) {
+        return finalBuildOrderDao.save(finalBuildOrder);
     }
 
     @Override
-    public void update(FinalBuildOrder finalBuildOrder) {
-        finalBuildOrderDao.update(finalBuildOrder);
+    public FinalBuildOrder update(FinalBuildOrder finalBuildOrder) {
+        return finalBuildOrderDao.save(finalBuildOrder);
     }
 
     public FinalBuildOrder find(FinalBuildOrder finalBuildOrder) {
-        return finalBuildOrderDao.find(finalBuildOrder);
+        return finalBuildOrderDao.findByBuildOrder(finalBuildOrder.getBuildOrder());
     }
 
-    public FinalBuildOrder loadEntity(FinalBuildOrder finalBuildOrder) {
-        if (cachedFinalBuildOrders.containsKey(finalBuildOrder)) {
-            return cachedFinalBuildOrders.get(finalBuildOrder);
+    public FinalBuildOrder findOrCreate(FinalBuildOrder finalBuildOrder) {
+        FinalBuildOrder foundInstance = find(finalBuildOrder);
+        if (foundInstance != null) {
+            return foundInstance;
         }
-        FinalBuildOrder foundFinalBuildOrder = find(finalBuildOrder);
-        if(foundFinalBuildOrder == null) {
-            create(finalBuildOrder);            
-            cachedFinalBuildOrders.put(finalBuildOrder, finalBuildOrder);
-            return finalBuildOrder;
-        }
-        return foundFinalBuildOrder;
+        return create(finalBuildOrder);
     }
 }

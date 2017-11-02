@@ -5,13 +5,12 @@
  */
 package statikk.domain.service;
 
-import java.util.Map;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSummonerSpellsDao;
 import statikk.domain.entity.ChampSummonerSpells;
-import statikk.domain.entity.ChampSummonerSpellsPK;
 
 /**
  *
@@ -25,17 +24,20 @@ public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells>
     ChampSummonerSpellsDao champSummonerSpellsDao;
 
     @Override
-    public void create(ChampSummonerSpells champSummonerSpells) {
-        champSummonerSpellsDao.create(champSummonerSpells);
+    public ChampSummonerSpells create(ChampSummonerSpells champSummonerSpells) {
+        return champSummonerSpellsDao.save(champSummonerSpells);
     }
 
     @Override
-    public void update(ChampSummonerSpells champSummonerSpells) {
-        champSummonerSpellsDao.update(champSummonerSpells);
+    public ChampSummonerSpells update(ChampSummonerSpells champSummonerSpells) {
+        return champSummonerSpellsDao.save(champSummonerSpells);
     }
 
-    public void batchInsertOrUpdate(Map<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells) {
-        champSummonerSpellsDao.batchInsertOrUpdate(champSummonerSpells);
+    public void batchInsertOrUpdate(Collection<ChampSummonerSpells> champSummonerSpells) {
+        champSummonerSpells.forEach((champSummonerSpell) -> {
+            champSummonerSpell.combine(champSummonerSpellsDao.findOne(champSummonerSpell.getChampSummonerSpellsPK()));
+        });
+        champSummonerSpellsDao.save(champSummonerSpells);
     }
 
 }

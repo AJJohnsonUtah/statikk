@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="ERROR-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>log/errors.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>warn</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="INFO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>log/info-%d{yyyy-MM-dd-HH}.%i.log</fileNamePattern>
+            <!-- each file should be at most 5MB, keep 60 days worth of history, but at most 100MB -->
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="INFO-FILE" />
+        <appender-ref ref="ERROR-FILE" />
+    </root>
+</configuration>

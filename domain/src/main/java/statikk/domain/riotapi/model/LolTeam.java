@@ -5,7 +5,7 @@
  */
 package statikk.domain.riotapi.model;
 
-//import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
 
 /**
@@ -26,7 +26,7 @@ public enum LolTeam {
     }
 
     private static final HashMap<Integer, LolTeam> lolTeamMap;
-    
+
     static {
         lolTeamMap = new HashMap<>();
         for (LolTeam lolTeam : values()) {
@@ -34,7 +34,7 @@ public enum LolTeam {
         }
     }
 
-//    @JsonCreator
+    @JsonCreator
     public static LolTeam fromId(int id) {
         return lolTeamMap.get(id);
     }

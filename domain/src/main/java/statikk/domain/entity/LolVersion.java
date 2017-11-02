@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,31 +28,35 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author AJ
  */
 @Entity
-@Table(name = "lol_version")
+@Table(name = "lol_version", uniqueConstraints = @UniqueConstraint(columnNames = {"lol_version_id", "major_version", "minor_version"}))
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LolVersion.findAll", query = "SELECT l FROM LolVersion l"),
-    @NamedQuery(name = "LolVersion.findByLolVersionId", query = "SELECT l FROM LolVersion l WHERE l.lolVersionId = :lolVersionId"),
-    @NamedQuery(name = "LolVersion.findByMajorVersion", query = "SELECT l FROM LolVersion l WHERE l.majorVersion = :majorVersion"),
-    @NamedQuery(name = "LolVersion.findByMinorVersion", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion"),
+    @NamedQuery(name = "LolVersion.findAll", query = "SELECT l FROM LolVersion l")
+    ,
+    @NamedQuery(name = "LolVersion.findByLolVersionId", query = "SELECT l FROM LolVersion l WHERE l.lolVersionId = :lolVersionId")
+    ,
+    @NamedQuery(name = "LolVersion.findByMajorVersion", query = "SELECT l FROM LolVersion l WHERE l.majorVersion = :majorVersion")
+    ,
+    @NamedQuery(name = "LolVersion.findByMinorVersion", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion")
+    ,
     @NamedQuery(name = "LolVersion.find", query = "SELECT l FROM LolVersion l WHERE l.minorVersion = :minorVersion AND l.majorVersion = :majorVersion")})
 public class LolVersion implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersionId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersion", fetch = FetchType.LAZY)
     private List<ChampSpec> champSpecList;
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "lol_version_id")
     private Integer lolVersionId;
-    
+
     @Basic(optional = false)
     @Column(name = "major_version", nullable = false)
     private int majorVersion;
-    
+
     @Basic(optional = false)
     @Column(name = "minor_version", nullable = false)
     private int minorVersion;

@@ -5,28 +5,23 @@
  */
 package statikk.domain.dao;
 
-import java.util.List;
-import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSpec;
+import statikk.domain.entity.LolVersion;
+import statikk.domain.entity.enums.Lane;
+import statikk.domain.entity.enums.Role;
+import statikk.domain.riotapi.model.QueueType;
+import statikk.domain.riotapi.model.Rank;
 
 /**
  *
  * @author AJ
  */
-@Repository
-public class ChampSpecDao extends BaseDao<ChampSpec> {
+public interface ChampSpecDao extends CrudRepository<ChampSpec, Long> {
 
-    public ChampSpec find(ChampSpec champSpec) {
-        TypedQuery<ChampSpec> nq = em.createNamedQuery("ChampSpec.find", ChampSpec.class)
-                .setParameter("championId", champSpec.getChampionId())
-                .setParameter("matchType", champSpec.getMatchType())
-                .setParameter("lolVersionId", champSpec.getLolVersionId())
-                .setParameter("lane", champSpec.getLane())
-                .setParameter("role", champSpec.getRole())
-                .setParameter("rank", champSpec.getRank());
-        List<ChampSpec> champSpecs = nq.getResultList();
-        return champSpecs.isEmpty() ? null : champSpecs.get(0);
-    }
+    @Query("SELECT c FROM ChampSpec c WHERE c.championId = ?1 AND c.matchType = ?2 AND c.lolVersion = ?3 AND c.lane = ?4 AND c.role = ?5 AND c.rank = ?6")
+    ChampSpec findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(int championId,
+            QueueType matchType, LolVersion lolVersion, Lane lane, Role role, Rank rank);
 
 }

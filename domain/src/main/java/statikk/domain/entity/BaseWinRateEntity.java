@@ -55,8 +55,10 @@ public abstract class BaseWinRateEntity {
     }
 
     public void combine(BaseWinRateEntity baseWinRateEntity) {
-        this.winCount += baseWinRateEntity.winCount;
-        this.playedCount += baseWinRateEntity.playedCount;
+        if (baseWinRateEntity != null) {
+            this.winCount += baseWinRateEntity.winCount;
+            this.playedCount += baseWinRateEntity.playedCount;
+        }
     }
 
 }
