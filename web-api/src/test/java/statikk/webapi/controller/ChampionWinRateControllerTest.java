@@ -5,6 +5,7 @@
  */
 package statikk.webapi.controller;
 
+import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,36 +14,47 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import statikk.domain.stats.model.ChampionWinRate;
+import statikk.domain.stats.service.ChampionWinRateService;
 
 /**
  *
  * @author AJ
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class ChampionWinRateControllerTest {           
-    
+@WebMvcTest(controllers = ChampionWinRateController.class, secure = false)
+public class ChampionWinRateControllerTest {
+
     @Autowired
-    private ChampionWinRateController championWinRateController;    
-    
+    private ChampionWinRateController championWinRateController;
+
+    @MockBean
+    private ChampionWinRateService mockService;
+
+    private HashMap<Long, ChampionWinRate> mockWinRates;
+
     public ChampionWinRateControllerTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        this.mockWinRates = new HashMap<>();
+        mockWinRates.put(1L, new ChampionWinRate(1, 100, 45));
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -51,15 +63,17 @@ public class ChampionWinRateControllerTest {
     public void contextLoads() {
         assertThat(championWinRateController).isNotNull();
     }
-    
+
     /**
-     * Test of getAllChampionWinRates method, of class ChampionWinRateController.
+     * Test of getAllChampionWinRates method, of class
+     * ChampionWinRateController.
      */
     @Test
     public void testGetAllChampionWinRates() {
         System.out.println("getAllChampionWinRates");
-        Assert.assertTrue("No results found for getAllChampionWinRates()", championWinRateController.getAllChampionWinRates().containsKey(1L));
+        given(this.mockService.getChampionWinRates())
+                .willReturn(mockWinRates);
+        Assert.assertTrue("getAllChampionWinRates correctly returns mocked data.", championWinRateController.getAllChampionWinRates().containsKey(1L));
     }
-    
-    
+
 }

@@ -2,3 +2,4 @@
 /statikk-web/nbproject/private/
 /domain/nbproject/
 /web-app/nbproject/private/
+*.log

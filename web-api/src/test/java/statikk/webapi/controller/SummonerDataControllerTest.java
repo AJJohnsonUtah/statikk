@@ -11,29 +11,32 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.BDDMockito.given;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import statikk.domain.riotapi.model.Region;
+import statikk.domain.riotapi.service.RiotApiService;
 
 /**
  *
  * @author AJ
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@WebMvcTest(controllers = SummonerDataController.class)
 public class SummonerDataControllerTest {
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    MockMvc mockMvc;
 
-    private MockMvc mockMvc;
+    @MockBean
+    RiotApiService riotApiServiceMock;
 
     public SummonerDataControllerTest() {
 
@@ -49,7 +52,6 @@ public class SummonerDataControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).dispatchOptions(true).build();
     }
 
     @After
@@ -62,6 +64,8 @@ public class SummonerDataControllerTest {
     @Test
     public void testGetChampionMasteryByRegion() throws Exception {
         System.out.println("getChampionMastery");
+        given(riotApiServiceMock.getChampionMastery(Region.EUNE, 27673684))
+                .willReturn("Fake masteries...?");
         mockMvc.perform(get("/api/summoner/27673684/champion-mastery/all/EUNE")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -74,6 +78,8 @@ public class SummonerDataControllerTest {
     @Test
     public void testGetChampionMastery() throws Exception {
         System.out.println("getChampionMastery");
+        given(riotApiServiceMock.getChampionMastery(Region.NA, 27673684))
+                .willReturn("Fake masteries...?");
         mockMvc.perform(get("/api/summoner/27673684/champion-mastery/all")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -86,7 +92,9 @@ public class SummonerDataControllerTest {
     @Test
     public void testGetCurrentGameByRegion() throws Exception {
         System.out.println("getCurrentGame");
-                mockMvc.perform(get("/api/summoner/27673684/current-game/NA")
+        given(riotApiServiceMock.getCurrentGame(Region.EUNE, 27673684))
+                .willReturn("Fake game...?");
+        mockMvc.perform(get("/api/summoner/27673684/current-game/EUNE")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
@@ -98,6 +106,8 @@ public class SummonerDataControllerTest {
     @Test
     public void testGetCurrentGame() throws Exception {
         System.out.println("getCurrentGame");
+        given(riotApiServiceMock.getCurrentGame(Region.NA, 27673684))
+                .willReturn("Fake game...?");
         mockMvc.perform(get("/api/summoner/27673684/current-game")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -28,7 +28,7 @@ import statikk.domain.riotapi.service.RiotApiService;
  * @author AJ
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = StaticDataController.class, secure = false)
+@WebMvcTest(controllers = StaticDataController.class)
 public class StaticDataControllerTest {
 
     @Autowired
