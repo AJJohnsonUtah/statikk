@@ -254,7 +254,9 @@ public class RiotApiService {
                     return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
             }
         }
-
+        if (response == null) {
+            return null;
+        }
         return (T) response.getBody();
 
     }
