@@ -5,8 +5,8 @@
          monitoring="autodetect"
          dynamicConfig="true">
 
-    <cache name="instruments"
-           maxElementsInMemory="500"
+    <cache name="static-champions"
+           maxElementsInMemory="50"
            eternal="false"
            overflowToDisk="false"
            timeToLiveSeconds="1800"
@@ -14,5 +14,56 @@
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
     </cache>
+
+    <cache name="summoner-mastery"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="summoner-matches"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="champion-win-rates"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="summoner-name"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="current-game"
+           maxElementsInMemory="50"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
 
 </ehcache>

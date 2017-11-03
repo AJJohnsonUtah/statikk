@@ -29,21 +29,21 @@ public class SummonerDataController {
     RiotApiService riotApiService;
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-mastery")
     @RequestMapping(value = "/{summonerId}/champion-mastery/all/{region}", method = RequestMethod.GET)
     public String getChampionMastery(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
         return riotApiService.getChampionMastery(Region.valueOf(region), summonerId);
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-mastery")
     @RequestMapping(value = "/{summonerId}/champion-mastery/all", method = RequestMethod.GET)
     public String getChampionMastery(@PathVariable("summonerId") long summonerId) {
         return riotApiService.getChampionMastery(Region.NA, summonerId);
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("current-game")
     @RequestMapping(value = "/{summonerId}/current-game/{region}", method = RequestMethod.GET)
     public String getCurrentGame(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
         String response = riotApiService.getCurrentGame(Region.valueOf(region), summonerId);
@@ -55,7 +55,7 @@ public class SummonerDataController {
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("current-game")
     @RequestMapping(value = "/{summonerId}/current-game", method = RequestMethod.GET)
     public String getCurrentGame(@PathVariable("summonerId") long summonerId) {
         String response = riotApiService.getCurrentGame(Region.NA, summonerId);
@@ -67,28 +67,28 @@ public class SummonerDataController {
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-name")
     @RequestMapping(value = "/by-name/{summonerName}", method = RequestMethod.GET)
     public SummonerDto getSummonerByName(@PathVariable("summonerName") String summonerName) {
         return riotApiService.getSummonerByName(Region.NA, summonerName);
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-name")
     @RequestMapping(value = "/by-name/{summonerName}/{region}", method = RequestMethod.GET)
     public SummonerDto getSummonerByName(@PathVariable("summonerName") String summonerName, @PathVariable("region") String region) {
         return riotApiService.getSummonerByName(Region.valueOf(region), summonerName);
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-matches")
     @RequestMapping(value = "/matchlist/{summonerId}", method = RequestMethod.GET)
     public MatchListDto getMatchlist(@PathVariable("summonerId") long summonerId) {
         return riotApiService.getRecentGames(Region.NA, summonerId);
     }
 
     @ResponseBody
-    @Cacheable("summoner-data")
+    @Cacheable("summoner-matches")
     @RequestMapping(value = "/matchlist/{summonerId}/{region}", method = RequestMethod.GET)
     public MatchListDto getMatchlist(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
         return riotApiService.getRecentGames(Region.valueOf(region), summonerId);

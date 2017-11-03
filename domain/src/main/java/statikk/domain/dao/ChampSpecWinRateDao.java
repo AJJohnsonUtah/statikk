@@ -18,6 +18,6 @@ import statikk.domain.stats.model.ChampionWinRate;
  */
 public interface ChampSpecWinRateDao extends CrudRepository<ChampSpecWinRate, ChampSpecWinRatePK> {
 
-    @Query(value = "SELECT NEW statikk.domain.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c GROUP BY c.champSpecWinRatePK.champSpec.championId", nativeQuery = true)
+    @Query("SELECT NEW statikk.domain.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c GROUP BY c.champSpecWinRatePK.champSpec.championId")
     public List<ChampionWinRate> findWinCountAndPlayedCountGroupedByChampionId();
 }

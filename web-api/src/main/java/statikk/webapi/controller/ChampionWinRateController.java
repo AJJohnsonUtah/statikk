@@ -27,8 +27,8 @@ public class ChampionWinRateController {
     ChampionWinRateService championWinRateService;
 
     @ResponseBody
-    @Cacheable("champ-win-rates")
-    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")    
+    @Cacheable("champion-win-rates")
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
     public Map<Long, ChampionWinRate> getAllChampionWinRates() {
         return championWinRateService.getChampionWinRates();
     }

@@ -24,28 +24,28 @@ public class StaticDataController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/champions/{region}", method = RequestMethod.GET)
-    @Cacheable("static-data")
+    @Cacheable("static-champions")
     public String getChampions(@PathVariable("region") String region) {
         return riotApiService.getStaticChampionsData(Region.valueOf(region));
     }
 
     @ResponseBody
     @RequestMapping(value = "/champions", method = RequestMethod.GET)
-    @Cacheable("static-data")
+    @Cacheable("static-champions")
     public String getChampions() {
         return riotApiService.getStaticChampionsData(Region.NA);
     }
 
     @ResponseBody
     @RequestMapping(value = "/champion/{championId}/{region}", method = RequestMethod.GET)
-    @Cacheable("static-data")
+    @Cacheable("static-champions")
     public String getChampion(@PathVariable("championId") long championId, @PathVariable("region") String region) {
         return riotApiService.getStaticChampionData(Region.valueOf(region), championId);
     }
 
     @ResponseBody
     @RequestMapping(value = "/champion/{championId}", method = RequestMethod.GET)
-    @Cacheable("static-data")
+    @Cacheable("static-champions")
     public String getChampion(@PathVariable("championId") long championId) {
         return riotApiService.getStaticChampionData(Region.NA, championId);
     }
