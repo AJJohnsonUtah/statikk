@@ -33,8 +33,15 @@ public class ChampSpecService extends BaseService<ChampSpec> {
         if (champSpec.getLolVersion().getLolVersionId() == null) {
             champSpec.setLolVersion(lolVersionService.find(champSpec.getLolVersion()));
         }
-        return champSpecDao.findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(
-                champSpec.getChampionId(), champSpec.getMatchType(), champSpec.getLolVersion(), champSpec.getLane(), champSpec.getRole(), champSpec.getRank());
+        return champSpecDao.find(
+                champSpec.getChampionId(),
+                champSpec.getMatchType(),
+                champSpec.getLolVersion(),
+                champSpec.getLane(),
+                champSpec.getRole(),
+                champSpec.getRank(),
+                champSpec.getRegion()
+        );
     }
 
     public ChampSpec findOrCreate(ChampSpec champSpec) {

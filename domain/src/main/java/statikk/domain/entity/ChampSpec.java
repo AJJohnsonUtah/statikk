@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import statikk.domain.entity.converter.LaneConverter;
 import statikk.domain.entity.converter.QueueTypeConverter;
 import statikk.domain.entity.converter.RankConverter;
+import statikk.domain.entity.converter.RegionConverter;
 import statikk.domain.entity.converter.RoleConverter;
 import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
@@ -37,6 +38,7 @@ import statikk.domain.riotapi.model.MatchDetail;
 import statikk.domain.riotapi.model.ParticipantDto;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Rank;
+import statikk.domain.riotapi.model.Region;
 import statikk.domain.riotapi.model.TeamBansDto;
 
 /**
@@ -88,16 +90,20 @@ public class ChampSpec implements Serializable {
     private QueueType matchType;
 
     @Convert(converter = LaneConverter.class)
-    @Column(name = "lane", nullable = false)
+    @Column(name = "lane")
     private Lane lane;
 
     @Convert(converter = RoleConverter.class)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private Role role;
 
     @Convert(converter = RankConverter.class)
-    @Column(name = "rank", nullable = false)
+    @Column(name = "rank")
     private Rank rank;
+
+    @Convert(converter = RegionConverter.class)
+    @Column(name = "region", nullable = false)
+    private Region region;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "champSpecWinRatePK.champSpec", fetch = FetchType.LAZY)
     private ChampSpecWinRate champSpecWinRate;
@@ -120,13 +126,14 @@ public class ChampSpec implements Serializable {
     public ChampSpec() {
     }
 
-    public ChampSpec(int championId, LolVersion lolVersion, QueueType matchType, Lane lane, Role role, Rank rank) {
+    public ChampSpec(int championId, LolVersion lolVersion, QueueType matchType, Lane lane, Role role, Rank rank, Region region) {
         this.championId = championId;
         this.lolVersion = lolVersion;
         this.matchType = matchType;
         this.lane = lane;
         this.role = role;
         this.rank = rank;
+        this.region = region;
     }
 
     public ChampSpec(Long champSpecId) {
@@ -139,6 +146,7 @@ public class ChampSpec implements Serializable {
         this.lolVersion = match.getGameVersion();
         this.lane = matchParticipant.getTimeline().getLane().toLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
+        this.region = match.getPlatformId();
     }
 
     public ChampSpec(MatchDetail match, TeamBansDto bannedChamp) {
@@ -148,6 +156,7 @@ public class ChampSpec implements Serializable {
         this.rank = null;
         this.lane = null;
         this.role = null;
+        this.region = match.getPlatformId();
     }
 
     public Long getChampSpecId() {
@@ -211,6 +220,10 @@ public class ChampSpec implements Serializable {
         this.rank = rank;
     }
 
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     public Lane getLane() {
         return lane;
     }
@@ -221,6 +234,10 @@ public class ChampSpec implements Serializable {
 
     public Rank getRank() {
         return rank;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 
     public List<ChampMatchup> getChampMatchupList() {
@@ -241,6 +258,7 @@ public class ChampSpec implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.lane);
         hash = 97 * hash + Objects.hashCode(this.role);
         hash = 97 * hash + Objects.hashCode(this.rank);
+        hash = 97 * hash + Objects.hashCode(this.region);
         return hash;
     }
 
@@ -260,7 +278,8 @@ public class ChampSpec implements Serializable {
                 && this.lolVersion == other.lolVersion
                 && Objects.equals(this.lane, other.lane)
                 && Objects.equals(this.rank, other.rank)
-                && Objects.equals(this.matchType, other.matchType);
+                && Objects.equals(this.matchType, other.matchType)
+                && Objects.equals(this.region, other.region);
     }
 
     @Override
@@ -272,6 +291,7 @@ public class ChampSpec implements Serializable {
                 + " role=" + this.role
                 + " rank=" + this.rank
                 + " lane=" + this.lane
+                + " region=" + this.region
                 + "]";
     }
 

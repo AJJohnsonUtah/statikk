@@ -64,6 +64,10 @@ public class MatchAnalyzerService {
     public MatchAnalyzerService() {
 
     }
+    
+    public MatchAnalyzerService(RiotApiService riotApiService) {
+        this.riotApiService = riotApiService;
+    }
 
     public void analyzeMatches(int numMatchesToAnalyze) {
 

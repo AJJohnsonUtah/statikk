@@ -71,7 +71,8 @@ CREATE TABLE `champ_spec` (
   `lol_version_id` int(11) NOT NULL,
   `lane` int(11) NOT NULL DEFAULT '-1',
   `role` int(11) NOT NULL DEFAULT '-1',
-  `rank` int(11) NOT NULL DEFAULT '-1'
+  `rank` int(11) NOT NULL DEFAULT '-1',
+  `region` int(11) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -181,7 +182,7 @@ ALTER TABLE `champ_matchup`
 --
 ALTER TABLE `champ_spec`
   ADD PRIMARY KEY (`champ_spec_id`),
-  ADD UNIQUE KEY `unique_champ_spec` (`lol_version_id`,`match_type`,`champion_id`,`lane`,`role`,`rank`);
+  ADD UNIQUE KEY `unique_champ_spec` (`lol_version_id`,`match_type`,`champion_id`,`lane`,`role`,`rank`, `region`);
 
 --
 -- Indexes for table `champ_spec_win_rate`

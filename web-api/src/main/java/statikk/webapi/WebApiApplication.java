@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+
 @SpringBootApplication(scanBasePackages = {"statikk.domain", "statikk.webapi"})
 @EnableCaching
 public class WebApiApplication extends WebMvcConfigurerAdapter {

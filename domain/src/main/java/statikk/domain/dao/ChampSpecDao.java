@@ -13,6 +13,7 @@ import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Rank;
+import statikk.domain.riotapi.model.Region;
 
 /**
  *
@@ -20,8 +21,8 @@ import statikk.domain.riotapi.model.Rank;
  */
 public interface ChampSpecDao extends CrudRepository<ChampSpec, Long> {
 
-    @Query("SELECT c FROM ChampSpec c WHERE c.championId = ?1 AND c.matchType = ?2 AND c.lolVersion = ?3 AND c.lane = ?4 AND c.role = ?5 AND c.rank = ?6")
-    ChampSpec findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(int championId,
-            QueueType matchType, LolVersion lolVersion, Lane lane, Role role, Rank rank);
+    @Query("SELECT c FROM ChampSpec c WHERE c.championId = ?1 AND c.matchType = ?2 AND c.lolVersion = ?3 AND c.lane = ?4 AND c.role = ?5 AND c.rank = ?6 AND c.region = ?7")
+    ChampSpec find(int championId,
+            QueueType matchType, LolVersion lolVersion, Lane lane, Role role, Rank rank, Region region);
 
 }
