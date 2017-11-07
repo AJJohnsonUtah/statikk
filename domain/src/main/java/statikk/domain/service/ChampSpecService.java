@@ -8,6 +8,7 @@ package statikk.domain.service;
 import java.util.HashMap;
 import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecDao;
@@ -57,7 +58,12 @@ public class ChampSpecService extends BaseService<ChampSpec> {
 
     @Override
     public ChampSpec create(ChampSpec champSpec) {
-        return champSpecDao.save(champSpec);
+        try {
+            return champSpecDao.save(champSpec);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(champSpec);
+        }
     }
 
     @Override

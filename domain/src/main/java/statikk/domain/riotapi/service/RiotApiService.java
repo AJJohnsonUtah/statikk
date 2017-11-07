@@ -5,18 +5,11 @@
  */
 package statikk.domain.riotapi.service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +68,9 @@ public class RiotApiService {
     public MatchDetail getMatchDetailWithTimeline(Region region, Long matchId) {
         MatchDetail matchDetail = getMatchDetail(region, matchId);
         if (matchDetail == null) {
-            System.out.println("Match " + matchId + " for " + region + " not found.");
+            Logger.getLogger(RiotApiService.class
+                    .getName()).log(Level.WARNING, "Match {0} for {1} not found.", new Object[]{matchId, region});
+            System.out.println();
             return null;
         }
         Timeline timeline = getMatchTimeline(region, matchId);
@@ -97,7 +92,6 @@ public class RiotApiService {
         return getRiotApiRequest(url, true, typeRef);
     }
 
-    @Cacheable("static-items")
     public ItemListDto getItemsData(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all");
         ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
@@ -170,53 +164,6 @@ public class RiotApiService {
         return urlToAppendTo + "?api_key=" + RIOT_API_KEY;
     }
 
-    private String getResponseFromURL(String urlString) {
-        StringBuilder result = new StringBuilder();
-        URL url;
-        try {
-            url = new URL(urlString);
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(RiotApiService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-            return "Invalid URL: " + urlString;
-        }
-        HttpURLConnection conn;
-        try {
-            conn = (HttpURLConnection) url.openConnection();
-
-        } catch (IOException ex) {
-            Logger.getLogger(RiotApiService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-            return "Unable to establish connection for URL: " + urlString;
-        }
-        try {
-            conn.setRequestMethod("GET");
-
-        } catch (ProtocolException ex) {
-            Logger.getLogger(RiotApiService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-            return "GET not allowed for URL: " + urlString;
-        }
-        try {
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            rd.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(RiotApiService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-            return "IO Error for URL: " + urlString;
-        }
-
-        return result.toString();
-
-    }
-
     private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
         return getRiotApiRequest(url, addsToKeyLimit, typeReference, 2);
     }
@@ -225,30 +172,27 @@ public class RiotApiService {
         Logger.getLogger(RiotApiService.class
                 .getName()).log(Level.INFO, url);
         if (timesToTry <= 0) {
+            Logger.getLogger(RiotApiService.class
+                    .getName()).log(Level.SEVERE, "Unable to fetch data from {0}. Returning null.", url);
             return null;
         }
-        ResponseEntity response = null;
         try {
-            response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
+            ResponseEntity response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
+            return (response == null ? null : (T) response.getBody());
         } catch (HttpServerErrorException ex) {
-            try {
-                Logger.getLogger(RiotApiService.class
-                        .getName()).log(Level.WARNING, "Unable to fetch data from " + url, ex);
-                response = restTemplate.exchange(url, HttpMethod.GET, null, typeReference);
-            } catch (HttpServerErrorException ex2) {
-                Logger.getLogger(RiotApiService.class
-                        .getName()).log(Level.SEVERE, "Unable to fetch data from " + url + ". Returning null.", ex);
-                return null;
-            } catch (HttpClientErrorException ex2) {
-                waitUntilTime(System.currentTimeMillis() + 300);
-                return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
-            }
+            Logger.getLogger(RiotApiService.class
+                    .getName()).log(Level.WARNING, "Unable to fetch data from " + url + " (blame RITO).", ex);
+            return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
         } catch (HttpClientErrorException ex) {
             switch (ex.getStatusCode()) {
                 case TOO_MANY_REQUESTS:
                     String limitHeader = ex.getResponseHeaders().getFirst("Retry-After");
                     handleLimitHeader(limitHeader);
-                    break;
+                    return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
+                case NOT_FOUND:
+                    Logger.getLogger(RiotApiService.class
+                            .getName()).log(Level.INFO, "404; Data not found for {0}.", url);
+                    return null;
                 default:
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.SEVERE, "Client exception fetching data from " + url + ".", ex);
@@ -256,18 +200,13 @@ public class RiotApiService {
                     return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
             }
         }
-        if (response == null) {
-            return null;
-        }
-        return (T) response.getBody();
-
     }
 
     private void waitUntilTime(long time) {
         try {
             Thread.sleep(time - System.currentTimeMillis());
         } catch (InterruptedException ex) {
-            Logger.getLogger(RiotApiKeyLimitService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiotApiService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -280,7 +219,7 @@ public class RiotApiService {
     public void handleLimitHeader(String limitHeader) {
         int secondsToWait = Integer.parseInt(limitHeader);
 
-        Logger.getLogger(RiotApiKeyLimitService.class
+        Logger.getLogger(RiotApiService.class
                 .getName()).log(Level.INFO, "Waiting {0} seconds before making next API request.", secondsToWait);
         waitUntilTime(System.currentTimeMillis() + (secondsToWait + 1) * 1000);
     }

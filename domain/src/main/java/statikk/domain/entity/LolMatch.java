@@ -14,57 +14,80 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.SQLInsert;
+import statikk.domain.entity.converter.RegionConverter;
+import statikk.domain.riotapi.model.Region;
 
 /**
  *
  * @author AJ
  */
 @Entity
-@Table(name = "lol_match")
+@Table(name = "lol_match", uniqueConstraints = @UniqueConstraint(columnNames = {"match_id", "region"}))
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LolMatch.findAll", query = "SELECT l FROM LolMatch l"),
-    @NamedQuery(name = "LolMatch.findByMatchId", query = "SELECT l FROM LolMatch l WHERE l.matchId = :matchId"),
-    @NamedQuery(name = "LolMatch.findByStatus", query = "SELECT l FROM LolMatch l WHERE l.status = :status"),
-    @NamedQuery(name = "LolMatch.findByBeginTime", query = "SELECT l FROM LolMatch l WHERE l.beginTime = :beginTime"),
-    @NamedQuery(name = "LolMatch.findByInsertTime", query = "SELECT l FROM LolMatch l WHERE l.insertTime = :insertTime"),
-    @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime"),
-    @NamedQuery(name = "LolMatch.findMatchesToAnalyze", query = "SELECT l.matchId FROM LolMatch l WHERE l.status = :status"),
+    @NamedQuery(name = "LolMatch.findAll", query = "SELECT l FROM LolMatch l")
+    ,
+    @NamedQuery(name = "LolMatch.findByMatchId", query = "SELECT l FROM LolMatch l WHERE l.matchId = :matchId")
+    ,
+    @NamedQuery(name = "LolMatch.findByStatus", query = "SELECT l FROM LolMatch l WHERE l.status = :status")
+    ,
+    @NamedQuery(name = "LolMatch.findByBeginTime", query = "SELECT l FROM LolMatch l WHERE l.beginTime = :beginTime")
+    ,
+    @NamedQuery(name = "LolMatch.findByInsertTime", query = "SELECT l FROM LolMatch l WHERE l.insertTime = :insertTime")
+    ,
+    @NamedQuery(name = "LolMatch.findByProcessedTime", query = "SELECT l FROM LolMatch l WHERE l.processedTime = :processedTime")
+    ,
+    @NamedQuery(name = "LolMatch.findMatchesToAnalyze", query = "SELECT l.matchId FROM LolMatch l WHERE l.status = :status")
+    ,
     @NamedQuery(name = "LolMatch.updateMatchListStatus", query = "UPDATE LolMatch SET status = :status, processed_time = NOW() WHERE matchId IN (:matchIds)")})
-@SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, processed_time, status, match_id) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
+//@SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, match_id,  processed_time, region, status) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
 public class LolMatch implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "lol_match_id", nullable = false)
+    private Long lolMatchId;
+
+    @Basic(optional = false)
+    @Column(name = "match_id", nullable = false)
+    private Long matchId;
+
+    @Basic(optional = false)
+    @Column(name = "region", nullable = false)
+    @Convert(converter = RegionConverter.class)
+    private Region region;
 
     @Basic(optional = false)
     @Column(name = "status", nullable = false)
     @Convert(converter = MatchStatusConverter.class)
     private MatchStatus status;
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @Basic(optional = false)
-    @Column(name = "match_id", nullable = false)
-    private Long matchId;
-    
     @Basic(optional = false)
     @Column(name = "begin_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginTime;
-    
+
     @Basic(optional = false)
     @Column(name = "insert_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date insertTime;
-    
+
     @Column(name = "processed_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date processedTime;
@@ -72,12 +95,14 @@ public class LolMatch implements Serializable {
     public LolMatch() {
     }
 
-    public LolMatch(Long matchId) {
+    public LolMatch(Long matchId, Region region) {
         this.matchId = matchId;
+        this.region = region;
     }
 
-    public LolMatch(Long matchId, MatchStatus status, Date beginTime, Date insertTime) {
+    public LolMatch(Long matchId, Region region, MatchStatus status, Date beginTime, Date insertTime) {
         this.matchId = matchId;
+        this.region = region;
         this.status = status;
         this.beginTime = beginTime;
         this.insertTime = insertTime;
@@ -90,6 +115,15 @@ public class LolMatch implements Serializable {
         this.insertTime = new Date();
         this.processedTime = null;
         this.status = MatchStatus.READY;
+        this.region = game.getPlatformId();
+    }
+
+    public Long getLolMatchId() {
+        return lolMatchId;
+    }
+
+    public void setLolMatchId(Long lolMatchId) {
+        this.lolMatchId = lolMatchId;
     }
 
     public Long getMatchId() {
@@ -128,6 +162,14 @@ public class LolMatch implements Serializable {
         return status;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     public void setStatus(MatchStatus status) {
         this.status = status;
     }
@@ -136,6 +178,7 @@ public class LolMatch implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.matchId);
+        hash = 71 * hash + Objects.hashCode(this.region);
         return hash;
     }
 
@@ -151,7 +194,7 @@ public class LolMatch implements Serializable {
             return false;
         }
         final LolMatch other = (LolMatch) obj;
-        if (!Objects.equals(this.matchId, other.matchId)) {
+        if (!Objects.equals(this.matchId, other.matchId) || !Objects.equals(this.region, other.region)) {
             return false;
         }
         return true;

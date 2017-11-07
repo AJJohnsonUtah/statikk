@@ -6,12 +6,16 @@
 package statikk.dataminer.main;
 
 import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import statikk.dataminer.model.LolAggregateAnalysis;
 import statikk.dataminer.service.ItemAnalysisService;
 import statikk.dataminer.service.MatchAnalyzerService;
 import statikk.dataminer.service.MatchMiningService;
 import statikk.domain.riotapi.model.Region;
-import statikk.domain.riotapi.service.RiotApiService;
-import statikk.domain.service.FinalBuildOrderService;
 
 /**
  *
@@ -20,23 +24,56 @@ import statikk.domain.service.FinalBuildOrderService;
 public class MiningWorker implements Runnable {
 
     private final Region region;
-    private final RiotApiService riotApiService;
+    private boolean shouldRun;
 
     private final ItemAnalysisService itemAnalysisService;
     private final MatchAnalyzerService matchAnalyzerService;
     private final MatchMiningService matchMiningService;
 
-    public MiningWorker(Region region) throws IOException {
+    private long matchesAnalyzed;
+
+    public MiningWorker(Region region,
+            ItemAnalysisService itemAnalysisService,
+            MatchAnalyzerService matchAnalyzerService,
+            MatchMiningService matchMiningService) throws IOException {
+        this.shouldRun = true;
         this.region = region;
-        this.riotApiService = new RiotApiService();
-        this.itemAnalysisService = new ItemAnalysisService(riotApiService);
-        this.matchAnalyzerService = new MatchAnalyzerService(riotApiService);
-        this.matchMiningService = new MatchMiningService(riotApiService);
+        this.itemAnalysisService = itemAnalysisService;
+        this.matchAnalyzerService = matchAnalyzerService;
+        this.matchMiningService = matchMiningService;
+        this.matchesAnalyzed = 0;
     }
 
     @Override
     public void run() {
-        System.out.println("Running thread for " + this.region.getPlatformId());
-        itemAnalysisService.loadItems();
+        try {
+            LinkedHashSet<Long> summonerIds = new LinkedHashSet<>();
+            Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Running thread for {0}", this.region.getPlatformId());
+            while (this.shouldRun) {
+                Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Beginning to mine matches.");
+                int matchesMined = matchMiningService.mineMatches(10, region, summonerIds);
+                Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Finished mining matches; Beginning to analyze matches.");
+                List<Long> newSummonerIds = matchAnalyzerService.analyzeMatches(matchesMined, region, new LolAggregateAnalysis());
+                matchesAnalyzed += matchesMined;
+                if (summonerIds.size() < 1000) {
+                    summonerIds.addAll(newSummonerIds);
+                }
+                Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Finished analyzing matches.");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MiningWorker.class.getName()).log(Level.SEVERE, "ERROR RUNNING MINING WORKER FOR REGION " + region, ex);
+        }
+    }
+
+    public void stop() {
+        this.shouldRun = false;
+    }
+
+    public long getMatchesAnalyzed() {
+        return this.matchesAnalyzed;
+    }
+
+    public Region getRegion() {
+        return this.region;
     }
 }

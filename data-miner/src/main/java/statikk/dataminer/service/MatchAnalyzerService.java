@@ -5,9 +5,13 @@
  */
 package statikk.dataminer.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import statikk.dataminer.main.MiningManager;
 import statikk.dataminer.model.LolAggregateAnalysis;
 import statikk.domain.entity.ChampBan;
 import statikk.domain.entity.ChampBanPK;
@@ -23,6 +27,7 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.enums.MatchStatus;
 import statikk.domain.riotapi.model.LolTeam;
 import statikk.domain.riotapi.model.MatchDetail;
 import statikk.domain.riotapi.model.ParticipantDto;
@@ -47,9 +52,6 @@ public class MatchAnalyzerService {
     LolMatchService lolMatchService;
 
     @Autowired
-    LolAggregateAnalysis aggregateAnalysis;
-
-    @Autowired
     ChampSpecService champSpecService;
 
     @Autowired
@@ -61,36 +63,41 @@ public class MatchAnalyzerService {
     @Autowired
     MatchMiningService matchMiningService;
 
-    public MatchAnalyzerService() {
+    @Autowired
+    LolAggregateAnalysisService lolAggregateAnalysisService;
 
+    public MatchAnalyzerService() {
     }
-    
+
     public MatchAnalyzerService(RiotApiService riotApiService) {
         this.riotApiService = riotApiService;
     }
 
-    public void analyzeMatches(int numMatchesToAnalyze) {
+    public List<Long> analyzeMatches(int numMatchesToAnalyze, Region region, LolAggregateAnalysis aggregateAnalysis) {
+        List<Long> summonerIdsFromMatches = new ArrayList<>();
+        List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(numMatchesToAnalyze, region, numMatchesToAnalyze);
 
-        List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyze(numMatchesToAnalyze);
-        System.out.println("Matches fetched for analysis");
-        aggregateAnalysis.resetAnalysis();
+        Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "Matches fetched for analysis");
 
         for (LolMatch match : matchIdsToAnalyze) {
             Long matchId = match.getMatchId();
-            System.out.print(" Fetching match " + matchId + ". ");
-            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(Region.NA, matchId);
-            matchMiningService.addAccountsToMineIfNeeded(currentMatch);
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}. ", new Object[]{matchId, region});
+            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, matchId);
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
+                summonerIdsFromMatches.addAll(currentMatch.getParticipantSummonerIds());
                 analyzeMatch(currentMatch, aggregateAnalysis);
+                match.setStatus(MatchStatus.COMPLETED);
+            } else {
+                match.setStatus(MatchStatus.DATA_NOT_FOUND);
             }
         }
 
-        aggregateAnalysis.save();
+        lolAggregateAnalysisService.save(aggregateAnalysis);
         if (matchIdsToAnalyze.size() > 0) {
-            lolMatchService.markMatchesAsCompleted(matchIdsToAnalyze);
+            lolMatchService.update(matchIdsToAnalyze);
         }
-
+        return summonerIdsFromMatches;
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -190,6 +197,9 @@ public class MatchAnalyzerService {
     }
 
     private void analyzeFinalBuildOrder(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        if (match.getTimeline() == null) {
+            return;
+        }
         for (ParticipantDto participant : match.getParticipants()) {
             ChampFinalBuildPK champFinalBuildPK = new ChampFinalBuildPK(participant.getChampSpec(), participant.getFinalBuildOrder());
             ChampFinalBuild champFinalBuild = new ChampFinalBuild(champFinalBuildPK);

@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author AJ
  */
 public enum MatchStatus {
-    COMPLETED(0), IN_PROGRESS(1), READY(2);
+    COMPLETED(0), IN_PROGRESS(1), READY(2), DATA_NOT_FOUND(3), ERROR_IN_ANALYSIS(4);
 
     private Integer matchStatusId;
 

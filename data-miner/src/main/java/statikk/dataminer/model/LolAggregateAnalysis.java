@@ -7,7 +7,6 @@ package statikk.dataminer.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.entity.ChampBan;
 import statikk.domain.entity.ChampBanPK;
@@ -21,12 +20,6 @@ import statikk.domain.entity.ChampSummonerSpells;
 import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
-import statikk.domain.service.ChampBanService;
-import statikk.domain.service.ChampFinalBuildService;
-import statikk.domain.service.ChampMatchupService;
-import statikk.domain.service.ChampSpecWinRateService;
-import statikk.domain.service.ChampSummonerSpellsService;
-import statikk.domain.service.ChampTeamupService;
 
 /**
  *
@@ -35,23 +28,6 @@ import statikk.domain.service.ChampTeamupService;
 @Service
 public class LolAggregateAnalysis {
 
-    @Autowired
-    ChampSpecWinRateService champSpecWinRateService;
-
-    @Autowired
-    ChampMatchupService champMatchupService;
-
-    @Autowired
-    ChampTeamupService champTeamupService;
-
-    @Autowired
-    ChampFinalBuildService champFinalBuildService;
-
-    @Autowired
-    ChampSummonerSpellsService champSummonerSpellsService;
-
-    @Autowired
-    ChampBanService champBanService;
     private Map<ChampSpecWinRatePK, ChampSpecWinRate> champSpecWinRates;
     private Map<ChampMatchupPK, ChampMatchup> champMatchups;
     private Map<ChampTeamupPK, ChampTeamup> champTeamups;
@@ -75,6 +51,30 @@ public class LolAggregateAnalysis {
         champFinalBuilds = new HashMap<>();
         champSummonerSpells = new HashMap<>();
         champBans = new HashMap<>();
+    }
+
+    public Map<ChampSpecWinRatePK, ChampSpecWinRate> getChampSpecWinRates() {
+        return champSpecWinRates;
+    }
+
+    public Map<ChampMatchupPK, ChampMatchup> getChampMatchups() {
+        return champMatchups;
+    }
+
+    public Map<ChampTeamupPK, ChampTeamup> getChampTeamups() {
+        return champTeamups;
+    }
+
+    public Map<ChampFinalBuildPK, ChampFinalBuild> getChampFinalBuilds() {
+        return champFinalBuilds;
+    }
+
+    public Map<ChampSummonerSpellsPK, ChampSummonerSpells> getChampSummonerSpells() {
+        return champSummonerSpells;
+    }
+
+    public Map<ChampBanPK, ChampBan> getChampBans() {
+        return champBans;
     }
 
     public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {
@@ -123,16 +123,6 @@ public class LolAggregateAnalysis {
         } else {
             champBans.put(champBan.getChampBanPK(), champBan);
         }
-    }
-
-    public void save() {
-        champSpecWinRateService.batchInsertOrUpdate(champSpecWinRates.values());
-        champMatchupService.batchInsertOrUpdate(champMatchups.values());
-        champTeamupService.batchInsertOrUpdate(champTeamups.values());
-        champFinalBuildService.batchInsertOrUpdate(champFinalBuilds.values());
-        champSummonerSpellsService.batchInsertOrUpdate(champSummonerSpells.values());
-        champBanService.batchInsertOrUpdate(champBans.values());
-
     }
 
 }

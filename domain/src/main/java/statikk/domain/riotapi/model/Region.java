@@ -37,9 +37,13 @@ public enum Region {
     public String getPlatformId() {
         return this.platformId;
     }
-    
+
     public int getRegionId() {
         return this.regionId;
+    }
+
+    public boolean isPublic() {
+        return !this.equals(Region.PBE);
     }
 
     private static final HashMap<String, Region> regionMap;
@@ -57,10 +61,10 @@ public enum Region {
     }
 
     @JsonCreator
-    public static Region fromString(String regionId) {        
+    public static Region fromString(String regionId) {
         return regionMap.get(regionId);
     }
-    
+
     public static Region fromId(int regionId) {
         return regionIdMap.get(regionId);
     }

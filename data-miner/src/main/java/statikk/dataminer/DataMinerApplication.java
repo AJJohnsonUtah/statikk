@@ -14,12 +14,17 @@ import statikk.dataminer.service.MatchMiningService;
 @ComponentScan({"statikk.dataminer", "statikk.domain"})
 public class DataMinerApplication implements CommandLineRunner {
 
+    @Autowired
+    MiningManager miningManager;
+    
     public static void main(String[] args) {
         System.out.println("Starting this ish");
         SpringApplication app = new SpringApplication(DataMinerApplication.class);
         System.out.println("Running this ish");
         app.run(args);
     }
+    
+    
 
 //    @Autowired
 //    MatchMiningService matchMiningService;
@@ -32,8 +37,7 @@ public class DataMinerApplication implements CommandLineRunner {
 
     @Override
     public void run(String[] strings) throws Exception {
-        MiningManager manager = new MiningManager();
-        manager.begin();
+        miningManager.begin();
 //        itemAnalysisService.loadItems();
 //        int numIterations = 0;
 //        int numMatchesToAnalyze = 30;

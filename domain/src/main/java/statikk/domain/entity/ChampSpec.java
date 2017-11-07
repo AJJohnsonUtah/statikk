@@ -46,7 +46,7 @@ import statikk.domain.riotapi.model.TeamBansDto;
  * @author AJ
  */
 @Entity
-@Table(name = "champ_spec", uniqueConstraints = @UniqueConstraint(columnNames = {"champion_id", "lol_version_id", "match_type", "lane", "role", "rank"}))
+@Table(name = "champ_spec", uniqueConstraints = @UniqueConstraint(columnNames = {"champion_id", "lol_version_id", "match_type", "lane", "role", "rank", "region"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ChampSpec.findAll", query = "SELECT c FROM ChampSpec c")

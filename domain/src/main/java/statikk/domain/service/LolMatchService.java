@@ -6,13 +6,18 @@
 package statikk.domain.service;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.LolMatchDao;
 import statikk.domain.entity.LolMatch;
 import statikk.domain.entity.enums.MatchStatus;
+import statikk.domain.riotapi.model.Region;
 
 /**
  *
@@ -27,7 +32,12 @@ public class LolMatchService extends BaseService<LolMatch> {
 
     @Override
     public LolMatch create(LolMatch lolMatch) {
-        return lolMatchDao.save(lolMatch);
+        try {
+            return lolMatchDao.save(lolMatch);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(lolMatch);
+        }
     }
 
     @Override
@@ -35,18 +45,34 @@ public class LolMatchService extends BaseService<LolMatch> {
         return lolMatchDao.save(lolMatch);
     }
 
-    public void batchInsert(Collection<LolMatch> lolMatches) {
-        lolMatchDao.save(lolMatches);
+    /**
+     * Inserts any matches that did not already exist in the database
+     *
+     * @param lolMatches
+     * @return The number of added matches.
+     */
+    public int batchInsert(Collection<LolMatch> lolMatches) {
+        for (Iterator<LolMatch> iter = lolMatches.iterator(); iter.hasNext();) {
+            LolMatch match = iter.next();
+            if (lolMatchDao.find(match.getMatchId(), match.getRegion()) != null) {
+                iter.remove();
+            }
+        }
+
+        try {
+            lolMatchDao.save(lolMatches);
+        } catch (ConstraintViolationException e) {
+            Logger.getLogger(LolMatchService.class.getName())
+                    .log(Level.INFO, "Match ids must have been added by another client; will try again!");
+            return batchInsert(lolMatches);
+        }
+        return lolMatches.size();
     }
 
-    public List<LolMatch> findMatchesToAnalyze(int matchesToFind) {
-        List<LolMatch> matchesFound = lolMatchDao.findTop10ByStatus(MatchStatus.READY);
+    public List<LolMatch> findMatchesToAnalyzeByRegion(int matchesToFind, Region region, int limit) {
+        List<LolMatch> matchesFound = lolMatchDao.findTopLimitByStatusAndRegion(MatchStatus.READY, region, limit);
         updateMatchesToStatus(MatchStatus.IN_PROGRESS, matchesFound);
         return matchesFound;
-    }
-
-    public void markMatchesAsCompleted(List<LolMatch> matches) {
-        updateMatchesToStatus(MatchStatus.COMPLETED, matches);
     }
 
     private void updateMatchesToStatus(MatchStatus status, List<LolMatch> matches) {
@@ -56,5 +82,14 @@ public class LolMatchService extends BaseService<LolMatch> {
         if (!matches.isEmpty()) {
             lolMatchDao.save(matches);
         }
+    }
+
+    public void update(Iterable<LolMatch> matches) {
+        lolMatchDao.save(matches);
+    }
+
+    @Override
+    public LolMatch find(LolMatch lolMatch) {
+        return lolMatchDao.find(lolMatch.getMatchId(), lolMatch.getRegion());
     }
 }
