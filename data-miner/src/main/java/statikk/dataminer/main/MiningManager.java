@@ -61,7 +61,7 @@ public class MiningManager {
 
     public void runStatusUpdate() {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.schedule(() -> {
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
             long totalMatchesMined = 0;
             for (int i = 0; i < activeThreads.size(); i++) {
                 Thread thread = activeThreads.get(i);
@@ -78,9 +78,10 @@ public class MiningManager {
             double secondsElapsed = (System.currentTimeMillis() - startTimeMillis) / 1000.0;
             Logger.getLogger(MiningManager.class.getName()).log(Level.INFO, "{0} matches analyzed in {1} seconds. ({2} matches per second)", new Object[]{totalMatchesMined, secondsElapsed, totalMatchesMined / secondsElapsed});
             System.out.println(totalMatchesMined + " matches analyzed in " + secondsElapsed + " seconds. (" + totalMatchesMined / secondsElapsed + " matches per second)");
-            return "Called!";
         },
+                0,
                 30,
-                TimeUnit.SECONDS);
+                TimeUnit.SECONDS
+        );
     }
 }

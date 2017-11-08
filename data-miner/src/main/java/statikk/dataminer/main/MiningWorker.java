@@ -8,7 +8,6 @@ package statikk.dataminer.main;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import statikk.dataminer.model.LolAggregateAnalysis;
@@ -26,7 +25,6 @@ public class MiningWorker implements Runnable {
     private final Region region;
     private boolean shouldRun;
 
-    private final ItemAnalysisService itemAnalysisService;
     private final MatchAnalyzerService matchAnalyzerService;
     private final MatchMiningService matchMiningService;
 
@@ -38,7 +36,6 @@ public class MiningWorker implements Runnable {
             MatchMiningService matchMiningService) throws IOException {
         this.shouldRun = true;
         this.region = region;
-        this.itemAnalysisService = itemAnalysisService;
         this.matchAnalyzerService = matchAnalyzerService;
         this.matchMiningService = matchMiningService;
         this.matchesAnalyzed = 0;

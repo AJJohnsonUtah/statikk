@@ -6,12 +6,12 @@
 package statikk.dataminer.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.dataminer.main.MiningManager;
 import statikk.dataminer.model.LolAggregateAnalysis;
 import statikk.domain.entity.ChampBan;
 import statikk.domain.entity.ChampBanPK;
@@ -74,6 +74,9 @@ public class MatchAnalyzerService {
     }
 
     public List<Long> analyzeMatches(int numMatchesToAnalyze, Region region, LolAggregateAnalysis aggregateAnalysis) {
+        if (numMatchesToAnalyze <= 0) {
+            return Collections.EMPTY_LIST;
+        }
         List<Long> summonerIdsFromMatches = new ArrayList<>();
         List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(numMatchesToAnalyze, region, numMatchesToAnalyze);
 
