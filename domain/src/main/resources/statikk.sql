@@ -132,6 +132,7 @@ CREATE TABLE `final_build_order` (
 --
 
 CREATE TABLE `lol_match` (
+  `lol_match_id` bigint(20) NOT NULL,
   `match_id` bigint(20) NOT NULL,
   `region` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL,
@@ -218,7 +219,7 @@ ALTER TABLE `final_build_order`
 --
 ALTER TABLE `lol_match`
   ADD PRIMARY KEY (`lol_match_id`),
-  ADD UNIQUE KEY (`match_id`, `region`),
+  ADD UNIQUE KEY `lol_match_unique` (`match_id`, `region`),
   ADD KEY `status` (`status`);
 
 --
@@ -248,7 +249,7 @@ ALTER TABLE `final_build_order`
 ALTER TABLE `lol_version`
   MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
-ALTER TABLE `lol_match` 
+ALTER TABLE `lol_match`
   MODIFY `lol_match_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
