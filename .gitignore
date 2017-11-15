@@ -3,3 +3,4 @@
 /domain/nbproject/
 /web-app/nbproject/private/
 *.log
+*riot-api-key*

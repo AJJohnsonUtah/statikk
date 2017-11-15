@@ -5,8 +5,8 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { StaticChampionDetail } from '../../../shared/models/riot-api-types/static-champion-detail';
 import { ChampionWinRate } from '../../../shared/models/statikk-api-types/ChampionWinRate';
-import { StaticDataService } from '../../../shared/services/static-data.service';
-import { ChampionWinRateService } from '../../../shared/services/champion-win-rate.service';
+import { StaticDataService } from '../../../core/services/static-data.service';
+import { ChampionWinRateService } from '../../../core/services/champion-win-rate.service';
 
 @Component({
     selector: 'app-champion-detail',
@@ -49,14 +49,14 @@ export class ChampionDetailComponent implements OnInit {
 
     private loadChampionDetail(championId: number): void {
         this.staticDataService.getChampion(championId)
-            .then((championDetail: StaticChampionDetail) =>
+            .subscribe((championDetail: StaticChampionDetail) =>
                 this.champion = championDetail);
     }
 
     private loadChampionWinRates(): void {
         this.championWinRateService
             .getAllChampionWinRates()
-            .then((championWinRateData: Map<string, ChampionWinRate>) => {
+            .subscribe((championWinRateData: Map<string, ChampionWinRate>) => {
                 this.championWinRates = championWinRateData;
             });
     }

@@ -19,7 +19,7 @@ import { MockBackend } from '@angular/http/testing';
 import { HomeComponent } from './home.component';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SummonerDataService } from '../../shared/services/summoner-data.service';
+import { SummonerDataService } from '../../core/services/summoner-data.service';
 
 describe(`Home`, () => {
     let comp: HomeComponent;

@@ -2,8 +2,8 @@ import { Component, OnInit, Pipe } from '@angular/core';
 import { Router } from '@angular/router';
 import { StaticChampion } from '../../shared/models/riot-api-types/static-champion';
 import { ChampionWinRate } from '../../shared/models/statikk-api-types/ChampionWinRate';
-import { StaticDataService } from '../../shared/services/static-data.service';
-import { ChampionWinRateService } from '../../shared/services/champion-win-rate.service';
+import { StaticDataService } from '../../core/services/static-data.service';
+import { ChampionWinRateService } from '../../core/services/champion-win-rate.service';
 @Component({
     selector: 'app-champions',
     styleUrls: ['./champions.component.scss'],
@@ -40,8 +40,7 @@ export class ChampionsComponent implements OnInit {
 
     private loadChampionWinRates(): void {
         this.championWinRateService
-            .getAllChampionWinRates()
-            .then((championWinRateData: Map<string, ChampionWinRate>) => {
+            .getAllChampionWinRates().subscribe((championWinRateData: Map<string, ChampionWinRate>) => {
                 this.championWinRates = championWinRateData;
                 Object.keys(this.championWinRates).forEach((champId) =>
                     this.matchesPlayed += this.championWinRates[champId].playedCount
@@ -53,7 +52,7 @@ export class ChampionsComponent implements OnInit {
     private loadStaticChampions(): void {
         this.staticDataService
             .getChampions()
-            .then((staticChampionsData) => {
+            .subscribe((staticChampionsData: Map<string, StaticChampion>) => {
                 this.staticChampions = this.convertStaticChampionsToArray(staticChampionsData);
             });
     }

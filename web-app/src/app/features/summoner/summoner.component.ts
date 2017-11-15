@@ -8,8 +8,8 @@ import { MatchlistDto } from '../../shared/models/riot-api-types/matchlist-dto';
 import { ChampionCount } from '../../shared/models/statikk-api-types/champion-count';
 import { LaneCount } from '../../shared/models/statikk-api-types/lane-count';
 import { StaticChampion } from '../../shared/models/riot-api-types/static-champion';
-import { StaticDataService } from '../../shared/services/static-data.service';
-import { SummonerDataService } from '../../shared/services/summoner-data.service';
+import { StaticDataService } from '../../core/services/static-data.service';
+import { SummonerDataService } from '../../core/services/summoner-data.service';
 
 @Component({
   selector: 'app-summoner',
@@ -35,12 +35,12 @@ export class SummonerComponent implements OnInit {
     this.route.params
       .subscribe((params: Params) => this.loadSummonerData(params['summonerName']));
     this.staticDataService.getChampions()
-      .then((championData) => this.staticChampions = championData);
+      .subscribe((championData) => this.staticChampions = championData);
   }
 
   private loadSummonerData(summonerName: string): void {
     this.summonerDataService.getSummonerData(summonerName)
-      .then((summonerData: SummonerDto) => {
+      .subscribe((summonerData: SummonerDto) => {
         this.summonerData = summonerData;
         this.loadMatchlist();
       });
@@ -48,7 +48,7 @@ export class SummonerComponent implements OnInit {
 
   private loadMatchlist(): void {
     this.summonerDataService.getMatchList(this.summonerData.accountId)
-      .then((matchlist) => {
+      .subscribe((matchlist) => {
         this.matchlist = matchlist;
         this.calculateMatchCounts();
       }

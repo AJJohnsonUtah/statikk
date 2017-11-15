@@ -5,12 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import statikk.dataminer.main.MiningManager;
-import statikk.dataminer.service.ItemAnalysisService;
-import statikk.dataminer.service.MatchAnalyzerService;
-import statikk.dataminer.service.MatchMiningService;
 
 @SpringBootApplication
+@PropertySource("riot-api-key.properties")
 @ComponentScan({"statikk.dataminer", "statikk.domain"})
 public class DataMinerApplication implements CommandLineRunner {
 
