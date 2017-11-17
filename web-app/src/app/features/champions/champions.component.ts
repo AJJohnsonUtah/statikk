@@ -49,7 +49,7 @@ export class ChampionsComponent implements OnInit {
     private loadChampionWinRates(): void {
 
         this.championWinRateService
-            .getAllChampionWinRates().subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
+            .getAllChampionWinRates(this.filterCriteraFormGroup).subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
                 this.championWinRates = championWinRateData.winRateData;
                 this.matchesPlayed = championWinRateData.totalPlayed;
             });
@@ -58,8 +58,8 @@ export class ChampionsComponent implements OnInit {
     private loadStaticChampions(): void {
         this.staticDataService
             .getChampions()
-            .subscribe((staticChampionsData: Map<string, StaticChampion>) => {
-                this.staticChampions = staticChampionsData;
+            .subscribe((staticChampionsData) => {
+                this.staticChampions = staticChampionsData.data;
             });
     }
 

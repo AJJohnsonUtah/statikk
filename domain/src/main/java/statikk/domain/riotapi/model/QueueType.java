@@ -54,7 +54,7 @@ public enum QueueType {
             52, "Twisted Treeline Coop vs AI games"),
     GROUP_FINDER_5x5(
             61, "Team Builder games"),
-    ARAM_5x5(
+    ARAM_5x5_OLD(
             65, "ARAM games"),
     ONEFORALL_5x5(
             70, "One for All games"),

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSpecWinRate;
 import statikk.domain.entity.ChampSpecWinRatePK;
+import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.ChampionWinRate;
 
 /**
@@ -18,6 +19,6 @@ import statikk.domain.stats.model.ChampionWinRate;
  */
 public interface ChampSpecWinRateDao extends CrudRepository<ChampSpecWinRate, ChampSpecWinRatePK> {
 
-    @Query("SELECT NEW statikk.domain.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c GROUP BY c.champSpecWinRatePK.champSpec.championId")
-    public List<ChampionWinRate> findWinCountAndPlayedCountGroupedByChampionId();
+    @Query("SELECT NEW statikk.domain.stats.model.ChampionWinRate(c.champSpecWinRatePK.champSpec.championId, SUM(c.playedCount), SUM(c.winCount)) FROM ChampSpecWinRate c WHERE c.champSpecWinRatePK.champSpec.matchType = ?1 GROUP BY c.champSpecWinRatePK.champSpec.championId")
+    public List<ChampionWinRate> findWinCountAndPlayedCountGroupedByChampionId(QueueType queueType);
 }

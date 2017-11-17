@@ -35,7 +35,7 @@ export class SummonerComponent implements OnInit {
     this.route.params
       .subscribe((params: Params) => this.loadSummonerData(params['summonerName']));
     this.staticDataService.getChampions()
-      .subscribe((championData) => this.staticChampions = championData);
+      .subscribe((championData) => this.staticChampions = championData.data);
   }
 
   private loadSummonerData(summonerName: string): void {

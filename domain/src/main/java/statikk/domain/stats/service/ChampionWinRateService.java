@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecWinRateDao;
+import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.ChampionWinRate;
 
 /**
@@ -23,11 +24,11 @@ public class ChampionWinRateService {
     @Autowired
     ChampSpecWinRateDao champSpecWinRateDao;
 
-    public Map<Long, ChampionWinRate> getChampionWinRatesById() {
-        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId().stream().collect(Collectors.toMap(ChampionWinRate::getChampionId, c -> c));
+    public Map<Long, ChampionWinRate> getChampionWinRatesById(QueueType queueType) {
+        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId(queueType).stream().collect(Collectors.toMap(ChampionWinRate::getChampionId, c -> c));
     }
 
-    public List<ChampionWinRate> getChampionWinRates() {
-        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId();
+    public List<ChampionWinRate> getChampionWinRates(QueueType queueType) {
+        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId(queueType);
     }
 }

@@ -16,9 +16,9 @@ export class StaticDataService extends HttpService {
     return this.httpClient.get<StaticChampionDetail>(championUrl);
   }
 
-  public getChampions(): Observable<Map<string, StaticChampion>> {
+  public getChampions(): Observable<{ data: Map<string, StaticChampion> }> {
     const championsUrl: string = this.apiRoot + '/static-data/champions';
-    return this.httpClient.get<StaticChampionsData>(championsUrl).map((response) => response.data);
+    return this.httpClient.get<{ data: Map<string, StaticChampion> }>(championsUrl);
   }
 
 }

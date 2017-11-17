@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.ChampionWinRate;
 import statikk.domain.stats.service.ChampionWinRateService;
 
@@ -75,7 +76,7 @@ public class ChampionWinRateControllerTest {
         System.out.println("getAllChampionWinRates");
         given(this.mockService.getChampionWinRates())
                 .willReturn(mockWinRates);
-        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates().getTotalPlayed());
+        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(QueueType.ARAM_5X5.getQueueTypeId()).getTotalPlayed());
     }
 
 }

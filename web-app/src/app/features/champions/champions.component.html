@@ -27,8 +27,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr class="champion-row" *ngFor="let champion of championWinRates | myChampionSort: sortColumn:reversed:staticChampions"
-      (click)="navigateToChampion(champion.championId)">
+    <tr class="champion-row" *ngFor="let champion of championWinRates | myChampionSort: sortColumn:reversed:staticChampions">
       <td>
         <a [routerLink]="champion.championId">
           <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + staticChampions[champion.championId].image.full"
