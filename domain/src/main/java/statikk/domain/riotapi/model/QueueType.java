@@ -101,7 +101,7 @@ public enum QueueType {
     TEAM_BUILDER_RANKED_SOLO(
             420, "Ranked Solo games from current season that use Team Builder matchmaking"),
     BLIND_PICK_NORMAL(
-            420, "Blind pick Summoner's Rift games"),
+            430, "Blind pick Summoner's Rift games"),
     RANKED_FLEX_SR(
             440, "Ranked Flex Summoner's Rift games"),
     ARAM_5X5(

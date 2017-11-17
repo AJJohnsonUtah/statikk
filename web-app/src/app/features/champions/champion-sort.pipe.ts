@@ -1,49 +1,58 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { StaticChampion } from '../../shared/models/riot-api-types/static-champion';
+import { BaseWinRate } from '../../shared/models/statikk-api-types/base-win-rate';
+import { ChampionWinRate } from '../../shared/models/statikk-api-types/champion-win-rate';
 
 @Pipe({
     name: 'myChampionSort'
 })
 
 export class ChampionSortPipe implements PipeTransform {
+
     public transform(
-        value: StaticChampion[],
+        value: ChampionWinRate[],
         sortColumn: string,
-        reversed: boolean
-    ): StaticChampion[] {
+        reversed: boolean,
+        staticChampions: Map<string, StaticChampion>
+    ): BaseWinRate[] {
         switch (sortColumn) {
             case 'win-rate': value.sort(reversed ? this.winRateSortReversed : this.winRateSort);
                 break;
             case 'pick-rate': value.sort(reversed ? this.pickRateSortReversed : this.pickRateSort);
                 break;
-            case 'name': value.sort(reversed ? this.nameSortReversed : this.nameSort);
+            case 'name': value.sort(reversed ? this.nameSortReversed(staticChampions) : this.nameSort(staticChampions));
                 break;
             default: break;
         }
         return value;
     }
 
-    private winRateSort(a: StaticChampion, b: StaticChampion): number {
+    private winRateSort(a: ChampionWinRate, b: ChampionWinRate): number {
         return a.winRate - b.winRate;
     }
 
-    private winRateSortReversed(a: StaticChampion, b: StaticChampion): number {
+    private winRateSortReversed(a: ChampionWinRate, b: ChampionWinRate): number {
         return b.winRate - a.winRate;
     }
 
-    private pickRateSort(a: StaticChampion, b: StaticChampion): number {
-        return a.pickRate - b.pickRate;
+    private pickRateSort(a: ChampionWinRate, b: ChampionWinRate): number {
+        return a.playedCount - b.playedCount;
     }
 
-    private pickRateSortReversed(a: StaticChampion, b: StaticChampion): number {
-        return b.pickRate - a.pickRate;
+    private pickRateSortReversed(a: ChampionWinRate, b: ChampionWinRate): number {
+        return b.playedCount - a.playedCount;
     }
 
-    private nameSort(a: StaticChampion, b: StaticChampion): number {
-        return (a.name > b.name) ? 1 : -1;
+    private nameSort(staticChampions: Map<string, StaticChampion>): (a: ChampionWinRate, b: ChampionWinRate) => number {
+        return (a: ChampionWinRate, b: ChampionWinRate): number => {
+            return (staticChampions[a.championId].name > staticChampions[b.championId].name) ? 1 : -1;
+        };
     }
 
-    private nameSortReversed(a: StaticChampion, b: StaticChampion): number {
-        return (a.name < b.name) ? 1 : -1;
+    private nameSortReversed(staticChampions: Map<string, StaticChampion>): (a: ChampionWinRate, b: ChampionWinRate) => number {
+        return (a: ChampionWinRate, b: ChampionWinRate): number => {
+            return (staticChampions[a.championId].name < staticChampions[b.championId].name) ? 1 : -1;
+        };
     }
+
 }

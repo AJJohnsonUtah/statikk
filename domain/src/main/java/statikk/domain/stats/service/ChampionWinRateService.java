@@ -5,6 +5,7 @@
  */
 package statikk.domain.stats.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,11 @@ public class ChampionWinRateService {
     @Autowired
     ChampSpecWinRateDao champSpecWinRateDao;
 
-    public Map<Long, ChampionWinRate> getChampionWinRates() {
+    public Map<Long, ChampionWinRate> getChampionWinRatesById() {
         return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId().stream().collect(Collectors.toMap(ChampionWinRate::getChampionId, c -> c));
+    }
+
+    public List<ChampionWinRate> getChampionWinRates() {
+        return champSpecWinRateDao.findWinCountAndPlayedCountGroupedByChampionId();
     }
 }

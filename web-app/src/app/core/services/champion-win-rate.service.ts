@@ -4,16 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import { ChampionWinRate } from '../../shared/models/statikk-api-types/ChampionWinRate';
+import { ChampionWinRate } from '../../shared/models/statikk-api-types/champion-win-rate';
 import { HttpService } from './http.service';
+import { WinRateWithTotal } from '../../shared/models/statikk-api-types/win-rate-with-total';
+import { FormGroup } from '@angular/forms/src/model';
 
 
 @Injectable()
 export class ChampionWinRateService extends HttpService {
-    private apiEndpoint = 'http://' + window.location.hostname + ':8080/api';
 
-    public getAllChampionWinRates(): Observable<Map<string, ChampionWinRate>> {
-        const allWinRatesUrl: string = this.apiEndpoint + '/champion/win-rate/all';
-        return this.httpClient.get<Map<string, ChampionWinRate>>(allWinRatesUrl);
+    public getAllChampionWinRates(criteriaFormGroup: FormGroup): Observable<WinRateWithTotal<ChampionWinRate>> {
+        const allWinRatesUrl: string = this.apiRoot + '/champion/win-rate/all';
+        const params: URLSearchParams = new URLSearchParams();
+        return this.httpClient.get<WinRateWithTotal<ChampionWinRate>>(allWinRatesUrl);
     }
 }

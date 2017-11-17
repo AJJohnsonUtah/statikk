@@ -4,9 +4,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { StaticChampionDetail } from '../../../shared/models/riot-api-types/static-champion-detail';
-import { ChampionWinRate } from '../../../shared/models/statikk-api-types/ChampionWinRate';
+import { ChampionWinRate } from '../../../shared/models/statikk-api-types/champion-win-rate';
 import { StaticDataService } from '../../../core/services/static-data.service';
 import { ChampionWinRateService } from '../../../core/services/champion-win-rate.service';
+import { WinRateWithTotal } from '../../../shared/models/statikk-api-types/win-rate-with-total';
 
 @Component({
     selector: 'app-champion-detail',
@@ -15,7 +16,7 @@ import { ChampionWinRateService } from '../../../core/services/champion-win-rate
 })
 export class ChampionDetailComponent implements OnInit {
     public champion: StaticChampionDetail;
-    public championWinRates: Map<string, ChampionWinRate>;
+    public championWinRates: ChampionWinRate[];
 
     public constructor(
         private route: ActivatedRoute,
@@ -55,9 +56,9 @@ export class ChampionDetailComponent implements OnInit {
 
     private loadChampionWinRates(): void {
         this.championWinRateService
-            .getAllChampionWinRates()
-            .subscribe((championWinRateData: Map<string, ChampionWinRate>) => {
-                this.championWinRates = championWinRateData;
+            .getAllChampionWinRates(null)
+            .subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
+                this.championWinRates = championWinRateData.winRateData;
             });
     }
 

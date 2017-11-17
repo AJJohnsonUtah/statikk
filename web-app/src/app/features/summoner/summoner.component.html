@@ -3,9 +3,6 @@
     <img id="summoner-icon" class="inline-riot-lg" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/profileicon/' + summonerData.profileIconId + '.png'"> {{summonerData.name}}
   </h1>
 
-  {{staticChampions | json}}
-
-
   <div id="most-played-champs" *ngIf="champMatchCount">
     <h2>Most Played Champions:</h2>
     <div class="row" *ngIf="staticChampions">
