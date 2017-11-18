@@ -10,5 +10,7 @@ pipelines:
     - step:
         caches:
           - maven
-        script: # Modify the commands below to build your repository.
+        script:
           - mvn -B verify # -B batch mode makes Maven less verbose
+          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"data-miner/target/data-miner-0.0.1-SNAPSHOT.jar"
+          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"web-api/target/web-api-0.0.1-SNAPSHOT.jar"
