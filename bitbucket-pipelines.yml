@@ -3,14 +3,23 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: maven:3.3.9
+image: wynventory/maven-node-yarn
 
 pipelines:
   default:
     - step:
         caches:
           - maven
+          - node
         script:
           - mvn -B verify # -B batch mode makes Maven less verbose
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"data-miner/target/data-miner-0.0.1-SNAPSHOT.jar"
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"web-api/target/web-api-0.0.1-SNAPSHOT.jar"
+          - cd web-app
+          - npm install
+          - npm test
+          - npm build
+          - apt-get update
+          - apt-get install -y zip
+          - zip -r statikk.zip dist
+          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"statikk.zip"
