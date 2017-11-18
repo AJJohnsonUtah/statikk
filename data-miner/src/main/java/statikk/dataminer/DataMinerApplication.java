@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import statikk.dataminer.main.MiningManager;
 
 @SpringBootApplication
-@PropertySource("riot-api-key.properties")
+@PropertySource(value = "riot-api-key.properties", ignoreResourceNotFound = true)
 @ComponentScan({"statikk.dataminer", "statikk.domain"})
 public class DataMinerApplication implements CommandLineRunner {
 
