@@ -7,6 +7,7 @@ import { ChampionWinRateService } from '../../core/services/champion-win-rate.se
 import { Observable } from 'rxjs/Observable';
 import { WinRateWithTotal } from '../../shared/models/statikk-api-types/win-rate-with-total';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { RealmDto } from '../../shared/models/riot-api-types/realm-dto';
 
 @Component({
     selector: 'app-champions',
@@ -21,6 +22,7 @@ export class ChampionsComponent implements OnInit {
     public sortColumn: string;
     public reversed: boolean;
     public filterCriteraFormGroup: FormGroup;
+    public version: string;
     constructor(
         private staticDataService: StaticDataService,
         private championWinRateService: ChampionWinRateService,
@@ -33,6 +35,9 @@ export class ChampionsComponent implements OnInit {
         this.reversed = true;
         this.filterCriteraFormGroup = this.formBuilder.group({
             matchType: '450'
+        });
+        this.staticDataService.getRealmsData().subscribe((realmsData: RealmDto) => {
+            this.version = realmsData.v;
         });
         this.loadChampionWinRates();
         this.loadStaticChampions();

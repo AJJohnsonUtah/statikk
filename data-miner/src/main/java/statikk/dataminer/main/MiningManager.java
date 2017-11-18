@@ -39,7 +39,7 @@ public class MiningManager {
         itemAnalysisService.loadItems();
         miningWorkers = new ArrayList<>();
         for (Region region : Region.values()) {
-            if (!region.isPublic()) {
+            if (!region.isPublic() || region.equals(Region.NA)) {
                 continue;
             }
             try {
@@ -63,7 +63,7 @@ public class MiningManager {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             long totalMatchesMined = 0;
-            for (int i = 0; i < activeThreads.size(); i++) {
+            for (int i = 0; i < activeThreads.size(); i++) {                
                 Thread thread = activeThreads.get(i);
                 MiningWorker miningWorker = miningWorkers.get(i);
                 totalMatchesMined += miningWorker.getMatchesAnalyzed();

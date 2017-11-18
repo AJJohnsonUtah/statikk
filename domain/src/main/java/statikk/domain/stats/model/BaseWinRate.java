@@ -31,7 +31,7 @@ public class BaseWinRate {
     }
 
     public Double getWinRate() {
-        if (this.playedCount == 0 || this.winCount == 0) {
+        if (this.playedCount == 0) {
             return null;
         } else {
             return ((double) winCount) / playedCount;

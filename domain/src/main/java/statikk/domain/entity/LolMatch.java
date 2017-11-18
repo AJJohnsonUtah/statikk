@@ -14,7 +14,6 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,8 +25,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.SQLInsert;
+import statikk.domain.entity.converter.QueueTypeConverter;
 import statikk.domain.entity.converter.RegionConverter;
+import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Region;
 
 /**
@@ -53,7 +53,6 @@ import statikk.domain.riotapi.model.Region;
     @NamedQuery(name = "LolMatch.findMatchesToAnalyze", query = "SELECT l.matchId FROM LolMatch l WHERE l.status = :status")
     ,
     @NamedQuery(name = "LolMatch.updateMatchListStatus", query = "UPDATE LolMatch SET status = :status, processed_time = NOW() WHERE matchId IN (:matchIds)")})
-//@SQLInsert(sql = "INSERT INTO lol_match (begin_time, insert_time, match_id,  processed_time, region, status) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE match_id = match_id")
 public class LolMatch implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,6 +71,11 @@ public class LolMatch implements Serializable {
     @Column(name = "region", nullable = false)
     @Convert(converter = RegionConverter.class)
     private Region region;
+
+    @Basic(optional = false)
+    @Column(name = "match_type", nullable = false)
+    @Convert(converter = QueueTypeConverter.class)
+    private QueueType matchType;
 
     @Basic(optional = false)
     @Column(name = "status", nullable = false)
@@ -100,9 +104,10 @@ public class LolMatch implements Serializable {
         this.region = region;
     }
 
-    public LolMatch(Long matchId, Region region, MatchStatus status, Date beginTime, Date insertTime) {
+    public LolMatch(Long matchId, Region region, QueueType matchType, MatchStatus status, Date beginTime, Date insertTime) {
         this.matchId = matchId;
         this.region = region;
+        this.matchType = matchType;
         this.status = status;
         this.beginTime = beginTime;
         this.insertTime = insertTime;
@@ -116,6 +121,7 @@ public class LolMatch implements Serializable {
         this.processedTime = null;
         this.status = MatchStatus.READY;
         this.region = game.getPlatformId();
+        this.matchType = game.getQueue();
     }
 
     public Long getLolMatchId() {
@@ -174,11 +180,20 @@ public class LolMatch implements Serializable {
         this.status = status;
     }
 
+    public QueueType getMatchType() {
+        return matchType;
+    }
+
+    public void setMatchType(QueueType matchType) {
+        this.matchType = matchType;
+    }        
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.matchId);
         hash = 71 * hash + Objects.hashCode(this.region);
+        hash = 71 * hash + Objects.hashCode(this.matchType);
         return hash;
     }
 
@@ -194,7 +209,7 @@ public class LolMatch implements Serializable {
             return false;
         }
         final LolMatch other = (LolMatch) obj;
-        if (!Objects.equals(this.matchId, other.matchId) || !Objects.equals(this.region, other.region)) {
+        if (!Objects.equals(this.matchId, other.matchId) || !Objects.equals(this.region, other.region) || !Objects.equals(this.matchType, other.matchType)) {
             return false;
         }
         return true;
@@ -202,7 +217,7 @@ public class LolMatch implements Serializable {
 
     @Override
     public String toString() {
-        return "LolMatch{" + "status=" + status + ", matchId=" + matchId + ", beginTime=" + beginTime + ", insertTime=" + insertTime + ", processedTime=" + processedTime + '}';
+        return "LolMatch{" + "status=" + status + ", region=" + region + ", matchType: " + matchType + ", matchId=" + matchId + ", beginTime=" + beginTime + ", insertTime=" + insertTime + ", processedTime=" + processedTime + '}';
     }
 
 }

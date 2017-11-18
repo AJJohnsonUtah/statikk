@@ -51,14 +51,14 @@ public class RiotApiService {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image&dataById=true");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
-        return getRiotApiRequest(url, false, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public String getStaticChampionData(Region region, long championId) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions/" + championId, "&champData=all");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
-        return getRiotApiRequest(url, false, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public MatchDetail getMatchDetailWithoutTimeline(Region region, Long matchId) {
@@ -82,70 +82,77 @@ public class RiotApiService {
         String url = getURLWithAPIKey(region, "/lol/match/v3/timelines/by-match/" + matchId);
         ParameterizedTypeReference<Timeline> typeRef = new ParameterizedTypeReference<Timeline>() {
         };
-        return getRiotApiRequest(url, false, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     private MatchDetail getMatchDetail(Region region, Long matchId) throws HttpServerErrorException {
         String url = getURLWithAPIKey(region, "/lol/match/v3/matches/" + matchId);
         ParameterizedTypeReference<MatchDetail> typeRef = new ParameterizedTypeReference<MatchDetail>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public ItemListDto getItemsData(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all");
         ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
         };
-        return getRiotApiRequest(url, false, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public String getStaticItemsData(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
-        return getRiotApiRequest(url, false, typeRef);
+        return getRiotApiRequest(url, typeRef);
+    }
+
+    public String getRealmsData(Region region) {
+        String url = getURLWithAPIKey(region, "/lol/static-data/v3/realms");
+        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, typeRef);
     }
 
     public MatchListDto getRecentGames(Region region, Long accountId) {
         String url = getURLWithAPIKey(region, "/lol/match/v3/matchlists/by-account/" + accountId + "/recent");
         ParameterizedTypeReference<MatchListDto> typeRef = new ParameterizedTypeReference<MatchListDto>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public FeaturedGames getFeaturedGames(Region region) {
         String url = getURLWithAPIKey(region, "/lol/spectator/v3/featured-games");
         ParameterizedTypeReference<FeaturedGames> typeRef = new ParameterizedTypeReference<FeaturedGames>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public String getCurrentGame(Region region, long summonerId) {
         String url = getURLWithAPIKey(region, "/lol/spectator/v3/active-games/by-summoner/" + summonerId);
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public String getChampionMastery(Region region, long summonerId) {
         String url = getURLWithAPIKey(region, "//lol/champion-mastery/v3/champion-masteries/by-summoner/" + summonerId);
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public List<ChampionMastery> getChampionMasteryData(Region region, long summonerId) {
         String url = getURLWithAPIKey(region, "//lol/champion-mastery/v3/champion-masteries/by-summoner/" + summonerId);
         ParameterizedTypeReference<List<ChampionMastery>> typeRef = new ParameterizedTypeReference<List<ChampionMastery>>() {
         };
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public SummonerDto getSummonerByName(Region region, String name) {
         ParameterizedTypeReference<SummonerDto> typeRef = new ParameterizedTypeReference<SummonerDto>() {
         };
         String url = getURLWithAPIKey(region, "/lol/summoner/v3/summoners/by-name/" + name);
-        return getRiotApiRequest(url, true, typeRef);
+        return getRiotApiRequest(url, typeRef);
     }
 
     public String getURLWithAPIKey(Region region, String urlPath) {
@@ -164,11 +171,11 @@ public class RiotApiService {
         return urlToAppendTo + "?api_key=" + RIOT_API_KEY;
     }
 
-    private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference) {
-        return getRiotApiRequest(url, addsToKeyLimit, typeReference, 2);
+    private <T> T getRiotApiRequest(String url,  ParameterizedTypeReference<T> typeReference) {
+        return getRiotApiRequest(url, typeReference, 2);
     }
 
-    private <T> T getRiotApiRequest(String url, boolean addsToKeyLimit, ParameterizedTypeReference<T> typeReference, int timesToTry) {
+    private <T> T getRiotApiRequest(String url,  ParameterizedTypeReference<T> typeReference, int timesToTry) {
         Logger.getLogger(RiotApiService.class
                 .getName()).log(Level.INFO, url);
         if (timesToTry <= 0) {
@@ -182,13 +189,13 @@ public class RiotApiService {
         } catch (HttpServerErrorException ex) {
             Logger.getLogger(RiotApiService.class
                     .getName()).log(Level.WARNING, "Unable to fetch data from " + url + " (blame RITO).", ex);
-            return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
+            return getRiotApiRequest(url, typeReference, timesToTry - 1);
         } catch (HttpClientErrorException ex) {
             switch (ex.getStatusCode()) {
                 case TOO_MANY_REQUESTS:
                     String limitHeader = ex.getResponseHeaders().getFirst("Retry-After");
                     handleLimitHeader(limitHeader);
-                    return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
+                    return getRiotApiRequest(url, typeReference, timesToTry - 1);
                 case NOT_FOUND:
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.INFO, "404; Data not found for {0}.", url);
@@ -197,7 +204,7 @@ public class RiotApiService {
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.SEVERE, "Client exception fetching data from " + url + ".", ex);
                     waitUntilTime(System.currentTimeMillis() + 300);
-                    return getRiotApiRequest(url, addsToKeyLimit, typeReference, timesToTry - 1);
+                    return getRiotApiRequest(url, typeReference, timesToTry - 1);
             }
         }
     }

@@ -74,7 +74,7 @@ public class ChampionWinRateControllerTest {
     @Test
     public void testGetAllChampionWinRates() {
         System.out.println("getAllChampionWinRates");
-        given(this.mockService.getChampionWinRates())
+        given(this.mockService.getChampionWinRates(QueueType.ARAM_5X5))
                 .willReturn(mockWinRates);
         Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(QueueType.ARAM_5X5.getQueueTypeId()).getTotalPlayed());
     }

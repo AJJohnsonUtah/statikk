@@ -6,12 +6,12 @@
 package statikk.dataminer.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -65,7 +65,7 @@ public class MatchMiningService {
                 continue;
             }
             for (MatchReferenceDto game : recentGames.getMatches()) {
-                if (game == null || game.getQueue() == null || game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId())) {
+                if (game == null || game.getQueue() == null || game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId()) || isGameTooOld(game)) {
                     continue;
                 }
                 alreadyMinedMatches.add(game.getGameId());
@@ -123,6 +123,12 @@ public class MatchMiningService {
 
         Thread.sleep(10000);
         return getNextAccountId(accountsToMine, alreadyMinedAccounts, region);
+    }
+    
+    private boolean isGameTooOld(MatchReferenceDto game) {
+        Date oneMonthAgo = new Date(System.currentTimeMillis() - 1000L * 60L * 60L * 24L * 31L);
+        Date gameTime = new Date(game.getTimestamp());
+        return gameTime.before(oneMonthAgo);
     }
 
 }
