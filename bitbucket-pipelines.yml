@@ -12,11 +12,14 @@ pipelines:
           - maven
           - node
         script:
-          - apt-get update
+          - apt-get update; apt-get install -y gettext-base;
+          - echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' &gt; /etc/apt/sources.list.d/chrome.list
+          - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+          - set -x &amp;&amp; apt-get update &amp;&amp; apt-get install -y xvfb google-chrome-stable
+          - wget -q -O /usr/bin/xvfb-chrome https://bitbucket.org/atlassian/docker-node-chrome-firefox/raw/ff180e2f16ea8639d4ca4a3abb0017ee23c2836c/scripts/xvfb-chrome
+          - ln -sf /usr/bin/xvfb-chrome /usr/bin/google-chrome
+          - chmod 755 /usr/bin/google-chrome
           - apt-get install -y zip
-          - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          - dpkg -i --force-depends google-chrome-stable_current_amd64.deb
-          - apt-get install -f
           - mvn -B verify # -B batch mode makes Maven less verbose
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"data-miner/target/data-miner-0.0.1-SNAPSHOT.jar"
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"web-api/target/web-api-0.0.1-SNAPSHOT.jar"
