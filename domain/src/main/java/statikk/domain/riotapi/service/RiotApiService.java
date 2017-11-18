@@ -36,7 +36,7 @@ public class RiotApiService {
     /**
      * Riot API Key is populated from a properties file.
      */
-    @Value("${riot.api.key}")
+    @Value(value = "${riot.api.key:NoKeyFound}")
     private String RIOT_API_KEY;
 
     private final String RIOT_API_URL_PROTOCOL = "https://";
