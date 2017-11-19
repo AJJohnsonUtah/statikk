@@ -10,7 +10,7 @@ pipelines:
       - step:
           caches:
           - maven
-          - node_modules
+          - node-modules
           - chrome
           script:
           - apt-get update; apt-get install -y gettext-base;
@@ -34,7 +34,7 @@ pipelines:
       - step:
           caches:
           - maven
-          - node_modules
+          - node-modules
           - chrome
           script:
           - apt-get update; apt-get install -y gettext-base;
@@ -56,5 +56,5 @@ pipelines:
           - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"statikk.zip"
 definitions:
   caches:
-    node_modules: web-app/node_modules
+    node-modules: web-app/node_modules
     chrome: ~/usr/bin/google-chrome
