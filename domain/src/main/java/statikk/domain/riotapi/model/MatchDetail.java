@@ -8,6 +8,7 @@ package statikk.domain.riotapi.model;
 import statikk.domain.entity.LolVersion;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +31,11 @@ public class MatchDetail implements Serializable {
     private List<ParticipantDto> participants;
     private Long gameDuration;
     private Long gameCreation;
-    private Timeline timeline;    
-    
+    private Timeline timeline;
+
     private LolTeam winner;
-    
-    private ErrorStatus status;        
+
+    private ErrorStatus status;
 
     public Integer getSeasonId() {
         return seasonId;
@@ -87,9 +88,7 @@ public class MatchDetail implements Serializable {
     public Timeline getTimeline() {
         return timeline;
     }
-    
-    
-    
+
     public void setGameVersion(LolVersion matchVersion) {
         this.gameVersion = matchVersion;
     }
@@ -98,8 +97,6 @@ public class MatchDetail implements Serializable {
         this.status = status;
     }
 
-    
-    
     public ErrorStatus getStatus() {
         return status;
     }
@@ -122,7 +119,7 @@ public class MatchDetail implements Serializable {
                 return team.getTeamId();
             }
         }
-        throw new RuntimeException("No winner found... is this game vs. bots?");
+        return null;
     }
 
     public List<ParticipantDto> getBlueTeam() {
@@ -157,5 +154,17 @@ public class MatchDetail implements Serializable {
             bannedChampions.addAll(team.getBans());
         });
         return bannedChampions;
+    }
+
+    public List<Long> getParticipantSummonerIds() {
+
+        if (getParticipantIdentities().get(0).getPlayer() != null) {
+            return getParticipantIdentities()
+                    .stream()
+                    .map(s -> s.getPlayer().getSummonerId())
+                    .sequential()
+                    .collect(Collectors.toList());
+        }
+        return Collections.EMPTY_LIST;
     }
 }

@@ -101,6 +101,9 @@ public class TeamStatsDto implements Serializable {
     }
 
     public boolean isWinner() {
+        if(win == null ) {
+            return false;
+        }
         return win.equals(WinStatus.Win);
     }
 

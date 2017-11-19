@@ -5,7 +5,8 @@
  */
 package statikk.webapi.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.ChampionWinRate;
 import statikk.domain.stats.service.ChampionWinRateService;
 
@@ -36,7 +38,7 @@ public class ChampionWinRateControllerTest {
     @MockBean
     private ChampionWinRateService mockService;
 
-    private HashMap<Long, ChampionWinRate> mockWinRates;
+    private List<ChampionWinRate> mockWinRates;
 
     public ChampionWinRateControllerTest() {
     }
@@ -51,8 +53,9 @@ public class ChampionWinRateControllerTest {
 
     @Before
     public void setUp() {
-        this.mockWinRates = new HashMap<>();
-        mockWinRates.put(1L, new ChampionWinRate(1, 100, 45));
+        this.mockWinRates = new ArrayList<>();
+        mockWinRates.add(new ChampionWinRate(1, 100, 45));
+        mockWinRates.add(new ChampionWinRate(2, 200, 155));
     }
 
     @After
@@ -71,9 +74,9 @@ public class ChampionWinRateControllerTest {
     @Test
     public void testGetAllChampionWinRates() {
         System.out.println("getAllChampionWinRates");
-        given(this.mockService.getChampionWinRates())
+        given(this.mockService.getChampionWinRates(QueueType.ARAM_5X5))
                 .willReturn(mockWinRates);
-        Assert.assertTrue("getAllChampionWinRates correctly returns mocked data.", championWinRateController.getAllChampionWinRates().containsKey(1L));
+        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(QueueType.ARAM_5X5.getQueueTypeId()).getTotalPlayed());
     }
 
 }

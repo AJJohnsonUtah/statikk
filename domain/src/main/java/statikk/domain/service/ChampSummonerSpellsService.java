@@ -7,6 +7,7 @@ package statikk.domain.service;
 
 import java.util.Collection;
 import javax.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSummonerSpellsDao;
@@ -25,7 +26,12 @@ public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells>
 
     @Override
     public ChampSummonerSpells create(ChampSummonerSpells champSummonerSpells) {
-        return champSummonerSpellsDao.save(champSummonerSpells);
+        try {
+            return champSummonerSpellsDao.save(champSummonerSpells);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(champSummonerSpells);
+        }
     }
 
     @Override
@@ -38,6 +44,11 @@ public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells>
             champSummonerSpell.combine(champSummonerSpellsDao.findOne(champSummonerSpell.getChampSummonerSpellsPK()));
         });
         champSummonerSpellsDao.save(champSummonerSpells);
+    }
+
+    @Override
+    public ChampSummonerSpells find(ChampSummonerSpells champSummonerSpells) {
+        return champSummonerSpellsDao.findOne(champSummonerSpells.getChampSummonerSpellsPK());
     }
 
 }

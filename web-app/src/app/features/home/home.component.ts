@@ -1,12 +1,9 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
-import { SummonerDataService } from '../../shared/services/summoner-data.service';
+import { SummonerDataService } from '../../core/services/summoner-data.service';
 
 @Component({
     selector: 'app-home',
@@ -35,8 +32,8 @@ export class HomeComponent implements OnInit {
             return;
         }
         this.summonerDataService.getSummonerData(cleanSummonerName)
-            .then((data) => this.navigateToSummonerPage())
-            .catch(
+            .subscribe(
+            (data) => this.navigateToSummonerPage(),
             (errorMessage) =>
                 this.lookupErrorSubject.next('Summoner (' + this.summonerName + ') not found')
             );

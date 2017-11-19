@@ -71,7 +71,8 @@ CREATE TABLE `champ_spec` (
   `lol_version_id` int(11) NOT NULL,
   `lane` int(11) NOT NULL DEFAULT '-1',
   `role` int(11) NOT NULL DEFAULT '-1',
-  `rank` int(11) NOT NULL DEFAULT '-1'
+  `rank` int(11) NOT NULL DEFAULT '-1',
+  `region` int(11) NOT NULL DEFAULT '-1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -131,7 +132,10 @@ CREATE TABLE `final_build_order` (
 --
 
 CREATE TABLE `lol_match` (
+  `lol_match_id` bigint(20) NOT NULL,
   `match_id` bigint(20) NOT NULL,
+  `region` int(11) NOT NULL,
+  `match_type` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL,
   `begin_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -181,7 +185,7 @@ ALTER TABLE `champ_matchup`
 --
 ALTER TABLE `champ_spec`
   ADD PRIMARY KEY (`champ_spec_id`),
-  ADD UNIQUE KEY `unique_champ_spec` (`lol_version_id`,`match_type`,`champion_id`,`lane`,`role`,`rank`);
+  ADD UNIQUE KEY `unique_champ_spec` (`lol_version_id`,`match_type`,`champion_id`,`lane`,`role`,`rank`, `region`);
 
 --
 -- Indexes for table `champ_spec_win_rate`
@@ -215,7 +219,8 @@ ALTER TABLE `final_build_order`
 -- Indexes for table `lol_match`
 --
 ALTER TABLE `lol_match`
-  ADD PRIMARY KEY (`match_id`),
+  ADD PRIMARY KEY (`lol_match_id`),
+  ADD UNIQUE KEY `lol_match_unique` (`match_id`, `region`),
   ADD KEY `status` (`status`);
 
 --
@@ -244,6 +249,9 @@ ALTER TABLE `final_build_order`
 --
 ALTER TABLE `lol_version`
   MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+ALTER TABLE `lol_match`
+  MODIFY `lol_match_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --
@@ -252,46 +260,46 @@ ALTER TABLE `lol_version`
 -- Constraints for table `champ_ban`
 --
 ALTER TABLE `champ_ban`
-  ADD CONSTRAINT `champ_ban_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_ban_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_final_build`
 --
 ALTER TABLE `champ_final_build`
-  ADD CONSTRAINT `champ_final_build_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `champ_final_build_final_build_fk` FOREIGN KEY (`final_build_order_id`) REFERENCES `final_build_order` (`final_build_order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_final_build_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `champ_final_build_final_build_fk` FOREIGN KEY (`final_build_order_id`) REFERENCES `final_build_order` (`final_build_order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_matchup`
 --
 ALTER TABLE `champ_matchup`
-  ADD CONSTRAINT `matchup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `matchup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `matchup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `matchup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_spec`
 --
 ALTER TABLE `champ_spec`
-  ADD CONSTRAINT `champ_spec_version_fk` FOREIGN KEY (`lol_version_id`) REFERENCES `lol_version` (`lol_version_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_spec_version_fk` FOREIGN KEY (`lol_version_id`) REFERENCES `lol_version` (`lol_version_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_spec_win_rate`
 --
 ALTER TABLE `champ_spec_win_rate`
-  ADD CONSTRAINT `champ_spec_id_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_spec_id_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_summoner_spells`
 --
 ALTER TABLE `champ_summoner_spells`
-  ADD CONSTRAINT `champ_summoner_spell_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `champ_summoner_spell_champ_spec_fk` FOREIGN KEY (`champ_spec_id`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `champ_teamup`
 --
 ALTER TABLE `champ_teamup`
-  ADD CONSTRAINT `teamup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`),
-  ADD CONSTRAINT `teamup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`);
+  ADD CONSTRAINT `teamup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `teamup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -10,22 +10,25 @@ import { Component } from '@angular/core';
 import {
     BaseRequestOptions,
     ConnectionBackend,
-    Http,
     ResponseOptions
 } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 // Load the implementations that should be tested
 import { HomeComponent } from './home.component';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SummonerDataService } from '../../shared/services/summoner-data.service';
+import { SummonerDataService } from '../../core/services/summoner-data.service';
+import { SummonerDto } from '../../shared/models/riot-api-types/summoner-dto';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
 
 describe(`Home`, () => {
     let comp: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
-    let summonerDataService: SummonerDataService;
-    const validSummonerData = {
+    const validSummonerData: SummonerDto = {
         id: 27673684,
         accountId: 42264797,
         name: 'GrannysCookies',
@@ -41,7 +44,16 @@ describe(`Home`, () => {
     const mockRouter = {
         navigate: jasmine.createSpy('navigate')
     };
-    let summonerServiceSpy: jasmine.Spy;
+
+    class SummonerDataServiceStub {
+        getSummonerData(summonerName: string): Observable<SummonerDto> {
+            if (summonerName.startsWith('invalid')) {
+                return Observable.throw(summonerNotFoundData);
+            }
+            return Observable.of(validSummonerData);
+        }
+    }
+
 
     // async beforeEach
     beforeEach(async(() => {
@@ -49,17 +61,8 @@ describe(`Home`, () => {
             imports: [FormsModule],
             declarations: [HomeComponent],
             providers: [
-                SummonerDataService,
+                { provide: SummonerDataService, useClass: SummonerDataServiceStub },
                 { provide: Router, useValue: mockRouter },
-                MockBackend,
-                BaseRequestOptions,
-                {
-                    provide: Http,
-                    useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-                        return new Http(backendInstance, defaultOptions);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
             ]
         })
             .compileComponents(); // compile template and css
@@ -70,11 +73,7 @@ describe(`Home`, () => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         fixture = TestBed.createComponent(HomeComponent);
         comp = fixture.componentInstance;
-
-        summonerDataService = fixture.debugElement.injector.get(SummonerDataService);
-        summonerServiceSpy = spyOn(summonerDataService, 'getSummonerData');
         mockRouter.navigate.calls.reset();
-
         fixture.detectChanges(); // trigger initial data binding
     });
 
@@ -84,29 +83,17 @@ describe(`Home`, () => {
     });
 
     it('should fetch summoner data and navigate to summoner page', async(() => {
-        comp.summonerName = 'GrannysCookies';
-
-        summonerServiceSpy.and.returnValue(Promise.resolve(validSummonerData));
-
+        comp.summonerName = 'TestUser';
         comp.checkSummonerExists();
-
-        fixture.whenStable().then(() => { // wait for async getQuote
-            expect(summonerServiceSpy).toHaveBeenCalled();
-            expect(mockRouter.navigate).toHaveBeenCalledWith(['/summoner', 'grannyscookies']);
-
+        fixture.whenStable().then(() => {
+            expect(mockRouter.navigate).toHaveBeenCalledWith(['/summoner', comp.summonerName.toLowerCase()]);
         });
-
     }));
 
     it('should fetch invalid summoner data and not navigate to summoner page', async(() => {
-        comp.summonerName = 'GrannysCookiesAAAA';
-
-        summonerServiceSpy.and.returnValue(Promise.reject(summonerNotFoundData));
-
+        comp.summonerName = 'invalidGrannysCookies';
         comp.checkSummonerExists();
-
         fixture.whenStable().then(() => { // wait for async getQuote
-            expect(summonerServiceSpy).toHaveBeenCalled();
             expect(mockRouter.navigate.calls.count()).toBe(0, 'navigate called 0 times');
         });
 

@@ -7,6 +7,7 @@ package statikk.domain.service;
 
 import java.util.HashMap;
 import javax.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.FinalBuildOrderDao;
@@ -27,7 +28,12 @@ public class FinalBuildOrderService extends BaseService<FinalBuildOrder> {
 
     @Override
     public FinalBuildOrder create(FinalBuildOrder finalBuildOrder) {
-        return finalBuildOrderDao.save(finalBuildOrder);
+        try {
+            return finalBuildOrderDao.save(finalBuildOrder);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(finalBuildOrder);
+        }
     }
 
     @Override
@@ -35,6 +41,7 @@ public class FinalBuildOrderService extends BaseService<FinalBuildOrder> {
         return finalBuildOrderDao.save(finalBuildOrder);
     }
 
+    @Override
     public FinalBuildOrder find(FinalBuildOrder finalBuildOrder) {
         return finalBuildOrderDao.findByBuildOrder(finalBuildOrder.getBuildOrder());
     }

@@ -19,6 +19,14 @@ body {
   background-image: url("/assets/img/bg/gray-stripes.png");
 }
 
+a {
+  color: $accent-color;
+}
+
+a:hover {
+  color: $accent-color-focus;
+}
+
 .fa-statikk-main {
   color: $base-color;
 }
@@ -33,6 +41,11 @@ body {
 
 .table-sort-header {
   cursor: pointer;
+}
+
+td.numeric,
+th.numeric {
+  text-align: right;
 }
 
 .table-sort-header:hover {

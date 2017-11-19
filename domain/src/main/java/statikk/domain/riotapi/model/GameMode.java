@@ -22,7 +22,9 @@ public enum GameMode {
     ARSR("All Random Summoner's Rift"),
     URF("Ultra Rapid Fire"),
     ASSASSINATE("Blood Hunt Assassin games"),
-    DARKSTAR("Darkstar games");
+    DARKSTAR("Darkstar games"),
+    DOOMBOTSTEEMO("Doom Bot games"),
+    STARGUARDIAN("Star Guardian Invasion games");
     
 
     private final String description;

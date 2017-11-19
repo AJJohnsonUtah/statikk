@@ -54,7 +54,7 @@ public enum QueueType {
             52, "Twisted Treeline Coop vs AI games"),
     GROUP_FINDER_5x5(
             61, "Team Builder games"),
-    ARAM_5x5(
+    ARAM_5x5_OLD(
             65, "ARAM games"),
     ONEFORALL_5x5(
             70, "One for All games"),
@@ -101,7 +101,7 @@ public enum QueueType {
     TEAM_BUILDER_RANKED_SOLO(
             420, "Ranked Solo games from current season that use Team Builder matchmaking"),
     BLIND_PICK_NORMAL(
-            420, "Blind pick Summoner's Rift games"),
+            430, "Blind pick Summoner's Rift games"),
     RANKED_FLEX_SR(
             440, "Ranked Flex Summoner's Rift games"),
     ARAM_5X5(
@@ -120,6 +120,7 @@ public enum QueueType {
     COOP_VS_AI_INTRO_5x5(830, "Co-op vs. AI Intro Bot games, 5v5"),
     COOP_VS_AI_BEGINNER_5x5(840, "Co-op vs. AI Beginner Bot games, 5v5"),
     COOP_VS_AI_INTERMEDIATE_5x5(850, "Co-op vs. AI Intermediate Bot games, 5v5"),
+    ASCENSION(910, "Ascension games"),
     NEXUS_SIEGE(940, "Nexus Siege games"),
     DOOM_BOTS_DIFFICULTY_VOTING(950, "Doom Bots games with difficulty voting"),
     DOOM_BOTS(960, "Doom Bots games"),

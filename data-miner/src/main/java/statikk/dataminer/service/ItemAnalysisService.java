@@ -46,12 +46,19 @@ public class ItemAnalysisService {
 
     private Set<Integer> finalItemIds;
 
+    public ItemAnalysisService(RiotApiService riotApiService) {
+        this.riotApiService = riotApiService;
+    }
+
     /**
      * Populates the item data within the instance of ItemAnalysisService.
      *
      * Final items are populated, along with the itemListDto from the Riot API
      */
     public void loadItems() {
+        if (finalItemIds != null && itemListDto != null) {
+            return;
+        }
         finalItemIds = new HashSet<>();
         itemListDto = riotApiService.getItemsData(Region.NA);
         for (ItemDto item : itemListDto.getData().values()) {

@@ -13,6 +13,4 @@ export class StaticChampion {
         h: number;
     };
     public spriteStyles: { [id: string]: any };
-    public pickRate: number;
-    public winRate: number;
 }

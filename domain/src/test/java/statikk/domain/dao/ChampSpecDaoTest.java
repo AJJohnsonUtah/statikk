@@ -22,6 +22,7 @@ import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Rank;
+import statikk.domain.riotapi.model.Region;
 
 /**
  *
@@ -68,17 +69,19 @@ public class ChampSpecDaoTest {
                 QueueType.CUSTOM,
                 Lane.BOTTOM,
                 Role.AD_CARRY,
-                Rank.UNRANKED
+                Rank.UNRANKED,
+                Region.NA
         );
         champSpecDao.save(champSpec);
 
-        ChampSpec foundChampSpec = champSpecDao.findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(
+        ChampSpec foundChampSpec = champSpecDao.find(
                 champSpec.getChampionId(),
                 champSpec.getMatchType(),
                 champSpec.getLolVersion(),
                 champSpec.getLane(),
                 champSpec.getRole(),
-                champSpec.getRank()
+                champSpec.getRank(),
+                champSpec.getRegion()
         );
         assertNotNull("A newly created/found LolVersion should have an id of 1", foundChampSpec.getLolVersion().getLolVersionId());
         assertNotNull("A newly created/found ChampSpec should have an id of 1", foundChampSpec.getChampSpecId());
@@ -96,7 +99,8 @@ public class ChampSpecDaoTest {
                 QueueType.CUSTOM,
                 Lane.BOTTOM,
                 Role.AD_CARRY,
-                Rank.UNRANKED
+                Rank.UNRANKED,
+                Region.NA
         );
         ChampSpec champSpecB = new ChampSpec(
                 101,
@@ -104,32 +108,35 @@ public class ChampSpecDaoTest {
                 QueueType.CUSTOM,
                 Lane.BOTTOM,
                 Role.AD_CARRY,
-                Rank.UNRANKED
+                Rank.UNRANKED,
+                Region.NA
         );
         // Save entity
         champSpecDao.save(champSpecA);
 
         // Search for identical entity and verify ids match
-        ChampSpec found = champSpecDao.findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(
+        ChampSpec found = champSpecDao.find(
                 champSpecB.getChampionId(),
                 champSpecB.getMatchType(),
                 champSpecB.getLolVersion(),
                 champSpecB.getLane(),
                 champSpecB.getRole(),
-                champSpecB.getRank()
+                champSpecB.getRank(),
+                champSpecB.getRegion()
         );
         assertEquals("The two saved ChampSpecs should have the same id, since they are the same", champSpecA.getChampSpecId(), found.getChampSpecId());
 
         // Save found entity, just to make sure no new record is added
         champSpecDao.save(found);
 
-        found = champSpecDao.findByChampionIdAndMatchTypeAndLolVersionAndLaneAndRoleAndRank(
+        found = champSpecDao.find(
                 champSpecB.getChampionId(),
                 champSpecB.getMatchType(),
                 champSpecB.getLolVersion(),
                 champSpecB.getLane(),
                 champSpecB.getRole(),
-                champSpecB.getRank()
+                champSpecB.getRank(),
+                champSpecB.getRegion()
         );
         assertEquals("The two saved ChampSpecs should have the same id, since they are the same", champSpecA.getChampSpecId(), found.getChampSpecId());
 

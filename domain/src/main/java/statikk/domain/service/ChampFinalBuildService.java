@@ -7,6 +7,7 @@ package statikk.domain.service;
 
 import java.util.Collection;
 import javax.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampFinalBuildDao;
@@ -25,7 +26,12 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
 
     @Override
     public ChampFinalBuild create(ChampFinalBuild champFinalBuild) {
-        return champFinalBuildDao.save(champFinalBuild);
+        try {
+            return champFinalBuildDao.save(champFinalBuild);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(champFinalBuild);
+        }
     }
 
     @Override
@@ -38,6 +44,11 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
             champFinalBuild.combine(champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK()));
         });
         champFinalBuildDao.save(champFinalBuilds);
+    }
+
+    @Override
+    public ChampFinalBuild find(ChampFinalBuild champFinalBuild) {
+        return champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK());
     }
 
 }

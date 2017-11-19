@@ -1,11 +1,11 @@
 <div *ngIf="summonerData" id="summoner-content">
   <h1>
-    <img id="summoner-icon" class="inline-riot-lg" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/profileicon/' + summonerData.profileIconId + '.png'">    {{summonerData.name}}
+    <img id="summoner-icon" class="inline-riot-lg" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/profileicon/' + summonerData.profileIconId + '.png'"> {{summonerData.name}}
   </h1>
 
   <div id="most-played-champs" *ngIf="champMatchCount">
     <h2>Most Played Champions:</h2>
-    <div class="row">
+    <div class="row" *ngIf="staticChampions">
       <div class="col centered" *ngFor="let championCount of champMatchCount.slice(0,5)">
         <img class="champion-icon" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + staticChampions[championCount.championId].image.full"
         />

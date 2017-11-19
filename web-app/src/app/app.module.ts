@@ -11,19 +11,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Http, HttpModule } from '@angular/http';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
-import { StaticDataService } from './shared/services/static-data.service';
-import { ChampionWinRateService } from './shared/services/champion-win-rate.service';
-import { SummonerDataService } from './shared/services/summoner-data.service';
 import { HomeComponent } from './features/home/home.component';
+import { AboutComponent } from './features/about/about.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent
+    AppComponent, HomeComponent, AboutComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, SharedModule, NgbModule.forRoot(), CoreModule, HttpModule
   ],
-  providers: [StaticDataService, ChampionWinRateService, SummonerDataService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

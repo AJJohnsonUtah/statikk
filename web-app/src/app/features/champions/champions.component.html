@@ -1,38 +1,51 @@
 <div class="main-heading-wrapper">
   <h1>Champions</h1>
 </div>
-<table class="table table-sm statikk-table table-hover" id="champions-table">
+<form [formGroup]="filterCriteraFormGroup" novalidate>
+  <select class="form-control" formControlName="matchType" (change)="loadChampionWinRates()">
+    <option [value]="420">Ranked Solo 5's</option>
+    <option [value]="440">Ranked Flex Pick 5's</option>
+    <option [value]="450">ARAM</option>
+    <option [value]="400">Draft Pick, 5's</option>
+    <option [value]="430">Blind Pick, 5's</option>
+    <option [value]="960">The Teemoing</option>
+    <option [value]="950">The Teemoing - Level 100</option>
+
+  </select>
+</form>
+<table class="table table-sm statikk-table table-hover" id="champions-table" *ngIf="staticChampions && championWinRates && version">
   <thead>
-    <tr sticky>
+    <tr>
       <th class="table-sort-header" (click)="chooseSort('name')">Champion
         <span *ngIf="sortColumn === 'name' && !reversed" class="fa fa-caret-down"></span>
         <span *ngIf="sortColumn === 'name' && reversed" class="fa fa-caret-up"></span>
       </th>
-      <th class="table-sort-header" (click)="chooseSort('win-rate')">Win Rate
+      <th class="table-sort-header numeric" (click)="chooseSort('win-rate')">Win Rate
         <span *ngIf="sortColumn === 'win-rate' && !reversed" class="fa fa-caret-down"></span>
         <span *ngIf="sortColumn === 'win-rate' && reversed" class="fa fa-caret-up"></span>
       </th>
-      <th class="table-sort-header" (click)="chooseSort('pick-rate')">Pick Rate
+      <th class="table-sort-header numeric" (click)="chooseSort('pick-rate')">Pick Rate
         <span *ngIf="sortColumn === 'pick-rate' && !reversed" class="fa fa-caret-down"></span>
         <span *ngIf="sortColumn === 'pick-rate' && reversed" class="fa fa-caret-up"></span>
       </th>
     </tr>
   </thead>
   <tbody>
-    <tr class="champion-row" *ngFor="let champion of staticChampions | myChampionSort: sortColumn:reversed" (click)="navigateToChampion(champion.id)">
-      <!-- <tr class="champion-row" *ngFor="let champion of staticChampions" (click)="navigateToChampion(champion.id)"> -->
+    <tr class="champion-row" *ngFor="let champion of championWinRates | myChampionSort: sortColumn:reversed:staticChampions">
       <td>
-        <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + champion.image.full"
-        />
-        <span class="champion-name">
-        {{champion.name}}
-        </span>
+        <a [routerLink]="champion.championId">
+          <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + staticChampions[champion.championId].image.full"
+          />
+          <span class="champion-name">
+            {{staticChampions[champion.championId].name}}
+          </span>
+        </a>
       </td>
-      <td>
-        <span class="win-rate" *ngIf="championWinRates[champion.id]">{{championWinRates[champion.id].winRate | percent: '1.0-2'}}</span>
+      <td class="numeric">
+        <span class="win-rate">{{champion.winRate | percent: '1.0-2'}}</span>
       </td>
-      <td>
-        <span class="pick-rate" *ngIf="championWinRates[champion.id]">{{championWinRates[champion.id].playedCount / matchesPlayed * 10 | percent: '1.0-2'}}</span>
+      <td class="numeric">
+        <span class="pick-rate">{{champion.playedCount / matchesPlayed * 10 | percent: '1.0-2'}}</span>
       </td>
     </tr>
   </tbody>

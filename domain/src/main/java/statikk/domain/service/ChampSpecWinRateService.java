@@ -7,6 +7,7 @@ package statikk.domain.service;
 
 import java.util.Collection;
 import javax.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecWinRateDao;
@@ -25,7 +26,12 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
 
     @Override
     public ChampSpecWinRate create(ChampSpecWinRate champSpecWinRate) {
-        return champSpecWinRateDao.save(champSpecWinRate);
+        try {
+            return champSpecWinRateDao.save(champSpecWinRate);
+        } catch (ConstraintViolationException e) {
+            // This record has already been created; return the existing record.
+            return find(champSpecWinRate);
+        }
     }
 
     @Override
@@ -38,5 +44,10 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
             champSpecWinRate.combine(champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK()));
         });
         champSpecWinRateDao.save(champSpecWinRates);
+    }
+
+    @Override
+    public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
+        return champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK());
     }
 }

@@ -49,4 +49,18 @@ public class StaticDataController extends BaseController {
     public String getChampion(@PathVariable("championId") long championId) {
         return riotApiService.getStaticChampionData(Region.NA, championId);
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/realms", method = RequestMethod.GET)
+    @Cacheable("realms")
+    public String getRealms() {
+        return riotApiService.getRealmsData(Region.NA);
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/realms/{region}", method = RequestMethod.GET)
+    @Cacheable("realms")
+    public String getRealms(@PathVariable("region") String region) {
+        return riotApiService.getRealmsData(Region.valueOf(region));
+    }
 }
