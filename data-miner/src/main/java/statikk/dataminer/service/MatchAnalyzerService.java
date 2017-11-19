@@ -84,7 +84,7 @@ public class MatchAnalyzerService {
 
         for (LolMatch match : matchIdsToAnalyze) {
             Long matchId = match.getMatchId();
-            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}. ", new Object[]{matchId, region});
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}). ", new Object[]{matchId, region});
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, matchId);
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {

@@ -171,16 +171,16 @@ public class RiotApiService {
         return urlToAppendTo + "?api_key=" + RIOT_API_KEY;
     }
 
-    private <T> T getRiotApiRequest(String url,  ParameterizedTypeReference<T> typeReference) {
+    private <T> T getRiotApiRequest(String url, ParameterizedTypeReference<T> typeReference) {
         return getRiotApiRequest(url, typeReference, 2);
     }
 
-    private <T> T getRiotApiRequest(String url,  ParameterizedTypeReference<T> typeReference, int timesToTry) {
+    private <T> T getRiotApiRequest(String url, ParameterizedTypeReference<T> typeReference, int timesToTry) {
         Logger.getLogger(RiotApiService.class
                 .getName()).log(Level.INFO, url);
         if (timesToTry <= 0) {
             Logger.getLogger(RiotApiService.class
-                    .getName()).log(Level.SEVERE, "Unable to fetch data from {0}. Returning null.", url);
+                    .getName()).log(Level.WARNING, "Unable to fetch data from {0}. Returning null.", url);
             return null;
         }
         try {
@@ -200,9 +200,13 @@ public class RiotApiService {
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.INFO, "404; Data not found for {0}.", url);
                     return null;
+                case FORBIDDEN:
+                    Logger.getLogger(RiotApiService.class
+                            .getName()).log(Level.INFO, "403; Riot API Key has likely expired! {0}", url);
+                    return null;
                 default:
                     Logger.getLogger(RiotApiService.class
-                            .getName()).log(Level.SEVERE, "Client exception fetching data from " + url + ".", ex);
+                            .getName()).log(Level.WARNING, "Client exception fetching data from " + url + ".", ex);
                     waitUntilTime(System.currentTimeMillis() + 300);
                     return getRiotApiRequest(url, typeReference, timesToTry - 1);
             }

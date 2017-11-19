@@ -4,7 +4,7 @@
     <appender name="ERROR-FILE" class="ch.qos.logback.core.FileAppender">
         <file>log/errors.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>warn</level>
+            <level>error</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
