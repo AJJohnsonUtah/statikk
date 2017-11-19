@@ -120,6 +120,7 @@ public enum QueueType {
     COOP_VS_AI_INTRO_5x5(830, "Co-op vs. AI Intro Bot games, 5v5"),
     COOP_VS_AI_BEGINNER_5x5(840, "Co-op vs. AI Beginner Bot games, 5v5"),
     COOP_VS_AI_INTERMEDIATE_5x5(850, "Co-op vs. AI Intermediate Bot games, 5v5"),
+    ASCENSION(910, "Ascension games"),
     NEXUS_SIEGE(940, "Nexus Siege games"),
     DOOM_BOTS_DIFFICULTY_VOTING(950, "Doom Bots games with difficulty voting"),
     DOOM_BOTS(960, "Doom Bots games"),
