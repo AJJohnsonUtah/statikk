@@ -1,15 +1,10 @@
-# This is a sample build configuration for Java (Maven).
-# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: jimador/docker-jdk-8-maven-node
 
 pipelines:
   default:
     - step:
         script:
-          echo "Build not run for unimportant branches"
+          - echo "Build not run for unimportant branches"
   branches:
     master:
       - step:
@@ -17,7 +12,7 @@ pipelines:
           - maven
           - node_modules
           - chrome
-        script:
+          script:
           - apt-get update; apt-get install -y gettext-base;
           - echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/chrome.list
           - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -41,7 +36,7 @@ pipelines:
           - maven
           - node_modules
           - chrome
-        script:
+          script:
           - apt-get update; apt-get install -y gettext-base;
           - echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/chrome.list
           - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
