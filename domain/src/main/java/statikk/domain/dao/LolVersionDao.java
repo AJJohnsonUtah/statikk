@@ -18,6 +18,6 @@ public interface LolVersionDao extends CrudRepository<LolVersion, Long> {
 
     public LolVersion findByMajorVersionAndMinorVersion(int majorVersion, int minorVersion);
 
-    @Query("SELECT DISTINCT c.lolVersion.majorVersion, c.lolVersion.minorVersion FROM ChampSpec c ORDER BY c.lolVersion.majorVersion DESC, c.lolVersion.minorVersion DESC")
+    @Query("SELECT DISTINCT c.lolVersion FROM ChampSpec c ORDER BY c.lolVersion.majorVersion DESC, c.lolVersion.minorVersion DESC")
     public List<LolVersion> findVersionsWithData();
 }
