@@ -85,11 +85,11 @@ public class MatchMiningService {
         return newMatchesMined;
     }
 
-    private List<Long> getStartingAccountIds(Region region) {        
+    private List<Long> getStartingAccountIds(Region region) {
         FeaturedGames games = riotApiService.getFeaturedGames(region);
         Random rand = new Random();
-        
-        if(games == null ) {
+
+        if (games == null) {
             try {
                 // There was an error fetching games.... this is a large problem,
                 // because this is the starting point of the miner.
@@ -136,7 +136,7 @@ public class MatchMiningService {
         Thread.sleep(10000);
         return getNextAccountId(accountsToMine, alreadyMinedAccounts, region);
     }
-    
+
     private boolean isGameTooOld(MatchReferenceDto game) {
         Date oneMonthAgo = new Date(System.currentTimeMillis() - 1000L * 60L * 60L * 24L * 31L);
         Date gameTime = new Date(game.getTimestamp());
