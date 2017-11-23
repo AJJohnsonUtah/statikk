@@ -28,16 +28,16 @@ public class ApiStatusController {
     LolVersionService lolVersionService;
 
     @ResponseBody
-    @Cacheable("versions")
+    @Cacheable("supported-versions")
     @RequestMapping(value = "/supported-versions", method = RequestMethod.GET, produces = "application/json")
     public Iterable<String> getSupportedVersions() {
         return lolVersionService.findVersionsWithData();
     }
 
     @ResponseBody
-    @Cacheable("versions")
+    @Cacheable("current-version")
     @RequestMapping(value = "/current-version", method = RequestMethod.GET, produces = "application/json")
     public String getMostRecentVersionWithData() {
-        return lolVersionService.findVersionsWithData().iterator().next();
+        return getSupportedVersions().iterator().next();
     }
 }

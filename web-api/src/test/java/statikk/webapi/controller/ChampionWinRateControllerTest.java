@@ -38,6 +38,9 @@ public class ChampionWinRateControllerTest {
 
     @MockBean
     private ChampionWinRateService mockService;
+    
+    @MockBean
+    private ApiStatusController apiStatusController;
 
     private List<WinRateByChampionId> mockWinRates;
 
