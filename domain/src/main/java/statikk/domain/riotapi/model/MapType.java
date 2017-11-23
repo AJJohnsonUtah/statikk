@@ -24,7 +24,8 @@ public enum MapType {
             "Butcher's Bridge", "ARAM Map"),
     CosmicRuins(16,
             "Cosmic Ruins", "Darkstar Map"),
-    ValoranCityPark(18, "Valoran City Park", "Star Guardian Invasion Map");
+    ValoranCityPark(18, "Valoran City Park", "Star Guardian Invasion Map"),
+    Overdrive(19, "Overdrive Project Map", "Overdrive Project Map");
 
     private final int mapId;
     private final String name;

@@ -20,8 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import statikk.domain.entity.LolVersion;
 import statikk.domain.riotapi.model.QueueType;
-import statikk.domain.stats.model.ChampionWinRate;
+import statikk.domain.stats.model.WinRateByChampionId;
 import statikk.domain.stats.service.ChampionWinRateService;
 
 /**
@@ -38,7 +39,7 @@ public class ChampionWinRateControllerTest {
     @MockBean
     private ChampionWinRateService mockService;
 
-    private List<ChampionWinRate> mockWinRates;
+    private List<WinRateByChampionId> mockWinRates;
 
     public ChampionWinRateControllerTest() {
     }
@@ -54,8 +55,8 @@ public class ChampionWinRateControllerTest {
     @Before
     public void setUp() {
         this.mockWinRates = new ArrayList<>();
-        mockWinRates.add(new ChampionWinRate(1, 100, 45));
-        mockWinRates.add(new ChampionWinRate(2, 200, 155));
+        mockWinRates.add(new WinRateByChampionId(1, 100, 45));
+        mockWinRates.add(new WinRateByChampionId(2, 200, 155));
     }
 
     @After
@@ -74,9 +75,11 @@ public class ChampionWinRateControllerTest {
     @Test
     public void testGetAllChampionWinRates() {
         System.out.println("getAllChampionWinRates");
-        given(this.mockService.getChampionWinRates(QueueType.ARAM_5X5))
+        LolVersion version = new LolVersion("7.7");
+        QueueType matchType = QueueType.ARAM_5X5;
+        given(this.mockService.getAllChampionWinRates(matchType, null, null, version))
                 .willReturn(mockWinRates);
-        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(QueueType.ARAM_5X5.getQueueTypeId()).getTotalPlayed());
+        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(matchType.getQueueTypeId(), null, null, "7.7").getTotalPlayed());
     }
 
 }

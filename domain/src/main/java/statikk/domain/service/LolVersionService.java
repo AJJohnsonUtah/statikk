@@ -53,6 +53,10 @@ public class LolVersionService extends BaseService<LolVersion> {
         }
         return create(lolVersion);
     }
+    
+    public Iterable<String> findVersionsWithData() {
+        return lolVersionDao.findVersionsWithData();
+    }
 
     public Iterable<LolVersion> findAll() {
         return lolVersionDao.findAll();

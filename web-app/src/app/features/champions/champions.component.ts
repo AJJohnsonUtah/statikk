@@ -8,6 +8,10 @@ import { Observable } from 'rxjs/Observable';
 import { WinRateWithTotal } from '../../shared/models/statikk-api-types/win-rate-with-total';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RealmDto } from '../../shared/models/riot-api-types/realm-dto';
+import { laneList, Lane } from '../../shared/models/statikk-api-types/filter-criteria/lane';
+import { Rank, rankList } from '../../shared/models/statikk-api-types/filter-criteria/rank';
+import { ApiStatusService } from '../../core/services/api-status.service';
+import { FilterCriteriaGroup } from '../../shared/models/statikk-api-types/filter-criteria/filter-criteria-group';
 
 @Component({
     selector: 'app-champions',
@@ -22,24 +26,34 @@ export class ChampionsComponent implements OnInit {
     public sortColumn: string;
     public reversed: boolean;
     public filterCriteraFormGroup: FormGroup;
-    public version: string;
+    public versions: string[];
+    public lanes: Lane[];
+    public ranks: Rank[];
+
     constructor(
         private staticDataService: StaticDataService,
         private championWinRateService: ChampionWinRateService,
+        private apiStatusService: ApiStatusService,
         private router: Router,
         private formBuilder: FormBuilder
     ) { }
 
     public ngOnInit() {
+        this.lanes = laneList;
+        this.ranks = rankList;
         this.sortColumn = 'win-rate';
         this.reversed = true;
         this.filterCriteraFormGroup = this.formBuilder.group({
-            matchType: '450'
+            matchType: '450',
+            rank: '',
+            lane: '',
+            version: ''
         });
-        this.staticDataService.getRealmsData().subscribe((realmsData: RealmDto) => {
-            this.version = realmsData.v;
+        this.apiStatusService.getVersions().subscribe((versions: string[]) => {
+            this.versions = versions;
+            this.filterCriteraFormGroup.controls.version.setValue(this.versions[0]);
+            this.loadChampionWinRates();
         });
-        this.loadChampionWinRates();
         this.loadStaticChampions();
     }
 
@@ -54,7 +68,8 @@ export class ChampionsComponent implements OnInit {
     private loadChampionWinRates(): void {
 
         this.championWinRateService
-            .getAllChampionWinRates(this.filterCriteraFormGroup).subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
+            .getAllChampionWinRates(this.filterCriteraFormGroup.value as FilterCriteriaGroup)
+            .subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
                 this.championWinRates = championWinRateData.winRateData;
                 this.matchesPlayed = championWinRateData.totalPlayed;
             });

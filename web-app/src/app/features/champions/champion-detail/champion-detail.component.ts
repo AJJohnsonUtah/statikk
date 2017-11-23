@@ -8,6 +8,9 @@ import { ChampionWinRate } from '../../../shared/models/statikk-api-types/champi
 import { StaticDataService } from '../../../core/services/static-data.service';
 import { ChampionWinRateService } from '../../../core/services/champion-win-rate.service';
 import { WinRateWithTotal } from '../../../shared/models/statikk-api-types/win-rate-with-total';
+import { RealmDto } from '../../../shared/models/riot-api-types/realm-dto';
+import { ApiStatusService } from '../../../core/services/api-status.service';
+import { BaseWinRate } from '../../../shared/models/statikk-api-types/base-win-rate';
 
 @Component({
     selector: 'app-champion-detail',
@@ -15,23 +18,30 @@ import { WinRateWithTotal } from '../../../shared/models/statikk-api-types/win-r
     templateUrl: './champion-detail.component.html'
 })
 export class ChampionDetailComponent implements OnInit {
+    public championId: number;
     public champion: StaticChampionDetail;
-    public championWinRates: ChampionWinRate[];
-
+    public matchTypeWinRates: Map<string, BaseWinRate>;
+    public version: string;
     public constructor(
         private route: ActivatedRoute,
         private location: Location,
         private staticDataService: StaticDataService,
-        private championWinRateService: ChampionWinRateService
+        private championWinRateService: ChampionWinRateService,
+        private apiStatusService: ApiStatusService
     ) { }
 
     public ngOnInit() {
+        this.apiStatusService.getVersions().subscribe((versions: string[]) => {
+            this.version = versions[0] + '.1';
+        });
         this.champion = new StaticChampionDetail();
         console.log('initiating champion detail component');
         this.route.params
-            .subscribe((params: Params) =>
-                this.loadChampionDetail(+params['id']));
-        this.loadChampionWinRates();
+            .subscribe((params: Params) => {
+                this.championId = +params['id'];
+                this.loadChampionDetail();
+                this.loadChampionWinRates();
+            });
     }
 
     public getSpellLetterFromIndex(index: number): string {
@@ -48,17 +58,17 @@ export class ChampionDetailComponent implements OnInit {
         }
     }
 
-    private loadChampionDetail(championId: number): void {
-        this.staticDataService.getChampion(championId)
+    private loadChampionDetail(): void {
+        this.staticDataService.getChampion(this.championId)
             .subscribe((championDetail: StaticChampionDetail) =>
                 this.champion = championDetail);
     }
 
     private loadChampionWinRates(): void {
         this.championWinRateService
-            .getAllChampionWinRates(null)
-            .subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
-                this.championWinRates = championWinRateData.winRateData;
+            .getChampionMatchTypeWinRates(this.championId, null)
+            .subscribe((championWinRateData: Map<string, BaseWinRate>) => {
+                this.matchTypeWinRates = championWinRateData;
             });
     }
 

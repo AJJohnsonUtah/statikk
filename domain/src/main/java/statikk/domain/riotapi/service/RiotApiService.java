@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -210,6 +211,12 @@ public class RiotApiService {
                     waitUntilTime(System.currentTimeMillis() + 300);
                     return getRiotApiRequest(url, typeReference, timesToTry - 1);
             }
+        } catch (HttpMessageNotReadableException ex) {
+            // This is likely caused by a change to an API endpoint (game type?) that hasn't been added yet
+            // Log this error with the URL, but still throw it so that we don't keep processing it.
+            Logger.getLogger(RiotApiService.class
+                    .getName()).log(Level.SEVERE, "Could not parse JSON, likely due to an API change. " + url, ex);
+            throw ex;
         }
     }
 

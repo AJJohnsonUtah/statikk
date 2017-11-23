@@ -125,8 +125,9 @@ public enum QueueType {
     DOOM_BOTS_DIFFICULTY_VOTING(950, "Doom Bots games with difficulty voting"),
     DOOM_BOTS(960, "Doom Bots games"),
     STAR_GUARDIAN_NORMAL(980, "Star Guardian Invasion: Normal games"),
-    STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games");
-
+    STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games"),
+    PROJECT(1000, "Overdrive Project games");
+    
     private final Integer queueTypeId;
     private final String name;
 
