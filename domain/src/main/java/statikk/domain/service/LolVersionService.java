@@ -6,6 +6,8 @@
 package statikk.domain.service;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +56,8 @@ public class LolVersionService extends BaseService<LolVersion> {
         return create(lolVersion);
     }
     
-    public Iterable<String> findVersionsWithData() {
-        return lolVersionDao.findVersionsWithData();
+    public List<String> findVersionsWithData() {
+        return lolVersionDao.findVersionsWithData().stream().map(v ->  v.getMajorVersion() + "." + v.getMinorVersion()).collect(Collectors.toList());
     }
 
     public Iterable<LolVersion> findAll() {
