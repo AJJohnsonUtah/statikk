@@ -24,7 +24,8 @@ public enum GameMode {
     ASSASSINATE("Blood Hunt Assassin games"),
     DARKSTAR("Darkstar games"),
     DOOMBOTSTEEMO("Doom Bot games"),
-    STARGUARDIAN("Star Guardian Invasion games");
+    STARGUARDIAN("Star Guardian Invasion games"),
+    PROJECT("Overdrive Project games");
     
 
     private final String description;
