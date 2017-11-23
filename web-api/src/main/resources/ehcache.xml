@@ -24,6 +24,16 @@
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
     </cache>
+            
+    <cache name="versions"
+           maxElementsInMemory="5"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="10000"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
 
     <cache name="summoner-mastery"
            maxElementsInMemory="50"

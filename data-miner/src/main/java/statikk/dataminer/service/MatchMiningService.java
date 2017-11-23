@@ -85,9 +85,21 @@ public class MatchMiningService {
         return newMatchesMined;
     }
 
-    private List<Long> getStartingAccountIds(Region region) {
+    private List<Long> getStartingAccountIds(Region region) {        
         FeaturedGames games = riotApiService.getFeaturedGames(region);
         Random rand = new Random();
+        
+        if(games == null ) {
+            try {
+                // There was an error fetching games.... this is a large problem,
+                // because this is the starting point of the miner.
+                // The endpoint may be down temporarily... try again in 5 minutes?
+                Thread.sleep(1000 * 60 * 5);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MatchMiningService.class.getName()).log(Level.SEVERE, "Interrupted when sleeping...", ex);
+            }
+            return getStartingAccountIds(region);
+        }
         List<String> accountNames = games.getGameList()
                 .stream()
                 .map((game) -> SummonerDto.getKeyFromName(game.getParticipants().get(rand.nextInt(game.getParticipants().size()) % game.getParticipants().size()).getSummonerName()))

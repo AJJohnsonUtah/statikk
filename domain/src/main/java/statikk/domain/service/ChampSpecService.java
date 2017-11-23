@@ -46,13 +46,11 @@ public class ChampSpecService extends BaseService<ChampSpec> {
     }
 
     public ChampSpec findOrCreate(ChampSpec champSpec) {
-        Logger.getLogger(ChampSpecService.class).info("Finding champ spec to find/create " + champSpec);
         ChampSpec foundInstance = find(champSpec);
         if (foundInstance != null) {
             return foundInstance;
         }
         champSpec.setLolVersion(lolVersionService.findOrCreate(champSpec.getLolVersion()));
-        Logger.getLogger(ChampSpecService.class).info("Creating champ spec to find/create " + champSpec);
         return create(champSpec);
     }
 
