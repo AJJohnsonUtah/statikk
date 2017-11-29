@@ -119,13 +119,13 @@ public class MatchAnalyzerService {
         // Load LolVersion
         match.setGameVersion(lolVersionService.findOrCreate(match.getGameVersion()));
 
+        // Load FinalBuildOrders
+        itemAnalysisService.loadFinalBuildOrders(match);
+
         // Load ChampSpecs
         match.getParticipants().stream().forEach((participant) -> {
             participant.setChampSpec(champSpecService.findOrCreate(new ChampSpec(match, participant)));
         });
-
-        // Load FinalBuildOrders
-        itemAnalysisService.loadFinalBuildOrders(match);
 
         // Load ChampSpecs for bans
         match.getBannedChampions().stream().forEach((bannedChamp) -> {

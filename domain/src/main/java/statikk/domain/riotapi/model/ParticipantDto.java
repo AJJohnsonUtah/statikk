@@ -9,6 +9,7 @@ import statikk.domain.entity.ChampSpec;
 import statikk.domain.entity.FinalBuildOrder;
 import java.io.Serializable;
 import java.util.List;
+import statikk.domain.entity.enums.Role;
 
 /**
  *
@@ -28,6 +29,7 @@ public class ParticipantDto implements Serializable {
     private ParticipantTimeline timeline;
     private ChampSpec champSpec = null;
     private FinalBuildOrder finalBuildOrder = null;
+    private Role role;
 
     public FinalBuildOrder getFinalBuildOrder() {
         return finalBuildOrder;
@@ -83,6 +85,14 @@ public class ParticipantDto implements Serializable {
 
     public ParticipantTimeline getTimeline() {
         return timeline;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

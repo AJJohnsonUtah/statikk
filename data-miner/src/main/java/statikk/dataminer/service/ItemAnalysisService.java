@@ -5,15 +5,22 @@
  */
 package statikk.dataminer.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import statikk.domain.riotapi.model.ItemStat;
 import statikk.domain.entity.FinalBuildOrder;
+import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.Event;
 import statikk.domain.riotapi.model.EventType;
 import static statikk.domain.riotapi.model.EventType.ITEM_DESTROYED;
@@ -23,6 +30,7 @@ import static statikk.domain.riotapi.model.EventType.ITEM_UNDO;
 import statikk.domain.riotapi.model.Frame;
 import statikk.domain.riotapi.model.ItemDto;
 import statikk.domain.riotapi.model.ItemListDto;
+import statikk.domain.riotapi.model.MapType;
 import statikk.domain.riotapi.model.MatchDetail;
 import statikk.domain.riotapi.model.ParticipantIdentityDto;
 import statikk.domain.riotapi.model.Region;
@@ -46,8 +54,11 @@ public class ItemAnalysisService {
 
     private Set<Integer> finalItemIds;
 
-    public ItemAnalysisService(RiotApiService riotApiService) {
+    private Map<ItemStat, Double> averageStatCosts;
+
+    public ItemAnalysisService(RiotApiService riotApiService, FinalBuildOrderService finalBuildOrderService) {
         this.riotApiService = riotApiService;
+        this.finalBuildOrderService = finalBuildOrderService;
     }
 
     /**
@@ -62,17 +73,21 @@ public class ItemAnalysisService {
         finalItemIds = new HashSet<>();
         itemListDto = riotApiService.getItemsData(Region.NA);
         for (ItemDto item : itemListDto.getData().values()) {
-            if (item.isInStore() && !hasPurchasableParents(item) && (item.getGold().getTotal() >= 1000 || (item.getFrom() != null && !item.getFrom().isEmpty() && !item.getPlaintext().contains("Transforms into a ")))) {
+            item.syncItemStatsFromDescription();
+            if (item.isInStore()
+                    && !hasPurchasableParents(item)
+                    && (item.getGold().getTotal() >= 1000
+                    || (item.getFrom() != null && !item.getFrom().isEmpty()
+                    && !item.getPlaintext().contains("Transforms into a ")))) {
                 finalItemIds.add(item.getId());
                 for (Integer parentId : item.getInto()) {
                     if (itemListDto.getData().containsKey(parentId)) {
                         finalItemIds.add(parentId);
                     }
                 }
-
             }
         }
-
+        this.averageStatCosts = this.generateAverageCostPerGold();
     }
 
     /**
@@ -143,16 +158,16 @@ public class ItemAnalysisService {
                 continue;
             }
             for (Event event : frame.getEvents()) {
-                if (event.getEventType() != null && event.getEventType().isItemEvent()) {
+                if (event.getType() != null && event.getType().isItemEvent()) {
                     if (!buildItemIdStacks.containsKey(event.getParticipantId())) {
                         continue;
                     }
                     LinkedList<Event> participantItems = buildItemIdStacks.get(event.getParticipantId());
-                    switch (event.getEventType()) {
+                    switch (event.getType()) {
                         case ITEM_PURCHASED:
                         case ITEM_DESTROYED:
                         case ITEM_SOLD:
-                            participantItems.push(event);
+                            participantItems.addLast(event);
                             break;
                         case ITEM_UNDO:
                             participantItems.removeLast();
@@ -164,14 +179,196 @@ public class ItemAnalysisService {
 
         for (Entry<Integer, LinkedList<Event>> entry : buildItemIdStacks.entrySet()) {
             String buildOrder = "";
+            List<Integer> itemIds = new ArrayList<>();
             for (Event event : entry.getValue()) {
-                if (event.getEventType() == EventType.ITEM_PURCHASED && isFinalItem(event.getItemId())) {
+                if (event.getType() == EventType.ITEM_PURCHASED && isFinalItem(event.getItemId())) {
                     buildOrder += (buildOrder.length() == 0 ? event.getItemId() : ("," + event.getItemId()));
+                    itemIds.add(event.getItemId());
                 }
             }
             FinalBuildOrder build = new FinalBuildOrder(buildOrder);
             build = finalBuildOrderService.findOrCreate(build);
             match.getParticipantFromId(entry.getKey()).setFinalBuildOrder(build);
+            match.getParticipantFromId(entry.getKey()).setRole(calculateRoleFromBuild(itemIds));
         }
+    }
+
+    public HashMap<ItemStat, Double> generateAverageCostPerGold() {
+        HashSet<ItemStat> statsToAnalyze = ItemStat.valuesHashSet();
+        HashMap<ItemStat, Double> averageCosts = new HashMap<>();
+
+        while (!statsToAnalyze.isEmpty()) {
+            ItemStat analyzedStat = null;
+            for (ItemStat stat : statsToAnalyze) {
+                Set<ItemDto> itemsToAnalyzeForStat = getAnalyzableItemsForStat(stat, statsToAnalyze);
+
+                if (!itemsToAnalyzeForStat.isEmpty()) {
+                    double costSum = 0;
+                    double statSum = 0;
+                    for (ItemDto item : itemsToAnalyzeForStat) {
+                        double adjustedCost = item.getGold().getTotal();
+                        for (Entry<ItemStat, Double> statOnItem : item.getStats().entrySet()) {
+                            if (statOnItem.getKey() != stat) {
+                                adjustedCost -= averageCosts.get(statOnItem.getKey()) * statOnItem.getValue();
+                            }
+                        }
+                        // If these stats aren't TOO overkil...?
+                        if (adjustedCost > 0) {
+                            costSum += adjustedCost;
+                            statSum += item.getStats().get(stat);
+                        }
+                    }
+                    averageCosts.put(stat, costSum / statSum);
+                    analyzedStat = stat;
+                    break;
+                }
+            }
+            if (analyzedStat != null) {
+                statsToAnalyze.remove(analyzedStat);
+            } else {
+                // If we tried to analyze stats, just set the rest equal to the average 
+                double averageTotalCostPerStat = 0;
+                for (Double statAvgCost : averageCosts.values()) {
+                    averageTotalCostPerStat += statAvgCost;
+                }
+                averageTotalCostPerStat /= averageCosts.size();
+                for (ItemStat stat : statsToAnalyze) {
+                    averageCosts.put(stat, averageTotalCostPerStat);
+                }
+                statsToAnalyze.clear();
+            }
+
+        }
+
+        return averageCosts;
+    }
+
+    private Set<ItemDto> getAnalyzableItemsForStat(ItemStat stat, HashSet<ItemStat> statsToAnalyze) {
+        HashSet<ItemDto> analyzableItems = new HashSet<>();
+        List<ItemDto> itemsWithStat = this.itemListDto.getData().values().stream().filter(item -> item.getStats().containsKey(stat)).collect(Collectors.toList());
+        for (ItemDto item : itemsWithStat) {
+            // If item has NO kids and only 1 stat, it's pristine - take it!
+            if (item.getFrom().isEmpty()
+                    && item.getStats().size() == 1
+                    && !item.getTags().contains("GoldPer")
+                    && !item.getTags().contains("Consumable")
+                    && !item.isConsumeOnFull()
+                    && !item.isConsumed()
+                    && !item.isHideFromAll()
+                    && !item.getTags().contains("lane")
+                    && (item.getMaps().containsKey(MapType.Rift) && item.getMaps().get(MapType.Rift))) {
+                analyzableItems.add(item);
+            }
+        }
+
+        // We found pristine items, return them!
+        if (!analyzableItems.isEmpty()) {
+            return analyzableItems;
+        }
+
+        for (ItemDto item : itemsWithStat) {
+            // Eligible items must:
+            // Not have any FROM items that have the same stat
+            boolean eligible = true;
+            for (Integer fromItemId : item.getFrom()) {
+                ItemDto fromItem = this.itemListDto.getData().get(fromItemId);
+                if (fromItem.getStats().containsKey(stat)) {
+                    eligible = false;
+                    break;
+                }
+            }
+            if (eligible
+                    && !item.getTags().contains("GoldPer")
+                    && !item.getTags().contains("Consumable")
+                    && !item.isConsumeOnFull()
+                    && !item.isConsumed()
+                    && !item.isHideFromAll()
+                    && !(item.getPlaintext() != null && item.getPlaintext().contains("starting"))
+                    && (item.getMaps().containsKey(MapType.Rift) && item.getMaps().get(MapType.Rift))) {
+                analyzableItems.add(item);
+            }
+        }
+
+        for (ItemDto item : analyzableItems) {
+            boolean eligible = true;
+            for (ItemStat itemStat : item.getStats().keySet()) {
+                if (itemStat != stat && statsToAnalyze.contains(itemStat)) {
+                    eligible = false;
+                    break;
+                }
+            }
+            if (!eligible) {
+                return Collections.emptySet();
+            }
+        }
+
+        return analyzableItems;
+    }
+
+    public Double getAverageStatCost(ItemStat stat) {
+        return this.averageStatCosts.get(stat);
+    }
+
+    public Role calculateRoleFromBuild(Collection<Integer> buildItems) {
+        int adStat = 0;
+        int apStat = 0;
+        int tankStat = 0;
+        float totalItems = buildItems.size();
+        float totalSupportItems = 0;
+        for (Integer itemId : buildItems) {
+            ItemDto item = this.itemListDto.getData().get(itemId);
+            if (item.isSupportItem()) {
+                totalSupportItems++;
+            }
+            if (item.getTags() != null && item.getTags().contains("Boots")) {
+                totalItems--;
+            }
+            for (Entry<ItemStat, Double> stat : item.getStats().entrySet()) {
+                ItemStat curStat = stat.getKey();
+                Double statAmount = stat.getValue();
+                Double effectiveAmount = statAmount * averageStatCosts.get(curStat);
+                if (curStat.isTankStat()) {
+                    tankStat += effectiveAmount;
+                } else if (curStat.isApStat()) {
+                    apStat += effectiveAmount;
+                } else if (curStat.isAdStat()) {
+                    adStat += effectiveAmount;
+                }
+            }
+            System.out.print(item.getName() + " ");
+        }
+        if (totalItems > 0 && totalSupportItems / totalItems >= 0.4) {
+            return Role.SUPPORT;
+        }
+
+        return this.getRoleFromStatCounts(tankStat, apStat, adStat);
+    }
+
+    private Role getRoleFromStatCounts(double tankStat, double apStat, double adStat) {
+        double totalStats = tankStat + apStat + adStat;
+        double tankRatio = tankStat / totalStats;
+        double apRatio = apStat / totalStats;
+        double adRatio = adStat / totalStats;
+
+        if (apRatio >= 2 * tankRatio && apRatio >= 2 * adRatio) {
+            return Role.AP_CARRY;
+        }
+        if (adRatio >= 2 * tankRatio && adRatio >= 2 * apRatio) {
+            return Role.AD_CARRY;
+        }
+        if (tankRatio >= 2 * adRatio && tankRatio >= 2 * apRatio) {
+            return Role.TANK;
+        }
+        if (adRatio > tankRatio && apRatio > tankRatio) {
+            return Role.HYBRID;
+        }
+        if (tankRatio > apRatio && adRatio > apRatio) {
+            return Role.AD_TANK;
+        }
+        if (tankRatio > adRatio && apRatio > adRatio) {
+            return Role.AP_TANK;
+        }
+
+        return null;
     }
 }

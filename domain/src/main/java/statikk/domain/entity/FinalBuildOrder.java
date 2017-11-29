@@ -6,7 +6,10 @@
 package statikk.domain.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -109,10 +112,16 @@ public class FinalBuildOrder implements Serializable {
     @XmlTransient
     public List<ChampFinalBuild> getChampFinalBuildList() {
         return champFinalBuildList;
-    }
+    }   
 
     public void setChampFinalBuildList(List<ChampFinalBuild> champFinalBuildList) {
         this.champFinalBuildList = champFinalBuildList;
     }
 
+    public List<Integer> getBuildItemIds() {
+        if(this.buildOrder == null || this.buildOrder.length() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return Arrays.asList(this.buildOrder.split(",")).stream().map(itemString -> Integer.parseInt(itemString)).collect(Collectors.toList());
+    }
 }

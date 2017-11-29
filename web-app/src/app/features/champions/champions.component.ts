@@ -65,7 +65,7 @@ export class ChampionsComponent implements OnInit {
         }
     }
 
-    private loadChampionWinRates(): void {
+    public loadChampionWinRates(): void {
 
         this.championWinRateService
             .getAllChampionWinRates(this.filterCriteraFormGroup.value as FilterCriteriaGroup)

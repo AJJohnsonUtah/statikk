@@ -4,3 +4,4 @@
 /web-app/nbproject/private/
 *.log
 *riot-api-key.properties
+/data-miner/nbproject/

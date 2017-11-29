@@ -6,6 +6,8 @@
 package statikk.domain.riotapi.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.HashMap;
+import static statikk.domain.riotapi.model.QueueType.fromId;
 
 /**
  *
@@ -50,13 +52,25 @@ public enum MapType {
     }
 
     @JsonCreator
-    public static MapType fromMapId(int mapId) {
-        for (MapType mapType : values()) {
-            if (mapId == mapType.getMapId()) {
-                return mapType;
-            }
+    public static MapType fromMapId(String mapId) {
+        char firstChar = mapId.charAt(0);
+        if (firstChar >= '0' && firstChar <= '9') {
+            return fromId(Integer.parseInt(mapId));
         }
-        return null;
+        return MapType.valueOf(mapId);
+    }
+
+    private static final HashMap<Integer, MapType> mapTypeMap;
+
+    static {
+        mapTypeMap = new HashMap<>();
+        for (MapType mapType : values()) {
+            mapTypeMap.put(mapType.mapId, mapType);
+        }
+    }
+
+    public static MapType fromId(Integer mapTypeId) {
+        return mapTypeMap.get(mapTypeId);
     }
 
 }
