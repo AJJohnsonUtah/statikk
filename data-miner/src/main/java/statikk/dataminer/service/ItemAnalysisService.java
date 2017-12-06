@@ -6,6 +6,7 @@
 package statikk.dataminer.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import statikk.domain.riotapi.model.ItemDto;
 import statikk.domain.riotapi.model.ItemListDto;
 import statikk.domain.riotapi.model.MapType;
 import statikk.domain.riotapi.model.MatchDetail;
+import statikk.domain.riotapi.model.ParticipantDto;
 import statikk.domain.riotapi.model.ParticipantIdentityDto;
 import statikk.domain.riotapi.model.Region;
 import statikk.domain.riotapi.service.RiotApiService;
@@ -77,7 +79,8 @@ public class ItemAnalysisService {
             if (item.isInStore()
                     && !hasPurchasableParents(item)
                     && (item.getGold().getTotal() >= 1000
-                    || (item.getFrom() != null && !item.getFrom().isEmpty()
+                    || ((item.getGold().getTotal() == 0 || item.getTags().contains("Boots"))
+                    && item.getFrom() != null && !item.getFrom().isEmpty()
                     && !item.getPlaintext().contains("Transforms into a ")))) {
                 finalItemIds.add(item.getId());
                 for (Integer parentId : item.getInto()) {
@@ -85,9 +88,33 @@ public class ItemAnalysisService {
                         finalItemIds.add(parentId);
                     }
                 }
+                if (item.getColloq() != null && item.getColloq().contains("Ornn") && item.getFrom() != null && !item.getFrom().isEmpty()) {
+                    item.getFrom().forEach((childItem) -> finalItemIds.add(childItem));
+                }
             }
         }
+        correctStaticItemDataIssues();
         this.averageStatCosts = this.generateAverageCostPerGold();
+    }
+
+    private void correctStaticItemDataIssues() {
+
+        // Muramana and Seraph's Embrace (and quick charge variants) are final
+        this.finalItemIds.add(3040);
+        this.finalItemIds.add(3042);
+        this.finalItemIds.add(3043);
+        this.finalItemIds.add(3048);
+
+        this.itemListDto.getData().get(3003).addIntoItem(3040); // Archangel's -> Seraph's
+        this.itemListDto.getData().get(3007).addIntoItem(3048); // Archangel's quick -> Seraph's
+        this.itemListDto.getData().get(3004).addIntoItem(3042); // Manamune's -> Muramana's
+        this.itemListDto.getData().get(3008).addIntoItem(3043); // Manamune's quick -> Muramana's
+        
+        this.itemListDto.getData().get(3040).addFromItem(3003); // Archangel's <- Seraph's
+        this.itemListDto.getData().get(3048).addFromItem(3007); // Archangel's quick <- Seraph's
+        this.itemListDto.getData().get(3042).addFromItem(3004); // Manamune's <- Muramana's
+        this.itemListDto.getData().get(3043).addFromItem(3008); // Manamune's quick <- Muramana's
+        
     }
 
     /**
@@ -143,6 +170,14 @@ public class ItemAnalysisService {
         return itemId;
     }
 
+    public void loadParticipantRoles(MatchDetail match) {
+        for (ParticipantDto participant : match.getParticipants()) {
+            Role role = calculateRoleFromBuild(participant.getFinalBuildOrder().getBuildItemIds());
+            System.out.println(" " + role);
+            participant.setRole(role);
+        }
+    }
+
     public void loadFinalBuildOrders(MatchDetail match) {
 
         HashMap<Integer, LinkedList<Event>> buildItemIdStacks = new HashMap<>();
@@ -179,17 +214,14 @@ public class ItemAnalysisService {
 
         for (Entry<Integer, LinkedList<Event>> entry : buildItemIdStacks.entrySet()) {
             String buildOrder = "";
-            List<Integer> itemIds = new ArrayList<>();
             for (Event event : entry.getValue()) {
                 if (event.getType() == EventType.ITEM_PURCHASED && isFinalItem(event.getItemId())) {
                     buildOrder += (buildOrder.length() == 0 ? event.getItemId() : ("," + event.getItemId()));
-                    itemIds.add(event.getItemId());
                 }
             }
             FinalBuildOrder build = new FinalBuildOrder(buildOrder);
             build = finalBuildOrderService.findOrCreate(build);
             match.getParticipantFromId(entry.getKey()).setFinalBuildOrder(build);
-            match.getParticipantFromId(entry.getKey()).setRole(calculateRoleFromBuild(itemIds));
         }
     }
 
@@ -335,8 +367,9 @@ public class ItemAnalysisService {
                     adStat += effectiveAmount;
                 }
             }
-            System.out.print(item.getName() + " ");
         }
+        System.out.print("tank: " + tankStat + " ap: " + apStat + " ad: " + adStat);
+
         if (totalItems > 0 && totalSupportItems / totalItems >= 0.4) {
             return Role.SUPPORT;
         }
@@ -369,6 +402,6 @@ public class ItemAnalysisService {
             return Role.AP_TANK;
         }
 
-        return null;
+        return Role.UNDETERMINED;
     }
 }

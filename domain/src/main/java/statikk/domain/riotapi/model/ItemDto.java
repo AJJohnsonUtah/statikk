@@ -7,6 +7,7 @@ package statikk.domain.riotapi.model;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -191,4 +192,29 @@ public class ItemDto implements Serializable {
         return false;
     }
 
+    /**
+     * Adds the specified item id to this ItemDto's Into list if not already there
+     * @param intoItemId 
+     */
+    public void addIntoItem(Integer intoItemId) {
+        if(this.into == null || this.into.isEmpty()) {
+            this.into = new LinkedList<>();
+        }
+        if(!this.into.contains(intoItemId)) {
+            this.into.add(intoItemId);
+        }
+    }
+    
+    /**
+     * Adds the specified item id to this ItemDto's From list if not already there
+     * @param fromItemId 
+     */
+    public void addFromItem(Integer fromItemId) {
+        if(this.from == null || this.from.isEmpty()) {
+            this.from = new LinkedList<>();
+        }
+        if(!this.from.contains(fromItemId)) {
+            this.from.add(fromItemId);
+        }
+    }
 }

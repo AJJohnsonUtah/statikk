@@ -160,7 +160,8 @@ CREATE TABLE `lol_version` (
 
 CREATE TABLE `team_comp` (
   `team_comp_id` bigint(20) NOT NULL,
-  `team_comp` bigint(20) NOT NULL,
+  `ally_team_comp` bigint(20) NOT NULL,
+  `enemy_team_comp` bigint(20) NOT NULL,
   `match_type` int(11) NOT NULL,
   `lol_version_id` int(11) NOT NULL,
   `win_count` bigint(20) NOT NULL,
@@ -249,7 +250,7 @@ ALTER TABLE `lol_version`
 --
 ALTER TABLE `team_comp`
   ADD PRIMARY KEY (`team_comp_id`),
-  ADD UNIQUE KEY `unique_team_comp` (`team_comp`,`match_type`,`lol_version_id`);
+  ADD UNIQUE KEY `unique_team_comp` (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables

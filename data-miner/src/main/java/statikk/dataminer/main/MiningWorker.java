@@ -6,6 +6,7 @@
 package statikk.dataminer.main;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,6 +59,7 @@ public class MiningWorker implements Runnable {
                 Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Finished analyzing matches.");
             }
         } catch (Exception ex) {
+            System.out.println("FAILED for " + region + ". " + new Date());
             Logger.getLogger(MiningWorker.class.getName()).log(Level.SEVERE, "ERROR RUNNING MINING WORKER FOR REGION " + region, ex);
         }
     }

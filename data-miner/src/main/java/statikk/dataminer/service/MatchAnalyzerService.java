@@ -27,6 +27,7 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.enums.MatchStatus;
 import statikk.domain.riotapi.model.LolTeam;
 import statikk.domain.riotapi.model.MatchDetail;
@@ -113,6 +114,7 @@ public class MatchAnalyzerService {
         analyzeFinalBuildOrder(match, aggregateAnalysis);
         analyzeChampSummonerSpells(match, aggregateAnalysis);
         analyzeChampBans(match, aggregateAnalysis);
+        analyzeTeamComps(match, aggregateAnalysis);
     }
 
     private void loadEntities(MatchDetail match) {
@@ -121,6 +123,7 @@ public class MatchAnalyzerService {
 
         // Load FinalBuildOrders
         itemAnalysisService.loadFinalBuildOrders(match);
+        itemAnalysisService.loadParticipantRoles(match);
 
         // Load ChampSpecs
         match.getParticipants().stream().forEach((participant) -> {
@@ -234,6 +237,26 @@ public class MatchAnalyzerService {
             ChampBan champBan = new ChampBan(pk, 1);
             aggregateAnalysis.addChampBan(champBan);
         }
+    }
+
+    private void analyzeTeamComps(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
+        if (match.getBlueTeam() == null || match.getBlueTeam().isEmpty()
+                || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty()) {
+            return;
+        }
+        TeamComp blueTeamComp = new TeamComp(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion());
+        TeamComp purpleTeamComp = new TeamComp(match.getPurpleTeam(), match.getBlueTeam(), match.getQueueId(), match.getGameVersion());
+
+        if (match.getWinner() == LolTeam.BLUE) {
+            blueTeamComp.addWin();
+            purpleTeamComp.addLoss();
+        } else {
+            blueTeamComp.addLoss();
+            purpleTeamComp.addWin();
+        }
+        
+        aggregateAnalysis.addTeamComp(blueTeamComp);
+        aggregateAnalysis.addTeamComp(purpleTeamComp);
     }
 
 }

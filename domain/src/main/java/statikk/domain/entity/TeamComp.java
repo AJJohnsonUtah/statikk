@@ -6,7 +6,10 @@
 package statikk.domain.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -20,7 +23,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import statikk.domain.entity.converter.QueueTypeConverter;
+import statikk.domain.entity.converter.TeamCompMapConverter;
 import statikk.domain.entity.enums.Role;
+import statikk.domain.riotapi.model.ParticipantDto;
 import statikk.domain.riotapi.model.QueueType;
 
 /**
@@ -29,7 +34,7 @@ import statikk.domain.riotapi.model.QueueType;
  */
 @Entity
 @Table(name = "team_comp", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "team_comp, match_type, lol_version_id")})
+    @UniqueConstraint(columnNames = {"team_comp_id", "enemy_team_comp", "match_type", "lol_version_id"})})
 public class TeamComp extends BaseWinRateEntity implements Serializable {
 
     @Id
@@ -37,8 +42,13 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
     @Column(name = "team_comp_id")
     private long TeamCompId;
 
-    @Column(name = "team_comp")
-    private Map<Role, Integer> teamComp;
+    @Column(name = "ally_team_comp")
+    @Convert(converter = TeamCompMapConverter.class)
+    private Map<Role, Integer> allyTeamComp;
+
+    @Column(name = "enemy_team_comp")
+    @Convert(converter = TeamCompMapConverter.class)
+    private Map<Role, Integer> enemyTeamComp;
 
     @Column(name = "match_type")
     @Convert(converter = QueueTypeConverter.class)
@@ -48,6 +58,29 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private LolVersion lolVersion;
 
+    public TeamComp(Collection<ParticipantDto> allyTeamParticipants, Collection<ParticipantDto> enemyTeamParticipants, QueueType matchType, LolVersion lolVersion) {
+        this.allyTeamComp = new HashMap<>();
+        allyTeamParticipants.forEach((participant) -> {
+            if (allyTeamComp.containsKey(participant.getRole())) {
+                allyTeamComp.put(participant.getRole(), allyTeamComp.get(participant.getRole()) + 1);
+            } else {
+                allyTeamComp.put(participant.getRole(), 1);
+            }
+        });
+
+        this.enemyTeamComp = new HashMap<>();
+        enemyTeamParticipants.forEach((participant) -> {
+            if (enemyTeamComp.containsKey(participant.getRole())) {
+                enemyTeamComp.put(participant.getRole(), enemyTeamComp.get(participant.getRole()) + 1);
+            } else {
+                enemyTeamComp.put(participant.getRole(), 1);
+            }
+        });
+
+        this.matchType = matchType;
+        this.lolVersion = lolVersion;
+    }
+
     public long getTeamCompId() {
         return TeamCompId;
     }
@@ -56,12 +89,20 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
         this.TeamCompId = TeamCompId;
     }
 
-    public Map<Role, Integer> getTeamComp() {
-        return teamComp;
+    public Map<Role, Integer> getAllyTeamComp() {
+        return allyTeamComp;
     }
 
-    public void setTeamComp(Map<Role, Integer> teamComp) {
-        this.teamComp = teamComp;
+    public void setAllyTeamComp(Map<Role, Integer> allyTeamComp) {
+        this.allyTeamComp = allyTeamComp;
+    }
+
+    public Map<Role, Integer> getEnemyTeamComp() {
+        return enemyTeamComp;
+    }
+
+    public void setEnemyTeamComp(Map<Role, Integer> enemyTeamComp) {
+        this.enemyTeamComp = enemyTeamComp;
     }
 
     public QueueType getMatchType() {
@@ -80,4 +121,43 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
         this.lolVersion = lolVersion;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(TeamCompMapConverter.convertToString(this.allyTeamComp));
+        hash = 29 * hash + Objects.hashCode(TeamCompMapConverter.convertToString(this.enemyTeamComp));
+        hash = 29 * hash + Objects.hashCode(this.matchType);
+        hash = 29 * hash + Objects.hashCode(this.lolVersion);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TeamComp other = (TeamComp) obj;
+        if (!Objects.equals(TeamCompMapConverter.convertToString(this.allyTeamComp), TeamCompMapConverter.convertToString(other.allyTeamComp))) {
+            return false;
+        }
+        if (!Objects.equals(TeamCompMapConverter.convertToString(this.enemyTeamComp), TeamCompMapConverter.convertToString(other.enemyTeamComp))) {
+            return false;
+        }
+        if (this.matchType != other.matchType) {
+            return false;
+        }
+        if (!Objects.equals(this.lolVersion, other.lolVersion)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
 }
