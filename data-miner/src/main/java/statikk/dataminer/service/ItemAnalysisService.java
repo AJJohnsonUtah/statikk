@@ -5,8 +5,6 @@
  */
 package statikk.dataminer.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.riotapi.model.ItemStat;
 import statikk.domain.entity.FinalBuildOrder;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.Event;
@@ -31,6 +28,7 @@ import static statikk.domain.riotapi.model.EventType.ITEM_UNDO;
 import statikk.domain.riotapi.model.Frame;
 import statikk.domain.riotapi.model.ItemDto;
 import statikk.domain.riotapi.model.ItemListDto;
+import statikk.domain.riotapi.model.ItemStat;
 import statikk.domain.riotapi.model.MapType;
 import statikk.domain.riotapi.model.MatchDetail;
 import statikk.domain.riotapi.model.ParticipantDto;
@@ -109,12 +107,12 @@ public class ItemAnalysisService {
         this.itemListDto.getData().get(3007).addIntoItem(3048); // Archangel's quick -> Seraph's
         this.itemListDto.getData().get(3004).addIntoItem(3042); // Manamune's -> Muramana's
         this.itemListDto.getData().get(3008).addIntoItem(3043); // Manamune's quick -> Muramana's
-        
+
         this.itemListDto.getData().get(3040).addFromItem(3003); // Archangel's <- Seraph's
         this.itemListDto.getData().get(3048).addFromItem(3007); // Archangel's quick <- Seraph's
         this.itemListDto.getData().get(3042).addFromItem(3004); // Manamune's <- Muramana's
         this.itemListDto.getData().get(3043).addFromItem(3008); // Manamune's quick <- Muramana's
-        
+
     }
 
     /**
@@ -171,6 +169,9 @@ public class ItemAnalysisService {
     }
 
     public void loadParticipantRoles(MatchDetail match) {
+        if (match.getTimeline() == null || match.getTimeline().getFrames() == null || match.getTimeline().getFrames().isEmpty()) {
+            return;
+        }
         for (ParticipantDto participant : match.getParticipants()) {
             Role role = calculateRoleFromBuild(participant.getFinalBuildOrder().getBuildItemIds());
             System.out.println(" " + role);
@@ -179,14 +180,13 @@ public class ItemAnalysisService {
     }
 
     public void loadFinalBuildOrders(MatchDetail match) {
-
+        if (match.getTimeline() == null || match.getTimeline().getFrames() == null) {
+            return;
+        }
         HashMap<Integer, LinkedList<Event>> buildItemIdStacks = new HashMap<>();
 
         for (ParticipantIdentityDto partId : match.getParticipantIdentities()) {
             buildItemIdStacks.put(partId.getParticipantId(), new LinkedList<>());
-        }
-        if (match.getTimeline() == null || match.getTimeline().getFrames() == null) {
-            return;
         }
         for (Frame frame : match.getTimeline().getFrames()) {
             if (frame.getEvents() == null) {
@@ -258,7 +258,7 @@ public class ItemAnalysisService {
             if (analyzedStat != null) {
                 statsToAnalyze.remove(analyzedStat);
             } else {
-                // If we tried to analyze stats, just set the rest equal to the average 
+                // If we tried to analyze stats, just set the rest equal to the average
                 double averageTotalCostPerStat = 0;
                 for (Double statAvgCost : averageCosts.values()) {
                     averageTotalCostPerStat += statAvgCost;

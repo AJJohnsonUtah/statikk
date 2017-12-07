@@ -177,7 +177,8 @@ public class ItemDto implements Serializable {
 
     /**
      * Returns true if the item is considered a traditional "supporting" item
-     * @return 
+     *
+     * @return
      */
     public boolean isSupportItem() {
         if (this.tags != null && (this.tags.contains("GoldPer") || this.tags.contains("Vision"))) {
@@ -193,27 +194,31 @@ public class ItemDto implements Serializable {
     }
 
     /**
-     * Adds the specified item id to this ItemDto's Into list if not already there
-     * @param intoItemId 
+     * Adds the specified item id to this ItemDto's Into list if not already
+     * there
+     *
+     * @param intoItemId
      */
     public void addIntoItem(Integer intoItemId) {
-        if(this.into == null || this.into.isEmpty()) {
+        if (this.into == null || this.into.isEmpty()) {
             this.into = new LinkedList<>();
         }
-        if(!this.into.contains(intoItemId)) {
+        if (!this.into.contains(intoItemId)) {
             this.into.add(intoItemId);
         }
     }
-    
+
     /**
-     * Adds the specified item id to this ItemDto's From list if not already there
-     * @param fromItemId 
+     * Adds the specified item id to this ItemDto's From list if not already
+     * there
+     *
+     * @param fromItemId
      */
     public void addFromItem(Integer fromItemId) {
-        if(this.from == null || this.from.isEmpty()) {
+        if (this.from == null || this.from.isEmpty()) {
             this.from = new LinkedList<>();
         }
-        if(!this.from.contains(fromItemId)) {
+        if (!this.from.contains(fromItemId)) {
             this.from.add(fromItemId);
         }
     }

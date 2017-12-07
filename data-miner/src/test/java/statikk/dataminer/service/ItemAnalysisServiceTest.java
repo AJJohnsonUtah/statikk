@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,10 +113,8 @@ public class ItemAnalysisServiceTest {
     @Test
     public void testLoadParticipantRoles() {
         System.out.println("loadParticipantRoles");
-        MatchDetail match = null;
+        MatchDetail match = new MatchDetail();
         itemAnalysisService.loadParticipantRoles(match);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -125,10 +123,9 @@ public class ItemAnalysisServiceTest {
     @Test
     public void testLoadFinalBuildOrders() {
         System.out.println("loadFinalBuildOrders");
-        MatchDetail match = null;
+        MatchDetail match = new MatchDetail();
         itemAnalysisService.loadFinalBuildOrders(match);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // Only fails if there is an error calling this method.
     }
 
     /**
