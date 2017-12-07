@@ -10,9 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -161,12 +161,11 @@ public class ItemAnalysisServiceTest {
     @Test
     public void testCalculateRoleFromBuild() {
         System.out.println("calculateRoleFromBuild");
-        Collection<Integer> buildItems = null;
-        Role expResult = null;
+        itemAnalysisService.loadItems();
+        Collection<Integer> buildItems = new LinkedList<>();
+        buildItems.add(3048);
         Role result = itemAnalysisService.calculateRoleFromBuild(buildItems);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("A simple AP build should be determined to be AP Carry", Role.AP_CARRY, result);
     }
 
 }
