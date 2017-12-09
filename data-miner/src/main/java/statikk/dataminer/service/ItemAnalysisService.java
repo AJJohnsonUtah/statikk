@@ -174,7 +174,6 @@ public class ItemAnalysisService {
         }
         for (ParticipantDto participant : match.getParticipants()) {
             Role role = calculateRoleFromBuild(participant.getFinalBuildOrder().getBuildItemIds());
-            System.out.println(" " + role);
             participant.setRole(role);
         }
     }
@@ -368,7 +367,6 @@ public class ItemAnalysisService {
                 }
             }
         }
-        System.out.print("tank: " + tankStat + " ap: " + apStat + " ad: " + adStat);
 
         if (totalItems > 0 && totalSupportItems / totalItems >= 0.4) {
             return Role.SUPPORT;

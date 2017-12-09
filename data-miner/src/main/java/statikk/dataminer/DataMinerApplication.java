@@ -17,9 +17,7 @@ public class DataMinerApplication implements CommandLineRunner {
     MiningManager miningManager;
 
     public static void main(String[] args) {
-        System.out.println("Starting this ish");
         SpringApplication app = new SpringApplication(DataMinerApplication.class);
-        System.out.println("Running this ish");
         app.run(args);
     }
 
