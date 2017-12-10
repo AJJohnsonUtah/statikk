@@ -11,6 +11,7 @@ const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'champions', loadChildren: 'app/features/champions/champions.module#ChampionsModule' },
     { path: 'summoner', loadChildren: 'app/features/summoner/summoner.module#SummonerModule' },
+    { path: 'team-builder', loadChildren: 'app/features/team-builder/team-builder.module#TeamBuilderModule' },
     { path: '**', component: NoContentComponent },
 ];
 
