@@ -57,6 +57,9 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
     @JoinColumn(name = "lol_version_id", referencedColumnName = "lol_version_id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private LolVersion lolVersion;
+    
+    public TeamComp() {
+    }
 
     public TeamComp(Collection<ParticipantDto> allyTeamParticipants, Collection<ParticipantDto> enemyTeamParticipants, QueueType matchType, LolVersion lolVersion) {
         this.allyTeamComp = new HashMap<>();
