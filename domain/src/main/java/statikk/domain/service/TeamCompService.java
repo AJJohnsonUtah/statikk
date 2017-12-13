@@ -70,8 +70,24 @@ public class TeamCompService extends BaseService<TeamComp> {
         System.out.println("Inserting " + teamComps.size() + " team comps");
         teamComps.forEach((teamComp) -> {
             teamComp.setLolVersion(lolVersionService.find(teamComp.getLolVersion()));
-            teamComp.combine(find(teamComp));
+            try {
+                TeamComp existingTeamComp = find(teamComp);
+                if (existingTeamComp != null) {
+                    System.out.println("COMBINING: " + teamComp);
+                    teamComp.combine(existingTeamComp);
+                }
+                teamCompDao.save(teamComp);
+            } catch (ConstraintViolationException e) {
+                // This record has already been created; return the existing record.
+                System.out.println(teamComp + " already exists! Trying to find it again!");
+                TeamComp existingTeamComp = find(teamComp);
+                if (existingTeamComp != null) {
+                    teamComp.combine(existingTeamComp);
+                } else {
+                    System.out.println(teamComp + " we couldn't find it...?");
+                }
+                teamCompDao.save(teamComp);
+            }
         });
-        teamCompDao.save(teamComps);
     }
 }

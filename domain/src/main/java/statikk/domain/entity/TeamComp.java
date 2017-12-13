@@ -161,6 +161,12 @@ public class TeamComp extends BaseWinRateEntity implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "TeamComp{" + "TeamCompId=" + TeamCompId + ", allyTeamComp=" + TeamCompMapConverter.convertToString(allyTeamComp) + ", enemyTeamComp=" + TeamCompMapConverter.convertToString(enemyTeamComp) + ", matchType=" + matchType + ", lolVersion=" + lolVersion + '}';
+    }
+
+    
     
     
 }

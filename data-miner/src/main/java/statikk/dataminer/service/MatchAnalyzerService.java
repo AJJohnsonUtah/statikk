@@ -134,6 +134,7 @@ public class MatchAnalyzerService {
         match.getBannedChampions().stream().forEach((bannedChamp) -> {
             bannedChamp.setChampSpec(champSpecService.findOrCreate(new ChampSpec(match, bannedChamp)));
         });
+        
     }
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
