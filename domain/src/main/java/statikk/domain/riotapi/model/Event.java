@@ -18,7 +18,7 @@ public class Event implements Serializable {
     private List<Integer> assistingParticipantIds;
     private BuildingType buildingType;
     private int creatorId;
-    private EventType eventType;
+    private EventType type;
     private int itemAfter;
     private int itemBefore;
     private int itemId;
@@ -53,8 +53,8 @@ public class Event implements Serializable {
         return creatorId;
     }
 
-    public EventType getEventType() {
-        return eventType;
+    public EventType getType() {
+        return type;
     }
 
     public int getItemAfter() {

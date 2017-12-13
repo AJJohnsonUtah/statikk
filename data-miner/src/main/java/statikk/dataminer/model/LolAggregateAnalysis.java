@@ -6,6 +6,8 @@
 package statikk.dataminer.model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import statikk.domain.entity.ChampBan;
@@ -20,6 +22,7 @@ import statikk.domain.entity.ChampSummonerSpells;
 import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
+import statikk.domain.entity.TeamComp;
 
 /**
  *
@@ -34,6 +37,7 @@ public class LolAggregateAnalysis {
     private Map<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
     private Map<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells;
     private Map<ChampBanPK, ChampBan> champBans;
+    private Map<TeamComp, TeamComp> teamComps;
 
     public LolAggregateAnalysis() {
         champSpecWinRates = new HashMap<>();
@@ -42,6 +46,7 @@ public class LolAggregateAnalysis {
         champFinalBuilds = new HashMap<>();
         champSummonerSpells = new HashMap<>();
         champBans = new HashMap<>();
+        teamComps = new HashMap<>();
     }
 
     public void resetAnalysis() {
@@ -51,6 +56,7 @@ public class LolAggregateAnalysis {
         champFinalBuilds = new HashMap<>();
         champSummonerSpells = new HashMap<>();
         champBans = new HashMap<>();
+        teamComps = new HashMap<>();
     }
 
     public Map<ChampSpecWinRatePK, ChampSpecWinRate> getChampSpecWinRates() {
@@ -75,6 +81,10 @@ public class LolAggregateAnalysis {
 
     public Map<ChampBanPK, ChampBan> getChampBans() {
         return champBans;
+    }
+
+    public Map<TeamComp, TeamComp> getTeamComps() {
+        return teamComps;
     }
 
     public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {
@@ -125,4 +135,11 @@ public class LolAggregateAnalysis {
         }
     }
 
+    public void addTeamComp(TeamComp teamComp) {
+        if (teamComps.containsKey(teamComp)) {
+            teamComps.get(teamComp).combine(teamComp);
+        } else {
+            teamComps.put(teamComp, teamComp);
+        }
+    }
 }

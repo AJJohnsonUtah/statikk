@@ -45,6 +45,9 @@ public class LolVersion implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersion", fetch = FetchType.LAZY)
     private List<ChampSpec> champSpecList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersion", fetch = FetchType.LAZY)
+    private List<TeamComp> teamCompList;
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -146,4 +149,14 @@ public class LolVersion implements Serializable {
     public void setChampSpecList(List<ChampSpec> champSpecList) {
         this.champSpecList = champSpecList;
     }
+
+    @XmlTransient
+    public List<TeamComp> getTeamCompList() {
+        return teamCompList;
+    }
+
+    public void setTeamCompList(List<TeamComp> teamCompList) {
+        this.teamCompList = teamCompList;
+    }
+
 }

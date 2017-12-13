@@ -22,7 +22,7 @@ public class ItemListDto implements Serializable {
     List<ItemTreeDto> tree;
     String type;
     LolVersion version;
-
+    
     public BasicDataDto getBasic() {
         return basic;
     }
@@ -46,5 +46,5 @@ public class ItemListDto implements Serializable {
     public LolVersion getVersion() {
         return version;
     }
-
+    
 }

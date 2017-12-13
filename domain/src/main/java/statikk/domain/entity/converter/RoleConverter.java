@@ -23,6 +23,6 @@ public class RoleConverter implements AttributeConverter<Role, Integer> {
 
     @Override
     public Role convertToEntityAttribute(Integer valToConvert) {
-        return valToConvert == -1 ? null : Role.getRole(valToConvert);
+        return valToConvert == -1 ? null : Role.fromId(valToConvert);
     }
 }

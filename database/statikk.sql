@@ -155,6 +155,20 @@ CREATE TABLE `lol_version` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `team_comp`
+--
+
+CREATE TABLE `team_comp` (
+  `team_comp_id` bigint(20) NOT NULL,
+  `ally_team_comp` bigint(20) NOT NULL,
+  `enemy_team_comp` bigint(20) NOT NULL,
+  `match_type` int(11) NOT NULL,
+  `lol_version_id` int(11) NOT NULL,
+  `win_count` bigint(20) NOT NULL,
+  `played_count` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Indexes for dumped tables
 --
 
@@ -230,6 +244,14 @@ ALTER TABLE `lol_version`
   ADD PRIMARY KEY (`lol_version_id`),
   ADD UNIQUE KEY `unique_version` (`major_version`,`minor_version`);
 
+  
+--
+-- Indexes for table `team_comp`
+--
+ALTER TABLE `team_comp`
+  ADD PRIMARY KEY (`team_comp_id`),
+  ADD UNIQUE KEY `unique_team_comp` (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`);
+
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -249,9 +271,16 @@ ALTER TABLE `final_build_order`
 --
 ALTER TABLE `lol_version`
   MODIFY `lol_version_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+--
+-- AUTO_INCREMENT for table `lol_match`
+--
 ALTER TABLE `lol_match`
   MODIFY `lol_match_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `lol_match`
+--
+ALTER TABLE `team_comp`
+  MODIFY `team_comp_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --
@@ -300,6 +329,12 @@ ALTER TABLE `champ_summoner_spells`
 ALTER TABLE `champ_teamup`
   ADD CONSTRAINT `teamup_a_fk` FOREIGN KEY (`champ_spec_id_a`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `teamup_b_fk` FOREIGN KEY (`champ_spec_id_b`) REFERENCES `champ_spec` (`champ_spec_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `team_comp`
+--
+ALTER TABLE `team_comp`
+  ADD CONSTRAINT `team_comp_version_fk` FOREIGN KEY (`lol_version_id`) REFERENCES `lol_version` (`lol_version_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

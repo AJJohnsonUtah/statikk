@@ -5,6 +5,7 @@
  */
 package statikk.domain.riotapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
@@ -13,11 +14,12 @@ import java.io.Serializable;
  */
 public class GroupDto implements Serializable {
 
-    String MaxGroupOwnable;
+    String maxGroupOwnable;
     String key;
 
+    @JsonProperty("MaxGroupOwnable")
     public String getMaxGroupOwnable() {
-        return MaxGroupOwnable;
+        return maxGroupOwnable;
     }
 
     public String getKey() {
