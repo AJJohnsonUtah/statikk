@@ -28,6 +28,7 @@ import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolMatch;
 import statikk.domain.entity.TeamComp;
+import statikk.domain.entity.TeamCompPK;
 import statikk.domain.entity.enums.MatchStatus;
 import statikk.domain.riotapi.model.LolTeam;
 import statikk.domain.riotapi.model.MatchDetail;
@@ -134,7 +135,7 @@ public class MatchAnalyzerService {
         match.getBannedChampions().stream().forEach((bannedChamp) -> {
             bannedChamp.setChampSpec(champSpecService.findOrCreate(new ChampSpec(match, bannedChamp)));
         });
-        
+
     }
 
     private void analyzeChampSpecWinRates(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -245,8 +246,10 @@ public class MatchAnalyzerService {
                 || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty()) {
             return;
         }
-        TeamComp blueTeamComp = new TeamComp(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion());
-        TeamComp purpleTeamComp = new TeamComp(match.getPurpleTeam(), match.getBlueTeam(), match.getQueueId(), match.getGameVersion());
+        TeamCompPK blueTeamCompPK = new TeamCompPK(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
+        TeamCompPK purpleTeamCompPK = new TeamCompPK(match.getPurpleTeam(), match.getBlueTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
+        TeamComp blueTeamComp = new TeamComp(blueTeamCompPK);
+        TeamComp purpleTeamComp = new TeamComp(purpleTeamCompPK);
 
         if (match.getWinner() == LolTeam.BLUE) {
             blueTeamComp.addWin();
@@ -255,7 +258,7 @@ public class MatchAnalyzerService {
             blueTeamComp.addLoss();
             purpleTeamComp.addWin();
         }
-        
+
         aggregateAnalysis.addTeamComp(blueTeamComp);
         aggregateAnalysis.addTeamComp(purpleTeamComp);
     }
