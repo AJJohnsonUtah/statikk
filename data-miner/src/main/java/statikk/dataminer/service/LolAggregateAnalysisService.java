@@ -5,15 +5,20 @@
  */
 package statikk.dataminer.service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import statikk.dataminer.model.LolAggregateAnalysis;
+import statikk.domain.entity.TeamComp;
 import statikk.domain.service.ChampBanService;
 import statikk.domain.service.ChampFinalBuildService;
 import statikk.domain.service.ChampMatchupService;
 import statikk.domain.service.ChampSpecWinRateService;
 import statikk.domain.service.ChampSummonerSpellsService;
 import statikk.domain.service.ChampTeamupService;
+import statikk.domain.service.TeamCompService;
 
 /**
  *
@@ -40,6 +45,9 @@ public class LolAggregateAnalysisService {
     @Autowired
     ChampBanService champBanService;
 
+    @Autowired
+    TeamCompService teamCompService;
+
     public void save(LolAggregateAnalysis aggregateAnalysis) {
         champSpecWinRateService.batchInsertOrUpdate(aggregateAnalysis.getChampSpecWinRates().values());
         champMatchupService.batchInsertOrUpdate(aggregateAnalysis.getChampMatchups().values());
@@ -47,6 +55,8 @@ public class LolAggregateAnalysisService {
         champFinalBuildService.batchInsertOrUpdate(aggregateAnalysis.getChampFinalBuilds().values());
         champSummonerSpellsService.batchInsertOrUpdate(aggregateAnalysis.getChampSummonerSpells().values());
         champBanService.batchInsertOrUpdate(aggregateAnalysis.getChampBans().values());
+        teamCompService.batchInsertOrUpdate(aggregateAnalysis.getTeamComps().values());
+      
     }
 
 }

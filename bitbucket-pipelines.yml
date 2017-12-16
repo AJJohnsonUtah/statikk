@@ -44,16 +44,10 @@ pipelines:
           - wget -q -O /usr/bin/xvfb-chrome https://bitbucket.org/atlassian/docker-node-chrome-firefox/raw/ff180e2f16ea8639d4ca4a3abb0017ee23c2836c/scripts/xvfb-chrome
           - ln -sf /usr/bin/xvfb-chrome /usr/bin/google-chrome
           - chmod 755 /usr/bin/google-chrome
-          - apt-get install -y zip
-          - mvn -B verify # -B batch mode makes Maven less verbose
-          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"data-miner/target/data-miner-0.0.1-SNAPSHOT.jar"
-          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"web-api/target/web-api-0.0.1-SNAPSHOT.jar"
+          - mvn -B verify
           - cd web-app
           - npm install
           - npm run test:ci
-          - npm run build:prod
-          - zip -r statikk.zip dist
-          - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/statikk/statikk/downloads" --form files=@"statikk.zip"
 definitions:
   caches:
     node-modules: web-app/node_modules

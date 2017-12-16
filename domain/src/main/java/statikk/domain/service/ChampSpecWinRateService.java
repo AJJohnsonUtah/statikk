@@ -5,13 +5,10 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampSpecWinRateDao;
 import statikk.domain.entity.ChampSpecWinRate;
+import statikk.domain.entity.ChampSpecWinRatePK;
 
 /**
  *
@@ -19,35 +16,10 @@ import statikk.domain.entity.ChampSpecWinRate;
  */
 @Service
 @Transactional
-public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
-
-    @Autowired
-    ChampSpecWinRateDao champSpecWinRateDao;
-
-    @Override
-    public ChampSpecWinRate create(ChampSpecWinRate champSpecWinRate) {
-        try {
-            return champSpecWinRateDao.save(champSpecWinRate);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champSpecWinRate);
-        }
-    }
-
-    @Override
-    public ChampSpecWinRate update(ChampSpecWinRate champSpecWinRate) {
-        return champSpecWinRateDao.save(champSpecWinRate);
-    }
-
-    public void batchInsertOrUpdate(Collection<ChampSpecWinRate> champSpecWinRates) {
-        champSpecWinRates.forEach((champSpecWinRate) -> {
-            champSpecWinRate.combine(champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK()));
-        });
-        champSpecWinRateDao.save(champSpecWinRates);
-    }
+public class ChampSpecWinRateService extends BaseWinRateService<ChampSpecWinRate, ChampSpecWinRatePK> {
 
     @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
-        return champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK());
+        return dao.findOne(champSpecWinRate.getChampSpecWinRatePK());
     }
 }

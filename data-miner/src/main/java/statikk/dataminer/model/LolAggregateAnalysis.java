@@ -20,6 +20,8 @@ import statikk.domain.entity.ChampSummonerSpells;
 import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
+import statikk.domain.entity.TeamComp;
+import statikk.domain.entity.TeamCompPK;
 
 /**
  *
@@ -34,6 +36,7 @@ public class LolAggregateAnalysis {
     private Map<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
     private Map<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells;
     private Map<ChampBanPK, ChampBan> champBans;
+    private Map<TeamCompPK, TeamComp> teamComps;
 
     public LolAggregateAnalysis() {
         champSpecWinRates = new HashMap<>();
@@ -42,6 +45,7 @@ public class LolAggregateAnalysis {
         champFinalBuilds = new HashMap<>();
         champSummonerSpells = new HashMap<>();
         champBans = new HashMap<>();
+        teamComps = new HashMap<>();
     }
 
     public void resetAnalysis() {
@@ -51,6 +55,7 @@ public class LolAggregateAnalysis {
         champFinalBuilds = new HashMap<>();
         champSummonerSpells = new HashMap<>();
         champBans = new HashMap<>();
+        teamComps = new HashMap<>();
     }
 
     public Map<ChampSpecWinRatePK, ChampSpecWinRate> getChampSpecWinRates() {
@@ -75,6 +80,10 @@ public class LolAggregateAnalysis {
 
     public Map<ChampBanPK, ChampBan> getChampBans() {
         return champBans;
+    }
+
+    public Map<TeamCompPK, TeamComp> getTeamComps() {
+        return teamComps;
     }
 
     public void addChampSpecWinRate(ChampSpecWinRate champSpecWinRate) {
@@ -125,4 +134,11 @@ public class LolAggregateAnalysis {
         }
     }
 
+    public void addTeamComp(TeamComp teamComp) {
+        if (teamComps.containsKey(teamComp.getTeamCompPK())) {
+            teamComps.get(teamComp.getTeamCompPK()).combine(teamComp);
+        } else {
+            teamComps.put(teamComp.getTeamCompPK(), teamComp);
+        }
+    }
 }

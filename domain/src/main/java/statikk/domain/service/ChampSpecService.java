@@ -20,7 +20,7 @@ import statikk.domain.entity.ChampSpec;
  */
 @Service
 @Transactional
-public class ChampSpecService extends BaseService<ChampSpec> {
+public class ChampSpecService {
 
     @Autowired
     private ChampSpecDao champSpecDao;
@@ -54,7 +54,6 @@ public class ChampSpecService extends BaseService<ChampSpec> {
         return create(champSpec);
     }
 
-    @Override
     public ChampSpec create(ChampSpec champSpec) {
         try {
             return champSpecDao.save(champSpec);
@@ -62,10 +61,5 @@ public class ChampSpecService extends BaseService<ChampSpec> {
             // This record has already been created; return the existing record.
             return find(champSpec);
         }
-    }
-
-    @Override
-    public ChampSpec update(ChampSpec champSpec) {
-        return champSpecDao.save(champSpec);
     }
 }

@@ -5,13 +5,10 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampTeamupDao;
 import statikk.domain.entity.ChampTeamup;
+import statikk.domain.entity.ChampTeamupPK;
 
 /**
  *
@@ -19,36 +16,11 @@ import statikk.domain.entity.ChampTeamup;
  */
 @Service
 @Transactional
-public class ChampTeamupService extends BaseService<ChampTeamup> {
-
-    @Autowired
-    ChampTeamupDao champTeamupDao;
-
-    @Override
-    public ChampTeamup create(ChampTeamup champTeamup) {
-        try {
-            return champTeamupDao.save(champTeamup);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champTeamup);
-        }
-    }
-
-    @Override
-    public ChampTeamup update(ChampTeamup champTeamup) {
-        return champTeamupDao.save(champTeamup);
-    }
-
-    public void batchInsertOrUpdate(Collection<ChampTeamup> champTeamups) {
-        champTeamups.forEach((champTeamup) -> {
-            champTeamup.combine(champTeamupDao.findOne(champTeamup.getChampTeamupPK()));
-        });
-        champTeamupDao.save(champTeamups);
-    }
+public class ChampTeamupService extends BaseWinRateService<ChampTeamup, ChampTeamupPK> {
 
     @Override
     public ChampTeamup find(ChampTeamup champTeamup) {
-        return champTeamupDao.findOne(champTeamup.getChampTeamupPK());
+        return dao.findOne(champTeamup.getChampTeamupPK());
     }
 
 }

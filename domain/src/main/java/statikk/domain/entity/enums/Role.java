@@ -14,7 +14,17 @@ import java.util.HashMap;
  */
 public enum Role {
 
-    TANK(1), AP_CARRY(2), AD_CARRY(3), AP_TANK(4), AD_TANK(5), HYBRID(6), ASSASSIN(7), AP_ASSASSIN(8), AD_ASSASSIN(9), SUPPORT(10);
+    TANK(1), 
+    AP_CARRY(2), 
+    AD_CARRY(3), 
+    AP_TANK(4), 
+    AD_TANK(5), 
+    HYBRID(6), 
+    ASSASSIN(7), 
+    AP_ASSASSIN(8), 
+    AD_ASSASSIN(9), 
+    SUPPORT(10), 
+    UNDETERMINED(11);
 
     private Integer roleId;
 
@@ -35,8 +45,16 @@ public enum Role {
         }
     }
 
-    @JsonCreator
-    public static Role getRole(Integer id) {
+    public static Role fromId(Integer id) {
         return roleMap.get(id);
+    }
+
+    @JsonCreator
+    public static Role getRole(String id) {
+        char firstChar = id.charAt(0);
+        if (firstChar >= '0' && firstChar <= '9') {
+            return fromId(Integer.parseInt(id));
+        }
+        return Role.valueOf(id);
     }
 }

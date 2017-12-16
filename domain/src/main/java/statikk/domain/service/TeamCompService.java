@@ -9,20 +9,21 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampMatchupDao;
-import statikk.domain.entity.ChampMatchup;
-import statikk.domain.entity.ChampMatchupPK;
+import statikk.domain.dao.TeamCompDao;
+import statikk.domain.entity.TeamComp;
+import statikk.domain.entity.TeamCompPK;
 
 /**
  *
- * @author AJ
+ * @author Grann
  */
 @Service
 @Transactional
-public class ChampMatchupService extends BaseWinRateService<ChampMatchup, ChampMatchupPK> {
+public class TeamCompService extends BaseWinRateService<TeamComp, TeamCompPK> {
 
     @Override
-    public ChampMatchup find(ChampMatchup champMatchup) {
-        return dao.findOne(champMatchup.getChampMatchupPK());
+    public TeamComp find(TeamComp teamComp) {
+        return dao.findOne(teamComp.getTeamCompPK());
     }
+
 }

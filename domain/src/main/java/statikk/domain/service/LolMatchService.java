@@ -25,12 +25,11 @@ import statikk.domain.riotapi.model.Region;
  */
 @Service
 @Transactional
-public class LolMatchService extends BaseService<LolMatch> {
+public class LolMatchService {
 
     @Autowired
     LolMatchDao lolMatchDao;
 
-    @Override
     public LolMatch create(LolMatch lolMatch) {
         try {
             return lolMatchDao.save(lolMatch);
@@ -38,11 +37,6 @@ public class LolMatchService extends BaseService<LolMatch> {
             // This record has already been created; return the existing record.
             return find(lolMatch);
         }
-    }
-
-    @Override
-    public LolMatch update(LolMatch lolMatch) {
-        return lolMatchDao.save(lolMatch);
     }
 
     /**
@@ -88,7 +82,6 @@ public class LolMatchService extends BaseService<LolMatch> {
         lolMatchDao.save(matches);
     }
 
-    @Override
     public LolMatch find(LolMatch lolMatch) {
         return lolMatchDao.find(lolMatch.getMatchId(), lolMatch.getRegion());
     }

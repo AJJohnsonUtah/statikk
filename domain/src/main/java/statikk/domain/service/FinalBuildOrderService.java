@@ -19,38 +19,21 @@ import statikk.domain.entity.FinalBuildOrder;
  */
 @Service
 @Transactional
-public class FinalBuildOrderService extends BaseService<FinalBuildOrder> {
+public class FinalBuildOrderService {
 
     @Autowired
     FinalBuildOrderDao finalBuildOrderDao;
 
-    private final HashMap<FinalBuildOrder, FinalBuildOrder> cachedFinalBuildOrders = new HashMap<>();
-
-    @Override
-    public FinalBuildOrder create(FinalBuildOrder finalBuildOrder) {
-        try {
+    public FinalBuildOrder findOrCreate(FinalBuildOrder finalBuildOrder) {
+        FinalBuildOrder foundFinalBuildOrder = find(finalBuildOrder);
+        if (foundFinalBuildOrder == null) {
             return finalBuildOrderDao.save(finalBuildOrder);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(finalBuildOrder);
+        } else {
+            return foundFinalBuildOrder;
         }
     }
 
-    @Override
-    public FinalBuildOrder update(FinalBuildOrder finalBuildOrder) {
-        return finalBuildOrderDao.save(finalBuildOrder);
-    }
-
-    @Override
     public FinalBuildOrder find(FinalBuildOrder finalBuildOrder) {
         return finalBuildOrderDao.findByBuildOrder(finalBuildOrder.getBuildOrder());
-    }
-
-    public FinalBuildOrder findOrCreate(FinalBuildOrder finalBuildOrder) {
-        FinalBuildOrder foundInstance = find(finalBuildOrder);
-        if (foundInstance != null) {
-            return foundInstance;
-        }
-        return create(finalBuildOrder);
     }
 }
