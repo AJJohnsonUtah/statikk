@@ -6,8 +6,6 @@
 package statikk.dataminer.model;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 import statikk.domain.entity.ChampBan;
@@ -23,6 +21,7 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.TeamComp;
+import statikk.domain.entity.TeamCompPK;
 
 /**
  *
@@ -37,7 +36,7 @@ public class LolAggregateAnalysis {
     private Map<ChampFinalBuildPK, ChampFinalBuild> champFinalBuilds;
     private Map<ChampSummonerSpellsPK, ChampSummonerSpells> champSummonerSpells;
     private Map<ChampBanPK, ChampBan> champBans;
-    private Map<TeamComp, TeamComp> teamComps;
+    private Map<TeamCompPK, TeamComp> teamComps;
 
     public LolAggregateAnalysis() {
         champSpecWinRates = new HashMap<>();
@@ -83,7 +82,7 @@ public class LolAggregateAnalysis {
         return champBans;
     }
 
-    public Map<TeamComp, TeamComp> getTeamComps() {
+    public Map<TeamCompPK, TeamComp> getTeamComps() {
         return teamComps;
     }
 
@@ -136,10 +135,10 @@ public class LolAggregateAnalysis {
     }
 
     public void addTeamComp(TeamComp teamComp) {
-        if (teamComps.containsKey(teamComp)) {
-            teamComps.get(teamComp).combine(teamComp);
+        if (teamComps.containsKey(teamComp.getTeamCompPK())) {
+            teamComps.get(teamComp.getTeamCompPK()).combine(teamComp);
         } else {
-            teamComps.put(teamComp, teamComp);
+            teamComps.put(teamComp.getTeamCompPK(), teamComp);
         }
     }
 }

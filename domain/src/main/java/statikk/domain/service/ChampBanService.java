@@ -19,34 +19,18 @@ import statikk.domain.entity.ChampBan;
  */
 @Service
 @Transactional
-public class ChampBanService extends BaseService<ChampBan> {
+public class ChampBanService {
 
     @Autowired
     ChampBanDao champBanDao;
 
-    @Override
-    public ChampBan create(ChampBan champBan) {
-        try {
-            return champBanDao.save(champBan);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champBan);
-        }
-    }
-
-    @Override
-    public ChampBan update(ChampBan champBan) {
-        return champBanDao.save(champBan);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampBan> champBans) {
         champBans.forEach((champBan) -> {
-            champBan.combine(champBanDao.findOne(champBan.getChampBanPK()));
+            champBan.combine(find(champBan));
         });
         champBanDao.save(champBans);
     }
 
-    @Override
     public ChampBan find(ChampBan champBan) {
         return champBanDao.findOne(champBan.getChampBanPK());
     }

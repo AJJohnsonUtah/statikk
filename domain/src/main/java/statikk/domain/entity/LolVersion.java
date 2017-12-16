@@ -6,6 +6,7 @@
 package statikk.domain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -45,8 +46,8 @@ public class LolVersion implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersion", fetch = FetchType.LAZY)
     private List<ChampSpec> champSpecList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lolVersion", fetch = FetchType.LAZY)
-    private List<TeamComp> teamCompList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamCompPK.lolVersion", fetch = FetchType.LAZY)
+    private List<TeamComp> teamCompList = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 
@@ -68,6 +69,11 @@ public class LolVersion implements Serializable {
         String[] parts = version.split("\\.");
         this.majorVersion = Integer.parseInt(parts[0]);
         this.minorVersion = Integer.parseInt(parts[1]);
+    }
+
+    public LolVersion(LolVersion lolVersion) {
+        this.majorVersion = lolVersion.majorVersion;
+        this.minorVersion = lolVersion.minorVersion;
     }
 
     public LolVersion() {

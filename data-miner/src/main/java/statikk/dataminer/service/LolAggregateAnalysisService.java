@@ -5,9 +5,13 @@
  */
 package statikk.dataminer.service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import statikk.dataminer.model.LolAggregateAnalysis;
+import statikk.domain.entity.TeamComp;
 import statikk.domain.service.ChampBanService;
 import statikk.domain.service.ChampFinalBuildService;
 import statikk.domain.service.ChampMatchupService;
@@ -52,7 +56,7 @@ public class LolAggregateAnalysisService {
         champSummonerSpellsService.batchInsertOrUpdate(aggregateAnalysis.getChampSummonerSpells().values());
         champBanService.batchInsertOrUpdate(aggregateAnalysis.getChampBans().values());
         teamCompService.batchInsertOrUpdate(aggregateAnalysis.getTeamComps().values());
-
+      
     }
 
 }

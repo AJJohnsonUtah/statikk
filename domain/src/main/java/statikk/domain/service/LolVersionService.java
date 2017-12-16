@@ -20,15 +20,12 @@ import statikk.domain.entity.LolVersion;
  * @author AJ
  */
 @Service
-@Transactional
-public class LolVersionService extends BaseService<LolVersion> {
+public class LolVersionService {
 
     @Autowired
     private LolVersionDao lolVersionDao;
 
-    private final HashMap<LolVersion, LolVersion> cachedLolVersions = new HashMap<>();
-
-    @Override
+    @Transactional
     public LolVersion create(LolVersion lolVersion) {
         try {
             return lolVersionDao.save(lolVersion);
@@ -38,16 +35,11 @@ public class LolVersionService extends BaseService<LolVersion> {
         }
     }
 
-    @Override
-    public LolVersion update(LolVersion lolVersion) {
-        return lolVersionDao.save(lolVersion);
-    }
-
-    @Override
     public LolVersion find(LolVersion lolVersion) {
         return lolVersionDao.findByMajorVersionAndMinorVersion(lolVersion.getMajorVersion(), lolVersion.getMinorVersion());
     }
 
+    @Transactional
     public LolVersion findOrCreate(LolVersion lolVersion) {
         LolVersion foundInstance = find(lolVersion);
         if (foundInstance != null) {
@@ -55,9 +47,9 @@ public class LolVersionService extends BaseService<LolVersion> {
         }
         return create(lolVersion);
     }
-    
+
     public List<String> findVersionsWithData() {
-        return lolVersionDao.findVersionsWithData().stream().map(v ->  v.getMajorVersion() + "." + v.getMinorVersion()).collect(Collectors.toList());
+        return lolVersionDao.findVersionsWithData().stream().map(v -> v.getMajorVersion() + "." + v.getMinorVersion()).collect(Collectors.toList());
     }
 
     public Iterable<LolVersion> findAll() {

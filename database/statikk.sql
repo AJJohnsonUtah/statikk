@@ -159,11 +159,11 @@ CREATE TABLE `lol_version` (
 --
 
 CREATE TABLE `team_comp` (
-  `team_comp_id` bigint(20) NOT NULL,
   `ally_team_comp` bigint(20) NOT NULL,
   `enemy_team_comp` bigint(20) NOT NULL,
   `match_type` int(11) NOT NULL,
   `lol_version_id` int(11) NOT NULL,
+  `region` int(11) NOT NULL,
   `win_count` bigint(20) NOT NULL,
   `played_count` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -249,8 +249,7 @@ ALTER TABLE `lol_version`
 -- Indexes for table `team_comp`
 --
 ALTER TABLE `team_comp`
-  ADD PRIMARY KEY (`team_comp_id`),
-  ADD UNIQUE KEY `unique_team_comp` (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`);
+  ADD PRIMARY KEY (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`,`region`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -276,11 +275,6 @@ ALTER TABLE `lol_version`
 --
 ALTER TABLE `lol_match`
   MODIFY `lol_match_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT for table `lol_match`
---
-ALTER TABLE `team_comp`
-  MODIFY `team_comp_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- Constraints for dumped tables
 --
