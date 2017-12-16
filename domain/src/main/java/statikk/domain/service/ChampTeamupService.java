@@ -5,13 +5,10 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampTeamupDao;
 import statikk.domain.entity.ChampTeamup;
+import statikk.domain.entity.ChampTeamupPK;
 
 /**
  *
@@ -19,20 +16,11 @@ import statikk.domain.entity.ChampTeamup;
  */
 @Service
 @Transactional
-public class ChampTeamupService extends BaseService<ChampTeamup> {
+public class ChampTeamupService extends BaseWinRateService<ChampTeamup, ChampTeamupPK> {
 
-    @Autowired
-    ChampTeamupDao champTeamupDao;
-
-    public void batchInsertOrUpdate(Collection<ChampTeamup> champTeamups) {
-        champTeamups.forEach((champTeamup) -> {
-            champTeamup.combine(find(champTeamup));
-        });
-        champTeamupDao.save(champTeamups);
-    }
-
+    @Override
     public ChampTeamup find(ChampTeamup champTeamup) {
-        return champTeamupDao.findOne(champTeamup.getChampTeamupPK());
+        return dao.findOne(champTeamup.getChampTeamupPK());
     }
 
 }

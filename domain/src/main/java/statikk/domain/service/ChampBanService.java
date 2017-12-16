@@ -19,7 +19,7 @@ import statikk.domain.entity.ChampBan;
  */
 @Service
 @Transactional
-public class ChampBanService extends BaseService<ChampBan> {
+public class ChampBanService {
 
     @Autowired
     ChampBanDao champBanDao;

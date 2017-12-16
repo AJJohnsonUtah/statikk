@@ -25,7 +25,7 @@ import statikk.domain.riotapi.model.Region;
  */
 @Service
 @Transactional
-public class LolMatchService extends BaseService<LolMatch> {
+public class LolMatchService {
 
     @Autowired
     LolMatchDao lolMatchDao;
@@ -38,7 +38,7 @@ public class LolMatchService extends BaseService<LolMatch> {
             return find(lolMatch);
         }
     }
-    
+
     /**
      * Inserts any matches that did not already exist in the database
      *

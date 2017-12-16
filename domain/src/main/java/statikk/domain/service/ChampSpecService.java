@@ -20,7 +20,7 @@ import statikk.domain.entity.ChampSpec;
  */
 @Service
 @Transactional
-public class ChampSpecService extends BaseService<ChampSpec> {
+public class ChampSpecService {
 
     @Autowired
     private ChampSpecDao champSpecDao;

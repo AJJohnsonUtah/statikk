@@ -19,12 +19,10 @@ import statikk.domain.entity.FinalBuildOrder;
  */
 @Service
 @Transactional
-public class FinalBuildOrderService extends BaseService<FinalBuildOrder> {
+public class FinalBuildOrderService {
 
     @Autowired
     FinalBuildOrderDao finalBuildOrderDao;
-
-    private final HashMap<FinalBuildOrder, FinalBuildOrder> cachedFinalBuildOrders = new HashMap<>();
 
     public FinalBuildOrder findOrCreate(FinalBuildOrder finalBuildOrder) {
         FinalBuildOrder foundFinalBuildOrder = find(finalBuildOrder);

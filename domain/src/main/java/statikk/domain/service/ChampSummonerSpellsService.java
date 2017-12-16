@@ -7,11 +7,11 @@ package statikk.domain.service;
 
 import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSummonerSpellsDao;
 import statikk.domain.entity.ChampSummonerSpells;
+import statikk.domain.entity.ChampSummonerSpellsPK;
 
 /**
  *
@@ -19,20 +19,11 @@ import statikk.domain.entity.ChampSummonerSpells;
  */
 @Service
 @Transactional
-public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells> {
+public class ChampSummonerSpellsService extends BaseWinRateService<ChampSummonerSpells, ChampSummonerSpellsPK> {
 
-    @Autowired
-    ChampSummonerSpellsDao champSummonerSpellsDao;
-
-    public void batchInsertOrUpdate(Collection<ChampSummonerSpells> champSummonerSpells) {
-        champSummonerSpells.forEach((champSummonerSpell) -> {
-            champSummonerSpell.combine(find(champSummonerSpell));
-        });
-        champSummonerSpellsDao.save(champSummonerSpells);
-    }
-
+    @Override
     public ChampSummonerSpells find(ChampSummonerSpells champSummonerSpells) {
-        return champSummonerSpellsDao.findOne(champSummonerSpells.getChampSummonerSpellsPK());
+        return dao.findOne(champSummonerSpells.getChampSummonerSpellsPK());
     }
 
 }

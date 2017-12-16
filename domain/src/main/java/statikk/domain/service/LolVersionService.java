@@ -20,12 +20,10 @@ import statikk.domain.entity.LolVersion;
  * @author AJ
  */
 @Service
-public class LolVersionService extends BaseService<LolVersion> {
+public class LolVersionService {
 
     @Autowired
     private LolVersionDao lolVersionDao;
-
-    private final HashMap<LolVersion, LolVersion> cachedLolVersions = new HashMap<>();
 
     @Transactional
     public LolVersion create(LolVersion lolVersion) {

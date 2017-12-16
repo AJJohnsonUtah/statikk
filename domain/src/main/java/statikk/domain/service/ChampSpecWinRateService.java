@@ -5,13 +5,10 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampSpecWinRateDao;
 import statikk.domain.entity.ChampSpecWinRate;
+import statikk.domain.entity.ChampSpecWinRatePK;
 
 /**
  *
@@ -19,19 +16,10 @@ import statikk.domain.entity.ChampSpecWinRate;
  */
 @Service
 @Transactional
-public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
+public class ChampSpecWinRateService extends BaseWinRateService<ChampSpecWinRate, ChampSpecWinRatePK> {
 
-    @Autowired
-    ChampSpecWinRateDao champSpecWinRateDao;
-
-    public void batchInsertOrUpdate(Collection<ChampSpecWinRate> champSpecWinRates) {
-        champSpecWinRates.forEach((champSpecWinRate) -> {
-            champSpecWinRate.combine(find(champSpecWinRate));
-        });
-        champSpecWinRateDao.save(champSpecWinRates);
-    }
-
+    @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
-        return champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK());
+        return dao.findOne(champSpecWinRate.getChampSpecWinRatePK());
     }
 }

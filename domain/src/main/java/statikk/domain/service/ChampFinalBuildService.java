@@ -5,13 +5,10 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.ChampFinalBuildDao;
 import statikk.domain.entity.ChampFinalBuild;
+import statikk.domain.entity.ChampFinalBuildPK;
 
 /**
  *
@@ -19,20 +16,11 @@ import statikk.domain.entity.ChampFinalBuild;
  */
 @Service
 @Transactional
-public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
+public class ChampFinalBuildService extends BaseWinRateService<ChampFinalBuild, ChampFinalBuildPK> {
 
-    @Autowired
-    ChampFinalBuildDao champFinalBuildDao;
-
-    public void batchInsertOrUpdate(Collection<ChampFinalBuild> champFinalBuilds) {
-        champFinalBuilds.forEach((champFinalBuild) -> {
-            champFinalBuild.combine(find(champFinalBuild));
-        });
-        champFinalBuildDao.save(champFinalBuilds);
-    }
-
+    @Override
     public ChampFinalBuild find(ChampFinalBuild champFinalBuild) {
-        return champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK());
+        return dao.findOne(champFinalBuild.getChampFinalBuildPK());
     }
 
 }
