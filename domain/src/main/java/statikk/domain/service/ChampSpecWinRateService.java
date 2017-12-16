@@ -24,29 +24,13 @@ public class ChampSpecWinRateService extends BaseService<ChampSpecWinRate> {
     @Autowired
     ChampSpecWinRateDao champSpecWinRateDao;
 
-    @Override
-    public ChampSpecWinRate create(ChampSpecWinRate champSpecWinRate) {
-        try {
-            return champSpecWinRateDao.save(champSpecWinRate);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champSpecWinRate);
-        }
-    }
-
-    @Override
-    public ChampSpecWinRate update(ChampSpecWinRate champSpecWinRate) {
-        return champSpecWinRateDao.save(champSpecWinRate);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampSpecWinRate> champSpecWinRates) {
         champSpecWinRates.forEach((champSpecWinRate) -> {
-            champSpecWinRate.combine(champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK()));
+            champSpecWinRate.combine(find(champSpecWinRate));
         });
         champSpecWinRateDao.save(champSpecWinRates);
     }
 
-    @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
         return champSpecWinRateDao.findOne(champSpecWinRate.getChampSpecWinRatePK());
     }

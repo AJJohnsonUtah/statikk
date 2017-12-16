@@ -24,29 +24,13 @@ public class ChampMatchupService extends BaseService<ChampMatchup> {
     @Autowired
     ChampMatchupDao champMatchupDao;
 
-    @Override
-    public ChampMatchup create(ChampMatchup champMatchup) {
-        try {
-            return champMatchupDao.save(champMatchup);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champMatchup);
-        }
-    }
-
-    @Override
-    public ChampMatchup update(ChampMatchup champMatchup) {
-        return champMatchupDao.save(champMatchup);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampMatchup> champMatchups) {
         champMatchups.forEach((champMatchup) -> {
-            champMatchup.combine(champMatchupDao.findOne(champMatchup.getChampMatchupPK()));
+            champMatchup.combine(find(champMatchup));
         });
         champMatchupDao.save(champMatchups);
     }
 
-    @Override
     public ChampMatchup find(ChampMatchup champMatchup) {
         return champMatchupDao.findOne(champMatchup.getChampMatchupPK());
     }

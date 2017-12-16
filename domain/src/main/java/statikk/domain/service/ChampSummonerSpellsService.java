@@ -24,29 +24,13 @@ public class ChampSummonerSpellsService extends BaseService<ChampSummonerSpells>
     @Autowired
     ChampSummonerSpellsDao champSummonerSpellsDao;
 
-    @Override
-    public ChampSummonerSpells create(ChampSummonerSpells champSummonerSpells) {
-        try {
-            return champSummonerSpellsDao.save(champSummonerSpells);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champSummonerSpells);
-        }
-    }
-
-    @Override
-    public ChampSummonerSpells update(ChampSummonerSpells champSummonerSpells) {
-        return champSummonerSpellsDao.save(champSummonerSpells);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampSummonerSpells> champSummonerSpells) {
         champSummonerSpells.forEach((champSummonerSpell) -> {
-            champSummonerSpell.combine(champSummonerSpellsDao.findOne(champSummonerSpell.getChampSummonerSpellsPK()));
+            champSummonerSpell.combine(find(champSummonerSpell));
         });
         champSummonerSpellsDao.save(champSummonerSpells);
     }
 
-    @Override
     public ChampSummonerSpells find(ChampSummonerSpells champSummonerSpells) {
         return champSummonerSpellsDao.findOne(champSummonerSpells.getChampSummonerSpellsPK());
     }

@@ -30,7 +30,6 @@ public class LolMatchService extends BaseService<LolMatch> {
     @Autowired
     LolMatchDao lolMatchDao;
 
-    @Override
     public LolMatch create(LolMatch lolMatch) {
         try {
             return lolMatchDao.save(lolMatch);
@@ -39,12 +38,7 @@ public class LolMatchService extends BaseService<LolMatch> {
             return find(lolMatch);
         }
     }
-
-    @Override
-    public LolMatch update(LolMatch lolMatch) {
-        return lolMatchDao.save(lolMatch);
-    }
-
+    
     /**
      * Inserts any matches that did not already exist in the database
      *
@@ -88,7 +82,6 @@ public class LolMatchService extends BaseService<LolMatch> {
         lolMatchDao.save(matches);
     }
 
-    @Override
     public LolMatch find(LolMatch lolMatch) {
         return lolMatchDao.find(lolMatch.getMatchId(), lolMatch.getRegion());
     }

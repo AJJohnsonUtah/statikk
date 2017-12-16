@@ -24,29 +24,13 @@ public class ChampTeamupService extends BaseService<ChampTeamup> {
     @Autowired
     ChampTeamupDao champTeamupDao;
 
-    @Override
-    public ChampTeamup create(ChampTeamup champTeamup) {
-        try {
-            return champTeamupDao.save(champTeamup);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champTeamup);
-        }
-    }
-
-    @Override
-    public ChampTeamup update(ChampTeamup champTeamup) {
-        return champTeamupDao.save(champTeamup);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampTeamup> champTeamups) {
         champTeamups.forEach((champTeamup) -> {
-            champTeamup.combine(champTeamupDao.findOne(champTeamup.getChampTeamupPK()));
+            champTeamup.combine(find(champTeamup));
         });
         champTeamupDao.save(champTeamups);
     }
 
-    @Override
     public ChampTeamup find(ChampTeamup champTeamup) {
         return champTeamupDao.findOne(champTeamup.getChampTeamupPK());
     }

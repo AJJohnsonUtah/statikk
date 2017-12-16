@@ -24,29 +24,13 @@ public class ChampFinalBuildService extends BaseService<ChampFinalBuild> {
     @Autowired
     ChampFinalBuildDao champFinalBuildDao;
 
-    @Override
-    public ChampFinalBuild create(ChampFinalBuild champFinalBuild) {
-        try {
-            return champFinalBuildDao.save(champFinalBuild);
-        } catch (ConstraintViolationException e) {
-            // This record has already been created; return the existing record.
-            return find(champFinalBuild);
-        }
-    }
-
-    @Override
-    public ChampFinalBuild update(ChampFinalBuild champFinalBuild) {
-        return champFinalBuildDao.save(champFinalBuild);
-    }
-
     public void batchInsertOrUpdate(Collection<ChampFinalBuild> champFinalBuilds) {
         champFinalBuilds.forEach((champFinalBuild) -> {
-            champFinalBuild.combine(champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK()));
+            champFinalBuild.combine(find(champFinalBuild));
         });
         champFinalBuildDao.save(champFinalBuilds);
     }
 
-    @Override
     public ChampFinalBuild find(ChampFinalBuild champFinalBuild) {
         return champFinalBuildDao.findOne(champFinalBuild.getChampFinalBuildPK());
     }
