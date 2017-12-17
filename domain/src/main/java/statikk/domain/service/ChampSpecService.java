@@ -7,7 +7,6 @@ package statikk.domain.service;
 
 import java.util.HashMap;
 import javax.transaction.Transactional;
-import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

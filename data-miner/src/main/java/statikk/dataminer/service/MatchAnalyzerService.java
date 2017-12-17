@@ -243,7 +243,7 @@ public class MatchAnalyzerService {
 
     private void analyzeTeamComps(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
         if (match.getBlueTeam() == null || match.getBlueTeam().isEmpty()
-                || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty()) {
+                || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty() || match.getTimeline() == null) {
             return;
         }
         TeamCompPK blueTeamCompPK = new TeamCompPK(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());

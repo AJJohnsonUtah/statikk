@@ -5,11 +5,8 @@
  */
 package statikk.domain.service;
 
-import java.util.Collection;
 import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import statikk.domain.dao.TeamCompDao;
 import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.TeamCompPK;
 

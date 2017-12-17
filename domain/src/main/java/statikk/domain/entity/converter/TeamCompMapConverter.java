@@ -5,7 +5,6 @@
  */
 package statikk.domain.entity.converter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.AttributeConverter;

@@ -235,7 +235,13 @@ public class RiotApiService {
      * @param limitHeader
      */
     public void handleLimitHeader(String limitHeader) {
-        int secondsToWait = Integer.parseInt(limitHeader);
+        int secondsToWait = 600;
+        try {
+            secondsToWait = Integer.parseInt(limitHeader);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(RiotApiService.class
+                    .getName()).log(Level.WARNING, "Issue reading header: {0}. Sleeping for some time to avoid angering Riot", limitHeader);
+        }
 
         Logger.getLogger(RiotApiService.class
                 .getName()).log(Level.INFO, "Waiting {0} seconds before making next API request.", secondsToWait);

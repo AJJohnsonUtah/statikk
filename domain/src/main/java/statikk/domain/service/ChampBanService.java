@@ -7,7 +7,6 @@ package statikk.domain.service;
 
 import java.util.Collection;
 import javax.transaction.Transactional;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampBanDao;
