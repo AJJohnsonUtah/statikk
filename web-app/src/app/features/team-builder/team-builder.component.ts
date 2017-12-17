@@ -1,20 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { StaticDataService } from '../../core/services/static-data.service';
+import { StaticChampion } from '../../shared/models/riot-api-types/static-champion';
 
 @Component({
   selector: 'app-team-builder',
   templateUrl: './team-builder.component.html',
-  styleUrls: ['./team-builder.component.css']
+  styleUrls: ['./team-builder.component.scss']
 })
 export class TeamBuilderComponent implements OnInit {
 
-  playersPerTeam: number = 5;
-  currentPick: number = 0;
+  playersPerTeam = 5;
+  currentPick = 0;
   teamAChampions: number[];
   teamBChampions: number[];
+  staticChampionIds: string[] = [];
 
-  constructor() { }
+  constructor(private staticDataService: StaticDataService) { }
 
   ngOnInit() {
+    this.staticDataService.getChampions().subscribe((staticChampions) => {
+      this.staticChampionIds = Object.keys(staticChampions.data);
+    });
     this.teamAChampions = new Array<number>(5);
     this.teamBChampions = new Array<number>(5);
   }

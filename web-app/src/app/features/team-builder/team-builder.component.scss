@@ -1,0 +1,47 @@
+@import '../../../variables';
+
+.team-wrapper {
+    width: 210px;
+}
+
+#central-content {
+    flex-grow: 1;
+}
+
+#team-builder-body {
+    height: 750px;
+}
+
+.champion-pick-wrapper {
+    height: 125px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 7.5px;
+    text-align: center;
+}
+
+.champion-img-wrapper {
+    background-color: rgba(0,0,0,0.05);
+    height: 75%;
+}
+
+.role-info-label {
+    height: 25%;
+}
+
+#team-a-wrapper .champion-pick-wrapper {
+    border-left: 15px solid $accent-color;    
+}
+
+#team-b-wrapper .champion-pick-wrapper {
+    border-right: 15px solid $accent-color;    
+}
+
+#champion-selection-wrapper, #champion-suggestion-wrapper {
+    height: 50%;
+    overflow-y: scroll;
+}
+
+.champion-selection-tile {
+    height: 50px;
+    margin: 2px;
+}

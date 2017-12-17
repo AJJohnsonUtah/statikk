@@ -56,8 +56,7 @@
     <tr class="champion-row" *ngFor="let champion of championWinRates | myChampionSort: sortColumn:reversed:staticChampions">
       <td>
         <a [routerLink]="champion.championId">
-          <img class="champion-tile-img" [src]="'http://ddragon.leagueoflegends.com/cdn/' + versions[0] + '.1/img/champion/' + staticChampions[champion.championId].image.full"
-          />
+          <app-champion-image class="champion-tile-img" [championId]="champion.championId"></app-champion-image>
           <span class="champion-name">
             {{staticChampions[champion.championId].name}}
           </span>

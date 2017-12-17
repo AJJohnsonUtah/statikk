@@ -2,18 +2,34 @@
   <div id="team-builder-header">
     <h1>Team Builder</h1>
   </div>
-  <div id="team-builder-body" class="row">
-    <div id="team-a-wrapper" class="team-wrapper col-md-2">
-      Team A goes here
-      <div class="champion-pick-wrapper" *ngFor="let championPickA of teamAChampions">Heya</div>
+  <div id="team-builder-body" class="d-flex flex-row">
+    <div id="team-a-wrapper" class="team-wrapper p-1 d-flex flex-column justify-content-around">
+      <div class="champion-pick-wrapper p-2" *ngFor="let championPickA of teamAChampions; let i=index">
+        <div class="champion-img-wrapper p-2">
+          <app-champion-image [championId]="i+6"></app-champion-image>
+        </div>
+        <div class="role-info-label p-2"> Mid</div>
+      </div>
     </div>
-    <div id="central-content" class="col-md-8">
-      Champions go here?
-    </div>
-    <div id="team-b-wrapper" class="team-wrapper col-md-2">
-      Team B goes here.
-      <div class="champion-pick-wrapper" *ngFor="let championPickB of teamAChampions">Heya</div>
+    <div id="central-content" class="p-2 d-flex flex-column justify-content-between">
+      <div id="champion-selection-wrapper">
+        <h2>Champion Selection</h2>
+        <div class="d-flex flex-wrap">
+          <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds" [championId]="championId"></app-champion-image>
+        </div>
+      </div>
+      <div id="champion-suggestion-wrapper">
+        <h2>Champion Suggestions</h2>
+      </div>
 
+    </div>
+    <div id="team-b-wrapper" class="team-wrapper p-2 d-flex flex-column justify-content-around">
+      <div class="champion-pick-wrapper p-2" *ngFor="let championPickB of teamAChampions; let i=index">
+        <div class="champion-img-wrapper p-2">
+          <app-champion-image [championId]="i+1"></app-champion-image>
+        </div>
+        <div class="role-info-label p-2"> Mid</div>
+      </div>
     </div>
   </div>
 </div>
