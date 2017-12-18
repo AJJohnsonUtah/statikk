@@ -1,10 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeamBuilderComponent } from './team-builder.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StaticDataService } from '../../core/services/static-data.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config';
+import { of } from 'rxjs/observable/of';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
@@ -16,11 +17,15 @@ describe('TeamBuilderComponent', () => {
     championId: number;
   }
 
-  class MockStaticDataService { }
+  class MockStaticDataService {
+    getChampions() {
+      return of({ data: { '1': {}, '2': {} } });
+    }
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule],
+      imports: [NgbModule.forRoot()],
       declarations: [TeamBuilderComponent, AppChampionImageMockComponent],
       providers: [{ provide: StaticDataService, useClass: MockStaticDataService }]
     })

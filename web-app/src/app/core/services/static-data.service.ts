@@ -12,24 +12,20 @@ import { RealmDto } from '../../shared/models/riot-api-types/realm-dto';
 @Injectable()
 export class StaticDataService extends HttpService {
 
-  private realmsData: Observable<RealmDto>;
-
   public getChampion(championId: number): Observable<StaticChampionDetail> {
     const championUrl: string = this.apiRoot + '/static-data/champion/' + championId;
-    return this.httpClient.get<StaticChampionDetail>(championUrl);
+    return this.httpCacheService.get<StaticChampionDetail>(championUrl);
   }
 
-  public getChampions(): Observable<{ data: Map<string, StaticChampion> }> {
+  public getChampions(): Observable<Map<string, StaticChampion>> {
     const championsUrl: string = this.apiRoot + '/static-data/champions';
-    return this.httpClient.get<{ data: Map<string, StaticChampion> }>(championsUrl);
-  }
-
-  public loadRealmsData(): void {
-    const realmsUrl: string = this.apiRoot + '/static-data/realms';
-    this.realmsData = this.httpClient.get<RealmDto>(realmsUrl);
+    return this.httpCacheService.get<{ data: Map<string, StaticChampion> }>(championsUrl).map((response) => {
+      return response.data;
+    });
   }
 
   public getRealmsData(): Observable<RealmDto> {
-    return this.realmsData;
+    const realmsUrl: string = this.apiRoot + '/static-data/realms';
+    return this.httpCacheService.get<RealmDto>(realmsUrl);
   }
 }

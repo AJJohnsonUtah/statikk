@@ -5,6 +5,7 @@ import { ChampionWinRateService } from './services/champion-win-rate.service';
 import { SummonerDataService } from './services/summoner-data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiStatusService } from './services/api-status.service';
+import { HttpCacheService } from './services/http-cache.service';
 
 
 @NgModule({
@@ -13,6 +14,6 @@ import { ApiStatusService } from './services/api-status.service';
     HttpClientModule
   ],
   declarations: [],
-  providers: [ApiStatusService, StaticDataService, ChampionWinRateService, SummonerDataService]
+  providers: [ApiStatusService, StaticDataService, ChampionWinRateService, SummonerDataService, HttpCacheService]
 })
 export class CoreModule { }

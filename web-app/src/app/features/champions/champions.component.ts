@@ -79,7 +79,7 @@ export class ChampionsComponent implements OnInit {
         this.staticDataService
             .getChampions()
             .subscribe((staticChampionsData) => {
-                this.staticChampions = staticChampionsData.data;
+                this.staticChampions = staticChampionsData;
             });
     }
 

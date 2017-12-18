@@ -19,7 +19,7 @@ export class TeamBuilderComponent implements OnInit {
 
   ngOnInit() {
     this.staticDataService.getChampions().subscribe((staticChampions) => {
-      this.staticChampionIds = Object.keys(staticChampions.data);
+      this.staticChampionIds = Object.keys(staticChampions);
     });
     this.teamAChampions = new Array<number>(5);
     this.teamBChampions = new Array<number>(5);

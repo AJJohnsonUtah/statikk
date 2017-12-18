@@ -12,42 +12,48 @@
       </div>
     </div>
     <div id="central-content" class="p-2 d-flex flex-column justify-content-between">
-      <div id="champion-selection-wrapper">
-        <h2>Champion Selection</h2>
-        <div class="d-flex flex-wrap">
-          <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds" [championId]="championId"></app-champion-image>
-        </div>
+      <h2>Champion Selection</h2>
+      <div id="champion-selection-body" class="d-flex flex-wrap">
+        <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds" [championId]="championId"></app-champion-image>
       </div>
-      <div id="champion-suggestion-wrapper">
-        <h2>Champion Suggestions</h2>
-        <div class="d-flex flex-row justify-content-between">
-          <div id="best-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
-            <ngb-rating [rate]="5" [max]="5" [readonly]="true"></ngb-rating>
+      <h2>Champion Suggestions</h2>
+      <div id="champion-suggestion-body" class="d-flex flex-row justify-content-between">
+        <div id="best-champ-suggestions">
+          <ngb-rating [rate]="5" [max]="5" [readonly]="true"></ngb-rating>
+          <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i >= 5"></app-champion-image>
+              [hidden]="i > 7"></app-champion-image>
           </div>
-          <div id="better-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
-            <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>
-            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i >= 5"></app-champion-image>
-          </div>
-          <div id="average-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
-            <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>
-            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i >= 5"></app-champion-image>
-          </div>
-          <div id="worse-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
-            <ngb-rating [rate]="2" [max]="5" [readonly]="true"></ngb-rating>
-            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i >= 5"></app-champion-image>
-          </div>
-          <div id="worst-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
-            <ngb-rating [rate]="1" [max]="5" [readonly]="true"></ngb-rating>
-            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i >= 5"></app-champion-image>
-          </div>
-
         </div>
+        <div id="better-champ-suggestions">
+          <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>
+          <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i > 46 || i <= 7"></app-champion-image>
+          </div>
+        </div>
+        <div id="average-champ-suggestions">
+          <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>
+          <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i > 90 || i <= 46"></app-champion-image>
+          </div>
+        </div>
+        <div id="worse-champ-suggestions">
+          <ngb-rating [rate]="2" [max]="5" [readonly]="true"></ngb-rating>
+          <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i > 118 || i <= 90"></app-champion-image>
+          </div>
+        </div>
+        <div id="worst-champ-suggestions">
+          <ngb-rating [rate]="1" [max]="5" [readonly]="true"></ngb-rating>
+          <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i <= 118"></app-champion-image>
+          </div>
+        </div>
+
       </div>
 
     </div>

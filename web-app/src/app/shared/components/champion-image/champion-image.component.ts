@@ -19,7 +19,7 @@ export class ChampionImageComponent implements OnInit {
 
   ngOnInit() {
     this.staticDataService.getChampions().subscribe((staticChampions) => {
-      this.staticChampions = staticChampions.data;
+      this.staticChampions = staticChampions;
     });
     this.staticDataService.getRealmsData().subscribe((realmsData) => {
       this.version = realmsData.v;

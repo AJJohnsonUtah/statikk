@@ -4,17 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StaticDataService } from './core/services/static-data.service';
 describe('AppComponent', () => {
 
-  class StaticDataServiceStub {
-    loadRealmsData() { }
-  }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
       imports: [RouterTestingModule],
-      providers: [{ provide: StaticDataService, useClass: StaticDataServiceStub }]
     }).compileComponents();
   }));
   it('should create the app', async(() => {
