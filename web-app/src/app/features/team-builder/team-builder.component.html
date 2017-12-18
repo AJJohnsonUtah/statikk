@@ -20,6 +20,34 @@
       </div>
       <div id="champion-suggestion-wrapper">
         <h2>Champion Suggestions</h2>
+        <div class="d-flex flex-row justify-content-between">
+          <div id="best-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
+            <ngb-rating [rate]="5" [max]="5" [readonly]="true"></ngb-rating>
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i >= 5"></app-champion-image>
+          </div>
+          <div id="better-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
+            <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i >= 5"></app-champion-image>
+          </div>
+          <div id="average-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
+            <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i >= 5"></app-champion-image>
+          </div>
+          <div id="worse-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
+            <ngb-rating [rate]="2" [max]="5" [readonly]="true"></ngb-rating>
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i >= 5"></app-champion-image>
+          </div>
+          <div id="worst-champ-suggestions" class="d-flex flex-column champion-set-wrapper">
+            <ngb-rating [rate]="1" [max]="5" [readonly]="true"></ngb-rating>
+            <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
+              [hidden]="i >= 5"></app-champion-image>
+          </div>
+
+        </div>
       </div>
 
     </div>

@@ -1,16 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeamBuilderComponent } from './team-builder.component';
+import { Component, Input } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StaticDataService } from '../../core/services/static-data.service';
+import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
   let fixture: ComponentFixture<TeamBuilderComponent>;
 
+  @Component({ selector: 'app-champion-image', template: '' })
+  class AppChampionImageMockComponent {
+    @Input()
+    championId: number;
+  }
+
+  class MockStaticDataService { }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeamBuilderComponent ]
+      imports: [NgbModule],
+      declarations: [TeamBuilderComponent, AppChampionImageMockComponent],
+      providers: [{ provide: StaticDataService, useClass: MockStaticDataService }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
