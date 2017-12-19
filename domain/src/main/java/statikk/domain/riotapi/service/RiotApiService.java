@@ -204,7 +204,7 @@ public class RiotApiService {
                 case FORBIDDEN:
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.INFO, "403; Riot API Key has likely expired! {0}", url);
-                    return null;
+                    throw ex;
                 default:
                     Logger.getLogger(RiotApiService.class
                             .getName()).log(Level.WARNING, "Client exception fetching data from " + url + ".", ex);

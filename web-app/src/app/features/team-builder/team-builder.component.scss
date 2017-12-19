@@ -50,22 +50,22 @@
 }
 
 
-#best-champ-suggestions ngb-rating {
-    background-color: rgba(10,255,10, 0.25);
+#best-champ-suggestions .champion-set-wrapper {
+    background-color: rgba(10,255,10, 0.65);
 }
 
-#better-champ-suggestions ngb-rating {
-    background-color: rgba(80,175,10, 0.25);
+#better-champ-suggestions .champion-set-wrapper {
+    background-color: rgba(80,175,10, 0.65);
 }
 
-#average-champ-suggestions ngb-rating {
-    background-color: rgba(125,125,10, 0.25);
+#average-champ-suggestions .champion-set-wrapper {
+    background-color: rgba(175,175,10, 0.65);
 }
 
-#worse-champ-suggestions ngb-rating {
-    background-color: rgba(175,80,10, 0.25);
+#worse-champ-suggestions .champion-set-wrapper {
+    background-color: rgba(175,80,10, 0.65);
 }
 
-#worst-champ-suggestions ngb-rating {
-    background-color: rgba(255,10,10, 0.25);
+#worst-champ-suggestions .champion-set-wrapper {
+    background-color: rgba(255,10,10, 0.65);
 }

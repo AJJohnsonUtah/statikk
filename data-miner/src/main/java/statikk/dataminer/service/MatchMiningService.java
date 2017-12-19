@@ -7,6 +7,7 @@ package statikk.dataminer.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -65,7 +66,16 @@ public class MatchMiningService {
                 continue;
             }
             for (MatchReferenceDto game : recentGames.getMatches()) {
-                if (game == null || game.getQueue() == null || game.getQueue().equals(QueueType.CUSTOM) || alreadyMinedMatches.contains(game.getGameId()) || isGameTooOld(game)) {
+                if (game == null || game.getQueue() == null
+                        || EnumSet.of(QueueType.CUSTOM,
+                                QueueType.COOP_VS_AI_BEGINNER_3x3,
+                                QueueType.COOP_VS_AI_BEGINNER_5x5,
+                                QueueType.COOP_VS_AI_INTERMEDIATE_3x3,
+                                QueueType.COOP_VS_AI_INTERMEDIATE_5x5,
+                                QueueType.COOP_VS_AI_INTRO_3x3,
+                                QueueType.COOP_VS_AI_INTRO_5x5).contains(game.getQueue())
+                        || alreadyMinedMatches.contains(game.getGameId())
+                        || isGameTooOld(game)) {
                     continue;
                 }
                 alreadyMinedMatches.add(game.getGameId());

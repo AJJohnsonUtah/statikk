@@ -126,7 +126,8 @@ public enum QueueType {
     DOOM_BOTS(960, "Doom Bots games"),
     STAR_GUARDIAN_NORMAL(980, "Star Guardian Invasion: Normal games"),
     STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games"),
-    PROJECT(1000, "Overdrive Project games");
+    PROJECT(1000, "Overdrive Project games"),
+    SNOW_ARURF_5x5(1010, "Snow Battle ARURF games");
     
     private final Integer queueTypeId;
     private final String name;
