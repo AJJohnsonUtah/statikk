@@ -26,7 +26,7 @@ public enum GameMode {
     DOOMBOTSTEEMO("Doom Bot games"),
     STARGUARDIAN("Star Guardian Invasion games"),
     PROJECT("Overdrive Project games"),
-    SNOWURG("Snow Urf games");
+    SNOWURF("Snow Urf games");
     
 
     private final String description;
