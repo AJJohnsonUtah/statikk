@@ -147,6 +147,7 @@ public class ChampSpec implements Serializable {
         this.lane = matchParticipant.getTimeline().getLane().toLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
         this.region = match.getPlatformId();
+        this.role = matchParticipant.getRole();
     }
 
     public ChampSpec(MatchDetail match, TeamBansDto bannedChamp) {
