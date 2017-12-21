@@ -39,7 +39,7 @@ public class MiningManager {
         itemAnalysisService.loadItems();
         miningWorkers = new ArrayList<>();
         for (Region region : Region.values()) {
-            if (!region.isPublic() || region.equals(Region.NA)) {
+            if (!region.isPublic()) {
                 continue;
             }
             try {
