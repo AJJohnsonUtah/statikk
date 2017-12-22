@@ -1,5 +1,4 @@
 @import '../../../variables';
-
 .team-wrapper {
     width: 210px;
 }
@@ -14,13 +13,13 @@
 
 .champion-pick-wrapper {
     height: 125px;
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
     border-radius: 7.5px;
     text-align: center;
 }
 
 .champion-img-wrapper {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
     height: 75%;
 }
 
@@ -29,14 +28,15 @@
 }
 
 #team-a-wrapper .champion-pick-wrapper {
-    border-left: 15px solid $accent-color;    
+    border-left: 15px solid $accent-color;
 }
 
 #team-b-wrapper .champion-pick-wrapper {
-    border-right: 15px solid $accent-color;    
+    border-right: 15px solid $accent-color;
 }
 
-#champion-selection-body, #champion-suggestion-body {
+#champion-selection-body,
+#champion-suggestion-body {
     overflow-y: scroll;
 }
 
@@ -45,27 +45,33 @@
     margin: 2px;
 }
 
-.champion-set-wrapper, #champion-suggestion-body {
+.champion-set-wrapper,
+#champion-suggestion-body {
     text-align: center;
 }
 
-
 #best-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(10,255,10, 0.65);
+    background-color: rgba(10, 255, 10, 0.65);
 }
 
 #better-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(80,175,10, 0.65);
+    background-color: rgba(80, 175, 10, 0.65);
 }
 
 #average-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(175,175,10, 0.65);
+    background-color: rgba(175, 175, 10, 0.65);
 }
 
 #worse-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(175,80,10, 0.65);
+    background-color: rgba(175, 80, 10, 0.65);
 }
 
 #worst-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(255,10,10, 0.65);
+    background-color: rgba(255, 10, 10, 0.65);
+}
+
+.select-active-icon {
+    position: absolute;
+    margin-left: -110px;
+    margin-top: 33px;
 }

@@ -2,9 +2,14 @@
   <div id="team-builder-header">
     <h1>Team Builder</h1>
   </div>
+  <ng-template #tipContent>Which pick are you??</ng-template>
   <div id="team-builder-body" class="d-flex flex-row">
-    <div id="team-a-wrapper" class="team-wrapper p-1 d-flex flex-column justify-content-around">
+    <div id="team-a-wrapper" class="team-wrapper p-1 d-flex flex-column justify-content-around" #t="ngbTooltip" triggers="manual"
+      placement="right" [ngbTooltip]="tipContent">
       <div class="champion-pick-wrapper p-2" *ngFor="let championPickA of teamAChampions; let i=index">
+        <button class="btn btn-primary select-active-icon" *ngIf="!userPick" (click)="selectUserPick(championPickA)">
+          <i class="fa fa-dot-circle-o"></i>
+        </button>
         <div class="champion-img-wrapper p-2">
           <app-champion-image [championId]="i+6"></app-champion-image>
         </div>
