@@ -7,6 +7,7 @@ import { StaticDataService } from '../../core/services/static-data.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config';
 import { of } from 'rxjs/observable/of';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TeamBuilderService } from './services/team-builder.service';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
@@ -24,11 +25,18 @@ describe('TeamBuilderComponent', () => {
     }
   }
 
+  class MockTeamBuilderService {
+    getSuggestions() {
+      return of({ 1: { championId: 1, score: 0.1 } });
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbModule.forRoot(), ReactiveFormsModule],
       declarations: [TeamBuilderComponent, AppChampionImageMockComponent],
-      providers: [{ provide: StaticDataService, useClass: MockStaticDataService }]
+      providers: [{ provide: StaticDataService, useClass: MockStaticDataService },
+      { provide: TeamBuilderService, useClass: MockTeamBuilderService }]
     })
       .compileComponents();
   }));
