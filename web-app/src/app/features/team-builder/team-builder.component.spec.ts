@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StaticDataService } from '../../core/services/static-data.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config';
 import { of } from 'rxjs/observable/of';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
@@ -25,7 +26,7 @@ describe('TeamBuilderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule.forRoot(), ReactiveFormsModule],
       declarations: [TeamBuilderComponent, AppChampionImageMockComponent],
       providers: [{ provide: StaticDataService, useClass: MockStaticDataService }]
     })

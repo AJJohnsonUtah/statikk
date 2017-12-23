@@ -20,7 +20,8 @@
 
 .champion-img-wrapper {
     background-color: rgba(0, 0, 0, 0.05);
-    height: 75%;
+    height: 82px;
+    width: 82px;
 }
 
 .role-info-label {
@@ -72,6 +73,26 @@
 
 .select-active-icon {
     position: absolute;
-    margin-left: -110px;
+    margin-left: -118px;
     margin-top: 33px;
+    border: 6px solid $accent-color-focus;
+    background-clip: padding-box;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#user-indicator {
+    position: absolute;
+    margin-left: -60px;
+    margin-top: 33px;
+}
+
+@keyframes border-pulsate {
+    0%   { border-color: $accent-color-focus; }
+    50% { border-color: rgba(0, 255, 255, 0); }
+    100%   { border-color: $accent-color-focus; }
+}
+
+.active-element {
+    animation: border-pulsate 2s infinite;
 }
