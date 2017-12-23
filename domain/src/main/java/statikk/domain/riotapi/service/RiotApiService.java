@@ -19,6 +19,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import statikk.domain.riotapi.model.ChampionMastery;
+import statikk.domain.riotapi.model.ChampionMasteryDto;
 import statikk.domain.riotapi.model.FeaturedGames;
 import statikk.domain.riotapi.model.ItemListDto;
 import statikk.domain.riotapi.model.MatchDetail;
@@ -135,9 +136,9 @@ public class RiotApiService {
         return getRiotApiRequest(url, typeRef);
     }
 
-    public String getChampionMastery(Region region, long summonerId) {
+    public List<ChampionMasteryDto> getChampionMastery(Region region, long summonerId) {
         String url = getURLWithAPIKey(region, "//lol/champion-mastery/v3/champion-masteries/by-summoner/" + summonerId);
-        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        ParameterizedTypeReference<List<ChampionMasteryDto>> typeRef = new ParameterizedTypeReference<List<ChampionMasteryDto>>() {
         };
         return getRiotApiRequest(url, typeRef);
     }

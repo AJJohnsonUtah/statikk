@@ -1,6 +1,6 @@
 <ng-template #content let-c="close">
   <div class="modal-body">
-    <form id="user-pick-modal-form" [formGroup]="userPickForm" (submit)="c(userPickForm.get('userSummonerName').value, userPickForm.get('userLane').value)">
+    <form id="user-pick-modal-form" [formGroup]="userPickForm" (submit)="c({userSummonerName: userPickForm.get('userSummonerName').value, userLane: userPickForm.get('userLane').value})">
       <div class="input-group">
         <label class="input-group-addon">Summoner Name:</label>
         <input type="text" class="form-control" formControlName="userSummonerName">
@@ -19,7 +19,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" [disabled]="!(userPickForm.get('userSummonerName').value && userPickForm.get('userLane').value)"
-      (click)="c(userPickForm.get('userSummonerName').value, userPickForm.get('userLane').value)">Go
+      (click)="c({userSummonerName: userPickForm.get('userSummonerName').value, userLane: userPickForm.get('userLane').value})">Go
     </button>
   </div>
 </ng-template>
@@ -48,40 +48,40 @@
         <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds" [championId]="championId"></app-champion-image>
       </div>
       <h2>Champion Suggestions</h2>
-      <div id="champion-suggestion-body" class="d-flex flex-row justify-content-between">
+      <div id="champion-suggestion-body" class="d-flex flex-row justify-content-between" *ngIf="championSuggestions">
         <div id="best-champ-suggestions">
           <ngb-rating [rate]="5" [max]="5" [readonly]="true"></ngb-rating>
           <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i > 7"></app-champion-image>
+              [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.8 "></app-champion-image>
           </div>
         </div>
         <div id="better-champ-suggestions">
           <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>
           <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i > 46 || i <= 7"></app-champion-image>
+              [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.6 || championSuggestions[championId].score >= 0.8"></app-champion-image>
           </div>
         </div>
         <div id="average-champ-suggestions">
           <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>
           <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i > 90 || i <= 46"></app-champion-image>
+              [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.4 || championSuggestions[championId].score >= 0.6"></app-champion-image>
           </div>
         </div>
         <div id="worse-champ-suggestions">
           <ngb-rating [rate]="2" [max]="5" [readonly]="true"></ngb-rating>
           <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i > 118 || i <= 90"></app-champion-image>
+              [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.2 || championSuggestions[championId].score >= 0.4"></app-champion-image>
           </div>
         </div>
         <div id="worst-champ-suggestions">
           <ngb-rating [rate]="1" [max]="5" [readonly]="true"></ngb-rating>
           <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
             <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-              [hidden]="i <= 118"></app-champion-image>
+              [hidden]="championSuggestions[championId] && championSuggestions[championId].score >= 0.2"></app-champion-image> {{championSuggestions[championId] ? championSuggestions[championId].score : 'not found'}}
           </div>
         </div>
 

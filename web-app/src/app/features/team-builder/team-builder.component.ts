@@ -6,6 +6,8 @@ import { ChampionPick } from './models/champion-pick';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { laneList } from '../../shared/models/statikk-api-types/filter-criteria/lane';
+import { TeamBuilderService } from './services/team-builder.service';
+import { ChampionSuggestion } from './models/champion-suggestion';
 
 @Component({
   selector: 'app-team-builder',
@@ -23,10 +25,12 @@ export class TeamBuilderComponent implements OnInit {
   userPick: ChampionPick;
   userPickForm: FormGroup;
   laneList = laneList;
+  championSuggestions: Map<number, ChampionSuggestion>;
 
   staticChampionIds: string[] = [];
 
-  constructor(private staticDataService: StaticDataService, private modalService: NgbModal, private formBuilder: FormBuilder) { }
+  constructor(private staticDataService: StaticDataService, private modalService: NgbModal,
+    private formBuilder: FormBuilder, private teamBuilderService: TeamBuilderService) { }
 
   ngOnInit() {
     this.staticDataService.getChampions().subscribe((staticChampions) => {
@@ -44,13 +48,16 @@ export class TeamBuilderComponent implements OnInit {
 
 
   selectUserPick(pick: ChampionPick, modalContent) {
-    this.modalService.open(modalContent).result.then((results) => {
+    this.modalService.open(modalContent).result.then((result) => {
       this.userPick = pick;
+      this.userPick.lane = result.userLane;
+      this.userPick.summonerName = result.userSummonerName;
+      this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName).subscribe((suggestionResults) => {
+        this.championSuggestions = suggestionResults;
+      });
     }, (dismissInfo) => {
       this.userPick = null;
     });
   }
-
-
 
 }

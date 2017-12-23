@@ -5,6 +5,7 @@ import { TeamBuilderRoutingModule } from './team-builder-routing.module';
 import { TeamBuilderComponent } from './team-builder.component';
 import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeamBuilderService } from './services/team-builder.service';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TeamBuilderRoutingModule,
     SharedModule
   ],
-  declarations: [TeamBuilderComponent]
+  declarations: [TeamBuilderComponent],
+  providers: [TeamBuilderService]
 })
 export class TeamBuilderModule { }
