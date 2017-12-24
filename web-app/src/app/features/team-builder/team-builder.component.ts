@@ -20,12 +20,14 @@ export class TeamBuilderComponent implements OnInit {
   currentPick = 0;
   teamAChampions: ChampionPick[] = [];
   teamBChampions: ChampionPick[] = [];
-  firstPickTeam: ChampionPick[] = [];
+  firstPickTeam: ChampionPick[];
   lastPickTeam: ChampionPick[];
   userPick: ChampionPick;
   userPickForm: FormGroup;
   laneList = laneList;
   championSuggestions: Map<number, ChampionSuggestion>;
+
+  currentTeamPick: number = null;
 
   staticChampionIds: string[] = [];
 
@@ -56,8 +58,43 @@ export class TeamBuilderComponent implements OnInit {
         this.championSuggestions = suggestionResults;
       });
     }, (dismissInfo) => {
-      this.userPick = null;
     });
+  }
+
+  setTeamOrder(team1: ChampionPick[], team2: ChampionPick[]) {
+    if (this.userPick) {
+      this.firstPickTeam = team1;
+      this.lastPickTeam = team2;
+      this.currentTeamPick = 0;
+    }
+  }
+
+  pickChampion(championId: number) {
+    // Get current pick from pick number
+    const currentPick = this.getCurrentChampionPick();
+
+    // Assign champ id to pick
+    currentPick.championId = championId;
+    this.currentTeamPick++;
+    if (this.currentTeamPick >= 10) {
+      this.currentTeamPick = null;
+    }
+  }
+
+  getCurrentChampionPick() {
+    switch (this.currentTeamPick) {
+      case 0: return this.firstPickTeam[0];
+      case 1: return this.lastPickTeam[0];
+      case 2: return this.lastPickTeam[1];
+      case 3: return this.firstPickTeam[1];
+      case 4: return this.firstPickTeam[2];
+      case 5: return this.lastPickTeam[2];
+      case 6: return this.lastPickTeam[3];
+      case 7: return this.firstPickTeam[3];
+      case 8: return this.firstPickTeam[4];
+      case 9: return this.lastPickTeam[4];
+    }
+
   }
 
 }

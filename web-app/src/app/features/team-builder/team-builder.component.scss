@@ -15,7 +15,9 @@
     height: 125px;
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 7.5px;
+    border: 2px solid transparent;
     text-align: center;
+    max-width: 115px;
 }
 
 .champion-img-wrapper {
@@ -38,7 +40,7 @@
 
 #champion-selection-body,
 #champion-suggestion-body {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .champion-selection-tile {
@@ -73,18 +75,42 @@
 
 .select-active-icon {
     position: absolute;
-    margin-left: -118px;
-    margin-top: 33px;
     border: 6px solid $accent-color-focus;
     background-clip: padding-box;
     border-radius: 50%;
     cursor: pointer;
 }
 
+.team-wrapper > .select-active-icon {
+    margin-top: -385px;
+}
+
+#team-a-wrapper > .select-active-icon {
+    margin-left: 40px;
+}
+
+#team-b-wrapper > .select-active-icon {
+    margin-left: -40px;
+}
+
+.champion-pick-wrapper > .select-active-icon {
+    margin-left: -118px;
+    margin-top: 33px;
+}
+
 #user-indicator {
     position: absolute;
     margin-left: -60px;
     margin-top: 33px;
+    background-color: $accent-color;
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#user-indicator:hover {
+    background-color: $accent-color-focus;
 }
 
 @keyframes border-pulsate {
@@ -94,5 +120,25 @@
 }
 
 .active-element {
-    animation: border-pulsate 2s infinite;
+    animation: border-pulsate 1.25s infinite;
+}
+
+.champion-selection-tile {
+    cursor: pointer;
+}
+
+.instructions {
+    height: 100%;
+    padding: 1rem;
+    color: $accent-color;
+}
+
+.instructions p, .instructions span {
+    color: $dark-color;
+    font-size: 35pt;
+    font-weight: 800;
+}
+
+.instructions span {
+    text-align: center;
 }

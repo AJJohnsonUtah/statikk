@@ -2,6 +2,6 @@ import { Lane } from '../../../shared/models/statikk-api-types/filter-criteria/l
 
 export interface ChampionPick {
     championId: number;
-    summonerName: string;
+    summonerName?: string;
     lane: Lane;
 }
