@@ -3,33 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package statikk.webapi.model;
+package statikk.domain.stats.model;
 
 import java.util.List;
-import java.util.Map;
 import statikk.domain.stats.model.BaseWinRate;
 
 /**
  *
  * @author AJ
  */
-public class WinRateMapWithTotal<T extends BaseWinRate> {
+public class WinRateWithTotal<T extends BaseWinRate> {
 
     private long totalPlayed;
-    private Map<?, BaseWinRate> winRateData;
+    private List<BaseWinRate> winRateData;
 
-    public WinRateMapWithTotal(Map<?, BaseWinRate> winRateData) {
+    public WinRateWithTotal(List<BaseWinRate> winRateData) {
         this.winRateData = winRateData;
         this.totalPlayed = 0;
-        winRateData.values().stream().forEach(winRate -> this.totalPlayed += winRate.getPlayedCount());
+        winRateData.stream().forEach(winRate -> this.totalPlayed += winRate.getPlayedCount());
     }
-
+    
     public long getTotalPlayed() {
         return totalPlayed;
     }
-
-    public Map<?, BaseWinRate> getWinRateData() {
+    
+    public List<BaseWinRate> getWinRateData() {
         return this.winRateData;
     }
-
 }

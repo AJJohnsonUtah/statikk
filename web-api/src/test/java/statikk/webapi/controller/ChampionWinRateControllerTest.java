@@ -22,7 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import statikk.domain.entity.LolVersion;
 import statikk.domain.riotapi.model.QueueType;
-import statikk.domain.stats.model.WinRateByChampionId;
+import statikk.domain.stats.model.WinRateByChampion;
 import statikk.domain.stats.service.ChampionWinRateService;
 
 /**
@@ -42,7 +42,7 @@ public class ChampionWinRateControllerTest {
     @MockBean
     private ApiStatusController apiStatusController;
 
-    private List<WinRateByChampionId> mockWinRates;
+    private List<WinRateByChampion> mockWinRates;
 
     public ChampionWinRateControllerTest() {
     }
@@ -58,8 +58,8 @@ public class ChampionWinRateControllerTest {
     @Before
     public void setUp() {
         this.mockWinRates = new ArrayList<>();
-        mockWinRates.add(new WinRateByChampionId(1, 100, 45));
-        mockWinRates.add(new WinRateByChampionId(2, 200, 155));
+        mockWinRates.add(new WinRateByChampion(1, 100, 45));
+        mockWinRates.add(new WinRateByChampion(2, 200, 155));
     }
 
     @After

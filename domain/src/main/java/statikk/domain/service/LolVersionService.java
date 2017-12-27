@@ -54,4 +54,8 @@ public class LolVersionService {
     public Iterable<LolVersion> findAll() {
         return lolVersionDao.findAll();
     }
+    
+    public List<LolVersion> findRecentVersions() {
+        return lolVersionDao.findTop2ByOrderByMajorVersionDescMinorVersionDesc();
+    }
 }

@@ -8,9 +8,14 @@ package statikk.webapi.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.riotapi.model.ChampionMasteryDto;
+import statikk.domain.riotapi.model.Region;
+import statikk.domain.riotapi.model.SummonerDto;
+import statikk.webapi.controller.SummonerDataController;
 import statikk.webapi.model.ChampionSuggestion;
+import statikk.webapi.model.TeamBuilderProgressData;
 
 /**
  *
@@ -19,7 +24,14 @@ import statikk.webapi.model.ChampionSuggestion;
 @Service
 public class TeamBuilderService {
 
-    public Map<Long, ChampionSuggestion> getChampionSuggestions(List<ChampionMasteryDto> championMasteries) {
+    @Autowired
+    SummonerDataController summonerDataController;
+
+    public Map<Long, ChampionSuggestion> getChampionSuggestions(TeamBuilderProgressData teamBuilderProgess) {
+
+        SummonerDto currentUser = summonerDataController.getSummonerByName(teamBuilderProgess.getSummonerName(), Region.NA.name());
+        List<ChampionMasteryDto> championMasteries = summonerDataController.getChampionMastery(currentUser.getId(), Region.NA.name());
+
         Map<Long, ChampionSuggestion> championSuggestions = new HashMap<>();
 
         for (ChampionMasteryDto championMastery : championMasteries) {
@@ -52,4 +64,5 @@ public class TeamBuilderService {
         return championSuggestions;
     }
 
+    public void (Map<Long, ChampionSuggestion> championSuggestions)
 }

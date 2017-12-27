@@ -5,6 +5,7 @@
  */
 package statikk.domain.stats.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,10 +18,12 @@ import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Rank;
 import statikk.domain.service.LolVersionService;
-import statikk.domain.stats.model.WinRateByChampionId;
+import statikk.domain.stats.model.WinRateByChampion;
+import statikk.domain.stats.model.WinRateByChampionLane;
 import statikk.domain.stats.model.WinRateByMatchType;
 import statikk.domain.stats.model.WinRateByLane;
 import statikk.domain.stats.model.WinRateByRole;
+import statikk.domain.stats.model.WinRateMapWithTotal;
 
 /**
  *
@@ -35,7 +38,7 @@ public class ChampionWinRateService {
     @Autowired
     LolVersionService lolVersionService;
 
-    public List<WinRateByChampionId> getAllChampionWinRates(QueueType queueType, Rank rank, Lane lane, LolVersion lolVersion) {
+    public List<WinRateByChampion> getAllChampionWinRates(QueueType queueType, Rank rank, Lane lane, LolVersion lolVersion) {
         lolVersion = lolVersionService.findOrCreate(lolVersion);
 
         if (rank == null) {
@@ -94,5 +97,17 @@ public class ChampionWinRateService {
         // Get win rates for all ranks/lanes
         return champSpecWinRateDao.findChampionWinRatesByLaneGroupedByRole(championId, lane, matchTypes, lolVersion)
                 .stream().filter(p -> p.getRole() != null).collect(Collectors.toMap(WinRateByRole::getRole, p -> p));
+    }
+    
+    public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getWinRatesByChampionLane(Iterable<QueueType> matchTypes) {
+        List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
+        Map<Integer, Map<Lane,WinRateByChampionLane>> winRates = new HashMap<>();
+        champSpecWinRateDao.findWinRatesByGroupedByChampionLane(matchTypes, recentVersions).forEach((winRateByChampionLane) -> {
+           if(!winRates.containsKey(winRateByChampionLane.getChampionId())) {
+              winRates.put(winRateByChampionLane.getChampionId(), new HashMap<>());
+           } 
+           winRates.get(winRateByChampionLane.getChampionId()).put(winRateByChampionLane.getLane(), winRateByChampionLane);
+        });
+        return winRates.keySet().stream().collect(Collectors.toMap(p -> p, p -> new WinRateMapWithTotal(winRates.get(p))));
     }
 }

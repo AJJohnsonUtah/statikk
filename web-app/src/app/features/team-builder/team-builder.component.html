@@ -15,8 +15,7 @@
       </select>
     </div>
     <br>
-    <input type="submit" class="btn btn-primary form-control" [disabled]="!(userPickForm.get('userSummonerName').value && userPickForm.get('userLane').value)"
-      value="Go">
+    <input type="submit" class="btn btn-primary form-control" [disabled]="!userPickForm.get('userLane').value" value="Go">
   </form>
 </ng-template>
 

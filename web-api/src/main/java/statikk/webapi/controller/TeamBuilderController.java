@@ -29,16 +29,11 @@ import statikk.webapi.service.TeamBuilderService;
 public class TeamBuilderController extends BaseController {
 
     @Autowired
-    SummonerDataController summonerDataController;
-
-    @Autowired
     TeamBuilderService teamBuilderService;
 
     @ResponseBody
     @RequestMapping(value = "/suggestions", method = RequestMethod.POST)
     public Map<Long, ChampionSuggestion> getSuggestions(@RequestBody TeamBuilderProgressData teamBuilderProgess) {
-        SummonerDto currentUser = summonerDataController.getSummonerByName(teamBuilderProgess.getSummonerName(), Region.NA.name());
-        List<ChampionMasteryDto> championMasteries = summonerDataController.getChampionMastery(currentUser.getId(), Region.NA.name());
-        return teamBuilderService.getChampionSuggestions(championMasteries);
+        return teamBuilderService.getChampionSuggestions(teamBuilderProgess);
     }
 }
