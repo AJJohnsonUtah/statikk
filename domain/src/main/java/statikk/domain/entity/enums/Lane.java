@@ -7,6 +7,8 @@ package statikk.domain.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
+import statikk.domain.riotapi.model.QueueType;
+import static statikk.domain.riotapi.model.QueueType.fromId;
 
 /**
  *
@@ -34,9 +36,16 @@ public enum Lane {
         }
     }
 
-    @JsonCreator
     public static Lane getLane(Integer id) {
         return laneMap.get(id);
     }
 
+    @JsonCreator
+    public static Lane getLane(String id) {
+        char firstChar = id.charAt(0);
+        if (firstChar >= '0' && firstChar <= '9') {
+            return getLane(Integer.parseInt(id));
+        }
+        return Lane.valueOf(id);
+    }
 }

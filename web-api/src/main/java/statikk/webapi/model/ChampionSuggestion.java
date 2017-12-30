@@ -5,6 +5,9 @@
  */
 package statikk.webapi.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Grann
@@ -12,10 +15,16 @@ package statikk.webapi.model;
 public class ChampionSuggestion {
 
     private long championId;
-    private double score;
+    private Map<ChampionSuggestionReason, Double> scores;
 
     public ChampionSuggestion(long championId) {
         this.championId = championId;
+        this.scores = new HashMap<>();
+    }
+
+    public ChampionSuggestion(long championId, ChampionSuggestionReason reason, double score) {
+        this(championId);
+        this.scores.put(reason, score);
     }
 
     public long getChampionId() {
@@ -26,19 +35,16 @@ public class ChampionSuggestion {
         this.championId = championId;
     }
 
+    public Map<ChampionSuggestionReason, Double> getScores() {
+        return scores;
+    }
+
     public double getScore() {
-        return score;
+        return scores.values().stream().reduce(0.0, (x, y) -> x + y) / scores.size();
     }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public void merge(ChampionSuggestion b) {
-        if (b.championId != this.championId) {
-            throw new IllegalArgumentException("Champion ids do not match; this.championId = " + this.championId + ", b.championId = " + b.championId);
-        }
-        this.score *= b.championId;
+    public void addScore(ChampionSuggestionReason reason, double score) {
+        this.scores.put(reason, score);
     }
 
 }

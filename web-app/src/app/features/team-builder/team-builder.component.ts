@@ -54,7 +54,7 @@ export class TeamBuilderComponent implements OnInit {
       this.userPick = pick;
       this.userPick.lane = result.userLane;
       this.userPick.summonerName = result.userSummonerName;
-      this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName).subscribe((suggestionResults) => {
+      this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane).subscribe((suggestionResults) => {
         this.championSuggestions = suggestionResults;
       });
     }, (dismissInfo) => {

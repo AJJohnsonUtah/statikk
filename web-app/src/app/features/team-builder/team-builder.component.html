@@ -9,7 +9,7 @@
       <label class="input-group-addon col-md-5 col-xs-5">Lane:</label>
       <select class="form-control col-md-7 col-xs-7" formControlName="userLane">
         <option selected>--Select a lane--</option>
-        <option *ngFor="let lane of laneList" [value]="lane">
+        <option *ngFor="let lane of laneList" [value]="lane.id">
           {{lane.name}}
         </option>
       </select>

@@ -16,7 +16,7 @@ public class ChampionMasteryDto implements Serializable {
     private boolean chestGranted;
     private int championLevel;
     private int championPoints;
-    private long championId;
+    private int championId;
     private long playerId;
     private long championPointsUntilNextLevel;
     private long championPointsSinceLastLevel;
@@ -34,7 +34,7 @@ public class ChampionMasteryDto implements Serializable {
         return championPoints;
     }
 
-    public long getChampionId() {
+    public int getChampionId() {
         return championId;
     }
 
