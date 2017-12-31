@@ -5,18 +5,17 @@
  */
 package statikk.domain.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampTeamupDao;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolVersion;
-import statikk.domain.entity.enums.Lane;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.WinRateByChampion;
 import statikk.domain.stats.model.WinRateMapWithTotal;
@@ -40,6 +39,7 @@ public class ChampTeamupService extends BaseWinRateService<ChampTeamup, ChampTea
         return dao.findOne(champTeamup.getChampTeamupPK());
     }
 
+    @Cacheable("teamup-win-rates")
     public WinRateMapWithTotal<Integer, WinRateByChampion> getWinRatesByChampionLane(Integer championId, Iterable<QueueType> matchTypes) {
         List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
         Map<Integer, WinRateByChampion> winRates = champTeamupDao

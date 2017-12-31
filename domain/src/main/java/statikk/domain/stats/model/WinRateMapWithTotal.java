@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class WinRateMapWithTotal<K, V extends BaseWinRate> {
 
-    private long totalWinCount;
-    private long totalPlayedCount;
+    private double totalWinCount;
+    private double totalPlayedCount;
 
     private final Map<K, V> winRateData;
 
@@ -27,7 +27,7 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         });
     }
 
-    public long getTotalPlayedCount() {
+    public double getTotalPlayedCount() {
         return totalPlayedCount;
     }
 
@@ -35,12 +35,12 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         return this.winRateData;
     }
 
-    public long getTotalWinCount() {
+    public double getTotalWinCount() {
         return totalWinCount;
     }
 
     public double getTotalWinRate() {
-        return this.totalWinCount * 1.0 / this.totalPlayedCount;
+        return this.totalWinCount / this.totalPlayedCount;
     }
 
     public boolean isSignificantlyHigherWinRate(K keyToCheck) {
@@ -80,13 +80,13 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
     public double getZScore(K keyToCheck) {
         V winRateDataForKey = this.winRateData.get(keyToCheck);
 
-        long n1 = this.totalPlayedCount - winRateDataForKey.playedCount;
-        long n2 = winRateDataForKey.playedCount;
+        double n1 = this.totalPlayedCount - winRateDataForKey.playedCount;
+        double n2 = winRateDataForKey.playedCount;
 
         double p1 = (this.totalWinCount - winRateDataForKey.winCount) / n1;
-        double p2 = winRateDataForKey.getWinRate();
+        double p2= winRateDataForKey.getWinRate();
         double p = this.getTotalWinRate();
 
-        return (p1 - p2) / Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
+        return (p2 - p1) / Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
     }
 }

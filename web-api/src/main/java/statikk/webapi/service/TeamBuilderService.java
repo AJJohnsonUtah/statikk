@@ -5,7 +5,6 @@
  */
 package statikk.webapi.service;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +97,7 @@ public class TeamBuilderService {
 
     private void updateSuggestionsBasedOnLanePerformance(TeamBuilderProgressData teamBuilderProgress, Map<Integer, ChampionSuggestion> championSuggestions) {
         Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> champLaneData
-                = championWinRateService.getWinRatesByChampionLane(EnumSet.of(QueueType.RANKED_FLEX_SR, QueueType.RANKED_SOLO_5x5, QueueType.RANKED_PREMADE_5x5));
+                = championWinRateService.getWinRatesByChampionLane(QueueType.standardSRMatchTypes);
 
         champLaneData.keySet().stream().forEach((champId) -> {
             // Analyze each champion
@@ -126,25 +125,25 @@ public class TeamBuilderService {
             return;
         }
 
-        Map<Integer, Integer> championSynergyScores = new HashMap<>();
+        Map<Integer, Double> championSynergyScores = new HashMap<>();
 
         teamBuilderProgress.getAllyChampionIds().stream().forEach((allyChampId) -> {
             int netSynergy = 0;
-            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = champTeamupService.getWinRatesByChampionLane(allyChampId, EnumSet.of(QueueType.RANKED_FLEX_SR, QueueType.RANKED_SOLO_5x5, QueueType.RANKED_PREMADE_5x5));
+            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = champTeamupService.getWinRatesByChampionLane(allyChampId, QueueType.standardSRMatchTypes);
             for (Integer potentialChampPickId : winRates.getWinRateData().keySet()) {
                 if (!championSynergyScores.containsKey(potentialChampPickId)) {
-                    championSynergyScores.put(potentialChampPickId, 0);
+                    championSynergyScores.put(potentialChampPickId, 0.0);
                 }
-                if (winRates.isSignificantlyHigherWinRate(allyChampId)) {
-                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) + 1);
-                } else if (winRates.isSignificantlyLowerWinRate(allyChampId)) {
-                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) - 1);
+                if (winRates.isSignificantlyHigherWinRate(potentialChampPickId)) {
+                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) + 1.0);
+                } else if (winRates.isSignificantlyLowerWinRate(potentialChampPickId)) {
+                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) - 1.0);
                 }
             }
 
         });
         championSynergyScores.keySet().stream().forEach((potentialChampPickId) -> {
-            putOrUpdate(championSuggestions, potentialChampPickId, ChampionSuggestionReason.TeamSynergy, championSynergyScores.get(potentialChampPickId) / teamBuilderProgress.getAllyChampionIds().size());
+            putOrUpdate(championSuggestions, potentialChampPickId, ChampionSuggestionReason.TeamSynergy, (championSynergyScores.get(potentialChampPickId) / teamBuilderProgress.getAllyChampionIds().size() + 1.0) / 2.0);
         });
     }
 
@@ -153,25 +152,28 @@ public class TeamBuilderService {
             return;
         }
 
-        Map<Integer, Integer> championSynergyScores = new HashMap<>();
+        Map<Integer, Double> championSynergyScores = new HashMap<>();
 
         teamBuilderProgress.getEnemyChampionIds().stream().forEach((enemy) -> {
             int netSynergy = 0;
-            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = champMatchupService.getWinRatesByChampionLane(enemy, EnumSet.of(QueueType.RANKED_FLEX_SR, QueueType.RANKED_SOLO_5x5, QueueType.RANKED_PREMADE_5x5));
+            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = champMatchupService.getWinRatesByChampionLane(enemy, QueueType.standardSRMatchTypes);
             for (Integer potentialChampPickId : winRates.getWinRateData().keySet()) {
                 if (!championSynergyScores.containsKey(potentialChampPickId)) {
-                    championSynergyScores.put(potentialChampPickId, 0);
+                    championSynergyScores.put(potentialChampPickId, 0.0);
                 }
-                if (winRates.isSignificantlyHigherWinRate(enemy)) {
-                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) + 1);
-                } else if (winRates.isSignificantlyLowerWinRate(enemy)) {
-                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) - 1);
+
+                // These are the win rates of the *enemy* champions
+                // The enemy champion is countered if it has a low win rate against the potential champ 
+                if (winRates.isSignificantlyLowerWinRate(potentialChampPickId)) {
+                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) + 1.0);
+                } else if (winRates.isSignificantlyHigherWinRate(potentialChampPickId)) {
+                    championSynergyScores.put(potentialChampPickId, championSynergyScores.get(potentialChampPickId) - 1.0);
                 }
             }
 
         });
         championSynergyScores.keySet().stream().forEach((potentialChampPickId) -> {
-            putOrUpdate(championSuggestions, potentialChampPickId, ChampionSuggestionReason.EnemyCounter, championSynergyScores.get(potentialChampPickId) / teamBuilderProgress.getEnemyChampionIds().size());
+            putOrUpdate(championSuggestions, potentialChampPickId, ChampionSuggestionReason.EnemyCounter, (championSynergyScores.get(potentialChampPickId) / teamBuilderProgress.getEnemyChampionIds().size() + 1.0) / 2.0);
         });
     }
 

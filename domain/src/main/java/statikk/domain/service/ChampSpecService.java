@@ -6,12 +6,15 @@
 package statikk.domain.service;
 
 import java.util.HashMap;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecDao;
 import statikk.domain.entity.ChampSpec;
+import statikk.domain.entity.LolVersion;
+import statikk.domain.riotapi.model.QueueType;
 
 /**
  *
@@ -61,4 +64,5 @@ public class ChampSpecService {
             return find(champSpec);
         }
     }
+
 }

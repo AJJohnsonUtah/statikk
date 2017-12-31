@@ -7,7 +7,9 @@
 package statikk.domain.riotapi.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -166,5 +168,7 @@ public enum QueueType {
             queueTypeMap.put(queueType.queueTypeId, queueType);
         }
     }
+    
+    public static final Set<QueueType> standardSRMatchTypes = EnumSet.of(QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO, QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.BLIND_PICK_NORMAL, QueueType.TEAM_BUILDER_DRAFT_UNRANKED_5x5);
 
 }

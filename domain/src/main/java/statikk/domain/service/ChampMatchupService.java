@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampMatchupDao;
 import statikk.domain.entity.ChampMatchup;
@@ -38,6 +39,7 @@ public class ChampMatchupService extends BaseWinRateService<ChampMatchup, ChampM
         return dao.findOne(champMatchup.getChampMatchupPK());
     }
 
+    @Cacheable("matchup-win-rates")
     public WinRateMapWithTotal<Integer, WinRateByChampion> getWinRatesByChampionLane(Integer championId, Iterable<QueueType> matchTypes) {
         List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
         Map<Integer, WinRateByChampion> winRates = champMatchupDao

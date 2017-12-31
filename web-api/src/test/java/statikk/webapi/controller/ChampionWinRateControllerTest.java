@@ -82,7 +82,7 @@ public class ChampionWinRateControllerTest {
         QueueType matchType = QueueType.ARAM_5X5;
         given(this.mockService.getAllChampionWinRates(matchType, null, null, version))
                 .willReturn(mockWinRates);
-        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(matchType.getQueueTypeId(), null, null, "7.7").getTotalPlayed());
+        Assert.assertEquals("getAllChampionWinRates correctly returns total played count", 300, championWinRateController.getAllChampionWinRates(matchType.getQueueTypeId(), null, null, "7.7").getTotalPlayed(), 0.0);
     }
 
 }

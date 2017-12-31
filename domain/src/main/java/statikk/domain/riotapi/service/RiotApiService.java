@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import statikk.domain.riotapi.model.ChampionListDto;
 import statikk.domain.riotapi.model.ChampionMastery;
 import statikk.domain.riotapi.model.ChampionMasteryDto;
 import statikk.domain.riotapi.model.FeaturedGames;
@@ -52,6 +53,13 @@ public class RiotApiService {
     public String getStaticChampionsData(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image&dataById=true");
         ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+        };
+        return getRiotApiRequest(url, typeRef);
+    }
+
+    public ChampionListDto getStaticChampionsDataObject(Region region) {
+        String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image&dataById=true");
+        ParameterizedTypeReference<ChampionListDto> typeRef = new ParameterizedTypeReference<ChampionListDto>() {
         };
         return getRiotApiRequest(url, typeRef);
     }

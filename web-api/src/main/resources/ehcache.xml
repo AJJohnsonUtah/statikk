@@ -95,5 +95,33 @@
            transactionalMode="off">
     </cache>
 
-
+    <cache name="lane-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="matchup-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="teamup-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
 </ehcache>

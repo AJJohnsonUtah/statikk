@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.ChampSpecWinRateDao;
 import statikk.domain.entity.LolVersion;
@@ -99,6 +100,8 @@ public class ChampionWinRateService {
                 .stream().filter(p -> p.getRole() != null).collect(Collectors.toMap(WinRateByRole::getRole, p -> p));
     }
     
+    
+    @Cacheable("lane-win-rates")
     public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getWinRatesByChampionLane(Iterable<QueueType> matchTypes) {
         List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
         Map<Integer, Map<Lane,WinRateByChampionLane>> winRates = new HashMap<>();
