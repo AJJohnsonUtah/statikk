@@ -23,20 +23,20 @@
 <div id="team-builder-wrapper" class="p-4" [hidden]="!staticChampionIds">
   <div id="team-builder-body" class="d-flex flex-row">
     <div id="team-a-wrapper" class="team-wrapper p-1 d-flex flex-column justify-content-around">
-      <button class="btn btn-primary select-active-icon active-element" *ngIf="userPick && !firstPickTeam" (click)="setTeamOrder(teamAChampions, teamBChampions)">
+      <button class="btn btn-primary select-active-icon active-element" *ngIf="userPick && !firstPickTeam" (click)="setTeamOrder(allyChampions, enemyChampions)">
         <i class="fa fa-dot-circle-o"></i>
       </button>
-      <div class="champion-pick-wrapper p-2" *ngFor="let championPickA of teamAChampions; let i=index" [ngClass]="{'active-element': championPickA === getCurrentChampionPick()}">
-        <button class="btn btn-primary select-active-icon active-element" *ngIf="!userPick" (click)="selectUserPick(championPickA, content)">
+      <div class="champion-pick-wrapper p-2" *ngFor="let allyChampionPick of allyChampions; let i=index" [ngClass]="{'active-element': allyChampionPick === getCurrentChampionPick()}">
+        <button class="btn btn-primary select-active-icon active-element" *ngIf="!userPick" (click)="selectUserPick(allyChampionPick, content)">
           <i class="fa fa-dot-circle-o"></i>
         </button>
-        <div id="user-indicator" *ngIf="championPickA == userPick" (click)="selectUserPick(championPickA, content)">
+        <div id="user-indicator" *ngIf="allyChampionPick == userPick" (click)="selectUserPick(allyChampionPick, content)">
           <i class="fa fa-2x fa-user"></i>
         </div>
         <div class="champion-img-wrapper p-2">
-          <app-champion-image [championId]="championPickA.championId"></app-champion-image>
+          <app-champion-image [championId]="allyChampionPick.championId"></app-champion-image>
         </div>
-        <div class="role-info-label p-2" *ngIf="championPickA.lane">{{championPickA.lane.name}}</div>
+        <div class="role-info-label p-2" *ngIf="allyChampionPick.lane">{{allyChampionPick.lane.name}}</div>
       </div>
     </div>
     <div id="central-content" class="p-2 d-flex flex-column justify-content-between">
@@ -102,14 +102,14 @@
 
     </div>
     <div id="team-b-wrapper" class="team-wrapper p-2 d-flex flex-column justify-content-around align-items-end">
-      <button class="btn btn-primary select-active-icon active-element" *ngIf="userPick && !firstPickTeam" (click)="setTeamOrder(teamBChampions, teamAChampions)">
+      <button class="btn btn-primary select-active-icon active-element" *ngIf="userPick && !firstPickTeam" (click)="setTeamOrder(enemyChampions, allyChampions)">
         <i class="fa fa-dot-circle-o"></i>
       </button>
-      <div class="champion-pick-wrapper p-2" *ngFor="let championPickB of teamBChampions; let i=index" [ngClass]="{'active-element': championPickB === getCurrentChampionPick()}">
+      <div class="champion-pick-wrapper p-2" *ngFor="let enemyChampionPick of enemyChampions; let i=index" [ngClass]="{'active-element': enemyChampionPick === getCurrentChampionPick()}">
         <div class="champion-img-wrapper p-2">
-          <app-champion-image [championId]="championPickB.championId"></app-champion-image>
+          <app-champion-image [championId]="enemyChampionPick.championId"></app-champion-image>
         </div>
-        <div class="role-info-label p-2" *ngIf="championPickB.lane">{{championPickB.lane.name}}</div>
+        <div class="role-info-label p-2" *ngIf="enemyChampionPick.lane">{{enemyChampionPick.lane.name}}</div>
       </div>
     </div>
   </div>

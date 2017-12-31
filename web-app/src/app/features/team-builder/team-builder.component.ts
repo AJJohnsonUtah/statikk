@@ -18,8 +18,8 @@ export class TeamBuilderComponent implements OnInit {
 
   playersPerTeam = 5;
   currentPick = 0;
-  teamAChampions: ChampionPick[] = [];
-  teamBChampions: ChampionPick[] = [];
+  allyChampions: ChampionPick[] = [];
+  enemyChampions: ChampionPick[] = [];
   firstPickTeam: ChampionPick[];
   lastPickTeam: ChampionPick[];
   userPick: ChampionPick;
@@ -39,8 +39,8 @@ export class TeamBuilderComponent implements OnInit {
       this.staticChampionIds = Object.keys(staticChampions);
     });
     for (let i = 0; i < this.playersPerTeam; i++) {
-      this.teamAChampions.push({ championId: null, summonerName: null, lane: null });
-      this.teamBChampions.push({ championId: null, summonerName: null, lane: null });
+      this.allyChampions.push({ championId: null, summonerName: null, lane: null });
+      this.enemyChampions.push({ championId: null, summonerName: null, lane: null });
     }
     this.userPickForm = this.formBuilder.group({
       'userSummonerName': '',
@@ -54,9 +54,7 @@ export class TeamBuilderComponent implements OnInit {
       this.userPick = pick;
       this.userPick.lane = result.userLane;
       this.userPick.summonerName = result.userSummonerName;
-      this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane).subscribe((suggestionResults) => {
-        this.championSuggestions = suggestionResults;
-      });
+      this.updateChampionSuggestions();
     }, (dismissInfo) => {
     });
   }
@@ -76,6 +74,10 @@ export class TeamBuilderComponent implements OnInit {
     // Assign champ id to pick
     currentPick.championId = championId;
     this.currentTeamPick++;
+
+    // Update suggestions
+    this.updateChampionSuggestions();
+
     if (this.currentTeamPick >= 10) {
       this.currentTeamPick = null;
     }
@@ -95,6 +97,14 @@ export class TeamBuilderComponent implements OnInit {
       case 9: return this.lastPickTeam[4];
     }
 
+  }
+
+  updateChampionSuggestions() {
+    this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane
+      , this.allyChampions, this.enemyChampions)
+      .subscribe((suggestionResults) => {
+        this.championSuggestions = suggestionResults;
+      });
   }
 
 }

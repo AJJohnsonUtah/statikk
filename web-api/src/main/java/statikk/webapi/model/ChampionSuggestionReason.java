@@ -10,5 +10,5 @@ package statikk.webapi.model;
  * @author Grann
  */
 public enum ChampionSuggestionReason {
-    ChampionMastery, ChampionLaneProficiency;
+    ChampionMastery, ChampionLaneProficiency, TeamSynergy, EnemyCounter;
 }

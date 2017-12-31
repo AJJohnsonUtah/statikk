@@ -6,6 +6,7 @@
 package statikk.webapi.model;
 
 import java.io.Serializable;
+import java.util.List;
 import statikk.domain.entity.enums.Lane;
 
 /**
@@ -16,21 +17,23 @@ public class TeamBuilderProgressData implements Serializable {
 
     private String summonerName;
     private Lane lane;
+    private List<Integer> allyChampionIds;
+    private List<Integer> enemyChampionIds;
 
     public Lane getLane() {
         return lane;
-    }
-
-    public void setLane(Lane lane) {
-        this.lane = lane;
     }
 
     public String getSummonerName() {
         return summonerName;
     }
 
-    public void setSummonerName(String summonerName) {
-        this.summonerName = summonerName;
+    public List<Integer> getAllyChampionIds() {
+        return allyChampionIds;
+    }
+
+    public List<Integer> getEnemyChampionIds() {
+        return enemyChampionIds;
     }
 
 }

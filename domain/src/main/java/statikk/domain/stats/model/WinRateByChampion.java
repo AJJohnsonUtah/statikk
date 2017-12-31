@@ -11,7 +11,7 @@ package statikk.domain.stats.model;
  */
 public class WinRateByChampion extends BaseWinRate {
 
-    private final long championId;
+    private final int championId;
 
     public WinRateByChampion(int championId, long playedCount, long winCount) {
         this.playedCount = playedCount;
@@ -19,7 +19,7 @@ public class WinRateByChampion extends BaseWinRate {
         this.championId = championId;
     }
 
-    public long getChampionId() {
+    public int getChampionId() {
         return championId;
     }
 
