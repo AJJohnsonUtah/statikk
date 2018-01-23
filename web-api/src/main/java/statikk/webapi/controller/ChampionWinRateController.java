@@ -95,10 +95,10 @@ public class ChampionWinRateController {
         if (matchType == null) {
             if (role == null) {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionLaneWinRates(championId, EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionLaneWinRates(championId, QueueType.standardSRMatchTypes, lolVersion));
             } else {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionLaneWinRates(championId, Role.valueOf(role), EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionLaneWinRates(championId, Role.valueOf(role), QueueType.standardSRMatchTypes, lolVersion));
             }
         } else {
             if (role == null) {
@@ -128,10 +128,10 @@ public class ChampionWinRateController {
         if (matchType == null) {
             if (lane == null) {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionRoleWinRates(championId, EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionRoleWinRates(championId, QueueType.standardSRMatchTypes, lolVersion));
             } else {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionRoleWinRates(championId, Lane.valueOf(lane), EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion)
+                        championWinRateService.getChampionRoleWinRates(championId, Lane.valueOf(lane), QueueType.standardSRMatchTypes, lolVersion)
                 );
             }
         } else {
@@ -150,11 +150,11 @@ public class ChampionWinRateController {
     @ResponseBody
     @Cacheable("champion-win-rates")
     @RequestMapping(value = "/by-champion-lane", method = RequestMethod.GET, produces = "application/json")
-    public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getChampionWinRatesByRole(
+    public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getChampionWinRatesByLane(
             @RequestParam(value = "matchType", required = false) Integer matchType
     ) {
         if (matchType == null) {
-            return championWinRateService.getWinRatesByChampionLane(EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO));
+            return championWinRateService.getWinRatesByChampionLane(QueueType.standardSRMatchTypes);
         } else {
             return championWinRateService.getWinRatesByChampionLane(EnumSet.of(QueueType.fromId(matchType)));
         }

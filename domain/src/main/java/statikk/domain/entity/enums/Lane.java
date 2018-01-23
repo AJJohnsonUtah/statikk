@@ -7,8 +7,6 @@ package statikk.domain.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.HashMap;
-import statikk.domain.riotapi.model.QueueType;
-import static statikk.domain.riotapi.model.QueueType.fromId;
 
 /**
  *

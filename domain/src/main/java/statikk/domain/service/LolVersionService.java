@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.LolVersionDao;
 import statikk.domain.entity.LolVersion;
@@ -55,6 +56,7 @@ public class LolVersionService {
         return lolVersionDao.findAll();
     }
     
+    @Cacheable("recent-versions")
     public List<LolVersion> findRecentVersions() {
         return lolVersionDao.findTop2ByOrderByMajorVersionDescMinorVersionDesc();
     }

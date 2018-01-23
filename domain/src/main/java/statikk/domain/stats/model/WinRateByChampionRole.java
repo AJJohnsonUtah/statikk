@@ -5,21 +5,21 @@
  */
 package statikk.domain.stats.model;
 
-import statikk.domain.entity.enums.Lane;
+import statikk.domain.entity.enums.Role;
 
 /**
  *
  * @author Grann
  */
-public class WinRateByChampionLane extends BaseWinRate {
+public class WinRateByChampionRole extends BaseWinRate {
 
     private int championId;
-    private Lane lane;
+    private Role role;
 
-    public WinRateByChampionLane(int championId, Lane lane, long playedCount, long winCount) {
+    public WinRateByChampionRole(int championId, Role role, long playedCount, long winCount) {
         super(winCount, playedCount);
         this.championId = championId;
-        this.lane = lane;
+        this.role = role;
     }
 
     public int getChampionId() {
@@ -30,12 +30,12 @@ public class WinRateByChampionLane extends BaseWinRate {
         this.championId = championId;
     }
 
-    public Lane getLane() {
-        return lane;
+    public Role getRole() {
+        return role;
     }
 
-    public void setLane(Lane lane) {
-        this.lane = lane;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

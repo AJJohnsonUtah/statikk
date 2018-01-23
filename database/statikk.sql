@@ -159,8 +159,8 @@ CREATE TABLE `lol_version` (
 --
 
 CREATE TABLE `team_comp` (
-  `ally_team_comp` bigint(20) NOT NULL,
-  `enemy_team_comp` bigint(20) NOT NULL,
+  `ally_team_comp` varchar(255) NOT NULL,
+  `enemy_team_comp` varchar(255) NOT NULL,
   `match_type` int(11) NOT NULL,
   `lol_version_id` int(11) NOT NULL,
   `region` int(11) NOT NULL,

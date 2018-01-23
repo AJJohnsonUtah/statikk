@@ -16,9 +16,8 @@ public class WinRateByMatchType extends BaseWinRate {
     private final QueueType queueType;
 
     public WinRateByMatchType(QueueType queueType, long playedCount, long winCount) {
+        super(winCount, playedCount);
         this.queueType = queueType;
-        this.playedCount = playedCount;
-        this.winCount = winCount;
     }
 
     public QueueType getMatchType() {

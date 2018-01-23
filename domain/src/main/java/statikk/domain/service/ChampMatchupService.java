@@ -40,7 +40,7 @@ public class ChampMatchupService extends BaseWinRateService<ChampMatchup, ChampM
     }
 
     @Cacheable("matchup-win-rates")
-    public WinRateMapWithTotal<Integer, WinRateByChampion> getWinRatesByChampionLane(Integer championId, Iterable<QueueType> matchTypes) {
+    public WinRateMapWithTotal<Integer, WinRateByChampion> getWinRatesByChampion(Integer championId, Iterable<QueueType> matchTypes) {
         List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
         Map<Integer, WinRateByChampion> winRates = champMatchupDao
                 .findWinRatesByGroupedByEnemyChampion(championId, matchTypes, recentVersions).stream().collect(Collectors.toMap(p -> p.getChampionId(), p -> p));

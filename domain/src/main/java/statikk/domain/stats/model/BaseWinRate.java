@@ -14,6 +14,20 @@ public class BaseWinRate {
     protected double winCount;
     protected double playedCount;
 
+    public BaseWinRate(Long winCount, Long playedCount) {
+        if (winCount == null) {
+            this.winCount = 0;
+        } else {
+            this.winCount = winCount;
+        }
+        if (playedCount == null) {
+            this.playedCount = 0;
+        } else {
+            this.playedCount = playedCount;
+        }
+
+    }
+
     public double getWinCount() {
         return winCount;
     }
@@ -34,7 +48,18 @@ public class BaseWinRate {
         if (this.playedCount == 0) {
             return null;
         } else {
-            return  winCount / playedCount;
+            return winCount / playedCount;
+        }
+    }
+
+    public int comparePlayedCount(Object o) {
+        BaseWinRate other = (BaseWinRate) o;
+        if(this.playedCount == other.playedCount) {
+            return 0;
+        } else if(this.playedCount - other.playedCount > 0) {
+            return 1;
+        } else {
+            return -1;
         }
     }
 }

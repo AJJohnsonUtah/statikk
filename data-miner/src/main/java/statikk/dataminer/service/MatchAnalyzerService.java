@@ -90,9 +90,14 @@ public class MatchAnalyzerService {
             MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, matchId);
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
-                summonerIdsFromMatches.addAll(currentMatch.getParticipantSummonerIds());
-                analyzeMatch(currentMatch, aggregateAnalysis);
-                match.setStatus(MatchStatus.COMPLETED);
+                // Matches must be at least 5 minutes long to do a decent analysis, right?
+                if (currentMatch.getGameDuration() <= 300) {
+                    match.setStatus(MatchStatus.MATCH_TOO_SHORT);
+                } else {
+                    summonerIdsFromMatches.addAll(currentMatch.getParticipantSummonerIds());
+                    analyzeMatch(currentMatch, aggregateAnalysis);
+                    match.setStatus(MatchStatus.COMPLETED);
+                }
             } else {
                 match.setStatus(MatchStatus.DATA_NOT_FOUND);
             }

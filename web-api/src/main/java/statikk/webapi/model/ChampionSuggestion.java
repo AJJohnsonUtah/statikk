@@ -5,8 +5,8 @@
  */
 package statikk.webapi.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -15,16 +15,16 @@ import java.util.Map;
 public class ChampionSuggestion {
 
     private long championId;
-    private Map<ChampionSuggestionReason, Double> scores;
+    private List<ChampionSuggestionContext> suggestionContext;
 
     public ChampionSuggestion(long championId) {
         this.championId = championId;
-        this.scores = new HashMap<>();
+        this.suggestionContext = new LinkedList<>();
     }
 
-    public ChampionSuggestion(long championId, ChampionSuggestionReason reason, double score) {
+    public ChampionSuggestion(long championId, ChampionSuggestionContext suggestionContext) {
         this(championId);
-        this.scores.put(reason, score);
+        this.suggestionContext.add(suggestionContext);
     }
 
     public long getChampionId() {
@@ -35,16 +35,16 @@ public class ChampionSuggestion {
         this.championId = championId;
     }
 
-    public Map<ChampionSuggestionReason, Double> getScores() {
-        return scores;
+    public List<ChampionSuggestionContext> getSuggestionContext() {
+        return suggestionContext;
     }
 
     public double getScore() {
-        return scores.values().stream().reduce(0.0, (x, y) -> x + y) / scores.size();
+        return suggestionContext.stream().map(context -> context.score).reduce(0.0, (x, y) -> x + y) / suggestionContext.size();
     }
 
-    public void addScore(ChampionSuggestionReason reason, double score) {
-        this.scores.put(reason, score);
+    public void addSuggestionContext(ChampionSuggestionContext suggestionContext) {
+        this.suggestionContext.add(suggestionContext);
     }
 
 }

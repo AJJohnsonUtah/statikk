@@ -1,22 +1,24 @@
 <!-- This is the template for the summoner pick modal form -->
 <ng-template #content let-c="close">
-  <form id="user-pick-modal-form" class="p-2 container" [formGroup]="userPickForm" (submit)="c({userSummonerName: userPickForm.get('userSummonerName').value, userLane: userPickForm.get('userLane').value})">
-    <div class="input-group ">
-      <label class="input-group-addon col-md-5 col-xs-5">Summoner Name:</label>
-      <input type="text" class="form-control col-md-7 col-xs-7" formControlName="userSummonerName">
-    </div>
-    <div class="input-group ">
-      <label class="input-group-addon col-md-5 col-xs-5">Lane:</label>
-      <select class="form-control col-md-7 col-xs-7" formControlName="userLane">
-        <option selected>--Select a lane--</option>
-        <option *ngFor="let lane of laneList" [value]="lane.id">
-          {{lane.name}}
-        </option>
-      </select>
-    </div>
-    <br>
-    <input type="submit" class="btn btn-primary form-control" [disabled]="!userPickForm.get('userLane').value" value="Go">
-  </form>
+  <div class="modal-body">
+    <form id="user-pick-modal-form" class="p-2 container" [formGroup]="userPickForm" (submit)="c({userSummonerName: userPickForm.get('userSummonerName').value, userLane: userPickForm.get('userLane').value})">
+      <div class="input-group row">
+        <label class="input-group-addon col-md-5 col-xs-5">Summoner Name:</label>
+        <input type="text" class="form-control col-md-7 col-xs-7" formControlName="userSummonerName">
+      </div>
+      <div class="input-group ">
+        <label class="input-group-addon col-md-5 col-xs-5">Lane:</label>
+        <select class="form-control col-md-7 col-xs-7" formControlName="userLane">
+          <option selected>--Select a lane--</option>
+          <option *ngFor="let lane of laneList" [value]="lane.id">
+            {{lane.name}}
+          </option>
+        </select>
+      </div>
+      <br>
+      <input type="submit" class="btn btn-primary form-control" [disabled]="!userPickForm.get('userLane').value" value="Go">
+    </form>
+  </div>
 </ng-template>
 
 <!-- Main team builder content -->

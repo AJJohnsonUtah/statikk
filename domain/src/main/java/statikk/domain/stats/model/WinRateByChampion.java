@@ -14,8 +14,7 @@ public class WinRateByChampion extends BaseWinRate {
     private final int championId;
 
     public WinRateByChampion(int championId, long playedCount, long winCount) {
-        this.playedCount = playedCount;
-        this.winCount = winCount;
+        super(winCount, playedCount);
         this.championId = championId;
     }
 

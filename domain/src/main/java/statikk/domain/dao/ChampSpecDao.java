@@ -5,7 +5,7 @@
  */
 package statikk.domain.dao;
 
-import java.util.List;
+import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSpec;

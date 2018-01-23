@@ -10,13 +10,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import statikk.domain.entity.converter.QueueTypeConverter;
 import statikk.domain.entity.converter.RegionConverter;
 import statikk.domain.entity.converter.TeamCompMapConverter;
@@ -32,13 +31,17 @@ import statikk.domain.riotapi.model.Region;
 @Embeddable
 public class TeamCompPK implements Serializable {
 
+    @Transient
+    private Map<Role, Integer> enemyTeamCompMap;
+
+    @Transient
+    private Map<Role, Integer> allyTeamCompMap;
+
     @Column(name = "ally_team_comp")
-    @Convert(converter = TeamCompMapConverter.class)
-    private Map<Role, Integer> allyTeamComp;
+    private String allyTeamComp;
 
     @Column(name = "enemy_team_comp")
-    @Convert(converter = TeamCompMapConverter.class)
-    private Map<Role, Integer> enemyTeamComp;
+    private String enemyTeamComp;
 
     @Column(name = "match_type")
     @Convert(converter = QueueTypeConverter.class)
@@ -56,23 +59,24 @@ public class TeamCompPK implements Serializable {
     }
 
     public TeamCompPK(Collection<ParticipantDto> allyTeamParticipants, Collection<ParticipantDto> enemyTeamParticipants, QueueType matchType, LolVersion lolVersion, Region region) {
-        this.allyTeamComp = new HashMap<>();
+        this.allyTeamCompMap = new HashMap<>();
         allyTeamParticipants.forEach((participant) -> {
-            if (allyTeamComp.containsKey(participant.getRole())) {
-                allyTeamComp.put(participant.getRole(), allyTeamComp.get(participant.getRole()) + 1);
+            if (allyTeamCompMap.containsKey(participant.getRole())) {
+                allyTeamCompMap.put(participant.getRole(), allyTeamCompMap.get(participant.getRole()) + 1);
             } else {
-                allyTeamComp.put(participant.getRole(), 1);
+                allyTeamCompMap.put(participant.getRole(), 1);
             }
         });
-
-        this.enemyTeamComp = new HashMap<>();
+        this.allyTeamComp = TeamCompMapConverter.convertToString(this.allyTeamCompMap);
+        this.enemyTeamCompMap = new HashMap<>();
         enemyTeamParticipants.forEach((participant) -> {
-            if (enemyTeamComp.containsKey(participant.getRole())) {
-                enemyTeamComp.put(participant.getRole(), enemyTeamComp.get(participant.getRole()) + 1);
+            if (enemyTeamCompMap.containsKey(participant.getRole())) {
+                enemyTeamCompMap.put(participant.getRole(), enemyTeamCompMap.get(participant.getRole()) + 1);
             } else {
-                enemyTeamComp.put(participant.getRole(), 1);
+                enemyTeamCompMap.put(participant.getRole(), 1);
             }
         });
+        this.enemyTeamComp = TeamCompMapConverter.convertToString(this.enemyTeamCompMap);
 
         this.matchType = matchType;
         this.lolVersion = lolVersion;
@@ -80,19 +84,39 @@ public class TeamCompPK implements Serializable {
     }
 
     public Map<Role, Integer> getAllyTeamComp() {
-        return allyTeamComp;
+        return allyTeamCompMap;
     }
 
     public void setAllyTeamComp(Map<Role, Integer> allyTeamComp) {
-        this.allyTeamComp = allyTeamComp;
+        this.allyTeamCompMap = allyTeamComp;
+        this.enemyTeamComp = TeamCompMapConverter.convertToString(enemyTeamCompMap);
     }
 
     public Map<Role, Integer> getEnemyTeamComp() {
-        return enemyTeamComp;
+        return enemyTeamCompMap;
     }
 
     public void setEnemyTeamComp(Map<Role, Integer> enemyTeamComp) {
-        this.enemyTeamComp = enemyTeamComp;
+        this.enemyTeamCompMap = enemyTeamComp;
+        this.enemyTeamComp = TeamCompMapConverter.convertToString(enemyTeamComp);
+    }
+
+    public String getAllyTeamCompString() {
+        return allyTeamComp;
+    }
+
+    public void setAllyTeamCompString(String allyTeamCompString) {
+        this.allyTeamComp = allyTeamCompString;
+        this.allyTeamCompMap = TeamCompMapConverter.convertToMap(allyTeamCompString);
+    }
+
+    public String getEnemyTeamCompString() {
+        return enemyTeamComp;
+    }
+
+    public void setEnemyTeamCompString(String enemyTeamCompString) {
+        this.enemyTeamComp = enemyTeamCompString;
+        this.enemyTeamCompMap = TeamCompMapConverter.convertToMap(enemyTeamCompString);
     }
 
     public QueueType getMatchType() {
@@ -122,8 +146,8 @@ public class TeamCompPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(TeamCompMapConverter.convertToString(this.allyTeamComp));
-        hash = 29 * hash + Objects.hashCode(TeamCompMapConverter.convertToString(this.enemyTeamComp));
+        hash = 29 * hash + Objects.hashCode(this.allyTeamComp);
+        hash = 29 * hash + Objects.hashCode(this.enemyTeamComp);
         hash = 29 * hash + Objects.hashCode(this.matchType);
         hash = 29 * hash + Objects.hashCode(this.lolVersion);
         hash = 29 * hash + Objects.hashCode(this.region);
@@ -142,10 +166,10 @@ public class TeamCompPK implements Serializable {
             return false;
         }
         final TeamCompPK other = (TeamCompPK) obj;
-        if (!Objects.equals(TeamCompMapConverter.convertToString(this.allyTeamComp), TeamCompMapConverter.convertToString(other.allyTeamComp))) {
+        if (!Objects.equals(this.allyTeamComp, other.allyTeamComp)) {
             return false;
         }
-        if (!Objects.equals(TeamCompMapConverter.convertToString(this.enemyTeamComp), TeamCompMapConverter.convertToString(other.enemyTeamComp))) {
+        if (!Objects.equals(this.enemyTeamComp, other.enemyTeamComp)) {
             return false;
         }
         if (this.matchType != other.matchType) {
@@ -159,7 +183,7 @@ public class TeamCompPK implements Serializable {
 
     @Override
     public String toString() {
-        return "TeamCompPK{" + "allyTeamComp=" + allyTeamComp + ", enemyTeamComp=" + enemyTeamComp + ", matchType=" + matchType + ", lolVersion=" + lolVersion + ", region=" + region + '}';
+        return "TeamCompPK{" + "allyTeamComp=" + allyTeamCompMap + ", enemyTeamComp=" + enemyTeamCompMap + ", matchType=" + matchType + ", lolVersion=" + lolVersion + ", region=" + region + '}';
     }
 
 }

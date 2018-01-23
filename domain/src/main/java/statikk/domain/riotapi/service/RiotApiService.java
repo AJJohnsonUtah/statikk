@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,7 @@ public class RiotApiService {
         return getRiotApiRequest(url, typeRef);
     }
 
+    @Cacheable("static-champions-object")
     public ChampionListDto getStaticChampionsDataObject(Region region) {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/champions", "&champListData=image&dataById=true");
         ParameterizedTypeReference<ChampionListDto> typeRef = new ParameterizedTypeReference<ChampionListDto>() {

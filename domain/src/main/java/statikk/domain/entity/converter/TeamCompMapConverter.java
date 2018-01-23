@@ -7,7 +7,6 @@ package statikk.domain.entity.converter;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import statikk.domain.entity.enums.Role;
 
@@ -15,27 +14,7 @@ import statikk.domain.entity.enums.Role;
  *
  * @author Grann
  */
-@Converter
-public class TeamCompMapConverter implements AttributeConverter<Map<Role, Integer>, Long> {
-
-    @Override
-    public Long convertToDatabaseColumn(Map<Role, Integer> x) {
-        return Long.valueOf(convertToString(x));
-    }
-
-    @Override
-    public Map<Role, Integer> convertToEntityAttribute(Long valToConvert) {
-        String val = String.valueOf(valToConvert);
-        Map<Role, Integer> roleMap = new HashMap<>();
-        for (int i = 0; i < val.length(); i++) {
-            char roleCount = val.charAt(i);
-            if (roleCount > 0) {
-                Role role = Role.fromId(i + 1);
-                roleMap.put(role, Integer.parseInt(String.valueOf(roleCount)));
-            }
-        }
-        return roleMap;
-    }
+public class TeamCompMapConverter {
 
     public static String convertToString(Map<Role, Integer> roleMap) {
         int[] mapChars = new int[Role.values().length];
@@ -46,6 +25,19 @@ public class TeamCompMapConverter implements AttributeConverter<Map<Role, Intege
         for (int i = 0; i < mapChars.length; i++) {
             stringVal += mapChars[i];
         }
-        return stringVal;
+        return stringVal.replaceAll("([1-9]+)0+$", "$1");
     }
+
+    public static Map<Role, Integer> convertToMap(String val) {
+        Map<Role, Integer> roleMap = new HashMap<>();
+        for (int i = 0; i < val.length(); i++) {
+            int roleCount = Integer.parseInt(String.valueOf(val.charAt(i)));
+            if (roleCount > 0) {
+                Role role = Role.fromId(i + 1);
+                roleMap.put(role, roleCount);
+            }
+        }
+        return roleMap;
+    }
+
 }

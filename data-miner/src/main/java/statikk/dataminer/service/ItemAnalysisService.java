@@ -169,11 +169,14 @@ public class ItemAnalysisService {
     }
 
     public void loadParticipantRoles(MatchDetail match) {
-        if (match.getTimeline() == null || match.getTimeline().getFrames() == null || match.getTimeline().getFrames().isEmpty()) {
+        if(match.getParticipants() == null) {
             return;
         }
         for (ParticipantDto participant : match.getParticipants()) {
-            Role role = calculateRoleFromBuild(participant.getFinalBuildOrder().getBuildItemIds());
+            if (participant.getStats() == null) {
+                continue;
+            }
+            Role role = calculateRoleFromBuild(participant.getStats().getItems());
             participant.setRole(role);
         }
     }
@@ -348,6 +351,10 @@ public class ItemAnalysisService {
         float totalSupportItems = 0;
         for (Integer itemId : buildItems) {
             ItemDto item = this.itemListDto.getData().get(itemId);
+            if (item == null) {
+                System.out.println("Item id " + itemId + " is null");
+                continue;
+            }
             if (item.isSupportItem()) {
                 totalSupportItems++;
             }
@@ -368,11 +375,16 @@ public class ItemAnalysisService {
             }
         }
 
+        Role finalRole;
+
         if (totalItems > 0 && totalSupportItems / totalItems >= 0.4) {
-            return Role.SUPPORT;
+            finalRole = Role.SUPPORT;
+        } else {
+            finalRole = this.getRoleFromStatCounts(tankStat, apStat, adStat);
         }
 
-        return this.getRoleFromStatCounts(tankStat, apStat, adStat);
+//        System.out.println(buildItems.stream().map((itemId) -> this.itemListDto.getData().get(itemId).getName()).reduce("", (a, b) -> a + ", " + b) + finalRole);
+        return finalRole;
     }
 
     private Role getRoleFromStatCounts(double tankStat, double apStat, double adStat) {

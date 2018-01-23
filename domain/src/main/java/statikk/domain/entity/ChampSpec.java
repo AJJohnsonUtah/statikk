@@ -19,8 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,24 +46,6 @@ import statikk.domain.riotapi.model.TeamBansDto;
 @Entity
 @Table(name = "champ_spec", uniqueConstraints = @UniqueConstraint(columnNames = {"champion_id", "lol_version_id", "match_type", "lane", "role", "rank", "region"}))
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ChampSpec.findAll", query = "SELECT c FROM ChampSpec c")
-    ,
-    @NamedQuery(name = "ChampSpec.findByChampSpecId", query = "SELECT c FROM ChampSpec c WHERE c.champSpecId = :champSpecId")
-    ,
-    @NamedQuery(name = "ChampSpec.findByChampionId", query = "SELECT c FROM ChampSpec c WHERE c.championId = :championId")
-    ,
-    @NamedQuery(name = "ChampSpec.findByMatchType", query = "SELECT c FROM ChampSpec c WHERE c.matchType = :matchType")
-    ,
-    @NamedQuery(name = "ChampSpec.findByLolVersionId", query = "SELECT c FROM ChampSpec c WHERE c.lolVersion = :lolVersionId")
-    ,
-    @NamedQuery(name = "ChampSpec.findByLane", query = "SELECT c FROM ChampSpec c WHERE c.lane = :lane")
-    ,
-    @NamedQuery(name = "ChampSpec.findByRole", query = "SELECT c FROM ChampSpec c WHERE c.role = :role")
-    ,
-    @NamedQuery(name = "ChampSpec.findByRank", query = "SELECT c FROM ChampSpec c WHERE c.rank = :rank")
-    ,
-    @NamedQuery(name = "ChampSpec.find", query = "SELECT c FROM ChampSpec c WHERE c.championId = :championId AND c.matchType = :matchType AND c.lolVersion = :lolVersionId AND c.lane = :lane AND c.role = :role AND c.rank = :rank")})
 public class ChampSpec implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -144,7 +124,7 @@ public class ChampSpec implements Serializable {
         this.championId = matchParticipant.getChampionId();
         this.matchType = match.getQueueId();
         this.lolVersion = match.getGameVersion();
-        this.lane = matchParticipant.getTimeline().getLane().toLane();
+        this.lane = matchParticipant.getLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
         this.region = match.getPlatformId();
         this.role = matchParticipant.getRole();

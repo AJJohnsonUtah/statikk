@@ -5,6 +5,7 @@
  */
 package statikk.domain.stats.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import statikk.domain.riotapi.model.Rank;
 import statikk.domain.service.LolVersionService;
 import statikk.domain.stats.model.WinRateByChampion;
 import statikk.domain.stats.model.WinRateByChampionLane;
+import statikk.domain.stats.model.WinRateByChampionRole;
 import statikk.domain.stats.model.WinRateByMatchType;
 import statikk.domain.stats.model.WinRateByLane;
 import statikk.domain.stats.model.WinRateByRole;
@@ -87,9 +89,8 @@ public class ChampionWinRateService {
     }
 
     public Map<Role, WinRateByRole> getChampionRoleWinRates(int championId, Iterable<QueueType> matchTypes, LolVersion lolVersion) {
-        lolVersion = lolVersionService.findOrCreate(lolVersion);
         // Get win rates for all ranks/lanes
-        return champSpecWinRateDao.findChampionWinRatesGroupedByRole(championId, matchTypes, lolVersion)
+        return champSpecWinRateDao.findChampionWinRatesGroupedByRole(championId, matchTypes, Collections.singletonList(lolVersion))
                 .stream().filter(p -> p.getRole() != null).collect(Collectors.toMap(WinRateByRole::getRole, p -> p));
     }
 
@@ -99,17 +100,29 @@ public class ChampionWinRateService {
         return champSpecWinRateDao.findChampionWinRatesByLaneGroupedByRole(championId, lane, matchTypes, lolVersion)
                 .stream().filter(p -> p.getRole() != null).collect(Collectors.toMap(WinRateByRole::getRole, p -> p));
     }
-    
-    
+
     @Cacheable("lane-win-rates")
     public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getWinRatesByChampionLane(Iterable<QueueType> matchTypes) {
         List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
-        Map<Integer, Map<Lane,WinRateByChampionLane>> winRates = new HashMap<>();
+        Map<Integer, Map<Lane, WinRateByChampionLane>> winRates = new HashMap<>();
         champSpecWinRateDao.findWinRatesByGroupedByChampionLane(matchTypes, recentVersions).forEach((winRateByChampionLane) -> {
-           if(!winRates.containsKey(winRateByChampionLane.getChampionId())) {
-              winRates.put(winRateByChampionLane.getChampionId(), new HashMap<>());
-           } 
-           winRates.get(winRateByChampionLane.getChampionId()).put(winRateByChampionLane.getLane(), winRateByChampionLane);
+            if (!winRates.containsKey(winRateByChampionLane.getChampionId())) {
+                winRates.put(winRateByChampionLane.getChampionId(), new HashMap<>());
+            }
+            winRates.get(winRateByChampionLane.getChampionId()).put(winRateByChampionLane.getLane(), winRateByChampionLane);
+        });
+        return winRates.keySet().stream().collect(Collectors.toMap(p -> p, p -> new WinRateMapWithTotal(winRates.get(p))));
+    }
+
+    @Cacheable("role-win-rates")
+    public Map<Integer, WinRateMapWithTotal<Role, WinRateByChampionRole>> getWinRatesByChampionRole(Iterable<QueueType> matchTypes) {
+        List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
+        Map<Integer, Map<Role, WinRateByChampionRole>> winRates = new HashMap<>();
+        champSpecWinRateDao.findWinRatesByGroupedByChampionRole(matchTypes, recentVersions).forEach((winRateByChampionRole) -> {
+            if (!winRates.containsKey(winRateByChampionRole.getChampionId())) {
+                winRates.put(winRateByChampionRole.getChampionId(), new HashMap<>());
+            }
+            winRates.get(winRateByChampionRole.getChampionId()).put(winRateByChampionRole.getRole(), winRateByChampionRole);
         });
         return winRates.keySet().stream().collect(Collectors.toMap(p -> p, p -> new WinRateMapWithTotal(winRates.get(p))));
     }

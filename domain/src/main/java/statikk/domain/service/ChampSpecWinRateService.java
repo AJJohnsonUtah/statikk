@@ -21,5 +21,5 @@ public class ChampSpecWinRateService extends BaseWinRateService<ChampSpecWinRate
     @Override
     public ChampSpecWinRate find(ChampSpecWinRate champSpecWinRate) {
         return dao.findOne(champSpecWinRate.getChampSpecWinRatePK());
-    }
+    }        
 }

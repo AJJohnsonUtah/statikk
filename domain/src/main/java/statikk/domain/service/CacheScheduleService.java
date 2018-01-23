@@ -40,14 +40,12 @@ public class CacheScheduleService {
 
     @Scheduled(fixedDelay = 43200000)
     public void fillCacheWithAllChamps() {
-        System.out.println("Starting the cache, yo");
-        List<LolVersion> recentVersions = lolVersionService.findRecentVersions();
         Set<QueueType> matchTypes = QueueType.standardSRMatchTypes;
-        riotApiService.getStaticChampionsDataObject(Region.NA).getData().values().stream().forEach((champData) -> {
-            System.out.println("Caching for " + champData.getId());
-            champMatchupService.getWinRatesByChampionLane(champData.getId(), matchTypes);
-            champTeamupService.getWinRatesByChampionLane(champData.getId(), matchTypes);
-        });
         championWinRateService.getWinRatesByChampionLane(matchTypes);
+        championWinRateService.getWinRatesByChampionRole(matchTypes);
+        riotApiService.getStaticChampionsDataObject(Region.NA).getData().values().stream().forEach((champData) -> {
+            champMatchupService.getWinRatesByChampion(champData.getId(), matchTypes);
+            champTeamupService.getWinRatesByChampion(champData.getId(), matchTypes);
+        });
     }
 }

@@ -39,6 +39,10 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         return totalWinCount;
     }
 
+    public boolean hasDataFor(K key) {
+        return winRateData.containsKey(key) && winRateData.get(key).getPlayedCount() > 0;
+    }
+
     public double getTotalWinRate() {
         return this.totalWinCount / this.totalPlayedCount;
     }
@@ -49,9 +53,12 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         if (!this.winRateData.containsKey(keyToCheck) || this.winRateData.size() <= 1) {
             return false;
         }
-
-        if (getZScore(keyToCheck) >= zScore95Percentile) {
-            return true;
+        try {
+            if (getZScore(keyToCheck) >= zScore95Percentile) {
+                return true;
+            }
+        } catch (NullPointerException e) {
+            return false;
         }
         return false;
     }
@@ -62,20 +69,25 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         if (!this.winRateData.containsKey(keyToCheck) || this.winRateData.size() <= 1) {
             return false;
         }
-
-        if (getZScore(keyToCheck) <= zScore5Percentile) {
-            return true;
+        try {
+            if (getZScore(keyToCheck) <= zScore5Percentile) {
+                return true;
+            }
+        } catch (NullPointerException e) {
+            return false;
         }
+
         return false;
     }
 
     /**
-     * Determines a Z-Score for the specific key's win rate compared to the overall win rate
-     * 
+     * Determines a Z-Score for the specific key's win rate compared to the
+     * overall win rate
+     *
      * Test from: https://onlinecourses.science.psu.edu/stat414/node/268
-     * 
+     *
      * @param keyToCheck
-     * @return 
+     * @return
      */
     public double getZScore(K keyToCheck) {
         V winRateDataForKey = this.winRateData.get(keyToCheck);
@@ -84,7 +96,7 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
         double n2 = winRateDataForKey.playedCount;
 
         double p1 = (this.totalWinCount - winRateDataForKey.winCount) / n1;
-        double p2= winRateDataForKey.getWinRate();
+        double p2 = winRateDataForKey.getWinRate();
         double p = this.getTotalWinRate();
 
         return (p2 - p1) / Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));

@@ -15,7 +15,7 @@ import java.util.Map;
 public class ChampionListDto implements Serializable {
 
     private Map<String, String> keys;
-    private Map<String, ChampionDto> data;
+    private Map<Integer, ChampionDto> data;
     private String version;
     private String type;
     private String format;
@@ -24,7 +24,7 @@ public class ChampionListDto implements Serializable {
         return keys;
     }
 
-    public Map<String, ChampionDto> getData() {
+    public Map<Integer, ChampionDto> getData() {
         return data;
     }
 
