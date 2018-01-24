@@ -8,6 +8,7 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config
 import { of } from 'rxjs/observable/of';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamBuilderService } from './services/team-builder.service';
+import { ChampionSuggestion } from './models/champion-suggestion';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
@@ -31,10 +32,25 @@ describe('TeamBuilderComponent', () => {
     }
   }
 
+  @Component({ selector: 'app-suggestion-context', template: '' })
+  class AppSuggestionContextMockComponent {
+    @Input()
+    championId: number;
+  }
+
+  @Component({ selector: 'app-champion-suggestion-group', template: '' })
+  class AppChampionSuggestionGroupMockComponent {
+    @Input()
+    championSuggestions: ChampionSuggestion[];
+    @Input()
+    rating: number;
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbModule.forRoot(), ReactiveFormsModule],
-      declarations: [TeamBuilderComponent, AppChampionImageMockComponent],
+      declarations: [TeamBuilderComponent, AppChampionImageMockComponent, AppSuggestionContextMockComponent,
+        AppChampionSuggestionGroupMockComponent],
       providers: [{ provide: StaticDataService, useClass: MockStaticDataService },
       { provide: TeamBuilderService, useClass: MockTeamBuilderService }]
     })

@@ -11,10 +11,10 @@ export class TeamBuilderService extends HttpService {
   public getChampionSuggestions(summonerName: string,
     lane: string,
     allyChampions: ChampionPick[],
-    enemyChampions: ChampionPick[]): Observable<Map<number, ChampionSuggestion>> {
+    enemyChampions: ChampionPick[]): Observable<ChampionSuggestion[]> {
     const url = this.apiRoot + '/team-builder/suggestions';
     const teamBuilderProgress = new TeamBuilderProgress(summonerName, lane, allyChampions, enemyChampions);
-    return this.httpClient.post<Map<number, ChampionSuggestion>>(url, teamBuilderProgress);
+    return this.httpClient.post<ChampionSuggestion[]>(url, teamBuilderProgress);
   }
 
 }

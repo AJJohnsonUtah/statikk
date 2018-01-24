@@ -5,7 +5,7 @@
  */
 package statikk.webapi.controller;
 
-import java.util.Map;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +29,7 @@ public class TeamBuilderController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/suggestions", method = RequestMethod.POST)
-    public Map<Integer, ChampionSuggestion> getSuggestions(@RequestBody TeamBuilderProgressData teamBuilderProgess) {
+    public Collection<ChampionSuggestion> getSuggestions(@RequestBody TeamBuilderProgressData teamBuilderProgess) {
         return teamBuilderService.getChampionSuggestions(teamBuilderProgess);
     }
 }

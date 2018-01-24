@@ -217,3 +217,8 @@ app-champion-image {
   -o-transform: rotate(315deg);
   transform: rotate(315deg);
 }
+
+.tooltip-inner {
+  max-width: 600px;
+  text-align: left;
+}

@@ -53,26 +53,6 @@
     text-align: center;
 }
 
-#best-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(10, 255, 10, 0.65);
-}
-
-#better-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(80, 175, 10, 0.65);
-}
-
-#average-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(175, 175, 10, 0.65);
-}
-
-#worse-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(175, 80, 10, 0.65);
-}
-
-#worst-champ-suggestions .champion-set-wrapper {
-    background-color: rgba(255, 10, 10, 0.65);
-}
-
 .select-active-icon {
     position: absolute;
     border: 6px solid $accent-color-focus;

@@ -25,7 +25,7 @@ export class TeamBuilderComponent implements OnInit {
   userPick: ChampionPick;
   userPickForm: FormGroup;
   laneList = laneList;
-  championSuggestions: Map<number, ChampionSuggestion>;
+  championSuggestions: ChampionSuggestion[];
 
   currentTeamPick: number = null;
 

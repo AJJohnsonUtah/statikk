@@ -2,13 +2,13 @@
 <ng-template #content let-c="close">
   <div class="modal-body">
     <form id="user-pick-modal-form" class="p-2 container" [formGroup]="userPickForm" (submit)="c({userSummonerName: userPickForm.get('userSummonerName').value, userLane: userPickForm.get('userLane').value})">
-      <div class="input-group row">
-        <label class="input-group-addon col-md-5 col-xs-5">Summoner Name:</label>
-        <input type="text" class="form-control col-md-7 col-xs-7" formControlName="userSummonerName">
+      <div class="input-group">
+        <label class="input-group-addon ">Summoner Name:</label>
+        <input type="text" class="form-control " formControlName="userSummonerName">
       </div>
       <div class="input-group ">
-        <label class="input-group-addon col-md-5 col-xs-5">Lane:</label>
-        <select class="form-control col-md-7 col-xs-7" formControlName="userLane">
+        <label class="input-group-addon">Lane:</label>
+        <select class="form-control " formControlName="userLane">
           <option selected>--Select a lane--</option>
           <option *ngFor="let lane of laneList" [value]="lane.id">
             {{lane.name}}
@@ -19,6 +19,10 @@
       <input type="submit" class="btn btn-primary form-control" [disabled]="!userPickForm.get('userLane').value" value="Go">
     </form>
   </div>
+</ng-template>
+
+<ng-template #tipContent let-context="context">
+  <app-suggestion-context></app-suggestion-context>
 </ng-template>
 
 <!-- Main team builder content -->
@@ -64,44 +68,13 @@
       <h2 [hidden]="!userPick || !firstPickTeam">Champion Suggestions</h2>
       <div id="champion-suggestion-body" *ngIf="championSuggestions" [hidden]="!userPick || !firstPickTeam">
         <div class="d-flex flex-row justify-content-between">
-          <div id="best-champ-suggestions">
-            <ngb-rating [rate]="5" [max]="5" [readonly]="true"></ngb-rating>
-            <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
-              <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-                (click)="pickChampion(championId)" [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.8 "></app-champion-image>
-            </div>
-          </div>
-          <div id="better-champ-suggestions">
-            <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>
-            <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
-              <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-                (click)="pickChampion(championId)" [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.6 || championSuggestions[championId].score >= 0.8"></app-champion-image>
-            </div>
-          </div>
-          <div id="average-champ-suggestions">
-            <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>
-            <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
-              <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-                (click)="pickChampion(championId)" [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.4 || championSuggestions[championId].score >= 0.6"></app-champion-image>
-            </div>
-          </div>
-          <div id="worse-champ-suggestions">
-            <ngb-rating [rate]="2" [max]="5" [readonly]="true"></ngb-rating>
-            <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
-              <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-                (click)="pickChampion(championId)" [hidden]="!championSuggestions[championId] || championSuggestions[championId].score < 0.2 || championSuggestions[championId].score >= 0.4"></app-champion-image>
-            </div>
-          </div>
-          <div id="worst-champ-suggestions">
-            <ngb-rating [rate]="1" [max]="5" [readonly]="true"></ngb-rating>
-            <div class="d-flex flex-wrap justify-content-around champion-set-wrapper">
-              <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds; let i=index" [championId]="championId"
-                (click)="pickChampion(championId)" [hidden]="championSuggestions[championId] && championSuggestions[championId].score >= 0.2"></app-champion-image>
-            </div>
-          </div>
+          <app-champion-suggestion-group id="best-champ-suggestions" [rating]="5" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
+          <app-champion-suggestion-group id="better-champ-suggestions" [rating]="4" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
+          <app-champion-suggestion-group id="average-champ-suggestions" [rating]="3" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
+          <app-champion-suggestion-group id="worse-champ-suggestions" [rating]="2" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
+          <app-champion-suggestion-group id="worst-champ-suggestions" [rating]="1" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
         </div>
       </div>
-
     </div>
     <div id="team-b-wrapper" class="team-wrapper p-2 d-flex flex-column justify-content-around align-items-end">
       <button class="btn btn-primary select-active-icon active-element" *ngIf="userPick && !firstPickTeam" (click)="setTeamOrder(enemyChampions, allyChampions)">
