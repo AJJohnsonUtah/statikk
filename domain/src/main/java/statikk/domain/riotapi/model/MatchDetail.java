@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import statikk.domain.entity.LolSummoner;
 
 /**
  *
@@ -162,6 +163,22 @@ public class MatchDetail implements Serializable {
             return getParticipantIdentities()
                     .stream()
                     .map(s -> s.getPlayer().getSummonerId())
+                    .sequential()
+                    .collect(Collectors.toList());
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public List<LolSummoner> getLolSummoners() {
+
+        if (getParticipantIdentities().get(0).getPlayer() != null) {
+            return getParticipantIdentities()
+                    .stream()
+                    .map(s -> new LolSummoner(
+                    s.getPlayer().getCurrentAccountId(),
+                    s.getPlayer().getSummonerId(),
+                    this.participants.get(s.getParticipantId() - 1).getHighestAchievedSeasonTier(),
+                    s.getPlayer().getCurrentPlatformId()))
                     .sequential()
                     .collect(Collectors.toList());
         }

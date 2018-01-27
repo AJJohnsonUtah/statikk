@@ -5,8 +5,7 @@
  */
 package statikk.dataminer.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +26,7 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.LolSummoner;
 import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.TeamCompPK;
 import statikk.domain.entity.enums.MatchStatus;
@@ -38,6 +38,7 @@ import statikk.domain.riotapi.model.TeamBansDto;
 import statikk.domain.riotapi.service.RiotApiService;
 import statikk.domain.service.ChampSpecService;
 import statikk.domain.service.LolMatchService;
+import statikk.domain.service.LolSummonerService;
 import statikk.domain.service.LolVersionService;
 
 /**
@@ -52,6 +53,9 @@ public class MatchAnalyzerService {
 
     @Autowired
     LolMatchService lolMatchService;
+    
+    @Autowired
+    LolSummonerService lolSummonerService;
 
     @Autowired
     ChampSpecService champSpecService;
@@ -75,26 +79,27 @@ public class MatchAnalyzerService {
         this.riotApiService = riotApiService;
     }
 
-    public List<Long> analyzeMatches(int numMatchesToAnalyze, Region region, LolAggregateAnalysis aggregateAnalysis) {
-        if (numMatchesToAnalyze <= 0) {
-            return Collections.EMPTY_LIST;
-        }
-        List<Long> summonerIdsFromMatches = new ArrayList<>();
-        List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(numMatchesToAnalyze, region, numMatchesToAnalyze);
-
+    public int analyzeMatches(Region region, LolAggregateAnalysis aggregateAnalysis) {
+        List<LolSummoner> summonersFromMatches = new LinkedList<>();
+        List<LolMatch> matchesToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(region, 50);
+        
         Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "Matches fetched for analysis");
 
-        for (LolMatch match : matchIdsToAnalyze) {
-            Long matchId = match.getMatchId();
-            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}). ", new Object[]{matchId, region});
-            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, matchId);
+        for (LolMatch match : matchesToAnalyze) {
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}). ", new Object[]{match.getMatchId(), region});
+            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, match.getMatchId());
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
                 // Matches must be at least 5 minutes long to do a decent analysis, right?
                 if (currentMatch.getGameDuration() <= 300) {
                     match.setStatus(MatchStatus.MATCH_TOO_SHORT);
+                } else if (currentMatch.getGameVersion().isBefore(lolVersionService.findMostRecentVersion())) {
+                    match.setStatus(MatchStatus.MATCH_VERSION_NOT_CURRENT);
                 } else {
-                    summonerIdsFromMatches.addAll(currentMatch.getParticipantSummonerIds());
+                    if(currentMatch.getGameVersion().isAfter(lolVersionService.findMostRecentVersion())) {
+                        itemAnalysisService.reloadItems();
+                    }
+                    summonersFromMatches.addAll(currentMatch.getLolSummoners());
                     analyzeMatch(currentMatch, aggregateAnalysis);
                     match.setStatus(MatchStatus.COMPLETED);
                 }
@@ -104,10 +109,18 @@ public class MatchAnalyzerService {
         }
 
         lolAggregateAnalysisService.save(aggregateAnalysis);
-        if (matchIdsToAnalyze.size() > 0) {
-            lolMatchService.update(matchIdsToAnalyze);
+        if (matchesToAnalyze.size() > 0) {
+            lolMatchService.update(matchesToAnalyze);
+            lolSummonerService.addOrUpdate(summonersFromMatches);
+        } else {
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "No matches found to analyze. Waiting before next call.");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.SEVERE, "Error while trying to wait between analysis calls", ex);
+            }
         }
-        return summonerIdsFromMatches;
+        return matchesToAnalyze.size();
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {

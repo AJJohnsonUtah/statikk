@@ -26,37 +26,26 @@ public class MiningWorker implements Runnable {
     private final Region region;
     private boolean shouldRun;
 
-    private final MatchAnalyzerService matchAnalyzerService;
     private final MatchMiningService matchMiningService;
 
-    private long matchesAnalyzed;
+    private long matchesMined;
 
     public MiningWorker(Region region,
-            ItemAnalysisService itemAnalysisService,
-            MatchAnalyzerService matchAnalyzerService,
             MatchMiningService matchMiningService) throws IOException {
         this.shouldRun = true;
         this.region = region;
-        this.matchAnalyzerService = matchAnalyzerService;
         this.matchMiningService = matchMiningService;
-        this.matchesAnalyzed = 0;
+        this.matchesMined = 0;
     }
 
     @Override
     public void run() {
         try {
-            LinkedHashSet<Long> summonerIds = new LinkedHashSet<>();
             Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Running thread for {0}", this.region.getPlatformId());
             while (this.shouldRun) {
                 Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Beginning to mine matches.");
-                int matchesMined = matchMiningService.mineMatches(10, region, summonerIds);
+                this.matchesMined += matchMiningService.mineMatches(region);
                 Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Finished mining matches; Beginning to analyze matches.");
-                List<Long> newSummonerIds = matchAnalyzerService.analyzeMatches(matchesMined, region, new LolAggregateAnalysis());
-                matchesAnalyzed += matchesMined;
-                if (summonerIds.size() < 1000) {
-                    summonerIds.addAll(newSummonerIds);
-                }
-                Logger.getLogger(MiningWorker.class.getName()).log(Level.INFO, "Finished analyzing matches.");
             }
         } catch (Exception ex) {
             System.out.println("FAILED for " + region + ". " + new Date());
@@ -68,8 +57,8 @@ public class MiningWorker implements Runnable {
         this.shouldRun = false;
     }
 
-    public long getMatchesAnalyzed() {
-        return this.matchesAnalyzed;
+    public long getMatchesMined() {
+        return this.matchesMined;
     }
 
     public Region getRegion() {

@@ -145,6 +145,21 @@ CREATE TABLE `lol_match` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lol_summoner`
+--
+
+CREATE TABLE `lol_summoner` (
+  `account_id` bigint(20) NOT NULL,
+  `summoner_id` bigint(20) NOT NULL,
+  `highest_rank` int(11) NOT NULL,
+  `region` int(11) NOT NULL,
+  `last_mined_date` timestamp NULL DEFAULT NULL,
+  `last_played_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lol_version`
 --
 
@@ -237,6 +252,13 @@ ALTER TABLE `lol_match`
   ADD UNIQUE KEY `lol_match_unique` (`match_id`, `region`),
   ADD KEY `status` (`status`);
 
+--
+-- Indexes for table `lol_summoner`
+--
+ALTER TABLE `lol_summoner`
+  ADD PRIMARY KEY (`account_id`),
+  ADD KEY `last_mined_date` (`last_mined_date`),
+  ADD KEY `last_played_date` (`last_played_date`);
 --
 -- Indexes for table `lol_version`
 --

@@ -5,21 +5,19 @@
  */
 package statikk.dataminer.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.LolSummoner;
 import statikk.domain.riotapi.model.FeaturedGames;
 import statikk.domain.riotapi.model.MatchListDto;
 import statikk.domain.riotapi.model.MatchReferenceDto;
@@ -28,6 +26,7 @@ import statikk.domain.riotapi.model.Region;
 import statikk.domain.riotapi.model.SummonerDto;
 import statikk.domain.riotapi.service.RiotApiService;
 import statikk.domain.service.LolMatchService;
+import statikk.domain.service.LolSummonerService;
 
 /**
  *
@@ -42,28 +41,23 @@ public class MatchMiningService {
     @Autowired
     LolMatchService lolMatchService;
 
-    RestTemplate restTemplate;
+    @Autowired
+    LolSummonerService lolSummonerService;
 
     public MatchMiningService(RiotApiService riotApiService) {
         this.riotApiService = riotApiService;
     }
 
-    public MatchMiningService() {
-        restTemplate = new RestTemplate();
-    }
-
-    public int mineMatches(int matchesToMine, Region region, LinkedHashSet<Long> accountIdsToMine) throws InterruptedException {
-        final HashSet<Long> alreadyMinedMatches = new HashSet<>();
-        final HashSet<Long> alreadyMinedAccounts = new HashSet<>();
-
-        ArrayList<LolMatch> minedMatches = new ArrayList<>();
-        HashSet<Long> matchIds = new HashSet<>();
-
-        while (matchIds.size() < matchesToMine) {
-            Long accountId = getNextAccountId(accountIdsToMine, alreadyMinedAccounts, region);
-            MatchListDto recentGames = riotApiService.getRecentGames(region, accountId);
-            if (recentGames == null || recentGames.getMatches() == null) {
-                continue;
+    public int mineMatches(Region region) throws InterruptedException {
+        Map<Long, LolMatch> minedMatches = new HashMap<>();
+        List<LolSummoner> summoners = getSummonersToMine(region);
+        summoners.stream().forEach(summoner -> {
+            MatchListDto recentGames = riotApiService.getRecentGames(region, summoner.getAccountId());
+            if (recentGames == null || recentGames.getMatches() == null || recentGames.getMatches().isEmpty()) {
+                return;
+            }
+            if (summoner.getLastPlayedDate().before(new Date(recentGames.getMatches().get(0).getTimestamp()))) {
+                summoner.setLastPlayedDate(new Date(recentGames.getMatches().get(0).getTimestamp()));
             }
             for (MatchReferenceDto game : recentGames.getMatches()) {
                 if (game == null || game.getQueue() == null
@@ -74,28 +68,36 @@ public class MatchMiningService {
                                 QueueType.COOP_VS_AI_INTERMEDIATE_5x5,
                                 QueueType.COOP_VS_AI_INTRO_3x3,
                                 QueueType.COOP_VS_AI_INTRO_5x5).contains(game.getQueue())
-                        || alreadyMinedMatches.contains(game.getGameId())
+                        || minedMatches.containsKey(game.getGameId())
                         || isGameTooOld(game)) {
                     continue;
                 }
-                alreadyMinedMatches.add(game.getGameId());
-                minedMatches.add(new LolMatch(game));
-                matchIds.add(game.getGameId());
-                if (matchIds.size() >= matchesToMine) {
-                    break;
-                }
+                minedMatches.put(game.getGameId(), new LolMatch(game));
             }
-        }
+        });
         Logger.getLogger(MatchMiningService.class.getName())
                 .log(Level.INFO, "Inserting " + minedMatches.size() + " matches that were found for " + region + ".");
-        int newMatchesMined = lolMatchService.batchInsert(minedMatches);
+        int newMatchesMined = lolMatchService.batchInsert(minedMatches.values());
 
         Logger.getLogger(MatchMiningService.class.getName())
                 .log(Level.INFO, newMatchesMined + " matches were successfully inserted for " + region + ".");
+        summoners.stream().forEach(summoner -> summoner.setLastMinedDate(new Date()));
+        lolSummonerService.addOrUpdate(summoners);
+        Logger.getLogger(MatchMiningService.class.getName())
+                .log(Level.INFO, summoners.size() + " summoners were successfully mined for " + region + ".");
+
         return newMatchesMined;
     }
 
-    private List<Long> getStartingAccountIds(Region region) {
+    private List<LolSummoner> getSummonersToMine(Region region) {
+        List<LolSummoner> summoners = lolSummonerService.getRecentSummonersToMine(region);
+        if (summoners.isEmpty()) {
+            summoners = getSummmonersFromFeaturedGames(region);
+        }
+        return summoners;
+    }
+
+    private List<LolSummoner> getSummmonersFromFeaturedGames(Region region) {
         FeaturedGames games = riotApiService.getFeaturedGames(region);
         Random rand = new Random();
 
@@ -108,8 +110,9 @@ public class MatchMiningService {
             } catch (InterruptedException ex) {
                 Logger.getLogger(MatchMiningService.class.getName()).log(Level.SEVERE, "Interrupted when sleeping...", ex);
             }
-            return getStartingAccountIds(region);
+            return getSummmonersFromFeaturedGames(region);
         }
+
         List<String> accountNames = games.getGameList()
                 .stream()
                 .map((game) -> SummonerDto.getKeyFromName(game.getParticipants().get(rand.nextInt(game.getParticipants().size()) % game.getParticipants().size()).getSummonerName()))
@@ -119,38 +122,14 @@ public class MatchMiningService {
                 .stream()
                 .map((name) -> riotApiService.getSummonerByName(region, name))
                 .filter((summonerData) -> summonerData != null)
-                .map((populatedSummonerData) -> populatedSummonerData.getAccountId())
+                .map((summoner) -> new LolSummoner(summoner.getAccountId(), summoner.getId(), region, new Date(), new Date()))
                 .collect(Collectors.toList());
     }
 
-    public void addStartingAccountsIfNeeded(LinkedHashSet<Long> accountsToMine, Region region) {
-        if (accountsToMine.isEmpty()) {
-            accountsToMine.addAll(getStartingAccountIds(region));
-        }
-    }
-
-    private Long getNextAccountId(LinkedHashSet<Long> accountsToMine, HashSet<Long> alreadyMinedAccounts, Region region) throws InterruptedException {
-        if (accountsToMine.isEmpty()) {
-            accountsToMine.addAll(getStartingAccountIds(region));
-        }
-        for (Iterator<Long> iter = accountsToMine.iterator(); iter.hasNext();) {
-            Long summonerId = iter.next();
-            iter.remove();
-            if (summonerId == null) {
-                continue;
-            }
-            alreadyMinedAccounts.add(summonerId);
-            return summonerId;
-        }
-
-        Thread.sleep(10000);
-        return getNextAccountId(accountsToMine, alreadyMinedAccounts, region);
-    }
-
     private boolean isGameTooOld(MatchReferenceDto game) {
-        Date oneMonthAgo = new Date(System.currentTimeMillis() - 1000L * 60L * 60L * 24L * 31L);
+        Date oneWeekago = new Date(System.currentTimeMillis() - 1000L * 60L * 60L * 24L * 7L);
         Date gameTime = new Date(game.getTimestamp());
-        return gameTime.before(oneMonthAgo);
+        return gameTime.before(oneWeekago);
     }
 
 }

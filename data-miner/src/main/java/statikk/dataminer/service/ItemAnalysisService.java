@@ -60,6 +60,13 @@ public class ItemAnalysisService {
         this.riotApiService = riotApiService;
         this.finalBuildOrderService = finalBuildOrderService;
     }
+    
+    public void reloadItems() {
+        this.finalItemIds = null;
+        this.averageStatCosts = null;
+        this.itemListDto = null;
+        this.loadItems();
+    }
 
     /**
      * Populates the item data within the instance of ItemAnalysisService.

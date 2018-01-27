@@ -63,7 +63,7 @@ public class LolMatchService {
         return lolMatches.size();
     }
 
-    public List<LolMatch> findMatchesToAnalyzeByRegion(int matchesToFind, Region region, int limit) {
+    public List<LolMatch> findMatchesToAnalyzeByRegion(Region region, int limit) {
         List<LolMatch> matchesFound = lolMatchDao.findTopLimitByStatusAndRegion(MatchStatus.READY, region, limit);
         updateMatchesToStatus(MatchStatus.IN_PROGRESS, matchesFound);
         return matchesFound;

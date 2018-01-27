@@ -165,4 +165,32 @@ public class LolVersion implements Serializable {
         this.teamCompList = teamCompList;
     }
 
+    /**
+     * Returns true if this LolVersion is sequentially before the provided,
+     * other LolVersion
+     *
+     * @param other
+     * @return
+     */
+    public boolean isBefore(LolVersion other) {
+        if (other.majorVersion == this.majorVersion) {
+            return this.minorVersion < other.minorVersion;
+        }
+        return this.majorVersion < other.majorVersion;
+    }
+
+    /**
+     * Returns true if this LolVersion is sequentially after the provided,
+     * other LolVersion
+     *
+     * @param other
+     * @return
+     */
+    public boolean isAfter(LolVersion other) {
+        if (other.majorVersion == this.majorVersion) {
+            return this.minorVersion > other.minorVersion;
+        }
+        return this.majorVersion > other.majorVersion;
+    }
+
 }
