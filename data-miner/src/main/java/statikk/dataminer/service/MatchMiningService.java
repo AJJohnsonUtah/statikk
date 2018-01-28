@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -44,11 +45,25 @@ public class MatchMiningService {
     @Autowired
     LolSummonerService lolSummonerService;
 
+    private static final Set<QueueType> unimportantMatchTypes = EnumSet.of(
+            QueueType.CUSTOM,
+            QueueType.COOP_VS_AI_BEGINNER_3x3,
+            QueueType.COOP_VS_AI_BEGINNER_5x5,
+            QueueType.COOP_VS_AI_INTERMEDIATE_3x3,
+            QueueType.COOP_VS_AI_INTERMEDIATE_5x5,
+            QueueType.COOP_VS_AI_INTRO_3x3,
+            QueueType.COOP_VS_AI_INTRO_5x5);
+
     public MatchMiningService(RiotApiService riotApiService) {
         this.riotApiService = riotApiService;
     }
 
     public int mineMatches(Region region) throws InterruptedException {
+        if (lolMatchService.readyToAnalyzeMatches(region) > 1000) {
+            Logger.getLogger(MatchMiningService.class.getName())
+                .log(Level.INFO, "Enough matches have been found for {0}... sleep for some time.", region);
+            Thread.sleep(60000);
+        }
         Map<Long, LolMatch> minedMatches = new HashMap<>();
         List<LolSummoner> summoners = getSummonersToMine(region);
         summoners.stream().forEach(summoner -> {
@@ -61,13 +76,7 @@ public class MatchMiningService {
             }
             for (MatchReferenceDto game : recentGames.getMatches()) {
                 if (game == null || game.getQueue() == null
-                        || EnumSet.of(QueueType.CUSTOM,
-                                QueueType.COOP_VS_AI_BEGINNER_3x3,
-                                QueueType.COOP_VS_AI_BEGINNER_5x5,
-                                QueueType.COOP_VS_AI_INTERMEDIATE_3x3,
-                                QueueType.COOP_VS_AI_INTERMEDIATE_5x5,
-                                QueueType.COOP_VS_AI_INTRO_3x3,
-                                QueueType.COOP_VS_AI_INTRO_5x5).contains(game.getQueue())
+                        || unimportantMatchTypes.contains(game.getQueue())
                         || minedMatches.containsKey(game.getGameId())
                         || isGameTooOld(game)) {
                     continue;

@@ -7,13 +7,8 @@ package statikk.dataminer.main;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import statikk.dataminer.model.LolAggregateAnalysis;
-import statikk.dataminer.service.ItemAnalysisService;
-import statikk.dataminer.service.MatchAnalyzerService;
 import statikk.dataminer.service.MatchMiningService;
 import statikk.domain.riotapi.model.Region;
 
@@ -25,9 +20,7 @@ public class MiningWorker implements Runnable {
 
     private final Region region;
     private boolean shouldRun;
-
     private final MatchMiningService matchMiningService;
-
     private long matchesMined;
 
     public MiningWorker(Region region,

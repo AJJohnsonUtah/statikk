@@ -85,4 +85,8 @@ public class LolMatchService {
     public LolMatch find(LolMatch lolMatch) {
         return lolMatchDao.find(lolMatch.getMatchId(), lolMatch.getRegion());
     }
+    
+    public long readyToAnalyzeMatches(Region region) {
+        return lolMatchDao.countByRegionAndStatus(region, MatchStatus.READY);
+    }
 }
