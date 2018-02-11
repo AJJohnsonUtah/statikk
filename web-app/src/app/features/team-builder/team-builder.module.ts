@@ -10,6 +10,7 @@ import { SuggestionContextComponent } from './components/suggestion-context/sugg
 import { ChampionSuggestionComponent } from './components/champion-suggestion/champion-suggestion.component';
 import { ChampionSuggestionGroupComponent } from './components/champion-suggestion-group/champion-suggestion-group.component';
 import { SuggestionScoreFilterPipe } from './pipes/suggestion-score-filter.pipe';
+import { ChampionSearchPipe } from './pipes/champion-search.pipe';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { SuggestionScoreFilterPipe } from './pipes/suggestion-score-filter.pipe'
     SharedModule
   ],
   declarations: [TeamBuilderComponent, SuggestionContextComponent
-    , ChampionSuggestionComponent, ChampionSuggestionGroupComponent, SuggestionScoreFilterPipe],
+    , ChampionSuggestionComponent, ChampionSuggestionGroupComponent, SuggestionScoreFilterPipe, ChampionSearchPipe],
   providers: [TeamBuilderService]
 })
 export class TeamBuilderModule { }

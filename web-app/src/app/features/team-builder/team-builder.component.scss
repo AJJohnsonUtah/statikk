@@ -38,9 +38,18 @@
     border-right: 15px solid $accent-color;
 }
 
+#central-content h2, #central-content form {
+    display: inline-block;
+}
+
+#central-content form  {
+    float: right;
+}
+
 #champion-selection-body,
 #champion-suggestion-body {
     overflow-y: auto;
+    min-height: 60px;
 }
 
 .champion-selection-tile {

@@ -10,15 +10,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import statikk.domain.entity.converter.LaneConverter;
 import statikk.domain.entity.converter.QueueTypeConverter;
 import statikk.domain.entity.converter.RegionConverter;
+import statikk.domain.entity.converter.RoleConverter;
 import statikk.domain.entity.converter.TeamCompMapConverter;
+import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.ParticipantDto;
 import statikk.domain.riotapi.model.QueueType;
@@ -37,13 +39,32 @@ public class TeamCompPK implements Serializable {
     @Transient
     private Map<Role, Integer> allyTeamCompMap;
 
-    @Column(name = "ally_team_comp")
+    @Convert(converter = RoleConverter.class)
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Lane getLane() {
+        return lane;
+    }
+
+    public void setLane(Lane lane) {
+        this.lane = lane;
+    }
+
+    @Convert(converter = LaneConverter.class)
+    private Lane lane;
+
     private String allyTeamComp;
 
-    @Column(name = "enemy_team_comp")
     private String enemyTeamComp;
 
-    @Column(name = "match_type")
     @Convert(converter = QueueTypeConverter.class)
     private QueueType matchType;
 
@@ -51,14 +72,15 @@ public class TeamCompPK implements Serializable {
     @ManyToOne(optional = false)
     private LolVersion lolVersion;
 
-    @Column(name = "region")
     @Convert(converter = RegionConverter.class)
     private Region region;
 
     public TeamCompPK() {
     }
 
-    public TeamCompPK(Collection<ParticipantDto> allyTeamParticipants, Collection<ParticipantDto> enemyTeamParticipants, QueueType matchType, LolVersion lolVersion, Region region) {
+    public TeamCompPK(ParticipantDto participantDto, Collection<ParticipantDto> allyTeamParticipants, Collection<ParticipantDto> enemyTeamParticipants, QueueType matchType, LolVersion lolVersion, Region region) {
+        this.lane = participantDto.getLane();
+        this.role = participantDto.getRole();
         this.allyTeamCompMap = new HashMap<>();
         allyTeamParticipants.forEach((participant) -> {
             if (allyTeamCompMap.containsKey(participant.getRole())) {
@@ -165,7 +187,14 @@ public class TeamCompPK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final TeamCompPK other = (TeamCompPK) obj;
+        if (this.role != other.role) {
+            return false;
+        }
+        if (this.lane != other.lane) {
+            return false;
+        }
         if (!Objects.equals(this.allyTeamComp, other.allyTeamComp)) {
             return false;
         }

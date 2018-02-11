@@ -58,15 +58,28 @@
           <i class="fa fa-4x fa-arrow-up fa-rotate-45 "></i>
         </div>
       </div>
-      <h2 [hidden]="!userPick || !firstPickTeam">Champion Selection</h2>
+      <div [hidden]="!userPick || !firstPickTeam">
+        <h2>Champion Selection</h2>
+        <form [formGroup]="searchForm">
+          <input class="form-control" formControlName="searchText">
+        </form>
+      </div>
       <div id="champion-selection-body" [hidden]="!userPick || !firstPickTeam">
-        <div class="d-flex flex-wrap">
-          <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds" [championId]="championId"
-            (click)="pickChampion(championId)"></app-champion-image>
+        <div class="d-flex flex-wrap" *ngIf="staticChampions && staticChampionIds">
+          <app-champion-image class="champion-selection-tile" *ngFor="let championId of staticChampionIds | championSearch:staticChampions:searchForm.value.searchText"
+            [championId]="championId" (click)="pickChampion(championId)"></app-champion-image>
         </div>
       </div>
       <h2 [hidden]="!userPick || !firstPickTeam">Champion Suggestions</h2>
       <div id="champion-suggestion-body" *ngIf="championSuggestions" [hidden]="!userPick || !firstPickTeam">
+        <div class="d-flex flex-row justify-content-between">
+          <div class="d-flex flex-row justify-content-around">
+            <span class="badge badge-success" *ngFor="let suggestedRole of teamBuilderSuggestion.suggestedRoles">{{suggestedRole.replace('_', ' ')}}</span>
+          </div>
+          <div class="d-flex flex-row justify-content-around">
+            <span class="badge badge-danger" *ngFor="let discouragedRole of teamBuilderSuggestion.discouragedRoles">{{discouragedRole.replace('_', ' ')}}</span>
+          </div>
+        </div>
         <div class="d-flex flex-row justify-content-between">
           <app-champion-suggestion-group id="best-champ-suggestions" [rating]="5" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>
           <app-champion-suggestion-group id="better-champ-suggestions" [rating]="4" [championSuggestions]="championSuggestions" (selectChampionEvent)="pickChampion($event)"></app-champion-suggestion-group>

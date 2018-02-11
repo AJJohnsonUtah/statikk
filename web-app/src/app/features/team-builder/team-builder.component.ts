@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { laneList } from '../../shared/models/statikk-api-types/filter-criteria/lane';
 import { TeamBuilderService } from './services/team-builder.service';
 import { ChampionSuggestion } from './models/champion-suggestion';
+import { TeamBuilderSuggestion } from './models/team-builder-suggestion';
 
 @Component({
   selector: 'app-team-builder',
@@ -26,10 +27,14 @@ export class TeamBuilderComponent implements OnInit {
   userPickForm: FormGroup;
   laneList = laneList;
   championSuggestions: ChampionSuggestion[];
+  teamBuilderSuggestion: TeamBuilderSuggestion;
+
+  searchForm: FormGroup;
 
   currentTeamPick: number = null;
 
   staticChampionIds: string[] = [];
+  staticChampions: Map<String, StaticChampion>;
 
   constructor(private staticDataService: StaticDataService, private modalService: NgbModal,
     private formBuilder: FormBuilder, private teamBuilderService: TeamBuilderService) { }
@@ -37,6 +42,7 @@ export class TeamBuilderComponent implements OnInit {
   ngOnInit() {
     this.staticDataService.getChampions().subscribe((staticChampions) => {
       this.staticChampionIds = Object.keys(staticChampions);
+      this.staticChampions = staticChampions;
     });
     for (let i = 0; i < this.playersPerTeam; i++) {
       this.allyChampions.push({ championId: null, summonerName: null, lane: null });
@@ -45,6 +51,9 @@ export class TeamBuilderComponent implements OnInit {
     this.userPickForm = this.formBuilder.group({
       'userSummonerName': '',
       'userLane': ''
+    });
+    this.searchForm = this.formBuilder.group({
+      'searchText': ''
     });
   }
 
@@ -103,7 +112,8 @@ export class TeamBuilderComponent implements OnInit {
     this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane
       , this.allyChampions, this.enemyChampions)
       .subscribe((suggestionResults) => {
-        this.championSuggestions = suggestionResults;
+        this.teamBuilderSuggestion = suggestionResults;
+        this.championSuggestions = suggestionResults.championSuggestions;
       });
   }
 

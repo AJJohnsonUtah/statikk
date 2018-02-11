@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeamBuilderComponent } from './team-builder.component';
-import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StaticDataService } from '../../core/services/static-data.service';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap/rating/rating-config';
@@ -9,6 +9,7 @@ import { of } from 'rxjs/observable/of';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamBuilderService } from './services/team-builder.service';
 import { ChampionSuggestion } from './models/champion-suggestion';
+import { ChampionSearchPipe } from './pipes/champion-search.pipe';
 
 describe('TeamBuilderComponent', () => {
   let component: TeamBuilderComponent;
@@ -32,6 +33,15 @@ describe('TeamBuilderComponent', () => {
     }
   }
 
+  @Pipe({
+    name: 'championSearch'
+  })
+  class MockChampionSearchPipe implements PipeTransform {
+    transform(value, args) {
+      return value;
+    }
+  }
+
   @Component({ selector: 'app-suggestion-context', template: '' })
   class AppSuggestionContextMockComponent {
     @Input()
@@ -50,7 +60,7 @@ describe('TeamBuilderComponent', () => {
     TestBed.configureTestingModule({
       imports: [NgbModule.forRoot(), ReactiveFormsModule],
       declarations: [TeamBuilderComponent, AppChampionImageMockComponent, AppSuggestionContextMockComponent,
-        AppChampionSuggestionGroupMockComponent],
+        AppChampionSuggestionGroupMockComponent, MockChampionSearchPipe],
       providers: [{ provide: StaticDataService, useClass: MockStaticDataService },
       { provide: TeamBuilderService, useClass: MockTeamBuilderService }]
     })

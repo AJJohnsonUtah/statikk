@@ -174,6 +174,8 @@ CREATE TABLE `lol_version` (
 --
 
 CREATE TABLE `team_comp` (
+  `role` int(11) NOT NULL,
+  `lane` int(11) NOT NULL,
   `ally_team_comp` varchar(255) NOT NULL,
   `enemy_team_comp` varchar(255) NOT NULL,
   `match_type` int(11) NOT NULL,
@@ -271,7 +273,7 @@ ALTER TABLE `lol_version`
 -- Indexes for table `team_comp`
 --
 ALTER TABLE `team_comp`
-  ADD PRIMARY KEY (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`,`region`);
+  ADD PRIMARY KEY (`role`, `lane`, `ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`,`region`);
 
 --
 -- AUTO_INCREMENT for dumped tables

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.TeamCompPK;
+import statikk.domain.entity.enums.Lane;
+import statikk.domain.entity.enums.Role;
 import statikk.domain.stats.model.BaseWinRate;
 
 /**
@@ -27,7 +29,9 @@ public interface TeamCompDao extends CrudRepository<TeamComp, TeamCompPK> {
             + "AND SUBSTRING(t.teamCompPK.enemyTeamComp, ?13, 1) >= ?14 "
             + "AND SUBSTRING(t.teamCompPK.enemyTeamComp, ?15, 1) >= ?16 "
             + "AND SUBSTRING(t.teamCompPK.enemyTeamComp, ?17, 1) >= ?18 "
-            + "AND SUBSTRING(t.teamCompPK.enemyTeamComp, ?19, 1) >= ?20 ")
+            + "AND SUBSTRING(t.teamCompPK.enemyTeamComp, ?19, 1) >= ?20 "
+            + "AND t.teamCompPK.role = ?21 "
+            + "AND t.teamCompPK.lane = ?22 ")
     public BaseWinRate findTeamCompsWithMatchingRoles(
             int allyRole1, String allyRole1Count,
             int allyRole2, String allyRole2Count,
@@ -38,7 +42,8 @@ public interface TeamCompDao extends CrudRepository<TeamComp, TeamCompPK> {
             int enemyRole2, String enemyRole2Count,
             int enemyRole3, String enemyRole3Count,
             int enemyRole4, String enemyRole4Count,
-            int enemyRole5, String enemyRole15Count
+            int enemyRole5, String enemyRole15Count,
+            Role role, Lane lane
     );
 
 }

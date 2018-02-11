@@ -53,7 +53,7 @@ public class MatchAnalyzerService {
 
     @Autowired
     LolMatchService lolMatchService;
-    
+
     @Autowired
     LolSummonerService lolSummonerService;
 
@@ -82,7 +82,7 @@ public class MatchAnalyzerService {
     public int analyzeMatches(Region region, LolAggregateAnalysis aggregateAnalysis) {
         List<LolSummoner> summonersFromMatches = new LinkedList<>();
         List<LolMatch> matchesToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(region, 50);
-        
+
         Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "Matches fetched for analysis");
 
         for (LolMatch match : matchesToAnalyze) {
@@ -96,7 +96,7 @@ public class MatchAnalyzerService {
                 } else if (currentMatch.getGameVersion().isBefore(lolVersionService.findMostRecentVersion())) {
                     match.setStatus(MatchStatus.MATCH_VERSION_NOT_CURRENT);
                 } else {
-                    if(currentMatch.getGameVersion().isAfter(lolVersionService.findMostRecentVersion())) {
+                    if (currentMatch.getGameVersion().isAfter(lolVersionService.findMostRecentVersion())) {
                         itemAnalysisService.reloadItems();
                     }
                     summonersFromMatches.addAll(currentMatch.getLolSummoners());
@@ -264,21 +264,20 @@ public class MatchAnalyzerService {
                 || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty() || match.getTimeline() == null) {
             return;
         }
-        TeamCompPK blueTeamCompPK = new TeamCompPK(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
-        TeamCompPK purpleTeamCompPK = new TeamCompPK(match.getPurpleTeam(), match.getBlueTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
-        TeamComp blueTeamComp = new TeamComp(blueTeamCompPK);
-        TeamComp purpleTeamComp = new TeamComp(purpleTeamCompPK);
 
-        if (match.getWinner() == LolTeam.BLUE) {
-            blueTeamComp.addWin();
-            purpleTeamComp.addLoss();
-        } else {
-            blueTeamComp.addLoss();
-            purpleTeamComp.addWin();
+        for (LolTeam teamColor : LolTeam.values()) {
+            match.getTeam(teamColor).stream().forEach(allyParticipant -> {
+                TeamCompPK allyTeamPK = new TeamCompPK(allyParticipant, match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
+                TeamComp allyTeamComp = new TeamComp(allyTeamPK);
+                if (match.getWinner() == LolTeam.BLUE) {
+                    allyTeamComp.addWin();
+                } else {
+                    allyTeamComp.addLoss();
+                }
+                aggregateAnalysis.addTeamComp(allyTeamComp);
+            });
         }
 
-        aggregateAnalysis.addTeamComp(blueTeamComp);
-        aggregateAnalysis.addTeamComp(purpleTeamComp);
     }
 
 }

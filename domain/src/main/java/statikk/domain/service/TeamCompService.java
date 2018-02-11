@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import statikk.domain.dao.TeamCompDao;
 import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.TeamCompPK;
+import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.stats.model.BaseWinRate;
 
@@ -35,7 +36,7 @@ public class TeamCompService extends BaseWinRateService<TeamComp, TeamCompPK> {
         return dao.findOne(teamComp.getTeamCompPK());
     }
 
-    public Map<Role, BaseWinRate> findWinRatesByRoleForPartialTeamComps(HashMap<Role, Integer> allyRoleCounts, HashMap<Role, Integer> enemyRoleCounts) {
+    public Map<Role, BaseWinRate> findWinRatesByRoleForLaneWithComps(Lane lane, HashMap<Role, Integer> allyRoleCounts, HashMap<Role, Integer> enemyRoleCounts) {
         Map<Role, BaseWinRate> winRates = new HashMap<>();
         Stream.of(Role.values()).filter((role) -> role.isPlayable()).forEach((role) -> {
             HashMap<Role, Integer> potentialAllyRoleCounts = (HashMap<Role, Integer>) allyRoleCounts.clone();
@@ -55,7 +56,8 @@ public class TeamCompService extends BaseWinRateService<TeamComp, TeamCompPK> {
                     roleCounts.get(6).roleId, roleCounts.get(6).roleCount,
                     roleCounts.get(7).roleId, roleCounts.get(7).roleCount,
                     roleCounts.get(8).roleId, roleCounts.get(8).roleCount,
-                    roleCounts.get(9).roleId, roleCounts.get(9).roleCount
+                    roleCounts.get(9).roleId, roleCounts.get(9).roleCount,
+                    role, lane
             );
             winRates.put(role, winRate);
         });

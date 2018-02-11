@@ -13,6 +13,7 @@ import statikk.domain.entity.ChampMatchupPK;
 import statikk.domain.entity.LolVersion;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.stats.model.WinRateByChampion;
+import statikk.domain.stats.model.WinRateByChampionPair;
 
 /**
  *
@@ -23,4 +24,8 @@ public interface ChampMatchupDao extends CrudRepository<ChampMatchup, ChampMatch
     @Query("SELECT NEW statikk.domain.stats.model.WinRateByChampion(c.champMatchupPK.champSpecB.championId, SUM(c.playedCount), sum(c.winCount)) FROM ChampMatchup c WHERE c.champMatchupPK.champSpecA.championId = ?1 AND c.champMatchupPK.champSpecA.matchType IN (?2) AND c.champMatchupPK.champSpecA.lolVersion IN (?3) GROUP BY c.champMatchupPK.champSpecB.championId")
     public List<WinRateByChampion> findWinRatesByGroupedByEnemyChampion(Integer championId, Iterable<QueueType> matchTypes, Iterable<LolVersion> lolVersions);
 
+    @Query("SELECT NEW statikk.domain.stats.model.WinRateByChampionPair(c.champMatchupPK.champSpecA.championId, c.champMatchupPK.champSpecB.championId, SUM(c.playedCount), sum(c.winCount)) FROM ChampMatchup c WHERE c.champMatchupPK.champSpecA.matchType IN (?1) AND c.champMatchupPK.champSpecA.lolVersion IN (?2) GROUP BY c.champMatchupPK.champSpecA.championId, c.champMatchupPK.champSpecB.championId")
+    public List<WinRateByChampionPair> findWinRatesByGroupedByAllyAndEnemyChampion(Iterable<QueueType> matchTypes, Iterable<LolVersion> lolVersions);
+
+    
 }
