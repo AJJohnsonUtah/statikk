@@ -81,11 +81,11 @@ public class TeamBuilderService {
 
         TeamBuilderSuggestion teamBuilderSuggestion = new TeamBuilderSuggestion();
 
-//        updateSuggestionsBasedOnChampionMastery(teamBuilderProgress, teamBuilderSuggestion);
-//        updateSuggestionsBasedOnLanePerformance(teamBuilderProgress, teamBuilderSuggestion);
-//        updateSuggestionsBasedOnTeamups(teamBuilderProgress, teamBuilderSuggestion);
+        updateSuggestionsBasedOnChampionMastery(teamBuilderProgress, teamBuilderSuggestion);
+        updateSuggestionsBasedOnLanePerformance(teamBuilderProgress, teamBuilderSuggestion);
+        updateSuggestionsBasedOnTeamups(teamBuilderProgress, teamBuilderSuggestion);
         updateSuggestionsBasedOnMatchups(teamBuilderProgress, teamBuilderSuggestion);
-//        updateSuggestionsBasedOnTeamComps(teamBuilderProgress, teamBuilderSuggestion);
+        updateSuggestionsBasedOnTeamComps(teamBuilderProgress, teamBuilderSuggestion);
 
         // Return a Collection so that it is more efficient for the front-end to process
         return teamBuilderSuggestion;
