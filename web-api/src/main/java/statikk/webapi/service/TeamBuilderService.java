@@ -5,7 +5,6 @@
  */
 package statikk.webapi.service;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,7 +36,8 @@ import statikk.webapi.model.ChampionSuggestion;
 import statikk.webapi.model.ChampionSuggestionContext;
 import statikk.webapi.model.ChampionSuggestionReason;
 import statikk.webapi.model.SupportingSuggestionInfo;
-import statikk.webapi.model.SupportingSuggestionReason;
+import statikk.domain.stats.model.CorrelationInfo;
+import statikk.domain.stats.model.WinRateByChampionPair;
 import statikk.webapi.model.TeamBuilderProgressData;
 import statikk.webapi.model.TeamBuilderSuggestion;
 
@@ -81,11 +81,11 @@ public class TeamBuilderService {
 
         TeamBuilderSuggestion teamBuilderSuggestion = new TeamBuilderSuggestion();
 
-        updateSuggestionsBasedOnChampionMastery(teamBuilderProgress, teamBuilderSuggestion);
-        updateSuggestionsBasedOnLanePerformance(teamBuilderProgress, teamBuilderSuggestion);
-        updateSuggestionsBasedOnTeamups(teamBuilderProgress, teamBuilderSuggestion);
+//        updateSuggestionsBasedOnChampionMastery(teamBuilderProgress, teamBuilderSuggestion);
+//        updateSuggestionsBasedOnLanePerformance(teamBuilderProgress, teamBuilderSuggestion);
+//        updateSuggestionsBasedOnTeamups(teamBuilderProgress, teamBuilderSuggestion);
         updateSuggestionsBasedOnMatchups(teamBuilderProgress, teamBuilderSuggestion);
-        updateSuggestionsBasedOnTeamComps(teamBuilderProgress, teamBuilderSuggestion);
+//        updateSuggestionsBasedOnTeamComps(teamBuilderProgress, teamBuilderSuggestion);
 
         // Return a Collection so that it is more efficient for the front-end to process
         return teamBuilderSuggestion;
@@ -207,26 +207,19 @@ public class TeamBuilderService {
         }
         // Assemble the lists of "supporting info" for each potential champion, indicating the relative performance with each ally
         Map<Integer, List<SupportingSuggestionInfo<Integer>>> suggestionInfo = new HashMap<>();
-
-        Map<Integer, WinRateMapWithTotal<Integer, WinRateByChampion>> allTeamupWinRates = champTeamupService.getAllTeamupsByChampion(QueueType.standardSRMatchTypes);
+        Map<Integer, WinRateMapWithTotal<Integer, WinRateByChampionPair>> allTeamupWinRates = champTeamupService.getAllTeamupsByChampion(QueueType.standardSRMatchTypes);
 
         teamBuilderProgress.getAllyChampionIds().stream().forEach((allyChampId) -> {
             // Get win rate data associated with the current ally champion, and the potential teammates
-            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = allTeamupWinRates.get(allyChampId);
-            for (Integer potentialChampPickId : winRates.getWinRateData().keySet()) {
-                WinRateMapWithTotal<Integer, WinRateByChampion> potentialAllyWinRates = allTeamupWinRates.get(potentialChampPickId);
+            WinRateMapWithTotal<Integer, WinRateByChampionPair> allyWinRates = allTeamupWinRates.get(allyChampId);
+            for (Integer potentialChampPickId : allyWinRates.getWinRateData().keySet()) {
+                WinRateMapWithTotal<Integer, WinRateByChampionPair> potentialPickWinRates = allTeamupWinRates.get(potentialChampPickId);
                 if (!suggestionInfo.containsKey(potentialChampPickId)) {
                     suggestionInfo.put(potentialChampPickId, new LinkedList<>());
                 }
-                // If two champions have higher win rates when together, this is considered a "positive effect"
-                if (winRates.isSignificantlyHigherWinRate(potentialChampPickId) && potentialAllyWinRates.isSignificantlyHigherWinRate(allyChampId)) {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.PositiveEffect, allyChampId));
-                } // If two champions have lower win rates when together, this is considered a "negative effect"
-                else if (winRates.isSignificantlyLowerWinRate(potentialChampPickId) && potentialAllyWinRates.isSignificantlyLowerWinRate(allyChampId)) {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.NegativeEffect, allyChampId));
-                } else {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.NeutralEffect, allyChampId));
-                }
+
+                CorrelationInfo teamupCorrelation = champTeamupService.getCorrelationInfoForChampions(potentialChampPickId, allyChampId, potentialPickWinRates, allyWinRates, QueueType.standardSRMatchTypes);
+                suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(teamupCorrelation, allyChampId));
             }
         });
         // Using the supporting data from above, determine a score for each potential champion pick
@@ -255,24 +248,18 @@ public class TeamBuilderService {
         // Assemble the lists of "supporting info" for each potential champion, indicating the relative performance with each ally
         Map<Integer, List<SupportingSuggestionInfo<Integer>>> suggestionInfo = new HashMap<>();
 
-        Map<Integer, WinRateMapWithTotal<Integer, WinRateByChampion>> allTeamupWinRates = champMatchupService.getAllMatchupsByChampion(QueueType.standardSRMatchTypes);
+        Map<Integer, WinRateMapWithTotal<Integer, WinRateByChampionPair>> allTeamupWinRates = champMatchupService.getAllMatchupsByChampion(QueueType.standardSRMatchTypes);
 
         teamBuilderProgress.getEnemyChampionIds().stream().forEach((enemyChampId) -> {
-            WinRateMapWithTotal<Integer, WinRateByChampion> winRates = allTeamupWinRates.get(enemyChampId);
-            for (Integer potentialChampPickId : winRates.getWinRateData().keySet()) {
-                WinRateMapWithTotal<Integer, WinRateByChampion> potentialEnemyWinRates = allTeamupWinRates.get(potentialChampPickId);
+            WinRateMapWithTotal<Integer, WinRateByChampionPair> enemyWinRates = allTeamupWinRates.get(enemyChampId);
+            for (Integer potentialChampPickId : enemyWinRates.getWinRateData().keySet()) {
+                WinRateMapWithTotal<Integer, WinRateByChampionPair> potentialPickWinRates = allTeamupWinRates.get(potentialChampPickId);
                 if (!suggestionInfo.containsKey(potentialChampPickId)) {
                     suggestionInfo.put(potentialChampPickId, new LinkedList<>());
                 }
-                // If the potential champion has a higher win rates when vs the enemey, this is considered a "positive effect"
-                if (winRates.isSignificantlyHigherWinRate(potentialChampPickId) && potentialEnemyWinRates.isSignificantlyLowerWinRate(enemyChampId)) {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.PositiveEffect, enemyChampId));
-                } // If the potential champion has a lower win rates when vs the enemey, this is considered a "negative effect"
-                else if (winRates.isSignificantlyLowerWinRate(potentialChampPickId) && potentialEnemyWinRates.isSignificantlyHigherWinRate(enemyChampId)) {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.NegativeEffect, enemyChampId));
-                } else {
-                    suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(SupportingSuggestionReason.NeutralEffect, enemyChampId));
-                }
+
+                CorrelationInfo teamupCorrelation = champMatchupService.getCorrelationInfoForChampions(potentialChampPickId, enemyChampId, potentialPickWinRates, enemyWinRates, QueueType.standardSRMatchTypes);
+                suggestionInfo.get(potentialChampPickId).add(new SupportingSuggestionInfo(teamupCorrelation, enemyChampId));
             }
         });
         // Using the supporting data from above, determine a score for each potential champion pick
@@ -369,22 +356,22 @@ public class TeamBuilderService {
         // Determine what effect each role has for the given champion
         winRateData.getWinRateData().keySet().stream().forEach(role -> {
             if (winRateData.isSignificantlyHigherWinRate(role)) {
-                roleSupportingInfo.add(new SupportingSuggestionInfo(SupportingSuggestionReason.PositiveEffect, role));
+                roleSupportingInfo.add(new SupportingSuggestionInfo(CorrelationInfo.PositiveEffect, role));
             } else if (winRateData.isSignificantlyLowerWinRate(role)) {
-                roleSupportingInfo.add(new SupportingSuggestionInfo(SupportingSuggestionReason.NegativeEffect, role));
+                roleSupportingInfo.add(new SupportingSuggestionInfo(CorrelationInfo.NegativeEffect, role));
             } else {
-                roleSupportingInfo.add(new SupportingSuggestionInfo(SupportingSuggestionReason.NeutralEffect, role));
+                roleSupportingInfo.add(new SupportingSuggestionInfo(CorrelationInfo.NeutralEffect, role));
             }
         });
         // If champion plays any suggested role well, suggest the pick
-        if (roleSupportingInfo.stream().anyMatch((info) -> suggestedRoles.contains(info.getSupportingInfo()) && info.getSupportingReason() == SupportingSuggestionReason.PositiveEffect)) {
+        if (roleSupportingInfo.stream().anyMatch((info) -> suggestedRoles.contains(info.getSupportingInfo()) && info.getSupportingReason() == CorrelationInfo.PositiveEffect)) {
             suggestionContext.setScore(1.0);
         } // If champion usually plays a suggested role, half-heartedly suggest it
         else if (suggestedRoles.stream().anyMatch((role) -> winRateData.hasDataFor(role) && winRateData.getWinRateData().get(role).getPlayedCount() / winRateData.getTotalPlayedCount() > 0.5 && !winRateData.isSignificantlyLowerWinRate(role))) {
             suggestionContext.setScore(0.75);
         } // If champion only plays discouraged roles well, discourage this pick
-        else if (roleSupportingInfo.stream().anyMatch((info) -> info.getSupportingReason() == SupportingSuggestionReason.PositiveEffect && discouragedRoles.contains(info.getSupportingInfo()))
-                && roleSupportingInfo.stream().anyMatch((info) -> info.getSupportingReason() == SupportingSuggestionReason.PositiveEffect && !discouragedRoles.contains(info.getSupportingInfo()))) {
+        else if (roleSupportingInfo.stream().anyMatch((info) -> info.getSupportingReason() == CorrelationInfo.PositiveEffect && discouragedRoles.contains(info.getSupportingInfo()))
+                && roleSupportingInfo.stream().anyMatch((info) -> info.getSupportingReason() == CorrelationInfo.PositiveEffect && !discouragedRoles.contains(info.getSupportingInfo()))) {
             suggestionContext.setScore(0.0);
         } // If champion does not meet any of the above conditions, give an average score
         else {

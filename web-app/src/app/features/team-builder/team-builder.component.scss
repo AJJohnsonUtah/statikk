@@ -26,6 +26,11 @@
     width: 82px;
 }
 
+.champion-img-wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
 .role-info-label {
     height: 25%;
 }

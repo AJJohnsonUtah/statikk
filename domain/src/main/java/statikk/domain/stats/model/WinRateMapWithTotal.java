@@ -6,6 +6,7 @@
 package statikk.domain.stats.model;
 
 import java.util.Map;
+import statikk.domain.stats.service.StatisticsUtil;
 
 /**
  *
@@ -48,13 +49,11 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
     }
 
     public boolean isSignificantlyHigherWinRate(K keyToCheck) {
-        double zScore95Percentile = 1.645;
-
         if (!this.winRateData.containsKey(keyToCheck) || this.winRateData.size() <= 1) {
             return false;
         }
         try {
-            if (getZScore(keyToCheck) >= zScore95Percentile) {
+            if (getZScore(keyToCheck) >= StatisticsUtil.Z_SCORE_95_PERCENTILE) {
                 return true;
             }
         } catch (NullPointerException e) {
@@ -64,19 +63,16 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
     }
 
     public boolean isSignificantlyLowerWinRate(K keyToCheck) {
-        double zScore5Percentile = -1.645;
-
         if (!this.winRateData.containsKey(keyToCheck) || this.winRateData.size() <= 1) {
             return false;
         }
         try {
-            if (getZScore(keyToCheck) <= zScore5Percentile) {
+            if (getZScore(keyToCheck) <= StatisticsUtil.Z_SCORE_5_PERCENTILE) {
                 return true;
             }
         } catch (NullPointerException e) {
             return false;
         }
-
         return false;
     }
 
@@ -92,13 +88,12 @@ public class WinRateMapWithTotal<K, V extends BaseWinRate> {
     public double getZScore(K keyToCheck) {
         V winRateDataForKey = this.winRateData.get(keyToCheck);
 
-        double n1 = this.totalPlayedCount - winRateDataForKey.playedCount;
-        double n2 = winRateDataForKey.playedCount;
+        double p1 = winRateDataForKey.getWinRate();
+        double n1 = winRateDataForKey.playedCount;
 
-        double p1 = (this.totalWinCount - winRateDataForKey.winCount) / n1;
-        double p2 = winRateDataForKey.getWinRate();
-        double p = this.getTotalWinRate();
+        double p2 = (this.totalWinCount - winRateDataForKey.winCount) / (this.totalPlayedCount - winRateDataForKey.playedCount);
+        double n2 = this.totalPlayedCount - winRateDataForKey.playedCount;
 
-        return (p2 - p1) / Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
+        return StatisticsUtil.getZScore(p1, n1, p2, n2);
     }
 }

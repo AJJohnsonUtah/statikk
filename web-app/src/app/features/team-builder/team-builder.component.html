@@ -39,7 +39,7 @@
         <div id="user-indicator" *ngIf="allyChampionPick == userPick" (click)="selectUserPick(allyChampionPick, content)">
           <i class="fa fa-2x fa-user"></i>
         </div>
-        <div class="champion-img-wrapper p-2">
+        <div class="champion-img-wrapper p-2" (click)="selectCurrentPick(allyChampionPick)">
           <app-champion-image [championId]="allyChampionPick.championId"></app-champion-image>
         </div>
         <div class="role-info-label p-2" *ngIf="allyChampionPick.lane">{{allyChampionPick.lane}}</div>
@@ -94,7 +94,7 @@
         <i class="fa fa-dot-circle-o"></i>
       </button>
       <div class="champion-pick-wrapper p-2" *ngFor="let enemyChampionPick of enemyChampions; let i=index" [ngClass]="{'active-element': enemyChampionPick === getCurrentChampionPick()}">
-        <div class="champion-img-wrapper p-2">
+        <div class="champion-img-wrapper p-2" (click)="selectCurrentPick(enemyChampionPick)">
           <app-champion-image [championId]="enemyChampionPick.championId"></app-champion-image>
         </div>
         <div class="role-info-label p-2" *ngIf="enemyChampionPick.lane">{{enemyChampionPick.lane.name}}</div>

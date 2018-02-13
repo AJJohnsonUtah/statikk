@@ -108,6 +108,21 @@ export class TeamBuilderComponent implements OnInit {
 
   }
 
+  selectCurrentPick(newCurrentPick: ChampionPick) {
+    for (let i = 0; i < this.firstPickTeam.length; i++) {
+      if (this.firstPickTeam[i] === newCurrentPick) {
+        this.currentTeamPick = i * 2 + (i % 2);
+        return;
+      }
+    }
+    for (let i = 0; i < this.lastPickTeam.length; i++) {
+      if (this.lastPickTeam[i] === newCurrentPick) {
+        this.currentTeamPick = i * 2 + ((i + 1) % 2);
+        return;
+      }
+    }
+  }
+
   updateChampionSuggestions() {
     this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane
       , this.allyChampions, this.enemyChampions)

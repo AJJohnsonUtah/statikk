@@ -165,4 +165,20 @@ public class ItemAnalysisServiceTest {
         assertEquals("A simple AP build should be determined to be AP Carry", Role.AP_CARRY, result);
     }
 
+    /**
+     * Test of calculateRoleFromBuild method, of class ItemAnalysisService.
+     */
+    @Test
+    public void testCalculateRoleFromBuild2() {
+        System.out.println("calculateRoleFromBuild");
+        itemAnalysisService.loadItems();
+        Collection<Integer> buildItems = new LinkedList<>();
+        buildItems.add(2301); // Eye of the watchers
+        buildItems.add(3124); // Guinsoo's Rageblade
+        buildItems.add(3020); // Sorcerer's Shoes
+        buildItems.add(3146); // Hextech Gunblade
+        Role result = itemAnalysisService.calculateRoleFromBuild(buildItems);
+        assertEquals("A simple AP build should be determined to be AP Carry", Role.HYBRID, result);
+    }
+
 }
