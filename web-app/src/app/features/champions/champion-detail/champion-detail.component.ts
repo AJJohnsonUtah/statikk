@@ -11,6 +11,11 @@ import { WinRateWithTotal } from '../../../shared/models/statikk-api-types/win-r
 import { RealmDto } from '../../../shared/models/riot-api-types/realm-dto';
 import { ApiStatusService } from '../../../core/services/api-status.service';
 import { BaseWinRate } from '../../../shared/models/statikk-api-types/base-win-rate';
+import { MatchupService } from '../../../core/services/matchup.service';
+import { TeamupService } from '../../../core/services/teamup.service';
+import { SignificantMatchups } from '../../../shared/models/statikk-api-types/significant-matchups';
+import { SignificantTeamups } from '../../../shared/models/statikk-api-types/significant-teamups';
+import { StaticChampion } from '../../../shared/models/riot-api-types/static-champion';
 
 @Component({
     selector: 'app-champion-detail',
@@ -19,14 +24,20 @@ import { BaseWinRate } from '../../../shared/models/statikk-api-types/base-win-r
 })
 export class ChampionDetailComponent implements OnInit {
     public championId: number;
-    public champion: StaticChampionDetail;
+    public champion: StaticChampion;
     public matchTypeWinRates: Map<string, BaseWinRate>;
     public version: string;
+    public matchups: SignificantMatchups;
+    public teamups: SignificantTeamups;
+    public staticChamps: Map<string, StaticChampion>;
+
     public constructor(
         private route: ActivatedRoute,
         private location: Location,
         private staticDataService: StaticDataService,
         private championWinRateService: ChampionWinRateService,
+        private matchupService: MatchupService,
+        private teamupService: TeamupService,
         private apiStatusService: ApiStatusService
     ) { }
 
@@ -34,13 +45,14 @@ export class ChampionDetailComponent implements OnInit {
         this.apiStatusService.getVersions().subscribe((versions: string[]) => {
             this.version = versions[0] + '.1';
         });
-        this.champion = new StaticChampionDetail();
         console.log('initiating champion detail component');
         this.route.params
             .subscribe((params: Params) => {
                 this.championId = +params['id'];
                 this.loadChampionDetail();
                 this.loadChampionWinRates();
+                this.loadChampionMatchups();
+                this.loadChampionTeamups();
             });
     }
 
@@ -59,9 +71,11 @@ export class ChampionDetailComponent implements OnInit {
     }
 
     private loadChampionDetail(): void {
-        this.staticDataService.getChampion(this.championId)
-            .subscribe((championDetail: StaticChampionDetail) =>
-                this.champion = championDetail);
+        this.staticDataService.getChampions()
+            .subscribe((championDetails: Map<string, StaticChampion>) => {
+                this.champion = championDetails[this.championId];
+                this.staticChamps = championDetails;
+            });
     }
 
     private loadChampionWinRates(): void {
@@ -69,6 +83,22 @@ export class ChampionDetailComponent implements OnInit {
             .getChampionMatchTypeWinRates(this.championId, null)
             .subscribe((championWinRateData: Map<string, BaseWinRate>) => {
                 this.matchTypeWinRates = championWinRateData;
+            });
+    }
+
+    private loadChampionMatchups(): void {
+        this.matchupService
+            .getSignificantMatchups(this.championId)
+            .subscribe((matchupData: SignificantMatchups) => {
+                this.matchups = matchupData;
+            });
+    }
+
+    private loadChampionTeamups(): void {
+        this.teamupService
+            .getSignificantTeamups(this.championId)
+            .subscribe((teamupData: SignificantTeamups) => {
+                this.teamups = teamupData;
             });
     }
 

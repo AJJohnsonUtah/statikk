@@ -37,6 +37,12 @@ a:hover {
 
 .accent-bg {
   background-image: url("/assets/img/bg/gray-stripes.png");
+  color: $accent-color;
+}
+
+.accent-bg h1 {
+  color: $base-color;
+  font-weight: 800;  
 }
 
 .table-sort-header {

@@ -18,15 +18,15 @@
     </cache>
     
     <cache name="static-champions-object"
-               maxElementsInMemory="50"
-               eternal="true"
-               overflowToDisk="false"
-               timeToLiveSeconds="20000"
-               timeToIdleSeconds="0"
-               maxElementsOnDisk="50" 
-               diskPersistent="true"
-               memoryStoreEvictionPolicy="LFU"
-               transactionalMode="off">
+           maxElementsInMemory="50"
+           eternal="true"
+           overflowToDisk="false"
+           timeToLiveSeconds="20000"
+           timeToIdleSeconds="0"
+           maxElementsOnDisk="50" 
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
     </cache>
 
     <cache name="static-items"
@@ -171,5 +171,25 @@
            timeToIdleSeconds="0"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
+    </cache>
+    
+    <cache name="significant-teamups"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="significant-matchups"
+               maxElementsInMemory="200"
+               eternal="false"
+               overflowToDisk="false"
+               timeToLiveSeconds="43200"
+               timeToIdleSeconds="0"
+               memoryStoreEvictionPolicy="LFU"
+               transactionalMode="off">
     </cache>
 </ehcache>

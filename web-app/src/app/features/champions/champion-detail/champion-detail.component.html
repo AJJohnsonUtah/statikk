@@ -1,58 +1,49 @@
-<div id="champion-content" *ngIf="champion.key">
-  <div id="champion-header-container" class="row align-items-center justify-content-around">
-    <div class="col">
-      <h1>{{champion.name}}</h1>
-      <h2 id="champion-subtitle" class="hidden-md-down">{{champion.title}}</h2>
-    </div>
-    <div class="col centered">
-      <img [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/champion/' + champion.image.full" />
-    </div>
+<div id="champion-content" *ngIf="champion">
+  <div id="champion-header-container" class="d-flex justify-content-around align-conent-center accent-bg flex-wrap">
+    <h1>{{champion.name}}</h1>
+    <app-champion-image [championId]="champion.id"></app-champion-image>
   </div>
-  <div class="row justify-content-around" id="champion-info-wrapper">
-    <div class="col-2 info-bar-wrapper" ngbTooltip="Attack: {{champion.info.attack}}/10">
-      <div class="progress-bar champ-info-attack" [style.width]="(champion.info.attack * 10) + '%'">
+  <div class="row" *ngIf="matchups">
+    <div class="col-md-6 col-sm-12">
+      <h3>Champions {{champion.name}} Counters</h3>
+      <div class="d-flex flex-wrap">
+        <a class="clickable other-champion" *ngFor="let otherChampionId of matchups.counterToChampions | championNameSort:false:staticChamps"
+          [routerLink]="'/champions/' + otherChampionId">
+          <app-champion-image [championId]="otherChampionId"></app-champion-image>
+        </a>
+        <p *ngIf="matchups.counterToChampions.length == 0">{{champion.name}} doesn't counter any champions based on current data</p>
       </div>
     </div>
-    <div class="col-2 info-bar-wrapper" ngbTooltip="Defense: {{champion.info.defense}}/10">
-      <div class="progress-bar champ-info-defense" [style.width]="(champion.info.defense * 10) + '%'">
-      </div>
-    </div>
-    <div class="col-2 info-bar-wrapper" ngbTooltip="Magic: {{champion.info.magic}}/10">
-      <div class="progress-bar champ-info-magic" [style.width]="(champion.info.magic * 10) + '%'">
-      </div>
-    </div>
-    <div class="col-2 info-bar-wrapper" ngbTooltip="Difficulty: {{champion.info.difficulty}}/10">
-      <div class="progress-bar champ-info-difficulty" [style.width]="(champion.info.difficulty * 10) + '%'">
+    <div class="col-md-6 col-sm-12">
+      <h3>Champions Who Counter {{champion.name}}</h3>
+      <div class="d-flex flex-wrap">
+        <a class="clickable other-champion" *ngFor="let otherChampionId of matchups.counteredByChampions" [routerLink]="'/champions/' + otherChampionId">
+          <app-champion-image [championId]="otherChampionId"></app-champion-image>
+        </a>
+        <p *ngIf="matchups.counteredByChampions.length == 0">No champions counter {{champion.name}} based on current data</p>
       </div>
     </div>
   </div>
-  <div class="row">
-    <ngb-tabset>
-      <ngb-tab>
-        <ng-template ngbTabTitle>
-          <img class="inline-riot-md" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/passive/' + champion.passive.image.full"
-          /> Passive
-        </ng-template>
-        <ng-template ngbTabContent class="tab-content">
-          <h3> <img class="inline-riot-lg" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/passive/' + champion.passive.image.full"
-            /> {{champion.passive.name}}
-          </h3>
-
-          <p>{{champion.passive.sanitizedDescription}}</p>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab *ngFor="let spell of champion.spells; let i = index">
-        <ng-template ngbTabTitle>
-          <img class="inline-riot-md" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/spell/' + spell.image.full" />          {{getSpellLetterFromIndex(i)}}
-        </ng-template>
-        <ng-template ngbTabContent class="tab-content">
-          <h3> <img class="inline-riot-lg" [src]="'http://ddragon.leagueoflegends.com/cdn/7.21.1/img/spell/' + spell.image.full"
-            /> {{spell.name}}
-          </h3>
-
-          <p>{{spell.sanitizedDescription}}</p>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
+  <div class="row" *ngIf="teamups">
+    <div class="col-md-6 col-sm-12">
+      <h3>Champions {{champion.name}} Plays Well With</h3>
+      <div class="d-flex flex-wrap">
+        <a class="clickable other-champion" *ngFor="let otherChampionId of teamups.teamupWellWithChampions | championNameSort:false:staticChamps"
+          [routerLink]="'/champions/' + otherChampionId">
+          <app-champion-image [championId]="otherChampionId"></app-champion-image>
+        </a>
+        <p *ngIf="teamups.teamupWellWithChampions.length == 0">{{champion.name}} doesn't play well with any champions based on current data</p>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>Champions {{champion.name}} Plays Poorly With</h3>
+      <div class="d-flex flex-wrap">
+        <a class="clickable other-champion" *ngFor="let otherChampionId of teamups.teamupPoorWithChampions | championNameSort:false:staticChamps"
+          [routerLink]="'/champions/' + otherChampionId">
+          <app-champion-image [championId]="otherChampionId"></app-champion-image>
+        </a>
+        <p *ngIf="teamups.teamupPoorWithChampions.length == 0">{{champion.name}} doesn't play poorly with any champions based on current data</p>
+      </div>
+    </div>
   </div>
 </div>

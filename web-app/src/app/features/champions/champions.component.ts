@@ -44,7 +44,7 @@ export class ChampionsComponent implements OnInit {
         this.sortColumn = 'win-rate';
         this.reversed = true;
         this.filterCriteraFormGroup = this.formBuilder.group({
-            matchType: '450',
+            matchType: '420',
             rank: '',
             lane: '',
             version: ''
