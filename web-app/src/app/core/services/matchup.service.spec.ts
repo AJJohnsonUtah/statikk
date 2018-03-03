@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { MatchupService } from './Matchup.service';
+import { MatchupService } from './matchup.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpCacheService } from './http-cache.service';
 
