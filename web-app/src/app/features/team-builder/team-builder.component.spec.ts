@@ -21,6 +21,12 @@ describe('TeamBuilderComponent', () => {
     championId: number;
   }
 
+  @Component({ selector: 'app-loading-spinner', template: '' })
+  class AppLoadingSpinnerMockComponent {
+    @Input()
+    championId: number;
+  }
+
   class MockStaticDataService {
     getChampions() {
       return of({ data: { '1': {}, '2': {} } });
@@ -60,7 +66,7 @@ describe('TeamBuilderComponent', () => {
     TestBed.configureTestingModule({
       imports: [NgbModule.forRoot(), ReactiveFormsModule],
       declarations: [TeamBuilderComponent, AppChampionImageMockComponent, AppSuggestionContextMockComponent,
-        AppChampionSuggestionGroupMockComponent, MockChampionSearchPipe],
+        AppChampionSuggestionGroupMockComponent, MockChampionSearchPipe, AppLoadingSpinnerMockComponent],
       providers: [{ provide: StaticDataService, useClass: MockStaticDataService },
       { provide: TeamBuilderService, useClass: MockTeamBuilderService }]
     })
