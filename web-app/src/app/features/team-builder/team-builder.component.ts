@@ -28,7 +28,7 @@ export class TeamBuilderComponent implements OnInit {
   laneList = laneList;
   championSuggestions: ChampionSuggestion[];
   teamBuilderSuggestion: TeamBuilderSuggestion;
-
+  loadingSuggestions: boolean;
   searchForm: FormGroup;
 
   currentTeamPick: number = null;
@@ -40,6 +40,7 @@ export class TeamBuilderComponent implements OnInit {
     private formBuilder: FormBuilder, private teamBuilderService: TeamBuilderService) { }
 
   ngOnInit() {
+    this.loadingSuggestions = false;
     this.staticDataService.getChampions().subscribe((staticChampions) => {
       this.staticChampionIds = Object.keys(staticChampions);
       this.staticChampions = staticChampions;
@@ -124,9 +125,11 @@ export class TeamBuilderComponent implements OnInit {
   }
 
   updateChampionSuggestions() {
+    this.loadingSuggestions = true;
     this.teamBuilderService.getChampionSuggestions(this.userPick.summonerName, this.userPick.lane
       , this.allyChampions, this.enemyChampions)
       .subscribe((suggestionResults) => {
+        this.loadingSuggestions = false;
         this.teamBuilderSuggestion = suggestionResults;
         this.championSuggestions = suggestionResults.championSuggestions;
       });

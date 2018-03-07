@@ -70,7 +70,12 @@
             [championId]="championId" (click)="pickChampion(championId)"></app-champion-image>
         </div>
       </div>
-      <h2 [hidden]="!userPick || !firstPickTeam">Champion Suggestions</h2>
+      <div [hidden]="!userPick || !firstPickTeam">
+        <h2>Champion Suggestions</h2>
+        <app-loading-spinner [hidden]="!loadingSuggestions"></app-loading-spinner>
+      </div>
+
+
       <div id="champion-suggestion-body" *ngIf="championSuggestions" [hidden]="!userPick || !firstPickTeam">
         <div class="d-flex flex-row justify-content-between">
           <div class="d-flex flex-row justify-content-around">

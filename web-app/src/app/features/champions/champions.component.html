@@ -39,6 +39,7 @@
     </select>
   </div>
 </form>
+<app-loading-spinner [hidden]="staticChampions && championWinRates"></app-loading-spinner>
 <table class="table table-sm statikk-table table-hover" id="champions-table" *ngIf="staticChampions && championWinRates">
   <thead>
     <tr>
@@ -75,3 +76,6 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="matchesPlayed">
+  Based on data from {{matchesPlayed}} matches.
+</div>

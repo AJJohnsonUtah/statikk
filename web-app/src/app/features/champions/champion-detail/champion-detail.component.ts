@@ -45,7 +45,6 @@ export class ChampionDetailComponent implements OnInit {
         this.apiStatusService.getVersions().subscribe((versions: string[]) => {
             this.version = versions[0] + '.1';
         });
-        console.log('initiating champion detail component');
         this.route.params
             .subscribe((params: Params) => {
                 this.championId = +params['id'];

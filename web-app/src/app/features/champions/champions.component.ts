@@ -67,6 +67,8 @@ export class ChampionsComponent implements OnInit {
 
     public loadChampionWinRates(): void {
 
+        this.championWinRates = null;
+        this.matchesPlayed = null;
         this.championWinRateService
             .getAllChampionWinRates(this.filterCriteraFormGroup.value as FilterCriteriaGroup)
             .subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
