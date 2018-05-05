@@ -117,6 +117,18 @@ CREATE TABLE `champ_teamup` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `data_cache_item`
+--
+
+CREATE TABLE `data_cache_item` (
+  `id` VARCHAR(500) NOT NULL,
+  `value` LONGTEXT NULL,
+  `stored_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `final_build_order`
 --
 
@@ -145,6 +157,21 @@ CREATE TABLE `lol_match` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lol_summoner`
+--
+
+CREATE TABLE `lol_summoner` (
+  `account_id` bigint(20) NOT NULL,
+  `summoner_id` bigint(20) NOT NULL,
+  `highest_rank` int(11) NOT NULL,
+  `region` int(11) NOT NULL,
+  `last_mined_date` timestamp NULL DEFAULT NULL,
+  `last_played_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lol_version`
 --
 
@@ -159,8 +186,10 @@ CREATE TABLE `lol_version` (
 --
 
 CREATE TABLE `team_comp` (
-  `ally_team_comp` bigint(20) NOT NULL,
-  `enemy_team_comp` bigint(20) NOT NULL,
+  `role` int(11) NOT NULL,
+  `lane` int(11) NOT NULL,
+  `ally_team_comp` varchar(255) NOT NULL,
+  `enemy_team_comp` varchar(255) NOT NULL,
   `match_type` int(11) NOT NULL,
   `lol_version_id` int(11) NOT NULL,
   `region` int(11) NOT NULL,
@@ -223,6 +252,12 @@ ALTER TABLE `champ_teamup`
   ADD KEY `teamup_a_fk` (`champ_spec_id_a`);
 
 --
+-- Indexes for table `data_cache_item`
+--
+ALTER TABLE `data_cache_item`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `final_build_order`
 --
 ALTER TABLE `final_build_order`
@@ -238,6 +273,13 @@ ALTER TABLE `lol_match`
   ADD KEY `status` (`status`);
 
 --
+-- Indexes for table `lol_summoner`
+--
+ALTER TABLE `lol_summoner`
+  ADD PRIMARY KEY (`account_id`),
+  ADD KEY `last_mined_date` (`last_mined_date`),
+  ADD KEY `last_played_date` (`last_played_date`);
+--
 -- Indexes for table `lol_version`
 --
 ALTER TABLE `lol_version`
@@ -249,7 +291,7 @@ ALTER TABLE `lol_version`
 -- Indexes for table `team_comp`
 --
 ALTER TABLE `team_comp`
-  ADD PRIMARY KEY (`ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`,`region`);
+  ADD PRIMARY KEY (`role`, `lane`, `ally_team_comp`,`enemy_team_comp`,`match_type`,`lol_version_id`,`region`);
 
 --
 -- AUTO_INCREMENT for dumped tables

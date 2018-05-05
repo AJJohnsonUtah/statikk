@@ -37,6 +37,12 @@ a:hover {
 
 .accent-bg {
   background-image: url("/assets/img/bg/gray-stripes.png");
+  color: $accent-color;
+}
+
+.accent-bg h1 {
+  color: $base-color;
+  font-weight: 800;  
 }
 
 .table-sort-header {
@@ -196,4 +202,35 @@ h4,
 h5,
 h6 {
   color: $accent-color;
+}
+
+app-champion-image {
+  height: 100%;
+}
+
+.fa-rotate-45 {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.fa-rotate-315 {
+  -webkit-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  -o-transform: rotate(315deg);
+  transform: rotate(315deg);
+}
+
+.tooltip-inner {
+  max-width: 600px;
+  text-align: left;
+}
+
+app-loading-spinner {
+  width: 100%;
+  text-align: center;
+  display: block;
 }

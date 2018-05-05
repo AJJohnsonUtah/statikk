@@ -1,0 +1,6 @@
+<ngb-rating [rate]="rating" [max]="5" [readonly]="true"></ngb-rating>
+<div [id]="'rating-' + rating + '-champions'" class="d-flex flex-wrap justify-content-around champion-set-wrapper">
+  <div class="champion-selection-tile" *ngFor="let championSuggestion of championSuggestions | suggestionScoreFilter: rating">
+    <app-champion-suggestion [championSuggestion]="championSuggestion" (click)="selectChampion(championSuggestion.championId)"></app-champion-suggestion>
+  </div>
+</div>

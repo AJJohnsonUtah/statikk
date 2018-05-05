@@ -1,0 +1,4 @@
+<ng-template #tipContent>
+  <app-suggestion-context [suggestionContext]="championSuggestion.suggestionContext" [championId]="championSuggestion.championId"></app-suggestion-context>
+</ng-template>
+<app-champion-image [ngbTooltip]="tipContent" [championId]="championSuggestion.championId"></app-champion-image>

@@ -5,6 +5,7 @@
  */
 package statikk.webapi.controller;
 
+import java.util.Collections;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class SummonerDataControllerTest {
     public void testGetChampionMasteryByRegion() throws Exception {
         System.out.println("getChampionMastery");
         given(riotApiServiceMock.getChampionMastery(Region.EUNE, 27673684))
-                .willReturn("Fake masteries...?");
+                .willReturn(Collections.EMPTY_LIST);
         mockMvc.perform(get("/api/summoner/27673684/champion-mastery/all/EUNE")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -79,7 +80,7 @@ public class SummonerDataControllerTest {
     public void testGetChampionMastery() throws Exception {
         System.out.println("getChampionMastery");
         given(riotApiServiceMock.getChampionMastery(Region.NA, 27673684))
-                .willReturn("Fake masteries...?");
+                .willReturn(Collections.EMPTY_LIST);
         mockMvc.perform(get("/api/summoner/27673684/champion-mastery/all")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

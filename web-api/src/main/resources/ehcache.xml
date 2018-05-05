@@ -7,20 +7,48 @@
 
     <cache name="static-champions"
            maxElementsInMemory="50"
-           eternal="false"
+           eternal="true"
            overflowToDisk="false"
-           timeToLiveSeconds="1800"
+           timeToLiveSeconds="20000"
            timeToIdleSeconds="0"
+           maxElementsOnDisk="50" 
+           diskPersistent="true"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
     </cache>
+    
+    <cache name="static-champions-object"
+           maxElementsInMemory="50"
+           eternal="true"
+           overflowToDisk="false"
+           timeToLiveSeconds="20000"
+           timeToIdleSeconds="0"
+           maxElementsOnDisk="50" 
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="static-items"
+           maxElementsInMemory="2"
+           eternal="true"
+           overflowToDisk="false"
+           timeToLiveSeconds="20000"
+           timeToIdleSeconds="0"
+           maxElementsOnDisk="2" 
+           diskPersistent="true"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>    
     
     <cache name="realms"
            maxElementsInMemory="1"
            eternal="false"
            overflowToDisk="false"
-           timeToLiveSeconds="40000"
+           timeToLiveSeconds="20000"
            timeToIdleSeconds="0"
+           maxElementsOnDisk="1" 
+           diskPersistent="true"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
     </cache>
@@ -95,5 +123,73 @@
            transactionalMode="off">
     </cache>
 
-
+    <cache name="lane-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="role-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="matchup-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="teamup-win-rates"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+       
+    <cache name="recent-versions"
+           maxElementsInMemory="1"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="1800"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="significant-teamups"
+           maxElementsInMemory="200"
+           eternal="false"
+           overflowToDisk="false"
+           timeToLiveSeconds="43200"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+    
+    <cache name="significant-matchups"
+               maxElementsInMemory="200"
+               eternal="false"
+               overflowToDisk="false"
+               timeToLiveSeconds="43200"
+               timeToIdleSeconds="0"
+               memoryStoreEvictionPolicy="LFU"
+               transactionalMode="off">
+    </cache>
 </ehcache>

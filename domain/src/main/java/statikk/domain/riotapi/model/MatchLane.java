@@ -12,7 +12,7 @@ import statikk.domain.entity.enums.Lane;
  * @author AJ
  */
 public enum MatchLane {
-    MID, MIDDLE, TOP, JUNGLE, BOT, BOTTOM;
+    MID, MIDDLE, TOP, JUNGLE, BOT, BOTTOM, NONE;
 
     public Lane toLane() {
         switch (this) {

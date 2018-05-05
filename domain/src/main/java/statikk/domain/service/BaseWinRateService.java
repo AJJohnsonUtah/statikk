@@ -7,6 +7,7 @@ package statikk.domain.service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.BaseWinRateEntity;
@@ -15,6 +16,7 @@ import statikk.domain.entity.BaseWinRateEntity;
  *
  * @author AJ
  */
+@Transactional
 public abstract class BaseWinRateService<WinRateEntity extends BaseWinRateEntity, EntityId extends Serializable> {
 
     @Autowired

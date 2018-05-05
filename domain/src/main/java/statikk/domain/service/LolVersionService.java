@@ -6,10 +6,13 @@
 package statikk.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import statikk.domain.dao.LolVersionDao;
 import statikk.domain.entity.LolVersion;
@@ -25,7 +28,8 @@ public class LolVersionService {
     private LolVersionDao lolVersionDao;
 
     @Transactional
-    public LolVersion create(LolVersion lolVersion) {
+    @CacheEvict(cacheNames = {"recent-versions", "recent-version"})
+    private LolVersion create(LolVersion lolVersion) {
         try {
             return lolVersionDao.save(lolVersion);
         } catch (ConstraintViolationException e) {
@@ -54,4 +58,23 @@ public class LolVersionService {
     public Iterable<LolVersion> findAll() {
         return lolVersionDao.findAll();
     }
+
+    @Cacheable("recent-versions")
+    public List<LolVersion> findRecentVersions() {
+        return lolVersionDao.findTop2ByOrderByMajorVersionDescMinorVersionDesc();
+    }
+
+    @Cacheable("recent-version")
+    public LolVersion findMostRecentVersion() {
+        return lolVersionDao.findTop1ByOrderByMajorVersionDescMinorVersionDesc().get(0);
+    }
+
+    public LolVersion getOldestVersionSupportedForAnalysis() {
+        Optional<LolVersion> minVersion = findRecentVersions().stream().min(LolVersion::compareTo);
+        if (minVersion.isPresent()) {
+            return minVersion.get();
+        }
+        return new LolVersion("0.0");
+    }
+
 }

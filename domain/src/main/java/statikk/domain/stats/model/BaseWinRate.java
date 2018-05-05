@@ -11,22 +11,36 @@ package statikk.domain.stats.model;
  */
 public class BaseWinRate {
 
-    protected long winCount;
-    protected long playedCount;
+    protected double winCount;
+    protected double playedCount;
 
-    public long getWinCount() {
+    public BaseWinRate(Long winCount, Long playedCount) {
+        if (winCount == null) {
+            this.winCount = 0;
+        } else {
+            this.winCount = winCount;
+        }
+        if (playedCount == null) {
+            this.playedCount = 0;
+        } else {
+            this.playedCount = playedCount;
+        }
+
+    }
+
+    public double getWinCount() {
         return winCount;
     }
 
-    public void setWinCount(long winCount) {
+    public void setWinCount(double winCount) {
         this.winCount = winCount;
     }
 
-    public long getPlayedCount() {
+    public double getPlayedCount() {
         return playedCount;
     }
 
-    public void setPlayedCount(long playedCount) {
+    public void setPlayedCount(double playedCount) {
         this.playedCount = playedCount;
     }
 
@@ -34,7 +48,18 @@ public class BaseWinRate {
         if (this.playedCount == 0) {
             return null;
         } else {
-            return ((double) winCount) / playedCount;
+            return winCount / playedCount;
+        }
+    }
+
+    public int comparePlayedCount(Object o) {
+        BaseWinRate other = (BaseWinRate) o;
+        if(this.playedCount == other.playedCount) {
+            return 0;
+        } else if(this.playedCount - other.playedCount > 0) {
+            return 1;
+        } else {
+            return -1;
         }
     }
 }

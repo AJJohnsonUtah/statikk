@@ -30,4 +30,6 @@ public interface LolMatchDao extends CrudRepository<LolMatch, Long> {
     @Query("SELECT m FROM LolMatch m WHERE m.matchId = ?1 AND m.region = ?2")
     public LolMatch find(long matchId, Region region);
 
+    public long countByRegionAndStatus(Region region, MatchStatus matchStatus);
+
 }

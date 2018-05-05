@@ -1,0 +1,30 @@
+<nav class="accent-bg d-flex flex-row justify-content-end">
+  <a id="main-logo" class="navbar-brand mr-auto" routerLink="/" routerLinkActive="active">
+    Statikk
+  </a>
+  <a class="navbar-link d-none d-md-block" routerLink="/champions" routerLinkActive="active">
+    Champions
+  </a>
+  <a class="navbar-link d-none d-md-block" routerLink="/team-builder" routerLinkActive="active">
+    Team Builder
+  </a>
+  <a class="navbar-link d-none d-md-block" routerLink="/about" routerLinkActive="active">
+    About
+  </a>
+  <div ngbDropdown placement="bottom-right" class="d-md-none">
+    <button id="menu-toggler" ngbDropdownToggle>
+      <i class="fa fa-bars"></i>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="menu-toggler">
+      <a class="navbar-link" routerLink="/champions" routerLinkActive="active">
+        Champions
+      </a>
+      <a class="navbar-link" routerLink="/team-builder" routerLinkActive="active">
+        Team Builder
+      </a>
+      <a class="navbar-link" routerLink="/about" routerLinkActive="active">
+        About
+      </a>
+    </div>
+  </div>
+</nav>

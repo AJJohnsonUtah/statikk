@@ -15,12 +15,10 @@ public class WinRateByLane extends BaseWinRate {
 
     private final Lane lane;
 
-    public WinRateByLane( Lane lane, long playedCount, long winCount) {
-        this.playedCount = playedCount;
-        this.winCount = winCount;
+    public WinRateByLane(Lane lane, long playedCount, long winCount) {
+        super(winCount, playedCount);
         this.lane = lane;
     }
-
 
     public Lane getLane() {
         return this.lane;

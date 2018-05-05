@@ -14,26 +14,29 @@ import java.util.HashMap;
  */
 public enum Role {
 
-    TANK(1), 
-    AP_CARRY(2), 
-    AD_CARRY(3), 
-    AP_TANK(4), 
-    AD_TANK(5), 
-    HYBRID(6), 
-    ASSASSIN(7), 
-    AP_ASSASSIN(8), 
-    AD_ASSASSIN(9), 
-    SUPPORT(10), 
-    UNDETERMINED(11);
+    TANK(1, true),
+    AP_CARRY(2, true),
+    AD_CARRY(3, true),
+    AP_TANK(4, true),
+    AD_TANK(5, true),
+    HYBRID(6, true),
+    SUPPORT(7, true),
+    UNDETERMINED(8, false);
 
     private Integer roleId;
+    private boolean playable;
 
     public Integer getRoleId() {
         return roleId;
     }
 
-    Role(Integer id) {
+    public boolean isPlayable() {
+        return playable;
+    }
+
+    Role(Integer id, boolean playable) {
         this.roleId = id;
+        this.playable = playable;
     }
 
     private static final HashMap<Integer, Role> roleMap;
@@ -57,4 +60,5 @@ public enum Role {
         }
         return Role.valueOf(id);
     }
+
 }

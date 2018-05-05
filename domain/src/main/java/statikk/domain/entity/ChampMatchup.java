@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,9 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "champ_matchup")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ChampMatchup.findAll", query = "SELECT c FROM ChampMatchup c"),
-    @NamedQuery(name = "ChampMatchup.findByChampSpec", query = "SELECT c FROM ChampMatchup c WHERE c.champMatchupPK.champSpecA = :champSpec")})
 public class ChampMatchup extends BaseWinRateEntity implements Serializable {
 
     @EmbeddedId

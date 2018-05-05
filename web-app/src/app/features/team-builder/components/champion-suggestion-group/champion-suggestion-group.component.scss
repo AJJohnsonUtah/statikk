@@ -1,0 +1,29 @@
+.champion-selection-tile {
+    height: 50px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+#rating-5-champions.champion-set-wrapper {
+    background-color: rgba(10, 255, 10, 0.65);
+}
+
+#rating-4-champions.champion-set-wrapper {
+    background-color: rgba(80, 175, 10, 0.65);
+}
+
+#rating-3-champions.champion-set-wrapper {
+    background-color: rgba(175, 175, 10, 0.65);
+}
+
+#rating-2-champions.champion-set-wrapper {
+    background-color: rgba(175, 80, 10, 0.65);
+}
+
+#rating-1-champions.champion-set-wrapper {
+    background-color: rgba(255, 10, 10, 0.65);
+}
+
+app-champion-suggestion {
+    height: inherit;
+}

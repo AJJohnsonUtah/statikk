@@ -16,8 +16,7 @@ public class WinRateByRole extends BaseWinRate {
     private final Role role;
 
     public WinRateByRole(Role role, long playedCount, long winCount) {
-        this.playedCount = playedCount;
-        this.winCount = winCount;
+        super(winCount, playedCount);
         this.role = role;
     }
 

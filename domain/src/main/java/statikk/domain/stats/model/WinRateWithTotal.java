@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package statikk.webapi.model;
+package statikk.domain.stats.model;
 
 import java.util.List;
-import statikk.domain.stats.model.BaseWinRate;
 
 /**
  *
@@ -14,17 +13,23 @@ import statikk.domain.stats.model.BaseWinRate;
  */
 public class WinRateWithTotal<T extends BaseWinRate> {
 
-    private long totalPlayed;
+    private double totalPlayedCount;
+    private double totalWinCount;
     private List<BaseWinRate> winRateData;
 
     public WinRateWithTotal(List<BaseWinRate> winRateData) {
         this.winRateData = winRateData;
-        this.totalPlayed = 0;
-        winRateData.stream().forEach(winRate -> this.totalPlayed += winRate.getPlayedCount());
+        this.totalPlayedCount = 0;
+        winRateData.stream().forEach(winRate -> this.totalPlayedCount += winRate.getPlayedCount());
+        winRateData.stream().forEach(winRate -> this.totalWinCount += winRate.getWinCount());
     }
     
-    public long getTotalPlayed() {
-        return totalPlayed;
+    public double getTotalPlayed() {
+        return totalPlayedCount;
+    }
+
+    public double getTotalWinCount() {
+        return totalWinCount;
     }
     
     public List<BaseWinRate> getWinRateData() {

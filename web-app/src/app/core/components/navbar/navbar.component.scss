@@ -1,0 +1,33 @@
+@import '../../../../variables.scss';
+
+
+nav {
+  font-size: 20pt;
+  height: 3rem;
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+#main-logo {
+  color: $base-color;
+  font-size: 20pt;
+}
+a.navbar-link {
+  font-size: 16pt;
+  color: $accent-color;
+  padding: .5em;
+}
+
+a.navbar-link#hover {
+  color: $accent-color-focus;
+}
+
+#menu-toggler {
+  background-color: transparent;
+  border: none;
+  color: $accent-color;
+}
+
+.dropdown-menu {
+  background-image: $dark-background-image;
+}

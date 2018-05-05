@@ -1,0 +1,138 @@
+@import '../../../variables';
+.team-wrapper {
+    width: 210px;
+}
+
+#central-content {
+    flex-grow: 1;
+}
+
+#team-builder-body {
+    height: 750px;
+}
+
+.champion-pick-wrapper {
+    height: 125px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 7.5px;
+    border: 2px solid transparent;
+    text-align: center;
+    max-width: 115px;
+}
+
+.champion-img-wrapper {
+    background-color: rgba(0, 0, 0, 0.05);
+    height: 82px;
+    width: 82px;
+}
+
+.champion-img-wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.role-info-label {
+    height: 25%;
+}
+
+#team-a-wrapper .champion-pick-wrapper {
+    border-left: 15px solid $accent-color;
+}
+
+#team-b-wrapper .champion-pick-wrapper {
+    border-right: 15px solid $accent-color;
+}
+
+#central-content h2, #central-content form {
+    display: inline-block;
+}
+
+#central-content form  {
+    float: right;
+}
+
+#champion-selection-body,
+#champion-suggestion-body {
+    overflow-y: auto;
+    min-height: 60px;
+}
+
+.champion-selection-tile {
+    height: 50px;
+    margin: 2px;
+}
+
+.champion-set-wrapper,
+#champion-suggestion-body {
+    text-align: center;
+}
+
+.select-active-icon {
+    position: absolute;
+    border: 6px solid $accent-color-focus;
+    background-clip: padding-box;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.team-wrapper > .select-active-icon {
+    margin-top: -385px;
+}
+
+#team-a-wrapper > .select-active-icon {
+    margin-left: 40px;
+}
+
+#team-b-wrapper > .select-active-icon {
+    margin-left: -40px;
+}
+
+.champion-pick-wrapper > .select-active-icon {
+    margin-left: -118px;
+    margin-top: 33px;
+}
+
+#user-indicator {
+    position: absolute;
+    margin-left: -60px;
+    margin-top: 33px;
+    background-color: $accent-color;
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#user-indicator:hover {
+    background-color: $accent-color-focus;
+}
+
+@keyframes border-pulsate {
+    0%   { border-color: $accent-color-focus; }
+    50% { border-color: rgba(0, 255, 255, 0); }
+    100%   { border-color: $accent-color-focus; }
+}
+
+.active-element {
+    animation: border-pulsate 1.25s infinite;
+}
+
+.champion-selection-tile {
+    cursor: pointer;
+}
+
+.instructions {
+    height: 100%;
+    padding: 1rem;
+    color: $accent-color;
+}
+
+.instructions p, .instructions span {
+    color: $dark-color;
+    font-size: 35pt;
+    font-weight: 800;
+}
+
+.instructions span {
+    text-align: center;
+}

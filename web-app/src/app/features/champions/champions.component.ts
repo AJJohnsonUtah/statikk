@@ -44,7 +44,7 @@ export class ChampionsComponent implements OnInit {
         this.sortColumn = 'win-rate';
         this.reversed = true;
         this.filterCriteraFormGroup = this.formBuilder.group({
-            matchType: '450',
+            matchType: '420',
             rank: '',
             lane: '',
             version: ''
@@ -67,6 +67,8 @@ export class ChampionsComponent implements OnInit {
 
     public loadChampionWinRates(): void {
 
+        this.championWinRates = null;
+        this.matchesPlayed = null;
         this.championWinRateService
             .getAllChampionWinRates(this.filterCriteraFormGroup.value as FilterCriteriaGroup)
             .subscribe((championWinRateData: WinRateWithTotal<ChampionWinRate>) => {
@@ -79,7 +81,7 @@ export class ChampionsComponent implements OnInit {
         this.staticDataService
             .getChampions()
             .subscribe((staticChampionsData) => {
-                this.staticChampions = staticChampionsData.data;
+                this.staticChampions = staticChampionsData;
             });
     }
 

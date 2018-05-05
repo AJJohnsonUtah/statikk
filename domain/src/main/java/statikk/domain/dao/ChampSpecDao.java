@@ -5,6 +5,7 @@
  */
 package statikk.domain.dao;
 
+import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import statikk.domain.entity.ChampSpec;
@@ -22,7 +23,7 @@ import statikk.domain.riotapi.model.Region;
 public interface ChampSpecDao extends CrudRepository<ChampSpec, Long> {
 
     @Query("SELECT c FROM ChampSpec c WHERE c.championId = ?1 AND c.matchType = ?2 AND c.lolVersion = ?3 AND c.lane = ?4 AND c.role = ?5 AND c.rank = ?6 AND c.region = ?7")
-    ChampSpec find(int championId,
+    public ChampSpec find(int championId,
             QueueType matchType, LolVersion lolVersion, Lane lane, Role role, Rank rank, Region region);
 
 }

@@ -1,0 +1,45 @@
+<div id="tooltip-content">
+  <h3>Why this rating?
+    <app-champion-image class="header-img" [championId]="championId"></app-champion-image>
+  </h3>
+  <ul>
+    <li *ngFor="let context of suggestionContext">
+      <div [ngSwitch]="context.reason">
+        <div *ngSwitchCase="championSuggestionReason.ChampionLaneProficiency">
+          {{context.score === 0.5 ? 'Average' : context.score > 0.5 ? 'Great' : 'Poor'}} performance in the chosen lane, compared to
+          other lanes
+        </div>
+        <div *ngSwitchCase="championSuggestionReason.ChampionMastery">
+          {{ 0.2 >= context.score ? 'Not at all' : context.score > 0.7 ? 'Very' : 'Somewhat'}} familiar with this champion
+        </div>
+        <div *ngSwitchCase="championSuggestionReason.TeamSynergy">
+          <ul>
+            <li *ngFor="let supportingInfo of context.supportingInfo">
+              {{supportingInfo.supportingReason == supportingSuggestionReason.NeutralEffect ? 'Average' : supportingInfo.supportingReason
+              == supportingSuggestionReason.PositiveEffect ? 'Great' : 'Poor'}} synergy with
+              <app-champion-image class="inline-img" [championId]="supportingInfo.supportingInfo"></app-champion-image>
+            </li>
+          </ul>
+        </div>
+        <div *ngSwitchCase="championSuggestionReason.EnemyCounter">
+          <ul>
+            <li *ngFor="let supportingInfo of context.supportingInfo">
+              {{supportingInfo.supportingReason == supportingSuggestionReason.NeutralEffect ? 'Average' : supportingInfo.supportingReason
+              == supportingSuggestionReason.PositiveEffect ? 'Great' : 'Poor'}} vs.
+              <app-champion-image class="inline-img" [championId]="supportingInfo.supportingInfo"></app-champion-image>
+            </li>
+          </ul>
+        </div>
+        <div *ngSwitchCase="championSuggestionReason.TeamCompRole">
+          <ul>
+            <li *ngFor="let supportingInfo of context.supportingInfo" [hidden]="supportingInfo.supportingReason == supportingSuggestionReason.NeutralEffect">
+              {{supportingInfo.supportingReason == supportingSuggestionReason.NeutralEffect ? 'Average' : supportingInfo.supportingReason
+              == supportingSuggestionReason.PositiveEffect ? 'Great' : 'Poor'}} performance as {{supportingInfo.supportingInfo}}
+              compared to other builds
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -8,10 +8,9 @@ import { StaticDataService } from './core/services/static-data.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private staticDataService: StaticDataService) {
+  constructor() {
   }
 
   public ngOnInit() {
-    this.staticDataService.loadRealmsData();
   }
 }

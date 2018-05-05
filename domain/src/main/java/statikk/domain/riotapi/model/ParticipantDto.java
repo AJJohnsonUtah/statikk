@@ -9,6 +9,7 @@ import statikk.domain.entity.ChampSpec;
 import statikk.domain.entity.FinalBuildOrder;
 import java.io.Serializable;
 import java.util.List;
+import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 
 /**
@@ -93,6 +94,15 @@ public class ParticipantDto implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Lane getLane() {
+        MatchLane matchLane = this.getTimeline().getLane();
+        if (matchLane == MatchLane.BOT || matchLane == MatchLane.BOTTOM && this.getTimeline().getRole() == MatchRole.DUO_SUPPORT) {
+            return Lane.SUPPORT;
+        }
+        return matchLane.toLane();
+
     }
 
 }

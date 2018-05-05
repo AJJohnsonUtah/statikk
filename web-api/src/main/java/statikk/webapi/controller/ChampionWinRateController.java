@@ -20,13 +20,14 @@ import statikk.domain.entity.enums.Lane;
 import statikk.domain.entity.enums.Role;
 import statikk.domain.riotapi.model.QueueType;
 import statikk.domain.riotapi.model.Rank;
-import statikk.domain.stats.model.WinRateByChampionId;
+import statikk.domain.stats.model.WinRateByChampion;
+import statikk.domain.stats.model.WinRateByChampionLane;
 import statikk.domain.stats.model.WinRateByMatchType;
 import statikk.domain.stats.model.WinRateByLane;
 import statikk.domain.stats.model.WinRateByRole;
 import statikk.domain.stats.service.ChampionWinRateService;
-import statikk.webapi.model.WinRateMapWithTotal;
-import statikk.webapi.model.WinRateWithTotal;
+import statikk.domain.stats.model.WinRateMapWithTotal;
+import statikk.domain.stats.model.WinRateWithTotal;
 
 /**
  *
@@ -45,7 +46,7 @@ public class ChampionWinRateController {
     @ResponseBody
     @Cacheable("champion-win-rates")
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public WinRateWithTotal<WinRateByChampionId> getAllChampionWinRates(
+    public WinRateWithTotal<WinRateByChampion> getAllChampionWinRates(
             @RequestParam(value = "matchType") int matchType,
             @RequestParam(value = "rank", required = false) String rank,
             @RequestParam(value = "lane", required = false) String lane,
@@ -67,7 +68,7 @@ public class ChampionWinRateController {
     @ResponseBody
     @Cacheable("champion-win-rates")
     @RequestMapping(value = "/{championId}", method = RequestMethod.GET, produces = "application/json")
-    public WinRateMapWithTotal<WinRateByMatchType> getChampionWinRates(
+    public WinRateMapWithTotal<QueueType, WinRateByMatchType> getChampionWinRates(
             @PathVariable("championId") int championId,
             @RequestParam(value = "version", required = false) String version
     ) {
@@ -81,7 +82,7 @@ public class ChampionWinRateController {
     @ResponseBody
     @Cacheable("champion-win-rates")
     @RequestMapping(value = "/by-lane/{championId}", method = RequestMethod.GET, produces = "application/json")
-    public WinRateMapWithTotal<WinRateByLane> getChampionWinRatesByLane(
+    public WinRateMapWithTotal<Lane, WinRateByLane> getChampionWinRatesByLane(
             @PathVariable("championId") int championId,
             @RequestParam(value = "matchType", required = false) Integer matchType,
             @RequestParam(value = "role", required = false) String role,
@@ -94,10 +95,10 @@ public class ChampionWinRateController {
         if (matchType == null) {
             if (role == null) {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionLaneWinRates(championId, EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionLaneWinRates(championId, QueueType.standardSRMatchTypes, lolVersion));
             } else {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionLaneWinRates(championId, Role.valueOf(role), EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionLaneWinRates(championId, Role.valueOf(role), QueueType.standardSRMatchTypes, lolVersion));
             }
         } else {
             if (role == null) {
@@ -114,7 +115,7 @@ public class ChampionWinRateController {
     @ResponseBody
     @Cacheable("champion-win-rates")
     @RequestMapping(value = "/by-role/{championId}", method = RequestMethod.GET, produces = "application/json")
-    public WinRateMapWithTotal<WinRateByRole> getChampionWinRatesByRole(
+    public WinRateMapWithTotal<Role, WinRateByRole> getChampionWinRatesByRole(
             @PathVariable("championId") int championId,
             @RequestParam(value = "matchType", required = false) Integer matchType,
             @RequestParam(value = "lane", required = false) String lane,
@@ -127,10 +128,10 @@ public class ChampionWinRateController {
         if (matchType == null) {
             if (lane == null) {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionRoleWinRates(championId, EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion));
+                        championWinRateService.getChampionRoleWinRates(championId, QueueType.standardSRMatchTypes, lolVersion));
             } else {
                 return new WinRateMapWithTotal(
-                        championWinRateService.getChampionRoleWinRates(championId, Lane.valueOf(lane), EnumSet.of(QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO), lolVersion)
+                        championWinRateService.getChampionRoleWinRates(championId, Lane.valueOf(lane), QueueType.standardSRMatchTypes, lolVersion)
                 );
             }
         } else {
@@ -143,6 +144,19 @@ public class ChampionWinRateController {
                         championWinRateService.getChampionRoleWinRates(championId, Lane.valueOf(lane), EnumSet.of(QueueType.fromId(matchType)), lolVersion)
                 );
             }
+        }
+    }
+
+    @ResponseBody
+    @Cacheable("champion-win-rates")
+    @RequestMapping(value = "/by-champion-lane", method = RequestMethod.GET, produces = "application/json")
+    public Map<Integer, WinRateMapWithTotal<Lane, WinRateByChampionLane>> getChampionWinRatesByLane(
+            @RequestParam(value = "matchType", required = false) Integer matchType
+    ) {
+        if (matchType == null) {
+            return championWinRateService.getWinRatesByChampionLane(QueueType.standardSRMatchTypes);
+        } else {
+            return championWinRateService.getWinRatesByChampionLane(EnumSet.of(QueueType.fromId(matchType)));
         }
     }
 }

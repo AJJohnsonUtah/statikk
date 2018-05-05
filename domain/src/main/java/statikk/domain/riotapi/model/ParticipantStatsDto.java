@@ -6,6 +6,9 @@
 package statikk.domain.riotapi.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -372,6 +375,29 @@ public class ParticipantStatsDto implements Serializable {
 
     public long getPhysicalDamageTaken() {
         return physicalDamageTaken;
+    }
+
+    public Collection<Integer> getItems() {
+        LinkedList<Integer> list = new LinkedList<>();
+        if (item0 > 0) {
+            list.add(item0);
+        }
+        if (item1 > 0) {
+            list.add(item1);
+        }
+        if (item2 > 0) {
+            list.add(item2);
+        }
+        if (item3 > 0) {
+            list.add(item3);
+        }
+        if (item4 > 0) {
+            list.add(item4);
+        }
+        if (item5 > 0) {
+            list.add(item5);
+        }
+        return list;
     }
 
 }

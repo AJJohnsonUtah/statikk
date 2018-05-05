@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import statikk.domain.entity.LolSummoner;
 
 /**
  *
@@ -22,7 +23,8 @@ public class MatchDetail implements Serializable {
     private QueueType queueId;
     private Long gameId;
     private List<ParticipantIdentityDto> participantIdentities;
-    private LolVersion gameVersion;
+    private LolVersion matchLolVersion;
+    private String gameVersion;
     private Region platformId;
     private GameMode gameMode;
     private MapType mapId;
@@ -53,8 +55,11 @@ public class MatchDetail implements Serializable {
         return participantIdentities;
     }
 
-    public LolVersion getGameVersion() {
-        return gameVersion;
+    public LolVersion getMatchLolVersion() {
+        if(this.matchLolVersion == null) {
+            return new LolVersion(this.gameVersion);
+        }
+        return matchLolVersion;
     }
 
     public Region getPlatformId() {
@@ -89,8 +94,8 @@ public class MatchDetail implements Serializable {
         return timeline;
     }
 
-    public void setGameVersion(LolVersion matchVersion) {
-        this.gameVersion = matchVersion;
+    public void setMatchLolVersion(LolVersion matchLolVersion) {
+        this.matchLolVersion = matchLolVersion;
     }
 
     public void setStatus(ErrorStatus status) {
@@ -103,6 +108,14 @@ public class MatchDetail implements Serializable {
 
     public MapType getMapId() {
         return mapId;
+    }
+
+    public String getGameVersion() {
+        return gameVersion;
+    }
+
+    public void setGameVersion(String gameVersion) {
+        this.gameVersion = gameVersion;
     }
 
     public void setTimeline(Timeline timeline) {
@@ -162,6 +175,22 @@ public class MatchDetail implements Serializable {
             return getParticipantIdentities()
                     .stream()
                     .map(s -> s.getPlayer().getSummonerId())
+                    .sequential()
+                    .collect(Collectors.toList());
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public List<LolSummoner> getLolSummoners() {
+
+        if (getParticipantIdentities().get(0).getPlayer() != null) {
+            return getParticipantIdentities()
+                    .stream()
+                    .map(s -> new LolSummoner(
+                    s.getPlayer().getCurrentAccountId(),
+                    s.getPlayer().getSummonerId(),
+                    this.participants.get(s.getParticipantId() - 1).getHighestAchievedSeasonTier(),
+                    s.getPlayer().getCurrentPlatformId()))
                     .sequential()
                     .collect(Collectors.toList());
         }

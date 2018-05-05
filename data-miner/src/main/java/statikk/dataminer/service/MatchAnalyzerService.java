@@ -5,8 +5,7 @@
  */
 package statikk.dataminer.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +26,7 @@ import statikk.domain.entity.ChampSummonerSpellsPK;
 import statikk.domain.entity.ChampTeamup;
 import statikk.domain.entity.ChampTeamupPK;
 import statikk.domain.entity.LolMatch;
+import statikk.domain.entity.LolSummoner;
 import statikk.domain.entity.TeamComp;
 import statikk.domain.entity.TeamCompPK;
 import statikk.domain.entity.enums.MatchStatus;
@@ -38,6 +38,7 @@ import statikk.domain.riotapi.model.TeamBansDto;
 import statikk.domain.riotapi.service.RiotApiService;
 import statikk.domain.service.ChampSpecService;
 import statikk.domain.service.LolMatchService;
+import statikk.domain.service.LolSummonerService;
 import statikk.domain.service.LolVersionService;
 
 /**
@@ -52,6 +53,9 @@ public class MatchAnalyzerService {
 
     @Autowired
     LolMatchService lolMatchService;
+
+    @Autowired
+    LolSummonerService lolSummonerService;
 
     @Autowired
     ChampSpecService champSpecService;
@@ -75,34 +79,48 @@ public class MatchAnalyzerService {
         this.riotApiService = riotApiService;
     }
 
-    public List<Long> analyzeMatches(int numMatchesToAnalyze, Region region, LolAggregateAnalysis aggregateAnalysis) {
-        if (numMatchesToAnalyze <= 0) {
-            return Collections.EMPTY_LIST;
-        }
-        List<Long> summonerIdsFromMatches = new ArrayList<>();
-        List<LolMatch> matchIdsToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(numMatchesToAnalyze, region, numMatchesToAnalyze);
+    public int analyzeMatches(Region region, LolAggregateAnalysis aggregateAnalysis) {
+        List<LolSummoner> summonersFromMatches = new LinkedList<>();
+        List<LolMatch> matchesToAnalyze = lolMatchService.findMatchesToAnalyzeByRegion(region, 50);
 
         Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "Matches fetched for analysis");
 
-        for (LolMatch match : matchIdsToAnalyze) {
-            Long matchId = match.getMatchId();
-            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}). ", new Object[]{matchId, region});
-            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, matchId);
+        for (LolMatch match : matchesToAnalyze) {
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, " Fetching match {0} ({1}). ", new Object[]{match.getMatchId(), region});
+            MatchDetail currentMatch = riotApiService.getMatchDetailWithTimeline(region, match.getMatchId());
             // If no status is present, there was no error fetching the match
             if (currentMatch != null && currentMatch.getStatus() == null) {
-                summonerIdsFromMatches.addAll(currentMatch.getParticipantSummonerIds());
-                analyzeMatch(currentMatch, aggregateAnalysis);
-                match.setStatus(MatchStatus.COMPLETED);
+                // Matches must be at least 5 minutes long to do a decent analysis, right?
+                if (currentMatch.getGameDuration() <= 300) {
+                    match.setStatus(MatchStatus.MATCH_TOO_SHORT);
+                } else if (currentMatch.getMatchLolVersion().isBefore(lolVersionService.findMostRecentVersion())) {
+                    match.setStatus(MatchStatus.MATCH_VERSION_NOT_CURRENT);
+                } else {
+                    if (currentMatch.getMatchLolVersion().isAfter(itemAnalysisService.getMostRecentVersion())) {                        
+                        itemAnalysisService.reloadItems();
+                    }
+                    summonersFromMatches.addAll(currentMatch.getLolSummoners());
+                    analyzeMatch(currentMatch, aggregateAnalysis);
+                    match.setStatus(MatchStatus.COMPLETED);
+                }
             } else {
                 match.setStatus(MatchStatus.DATA_NOT_FOUND);
             }
         }
 
         lolAggregateAnalysisService.save(aggregateAnalysis);
-        if (matchIdsToAnalyze.size() > 0) {
-            lolMatchService.update(matchIdsToAnalyze);
+        if (matchesToAnalyze.size() > 0) {
+            lolMatchService.update(matchesToAnalyze);
+            lolSummonerService.addOrUpdate(summonersFromMatches);
+        } else {
+            Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.INFO, "No matches found to analyze. Waiting before next call.");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MatchAnalyzerService.class.getName()).log(Level.SEVERE, "Error while trying to wait between analysis calls", ex);
+            }
         }
-        return summonerIdsFromMatches;
+        return matchesToAnalyze.size();
     }
 
     public void analyzeMatch(MatchDetail match, LolAggregateAnalysis aggregateAnalysis) {
@@ -120,7 +138,7 @@ public class MatchAnalyzerService {
 
     private void loadEntities(MatchDetail match) {
         // Load LolVersion
-        match.setGameVersion(lolVersionService.findOrCreate(match.getGameVersion()));
+        match.setMatchLolVersion(lolVersionService.findOrCreate(match.getMatchLolVersion()));
 
         // Load FinalBuildOrders
         itemAnalysisService.loadFinalBuildOrders(match);
@@ -246,21 +264,20 @@ public class MatchAnalyzerService {
                 || match.getPurpleTeam() == null || match.getPurpleTeam().isEmpty() || match.getTimeline() == null) {
             return;
         }
-        TeamCompPK blueTeamCompPK = new TeamCompPK(match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
-        TeamCompPK purpleTeamCompPK = new TeamCompPK(match.getPurpleTeam(), match.getBlueTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
-        TeamComp blueTeamComp = new TeamComp(blueTeamCompPK);
-        TeamComp purpleTeamComp = new TeamComp(purpleTeamCompPK);
 
-        if (match.getWinner() == LolTeam.BLUE) {
-            blueTeamComp.addWin();
-            purpleTeamComp.addLoss();
-        } else {
-            blueTeamComp.addLoss();
-            purpleTeamComp.addWin();
+        for (LolTeam teamColor : LolTeam.values()) {
+            match.getTeam(teamColor).stream().forEach(allyParticipant -> {
+                TeamCompPK allyTeamPK = new TeamCompPK(allyParticipant, match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getMatchLolVersion(), match.getPlatformId());
+                TeamComp allyTeamComp = new TeamComp(allyTeamPK);
+                if (match.getWinner() == LolTeam.BLUE) {
+                    allyTeamComp.addWin();
+                } else {
+                    allyTeamComp.addLoss();
+                }
+                aggregateAnalysis.addTeamComp(allyTeamComp);
+            });
         }
 
-        aggregateAnalysis.addTeamComp(blueTeamComp);
-        aggregateAnalysis.addTeamComp(purpleTeamComp);
     }
 
 }

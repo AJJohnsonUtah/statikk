@@ -34,9 +34,16 @@ public enum Lane {
         }
     }
 
-    @JsonCreator
     public static Lane getLane(Integer id) {
         return laneMap.get(id);
     }
 
+    @JsonCreator
+    public static Lane getLane(String id) {
+        char firstChar = id.charAt(0);
+        if (firstChar >= '0' && firstChar <= '9') {
+            return getLane(Integer.parseInt(id));
+        }
+        return Lane.valueOf(id);
+    }
 }

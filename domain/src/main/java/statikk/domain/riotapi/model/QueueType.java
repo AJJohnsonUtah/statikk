@@ -7,7 +7,9 @@
 package statikk.domain.riotapi.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -126,7 +128,9 @@ public enum QueueType {
     DOOM_BOTS(960, "Doom Bots games"),
     STAR_GUARDIAN_NORMAL(980, "Star Guardian Invasion: Normal games"),
     STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games"),
-    PROJECT(1000, "Overdrive Project games");
+    PROJECT(1000, "Overdrive Project games"),
+    SNOW_ARURF_5x5(1010, "Snow Battle ARURF games"),
+    ONE_FOR_ALL_5x5(1020, "One For All games");
     
     private final Integer queueTypeId;
     private final String name;
@@ -165,5 +169,7 @@ public enum QueueType {
             queueTypeMap.put(queueType.queueTypeId, queueType);
         }
     }
+    
+    public static final Set<QueueType> standardSRMatchTypes = EnumSet.of(QueueType.RANKED_FLEX_SR, QueueType.TEAM_BUILDER_RANKED_SOLO, QueueType.TEAM_BUILDER_DRAFT_RANKED_5x5, QueueType.BLIND_PICK_NORMAL, QueueType.TEAM_BUILDER_DRAFT_UNRANKED_5x5);
 
 }

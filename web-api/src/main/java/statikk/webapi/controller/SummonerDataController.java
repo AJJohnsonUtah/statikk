@@ -5,6 +5,7 @@
  */
 package statikk.webapi.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import statikk.domain.riotapi.model.ChampionMasteryDto;
 import statikk.domain.riotapi.model.MatchListDto;
 import statikk.domain.riotapi.model.Region;
 import statikk.domain.riotapi.model.SummonerDto;
@@ -31,14 +33,14 @@ public class SummonerDataController {
     @ResponseBody
     @Cacheable("summoner-mastery")
     @RequestMapping(value = "/{summonerId}/champion-mastery/all/{region}", method = RequestMethod.GET)
-    public String getChampionMastery(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
+    public List<ChampionMasteryDto> getChampionMastery(@PathVariable("summonerId") long summonerId, @PathVariable("region") String region) {
         return riotApiService.getChampionMastery(Region.valueOf(region), summonerId);
     }
 
     @ResponseBody
     @Cacheable("summoner-mastery")
     @RequestMapping(value = "/{summonerId}/champion-mastery/all", method = RequestMethod.GET)
-    public String getChampionMastery(@PathVariable("summonerId") long summonerId) {
+    public List<ChampionMasteryDto> getChampionMastery(@PathVariable("summonerId") long summonerId) {
         return riotApiService.getChampionMastery(Region.NA, summonerId);
     }
 
