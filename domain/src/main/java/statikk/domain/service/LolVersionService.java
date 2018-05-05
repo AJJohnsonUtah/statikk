@@ -6,6 +6,7 @@
 package statikk.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
@@ -67,4 +68,13 @@ public class LolVersionService {
     public LolVersion findMostRecentVersion() {
         return lolVersionDao.findTop1ByOrderByMajorVersionDescMinorVersionDesc().get(0);
     }
+
+    public LolVersion getOldestVersionSupportedForAnalysis() {
+        Optional<LolVersion> minVersion = findRecentVersions().stream().min(LolVersion::compareTo);
+        if (minVersion.isPresent()) {
+            return minVersion.get();
+        }
+        return new LolVersion("0.0");
+    }
+
 }

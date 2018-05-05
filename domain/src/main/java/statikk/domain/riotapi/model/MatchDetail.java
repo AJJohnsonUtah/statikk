@@ -23,7 +23,8 @@ public class MatchDetail implements Serializable {
     private QueueType queueId;
     private Long gameId;
     private List<ParticipantIdentityDto> participantIdentities;
-    private LolVersion gameVersion;
+    private LolVersion matchLolVersion;
+    private String gameVersion;
     private Region platformId;
     private GameMode gameMode;
     private MapType mapId;
@@ -54,8 +55,11 @@ public class MatchDetail implements Serializable {
         return participantIdentities;
     }
 
-    public LolVersion getGameVersion() {
-        return gameVersion;
+    public LolVersion getMatchLolVersion() {
+        if(this.matchLolVersion == null) {
+            return new LolVersion(this.gameVersion);
+        }
+        return matchLolVersion;
     }
 
     public Region getPlatformId() {
@@ -90,8 +94,8 @@ public class MatchDetail implements Serializable {
         return timeline;
     }
 
-    public void setGameVersion(LolVersion matchVersion) {
-        this.gameVersion = matchVersion;
+    public void setMatchLolVersion(LolVersion matchLolVersion) {
+        this.matchLolVersion = matchLolVersion;
     }
 
     public void setStatus(ErrorStatus status) {
@@ -104,6 +108,14 @@ public class MatchDetail implements Serializable {
 
     public MapType getMapId() {
         return mapId;
+    }
+
+    public String getGameVersion() {
+        return gameVersion;
+    }
+
+    public void setGameVersion(String gameVersion) {
+        this.gameVersion = gameVersion;
     }
 
     public void setTimeline(Timeline timeline) {

@@ -5,10 +5,14 @@
  */
 package statikk.domain.riotapi.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import statikk.domain.riotapi.model.ChampionListDto;
 import statikk.domain.riotapi.model.ChampionMastery;
 import statikk.domain.riotapi.model.ChampionMasteryDto;
+import statikk.domain.riotapi.model.DataCacheItem;
 import statikk.domain.riotapi.model.FeaturedGames;
 import statikk.domain.riotapi.model.ItemListDto;
 import statikk.domain.riotapi.model.MatchDetail;
@@ -36,6 +41,9 @@ import statikk.domain.riotapi.model.Timeline;
  */
 @Service
 public class RiotApiService {
+
+    @Autowired
+    DataCacheService dataCacheService;
 
     /**
      * Riot API Key is populated from a properties file.
@@ -108,12 +116,19 @@ public class RiotApiService {
         String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all");
         ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
         };
-        return getRiotApiRequest(url, typeRef);
+        return getCachedApiRequest(url, typeRef);
     }
 
-    public String getStaticItemsData(Region region) {
-        String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all");
-        ParameterizedTypeReference<String> typeRef = new ParameterizedTypeReference<String>() {
+    public ItemListDto getItemsData(Region region, String version) {
+        String url = getURLWithAPIKey(region, "/lol/static-data/v3/items", "&itemListData=all&version=" + version);
+        ParameterizedTypeReference<ItemListDto> typeRef = new ParameterizedTypeReference<ItemListDto>() {
+        };
+        return getCachedApiRequest(url, typeRef);
+    }
+
+    public String[] getVersionsData(Region region) {
+        String url = getURLWithAPIKey(region, "/lol/static-data/v3/versions");
+        ParameterizedTypeReference<String[]> typeRef = new ParameterizedTypeReference<String[]>() {
         };
         return getRiotApiRequest(url, typeRef);
     }
@@ -181,6 +196,49 @@ public class RiotApiService {
 
     public String appendRiotApiKey(String urlToAppendTo) {
         return urlToAppendTo + "?api_key=" + RIOT_API_KEY;
+    }
+
+    /**
+     * Retrieve a value from the persistent cache, if available. If not cached,
+     * will access the Riot API to retrieve the value
+     *
+     * @param <T>
+     * @param url
+     * @param typeReference
+     * @return
+     */
+    private <T> T getCachedApiRequest(String url, ParameterizedTypeReference<T> typeReference) {
+        TypeReference typeRef = new TypeReference<T>() {
+            @Override
+            public Type getType() {
+                return typeReference.getType();
+            }
+        };
+        ObjectMapper mapper = new ObjectMapper();
+        // Return the data from the database, if it exists
+        DataCacheItem cachedData = this.dataCacheService.find(url);
+        if (cachedData != null) {
+            try {
+                // Deserialize the value and return the desired type
+                return mapper.readValue(cachedData.getValue(), typeRef);
+            } catch (IOException ex) {
+                Logger.getLogger(RiotApiService.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException("Unable to deserialize cached value for " + url, ex);
+            }
+        }
+
+        // Otherwise, fetch the response from the Riot API
+        String response = getRiotApiRequest(url, new ParameterizedTypeReference<String>() {
+        });
+        // Save the response in the database
+        this.dataCacheService.save(url, response);
+        try {
+            // Deserialize the response and return the desired type
+            return mapper.readValue(response, typeRef);
+        } catch (IOException ex) {
+            Logger.getLogger(RiotApiService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Unable to deserialize response for " + url, ex);
+        }
     }
 
     private <T> T getRiotApiRequest(String url, ParameterizedTypeReference<T> typeReference) {

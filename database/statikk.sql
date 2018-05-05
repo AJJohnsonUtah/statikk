@@ -117,6 +117,18 @@ CREATE TABLE `champ_teamup` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `data_cache_item`
+--
+
+CREATE TABLE `data_cache_item` (
+  `id` VARCHAR(500) NOT NULL,
+  `value` LONGTEXT NULL,
+  `stored_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `final_build_order`
 --
 
@@ -238,6 +250,12 @@ ALTER TABLE `champ_teamup`
   ADD PRIMARY KEY (`champ_spec_id_a`,`champ_spec_id_b`),
   ADD KEY `teamup_b_fk` (`champ_spec_id_b`),
   ADD KEY `teamup_a_fk` (`champ_spec_id_a`);
+
+--
+-- Indexes for table `data_cache_item`
+--
+ALTER TABLE `data_cache_item`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `final_build_order`

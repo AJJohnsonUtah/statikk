@@ -180,8 +180,8 @@ public class LolVersion implements Serializable {
     }
 
     /**
-     * Returns true if this LolVersion is sequentially after the provided,
-     * other LolVersion
+     * Returns true if this LolVersion is sequentially after the provided, other
+     * LolVersion
      *
      * @param other
      * @return
@@ -193,4 +193,10 @@ public class LolVersion implements Serializable {
         return this.majorVersion > other.majorVersion;
     }
 
+    public int compareTo(LolVersion other) {
+        if (other.majorVersion == this.majorVersion) {
+            return this.minorVersion - other.minorVersion;
+        }
+        return this.majorVersion - other.majorVersion;
+    }
 }

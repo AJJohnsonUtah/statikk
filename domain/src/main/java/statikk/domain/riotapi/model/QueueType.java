@@ -129,7 +129,8 @@ public enum QueueType {
     STAR_GUARDIAN_NORMAL(980, "Star Guardian Invasion: Normal games"),
     STAR_GUARDIAN_ONSLAUGHT(990, "Star Guardian Invasion: Onslaught games"),
     PROJECT(1000, "Overdrive Project games"),
-    SNOW_ARURF_5x5(1010, "Snow Battle ARURF games");
+    SNOW_ARURF_5x5(1010, "Snow Battle ARURF games"),
+    ONE_FOR_ALL_5x5(1020, "One For All games");
     
     private final Integer queueTypeId;
     private final String name;

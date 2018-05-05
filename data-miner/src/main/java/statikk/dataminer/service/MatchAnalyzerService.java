@@ -93,10 +93,10 @@ public class MatchAnalyzerService {
                 // Matches must be at least 5 minutes long to do a decent analysis, right?
                 if (currentMatch.getGameDuration() <= 300) {
                     match.setStatus(MatchStatus.MATCH_TOO_SHORT);
-                } else if (currentMatch.getGameVersion().isBefore(lolVersionService.findMostRecentVersion())) {
+                } else if (currentMatch.getMatchLolVersion().isBefore(lolVersionService.findMostRecentVersion())) {
                     match.setStatus(MatchStatus.MATCH_VERSION_NOT_CURRENT);
                 } else {
-                    if (currentMatch.getGameVersion().isAfter(lolVersionService.findMostRecentVersion())) {
+                    if (currentMatch.getMatchLolVersion().isAfter(itemAnalysisService.getMostRecentVersion())) {                        
                         itemAnalysisService.reloadItems();
                     }
                     summonersFromMatches.addAll(currentMatch.getLolSummoners());
@@ -138,7 +138,7 @@ public class MatchAnalyzerService {
 
     private void loadEntities(MatchDetail match) {
         // Load LolVersion
-        match.setGameVersion(lolVersionService.findOrCreate(match.getGameVersion()));
+        match.setMatchLolVersion(lolVersionService.findOrCreate(match.getMatchLolVersion()));
 
         // Load FinalBuildOrders
         itemAnalysisService.loadFinalBuildOrders(match);
@@ -267,7 +267,7 @@ public class MatchAnalyzerService {
 
         for (LolTeam teamColor : LolTeam.values()) {
             match.getTeam(teamColor).stream().forEach(allyParticipant -> {
-                TeamCompPK allyTeamPK = new TeamCompPK(allyParticipant, match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getGameVersion(), match.getPlatformId());
+                TeamCompPK allyTeamPK = new TeamCompPK(allyParticipant, match.getBlueTeam(), match.getPurpleTeam(), match.getQueueId(), match.getMatchLolVersion(), match.getPlatformId());
                 TeamComp allyTeamComp = new TeamComp(allyTeamPK);
                 if (match.getWinner() == LolTeam.BLUE) {
                     allyTeamComp.addWin();

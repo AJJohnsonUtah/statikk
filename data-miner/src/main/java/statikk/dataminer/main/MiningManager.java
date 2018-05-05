@@ -81,7 +81,7 @@ public class MiningManager {
                 totalMatchesMined += miningWorker.getMatchesMined();
                 if (thread.isAlive()) {
                     Logger.getLogger(MiningManager.class.getName()).log(Level.INFO, "Thread-{0} ({1}) is alive. {2} matches mined.", new Object[]{thread.getId(), miningWorker.getRegion(), miningWorker.getMatchesMined()});
-                    System.out.println("Thread-" + thread.getId() + " (" + miningWorker.getRegion() + ") is alive. " + miningWorker.getMatchesMined() + " matches analyzed.");
+                    System.out.println("Thread-" + thread.getId() + " (" + miningWorker.getRegion() + ") is alive. " + miningWorker.getMatchesMined() + " matches mined.");
                 } else {
                     Logger.getLogger(MiningManager.class.getName()).log(Level.INFO, "Thread-{0} ({1}) has died.", new Object[]{thread.getId(), miningWorker.getRegion()});
                     System.out.println("Thread-" + thread.getId() + " (" + miningWorker.getRegion() + ") has died.");

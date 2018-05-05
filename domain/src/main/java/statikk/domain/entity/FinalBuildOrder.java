@@ -5,6 +5,7 @@
  */
 package statikk.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,12 +19,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,10 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "final_build_order")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "FinalBuildOrder.findAll", query = "SELECT f FROM FinalBuildOrder f"),
-    @NamedQuery(name = "FinalBuildOrder.findByFinalBuildOrderId", query = "SELECT f FROM FinalBuildOrder f WHERE f.finalBuildOrderId = :finalBuildOrderId"),
-    @NamedQuery(name = "FinalBuildOrder.findByBuildOrder", query = "SELECT f FROM FinalBuildOrder f WHERE f.buildOrder = :buildOrder")})
 public class FinalBuildOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,23 +43,32 @@ public class FinalBuildOrder implements Serializable {
     @Column(name = "build_order", nullable = false, length = 255)
     private String buildOrder;
 
+    @Basic(optional = false)
+    @Column(name = "item_count")
+    private int itemCount;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "champFinalBuildPK.finalBuildOrder", fetch = FetchType.LAZY)
     private List<ChampFinalBuild> champFinalBuildList;
 
     public FinalBuildOrder() {
     }
 
-    public FinalBuildOrder(Long finalBuildOrderId) {
-        this.finalBuildOrderId = finalBuildOrderId;
-    }
-
-    public FinalBuildOrder(Long finalBuildOrderId, String buildOrder) {
-        this.finalBuildOrderId = finalBuildOrderId;
-        this.buildOrder = buildOrder;
-    }
-
-    public FinalBuildOrder(String buildOrder) {
-        this.buildOrder = buildOrder;
+    public FinalBuildOrder(List<Integer> buildItems) {
+        this.itemCount = buildItems.size();
+        switch (buildItems.size()) {
+            case 0:
+                this.buildOrder = "";
+                break;
+            case 1:
+                this.buildOrder = buildItems.get(0).toString();
+                break;
+            default:
+                this.buildOrder = buildItems.stream()
+                        .map((val) -> String.valueOf(val))
+                        .reduce("", (a, b) -> a +  b + ",");
+                this.buildOrder = this.buildOrder.substring(0, this.buildOrder.length() - 1);
+                break;
+        }
     }
 
     public Long getFinalBuildOrderId() {
@@ -82,6 +85,14 @@ public class FinalBuildOrder implements Serializable {
 
     public void setBuildOrder(String buildOrder) {
         this.buildOrder = buildOrder;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 
     @Override
@@ -109,17 +120,17 @@ public class FinalBuildOrder implements Serializable {
         return "statikk.framework.model.FinalBuildOrder[ finalBuildOrderId=" + finalBuildOrderId + " ]";
     }
 
-    @XmlTransient
+    @JsonIgnore
     public List<ChampFinalBuild> getChampFinalBuildList() {
         return champFinalBuildList;
-    }   
+    }
 
     public void setChampFinalBuildList(List<ChampFinalBuild> champFinalBuildList) {
         this.champFinalBuildList = champFinalBuildList;
     }
 
     public List<Integer> getBuildItemIds() {
-        if(this.buildOrder == null || this.buildOrder.length() == 0) {
+        if (this.buildOrder == null || this.buildOrder.length() == 0) {
             return Collections.EMPTY_LIST;
         }
         return Arrays.asList(this.buildOrder.split(",")).stream().map(itemString -> Integer.parseInt(itemString)).collect(Collectors.toList());

@@ -63,6 +63,7 @@ public class MatchMiningService {
             Logger.getLogger(MatchMiningService.class.getName())
                 .log(Level.INFO, "Enough matches have been found for {0}... sleep for some time.", region);
             Thread.sleep(60000);
+            return 0;
         }
         Map<Long, LolMatch> minedMatches = new HashMap<>();
         List<LolSummoner> summoners = getSummonersToMine(region);

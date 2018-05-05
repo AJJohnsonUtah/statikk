@@ -123,7 +123,7 @@ public class ChampSpec implements Serializable {
     public ChampSpec(MatchDetail match, ParticipantDto matchParticipant) {
         this.championId = matchParticipant.getChampionId();
         this.matchType = match.getQueueId();
-        this.lolVersion = match.getGameVersion();
+        this.lolVersion = match.getMatchLolVersion();
         this.lane = matchParticipant.getLane();
         this.rank = matchParticipant.getHighestAchievedSeasonTier();
         this.region = match.getPlatformId();
@@ -133,7 +133,7 @@ public class ChampSpec implements Serializable {
     public ChampSpec(MatchDetail match, TeamBansDto bannedChamp) {
         this.championId = bannedChamp.getChampionId();
         this.matchType = match.getQueueId();
-        this.lolVersion = match.getGameVersion();
+        this.lolVersion = match.getMatchLolVersion();
         this.rank = null;
         this.lane = null;
         this.role = null;

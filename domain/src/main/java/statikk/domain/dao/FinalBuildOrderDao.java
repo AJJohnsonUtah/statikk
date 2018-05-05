@@ -15,7 +15,7 @@ import statikk.domain.entity.FinalBuildOrder;
  */
 public interface FinalBuildOrderDao extends CrudRepository<FinalBuildOrder, Long> {
 
-    @Query(value = "SELECT f.finalBuildOrderId, f.buildOrder FROM FinalBuildOrder f WHERE f.buildOrder = ?1")
+    @Query(value = "SELECT f FROM FinalBuildOrder f WHERE f.buildOrder = ?1")
     public FinalBuildOrder findByBuildOrder(String buildOrder);
 
 }
