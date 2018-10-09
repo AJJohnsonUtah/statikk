@@ -1,4 +1,4 @@
-#Statikk
+# Statikk
 --------
 Statikk is a League of Legends data analytics platform, providing a suite of tools for players to use to improve and learn about the game.
 
